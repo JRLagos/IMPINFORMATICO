@@ -10,9 +10,5 @@ export default defineConfig({
     ],
 });
 
-<<<<<<< HEAD
 // Jorge Lagos
-=======
-
-//Mario
->>>>>>> e5fb95d765fd8508acc21abea307280f2bc96d62
+// Mario Varela
