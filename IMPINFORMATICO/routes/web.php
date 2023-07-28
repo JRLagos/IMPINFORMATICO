@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,3 +19,8 @@ Route::get('/admin', function () {
     return view('admin.index');
 })->name('dashboard');
 
+Route::get('/HoraExtra', function () {
+    return view('horaextra.index');
+});
+
+//  Route::get('/HoraExtra', [HoraExtraController::class, 'index']->name('HoraExtra.index'));
