@@ -312,10 +312,107 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text' => 'Horas Extras',
-            'icon' => 'fas fa-fw fa-map gns text-red',
-            'url'  => 'HoraExtra',
-        ], 
+            'text' => 'Personas',
+            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'submenu' => [
+                [
+                    'text' => 'Personas',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Empleados',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Usuarios',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Direcciones',
+            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'submenu' => [
+                [
+                    'text' => 'Departamentos',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Municipios',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Direcciones',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Planillas',
+            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'submenu' => [
+                [
+                    'text' => 'Planilla',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Horas Extras',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => 'HoraExtra',
+                ], 
+                [
+                    'text' => 'Vacaciones',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => 'Vacaciones',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Reportes',
+            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'submenu' => [
+                [
+                    'text' => 'Reportes Guardados',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Reportes Generados',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Tipos Reportes',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Estadisticas',
+            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'submenu' => [
+                [
+                    'text' => 'Estadisticas',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Tipos Estadisticas',
+                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        
+        
         
     ],
 
