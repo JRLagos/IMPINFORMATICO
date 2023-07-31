@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\HoraExtra;
 
-use Iluminate\Support\Facades\http;
+use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,12 +13,16 @@ class HoraExtraController extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
      */
-    public function index($ACCION, $COD_EMPLEADO)
+    public function index()
     { 
+        $response = Http::get('http://localhost:3000/SHOW_HORA_EXTRA/GETALL_HORA_EXTRA/2');
+        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+    
+        // Convierte los datos JSON a un array asociativo
+        $HoraExtra = json_decode($data, true);
+    
+        return view('horaextra.index')->with('ResulHoraExtra', $HoraExtra);
 
-        $res = Http::get("http://localhost:3000/SHOW_HORA_EXTRA/$ACCION/$COD_EMPLEADO");
-
-        return view('horaextra.index')->with('$ResulHoraExtra', json_decode($response,true));
     }
 
     /**
