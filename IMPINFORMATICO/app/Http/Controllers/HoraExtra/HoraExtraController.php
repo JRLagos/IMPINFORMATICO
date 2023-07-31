@@ -28,9 +28,13 @@ class HoraExtraController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $horaExtra = $request->all();
+
+        $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $horaExtra);
+
+        return redirect(route('horaextra.index'));
     }
 
     /**
@@ -60,9 +64,15 @@ class HoraExtraController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, INT $PI_COD_HOR_EXTRA)
     {
-        //
+        $miData = $req->all();
+        return $PI_COD_HOR_EXTRA;   
+        return $miData;
+
+        $res = Http::put("http://localhost:3000/UPT_HORA_EXTRA/HORA_EXTRA/$PI_COD_HOR_EXTRA", $miData);
+
+        return redirect(route('horaextra.index'));
     }
 
     /**

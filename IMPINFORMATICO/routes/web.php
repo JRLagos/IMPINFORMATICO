@@ -24,3 +24,5 @@ Route::get('/HoraExtra', function () {
 });*/
 
 Route::get('HoraExtra', [HoraExtraController::class, 'index'])->name('horaextra.index');
+Route::post('post-HoraExtra', [HoraExtraController::class, 'create'])->name('post-HoraExtra.create');
+Route::put('put-HoraExtra', [HoraExtraController::class, 'update'])->name('put-HoraExtra.update');
