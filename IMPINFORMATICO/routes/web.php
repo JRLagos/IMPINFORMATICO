@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\HoraExtra\HoraExtraController;
+use App\Http\Controllers\ModuloPlanillas\HoraExtraController;
+use App\Http\Controllers\ModuloPlanillas\VacacionesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use App\Http\Controllers\HoraExtra\HoraExtraController;
 */
 
 Route::get('/', function () {
-    return view('admin.index');
+    return view('admin.admin');
 })->name('dashboard');
 /*
 Route::get('/HoraExtra', function () {
@@ -26,3 +27,5 @@ Route::get('/HoraExtra', function () {
 Route::get('HoraExtra', [HoraExtraController::class, 'index'])->name('horaextra.index');
 Route::post('post-HoraExtra', [HoraExtraController::class, 'create'])->name('post-HoraExtra.create');
 Route::put('put-HoraExtra', [HoraExtraController::class, 'update'])->name('put-HoraExtra.update');
+
+Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacaciones.index');

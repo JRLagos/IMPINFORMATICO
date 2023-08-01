@@ -1,40 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\HoraExtra;
+namespace App\Http\Controllers\ModuloPlanillas;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class HoraExtraController extends Controller
+class VacacionesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     * @return \Illuminate\Http\Response
      */
     public function index()
-    { 
-        $response = Http::get('http://localhost:3000/SHOW_HORA_EXTRA/GETALL_HORA_EXTRA/2');
+    {
+        $response = Http::get('http://localhost:3000/SHOW_VACACIONES/GETALL_VACACIONES/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $HoraExtra = json_decode($data, true);
+        $Vacaciones = json_decode($data, true);
     
-        return view('horaextra.index')->with('ResulHoraExtra', $HoraExtra);
-
+        return view('modplanilla.vacaciones')->with('ResulVacaciones', $Vacaciones);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request)
+    public function create()
     {
-        $horaExtra = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $horaExtra);
-
-        return redirect(route('horaextra.index'));
+        //
     }
 
     /**
@@ -64,15 +58,9 @@ class HoraExtraController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, INT $PI_COD_HOR_EXTRA)
+    public function update(Request $request, string $id)
     {
-        $miData = $req->all();
-        return $PI_COD_HOR_EXTRA;   
-        return $miData;
-
-        $res = Http::put("http://localhost:3000/UPT_HORA_EXTRA/HORA_EXTRA/$PI_COD_HOR_EXTRA", $miData);
-
-        return redirect(route('horaextra.index'));
+        //
     }
 
     /**
