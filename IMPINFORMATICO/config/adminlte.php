@@ -360,7 +360,7 @@ return [
                 [
                     'text' => 'Planilla',
                     'icon' => 'fas fa-fw fa-archive gns text-red',
-                    'url'  => '\\',
+                    'url'  => 'Planilla',
                 ], 
                 [
                     'text' => 'Horas Extras',

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Vacaciones')
+@section('title', 'Horas Extras')
 
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,33 +13,33 @@
 
 @section('content_header')
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"> Agregar Vacaciones</button>
+  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"> Agregar Hora Extra</button>
 </div>
 @stop
 @section('content')
 <div class = "card">
     <div class = "card-body">
-    <table id ="vacaciones" class= "table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+    <table id ="horaextra" class= "table table-striped table-bordered shadow-lg mt-4" style="width:100%">
       <thead class="bg-dark text-white">
         <tr> 
-        <th>CODIGO VACAIONES</th>
+        <th>CODIGO HORA EXTRA</th>
         <TH>CODIGO EMPLEADO</TH>
         <TH>NOMBRE COMPLETO</TH>
-        <th>VACACIONES ACUMULADAS</th>
-        <th>VACACIONES USADAS</th>
-        <th>VACACIONES DISPONIBLES</th>
+        <th>DESCRIPCION HORA EXTRA</th>
+        <th>CANTIDAD HORA EXTRA</th>
+        <th>FECHA</th>
         <th>ACCION</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulVacaciones as $Vacaciones)
+      @foreach ($ResulHoraExtra as $HoraExtra)
         <tr>
-          <td>{{ $Vacaciones['COD_VACACIONES'] }}</td>
-          <td>{{ $Vacaciones['COD_EMPLEADO'] }}</td>
-          <td>{{ $Vacaciones['NOMBRE_COMPLETO'] }}</td>
-          <td>{{ $Vacaciones['VACACIONES_ACU'] }}</td>
-          <td>{{ $Vacaciones['VACACIONES_USA'] }}</td>
-          <td>{{ $Vacaciones['VACACIONES_DIS'] }}</td>
+          <td>{{ $HoraExtra['COD_HOR_EXTRA'] }}</td>
+          <td>{{ $HoraExtra['COD_EMPLEADO'] }}</td>
+          <td>{{ $HoraExtra['NOMBRE_COMPLETO'] }}</td>
+          <td>{{ $HoraExtra['DES_HOR_EXTRA'] }}</td>
+          <td>{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
+          <td>{{ $HoraExtra['FEC_HOR_EXTRA'] }}</td>
           <td>
                  <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#UptHoraExtra"><i class="fa-solid fa-pen-to-square"></i>Editar</button>
                         
@@ -62,18 +62,19 @@
 @stop
 
 
-<div class="modal" id="addVacaciones" role="dialog">
+
+<div class="modal" id="addHoraExtra" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                    <h3>Vacaciones</h3>
+                    <h3>Hora Extra</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar las Vacaciones del Empleado</h4>
+                        <h4>Ingresar Hora Extra del Empleado</h4>
 
-                    <form action="{{route('Post-Vacaciones.store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-HoraExtra.store')}}" method="post" class="was-validated">
                     @csrf
                     
                 
@@ -84,17 +85,22 @@
                     </div>
 
                         <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="text" class="form-control" name="VACACIONES_ACU" required>
+                    <label for="dni" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" name="DES_HOR_EXTRA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Usadas</label>
-                    <input type="text" class="form-control" name="VACACIONES_USA" required>
+                    <label for="dni" class="form-label">Cantidad Hora Extra</label>
+                    <input type="text" class="form-control" placeholder="Cantidad" name="CANT_HOR_EXTRA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">FECHA HORA EXTRA</label>
+                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" required>
+                    <div class="valid-feedback"></div>
+                    </div>
 
                     </div>
                     <div class="modal-footer">
@@ -106,7 +112,6 @@
                 </div>
             </div>
         </div>
-       
     </div>
 
 

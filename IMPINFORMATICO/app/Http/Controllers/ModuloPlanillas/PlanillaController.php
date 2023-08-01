@@ -7,20 +7,20 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class VacacionesController extends Controller
+class PlanillaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_VACACIONES/GETALL_VACACIONES/2');
+        $response = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Vacaciones = json_decode($data, true);
+        $Planilla = json_decode($data, true);
     
-        return view('modplanilla.vacaciones')->with('ResulVacaciones', $Vacaciones);
+        return view('modplanilla.planilla')->with('ResulPlanilla', $Planilla);
     }
 
     /**
@@ -36,11 +36,7 @@ class VacacionesController extends Controller
      */
     public function store(Request $request)
     {
-        $Vacaciones = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_VACACIONES/VACACIONES", $Vacaciones);
-
-        return redirect(route('Vacaciones.index'));
+        //
     }
 
     /**
