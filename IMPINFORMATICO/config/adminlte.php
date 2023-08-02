@@ -313,7 +313,7 @@ return [
         ],
         [
             'text' => 'Personas',
-            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'icon' => 'fas fa-fw fa-users gns text-white',
             'submenu' => [
                 [
                     'text' => 'Personas',
@@ -327,28 +327,28 @@ return [
                 ], 
                 [
                     'text' => 'Usuarios',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-user gns text-red',
                     'url'  => '\\',
                 ], 
             ],
         ],
         [
             'text' => 'Direcciones',
-            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'icon' => 'fas fa-fw fa-map gns text-white',
             'submenu' => [
                 [
                     'text' => 'Departamentos',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
-                    'url'  => '\\',
+                    'icon' => 'fas fa-fw fa-bookmark gns text-red',
+                    'url'  => 'Departamentos',
                 ], 
                 [
                     'text' => 'Municipios',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-map-pin gns text-red',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Direcciones',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-map-location-dot gns text-red',
                     'url'  => '\\',
                 ], 
             ],

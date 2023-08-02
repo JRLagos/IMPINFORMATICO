@@ -5,9 +5,9 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\ModuloPlanillas\VacacionesController;
 use App\Http\Controllers\ModuloPlanillas\HoraExtraController;
 use App\Http\Controllers\ModuloPlanillas\PlanillaController;
-//Reportes
 use App\Http\Controllers\ModuloReportes\ReportesGeneradosController;
 use App\Http\Controllers\ModuloReportes\ReportesController;
+use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,14 +27,21 @@ Route::get('/HoraExtra', function () {
     return view('horaextra.index');
 });*/
 
+// Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
 route::post('Post-HoraExtra',[HoraExtraController::class, 'store'])->name('Post-HoraExtra.store');
 
+// Vacaciones
 Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacaciones.index');
 Route::post('Post-Vacaciones', [VacacionesController::class, 'store'])->name('Post-Vacaciones.store');
 
+// Planillas
 Route::get('Planilla', [PlanillaController::class, 'index'])->name('Planilla.index');
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
 Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
+
+// Departamentos
+Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
+Route::post('Post-Departamentos', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');

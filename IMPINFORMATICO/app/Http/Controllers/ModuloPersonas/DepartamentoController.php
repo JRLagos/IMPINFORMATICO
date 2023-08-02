@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\ModuloPersonas;
 
+use Illuminate\Support\Facades\Http;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -12,7 +14,13 @@ class DepartamentoController extends Controller
      */
     public function index()
     {
-        //
+        $response = Http::get('http://localhost:3000/SHOW_DEPARTAMENTO/GETALL_DEPARTAMENTO/2');
+        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+    
+        // Convierte los datos JSON a un array asociativo
+        $Departamento = json_decode($data, true);
+    
+        return view('modpersonas.departamento')->with('ResulDepartamento', $Departamento);
     }
 
     /**
@@ -28,7 +36,11 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $Departamento = $request->all();
+
+        $res = Http::post("http://localhost:3000/INS_DEPARTAMENTO/DEPARTAMENTO", $Departamento);
+
+        return redirect(route('Departamento.index'));
     }
 
     /**
