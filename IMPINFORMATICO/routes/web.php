@@ -9,6 +9,7 @@ use App\Http\Controllers\ModuloReportes\ReportesGeneradosController;
 use App\Http\Controllers\ModuloReportes\ReportesController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
+use App\Http\Controllers\ModuloReportes\EstadisticaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -51,3 +52,6 @@ Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Muncipio.index');
 Route::post('Post-Municipio', [MunicipioController::class, 'index'])->name('Post-Municipio.store');
+
+// Estadisticas
+Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadistica.index');

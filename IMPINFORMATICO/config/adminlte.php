@@ -192,7 +192,7 @@ return [
     'classes_content_wrapper' => '',
     'classes_content_header' => '',
     'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-success elevation-4',
+    'classes_sidebar' => 'sidebar-dark-cyan elevation-4',
     'classes_sidebar_nav' => '',
     'classes_topnav' => 'navbar-white navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
@@ -312,108 +312,108 @@ return [
             'can'  => 'manage-blog',
         ],
         [
-            'text' => 'Personas',
-            'icon' => 'fas fa-fw fa-users gns text-white',
+            'text' => 'PERSONAS',
+            'icon' => 'fas fa-fw fa-users gns text-yellow',
             'submenu' => [
                 [
                     'text' => 'Personas',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Empleados',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Usuarios',
-                    'icon' => 'fas fa-fw fa-user gns text-red',
+                    'icon' => 'fas fa-fw fa-user gns text-info',
                     'url'  => '\\',
                 ], 
             ],
         ],
         [
-            'text' => 'Direcciones',
-            'icon' => 'fas fa-fw fa-map gns text-white',
+            'text' => 'DIRECCIONES',
+            'icon' => 'fas fa-fw fa-map gns text-yellow',
             'submenu' => [
                 [
                     'text' => 'Departamentos',
-                    'icon' => 'fas fa-fw fa-bookmark gns text-red',
+                    'icon' => 'fas fa-fw fa-bookmark gns text-info',
                     'url'  => 'Departamentos',
                 ], 
                 [
                     'text' => 'Municipios',
-                    'icon' => 'fas fa-fw fa-map-pin gns text-red',
+                    'icon' => 'fas fa-fw fa-map-pin gns text-info',
                     'url'  => 'Municipios',
                 ], 
                 [
                     'text' => 'Direcciones',
-                    'icon' => 'fas fa-fw fa-map-location-dot gns text-red',
+                    'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
                     'url'  => '\\',
                 ], 
             ],
         ],
         [
-            'text' => 'Planillas',
-            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'text' => 'PLANILLAS',
+            'icon' => 'fas fa-fw fa-archive gns text-yellow',
             'submenu' => [
                 [
                     'text' => 'Planilla',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'Planilla',
                 ], 
                 [
                     'text' => 'Horas Extras',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'HoraExtra',
                 ], 
                 [
                     'text' => 'Vacaciones',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'Vacaciones',
                 ], 
             ],
         ],
         [
-            'text' => 'Reportes',
-            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'text' => 'REPORTES',
+            'icon' => 'fas fa-fw fa-clipboard-list gns text-yellow',
             'submenu' => [
                 [
                     'text' => 'Reportes',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'Reportes',
                 ], 
                 [
                     'text' => 'Tipos Reportes',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => '\\',
                 ], 
                 
                 [
                     'text' => 'Reportes Guardados',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Reportes Generados',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'ReportesGenerados',
                 ], 
                 
             ],
         ],
         [
-            'text' => 'Estadisticas',
-            'icon' => 'fas fa-fw fa-archive gns text-white',
+            'text' => 'ESTADISTICAS',
+            'icon' => 'fas fa-fw fa-chart-line gns text-yellow',
             'submenu' => [
                 [
                     'text' => 'Estadisticas',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
-                    'url'  => '\\',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => 'Estadistica',
                 ], 
                 [
                     'text' => 'Tipos Estadisticas',
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => '\\',
                 ], 
             ],
