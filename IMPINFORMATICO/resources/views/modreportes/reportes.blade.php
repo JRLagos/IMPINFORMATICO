@@ -34,6 +34,7 @@
             <th class="text-center">EMAIL</th>
             <th class="text-center">URL</th>
             <th class="text-center">FRECUENCIA</th>
+            <th class="text-center">ESTADO</th>
             <th class="text-center">ACCION</th>
           </tr>
         </thead>
@@ -56,7 +57,9 @@
                   <span class="badge bg-success">ENABLED</span>
                 @endif
                 <!-- Botón para editar -->
+                </td>
                 
+                <td>
                  <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#UptHoraExtra"><i class="fa-solid fa-pen-to-square"></i>Editar</button>               
               
               </td>
