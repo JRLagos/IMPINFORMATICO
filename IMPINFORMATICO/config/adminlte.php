@@ -392,7 +392,7 @@ return [
                 [
                     'text' => 'Reportes Guardados',
                     'icon' => 'fas fa-fw fa-archive gns text-red',
-                    'url'  => '\\',
+                    'url'  => 'ReportesGuardados',
                 ], 
                 [
                     'text' => 'Reportes Generados',
