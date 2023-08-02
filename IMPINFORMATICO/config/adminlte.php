@@ -385,24 +385,15 @@ return [
                 ], 
                 [
                     'text' => 'Tipos Reportes',
-<<<<<<< HEAD
+
                     'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => '\\',
-=======
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
                     'url'  => 'TiposReportes',
->>>>>>> 9d92d78188577a8cec396d71497bfe8303476ee0
                 ], 
-                
                 [
                     'text' => 'Reportes Guardados',
-<<<<<<< HEAD
+
                     'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => '\\',
-=======
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
                     'url'  => 'ReportesGuardados',
->>>>>>> 7094f3e1940a8a3d1ea2837d758ad5b0af82d2bc
                 ], 
                 [
                     'text' => 'Reportes Generados',

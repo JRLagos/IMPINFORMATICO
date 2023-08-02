@@ -17,6 +17,7 @@
 </div>
 @stop
 @section('content')
+<h2 class="mb-4">Estadisticas</h2>
 <div class = "card">
     <div class = "card-body">
     <table id ="horaextra" class= "table table-striped table-bordered shadow-lg mt-4" style="width:100%">
