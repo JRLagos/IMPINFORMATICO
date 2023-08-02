@@ -34,9 +34,6 @@
           <td>{{ $ResulReporte['COD_REP_GENERADO'] }}</td>
           <td>{{ $ResulReporte['TIT_REPORTE'] }}</td>
           <td>{{ $ResulReporte['FEC_GEN_REPORTE'] }}</td>
-
-          <td>
-          </td>
         </tr>
         @endforeach
       </tbody>
