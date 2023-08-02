@@ -23,7 +23,6 @@
       <thead class="bg-dark text-white">
         <tr> 
         <th>CODIGO PLANILLA</th>
-        <TH>CODIGO EMPLEADO</TH>
         <TH>NOMBRE COMPLETO</TH>
         <th>SALARIO BASE</th>
         <th>FECHA</th>
@@ -32,8 +31,6 @@
         <th>VACACIONES</th>
         <th>CATORCEAVO</th>
         <th>AGUINALDO</th>
-        <th>RAS IHSS</th>
-        <th>RPS IHSS</th>
         <th>IHSS</th>
         <th>SALARIO NETO</th>
         <th>ACCION</th>
@@ -43,7 +40,6 @@
       @foreach ($ResulPlanilla as $Planilla)
         <tr>
           <td>{{ $Planilla['COD_PLANILLA'] }}</td>
-          <td>{{ $Planilla['COD_EMPLEADO'] }}</td>
           <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
           <td>{{ $Planilla['SAL_BAS_EMPLEADO'] }}</td>
           <td>{{ $Planilla['FEC_REA_PLANILLA'] }}</td>
@@ -52,8 +48,6 @@
           <td>{{ $Planilla['VACACIONES'] }}</td>
           <td>{{ $Planilla['CATORCEAVO'] }}</td>
           <td>{{ $Planilla['AGUINALDO'] }}</td>
-          <td>{{ $Planilla['RAS_IHSS'] }}</td>
-          <td>{{ $Planilla['RPS_IHSS'] }}</td>
           <td>{{ $Planilla['IHSS'] }}</td>
           <td>{{ $Planilla['SALARIO_NETO'] }}</td>
           <td>
