@@ -386,7 +386,7 @@ return [
                 [
                     'text' => 'Tipos Reportes',
                     'icon' => 'fas fa-fw fa-archive gns text-red',
-                    'url'  => '\\',
+                    'url'  => 'TiposReportes',
                 ], 
                 
                 [
