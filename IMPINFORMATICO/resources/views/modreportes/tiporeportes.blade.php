@@ -12,18 +12,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 @section('content_header')
-
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addTiposReporte" type="button">Nuevo Tipo de Reporte</button>
 
 @stop
 
 @section('content')
 <h1 class="mb-4">Tipos Reportes</h1>
 <div class="card">
-  <div class="card-body">
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addTiposReporte" type="button">Nuevo Tipo de Reporte</button>
-</div>
-    <div class="table-responsive">
+  <div class="card-body"> 
+    </div>
       <table id="reportes" class="table table-striped table-bordered shadow-lg mt-4">
         <thead class="bg-dark text-white">
           <tr>
@@ -63,40 +61,32 @@
 @stop
 
 
-<div class="modal" id="addVacaciones" role="dialog">
+<div class="modal" id="addTiposReporte" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                    <h3>Vacaciones</h3>
+                    <h3>Tipo de Reporte</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar las Vacaciones del Empleado</h4>
+                        <h4>Ingresar nuevo Tipo de Reporte</h4>
 
-                    <form action="{{route('Post-Vacaciones.store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-TiposReportes.store')}}" method="post" class="was-validated">
                     @csrf
                     
                 
                         <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Codigo del Empleado</label>
-                    <input type="text" class="form-control" placeholder="COD_EMPLEADO" name="COD_EMPLEADO" required>
+                    <label for="dni" class="form-label">Tipo de Reporte</label>
+                    <input type="text" class="form-control" placeholder="Ingrese el nombre del tipo de reporte" name="PV_NOM_TIP_ESTADISTICA_REPORTE" required>
                     <div class="valid-feedback"></div>
                     </div>
 
                         <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="text" class="form-control" name="VACACIONES_ACU" required>
+                    <label for="dni" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" placeholder="Ingrese una descripcion del reporte" name="PV_DES_ESTADISTICA_REPORTE" required>
                     <div class="valid-feedback"></div>
                     </div>
-
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Usadas</label>
-                    <input type="text" class="form-control" name="VACACIONES_USA" required>
-                    <div class="valid-feedback"></div>
-                    </div>
-
-
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
@@ -107,7 +97,6 @@
                 </div>
             </div>
         </div>
-       
     </div>
 
 

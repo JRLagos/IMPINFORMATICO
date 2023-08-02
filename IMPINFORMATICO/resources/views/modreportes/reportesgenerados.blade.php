@@ -20,27 +20,29 @@
 <div class="card">
   <div class="card-body">
     <h1>Reportes Generados</h1>
-    <table id="reportesgenerados" class="table table-striped table-bordered shadow-lg mt-4" style="width:100%">
-      <thead class="bg-dark text-white">
-        <tr>
-          <th>CODIGO REPORTE GENERADO</th>
-          <th>TITULO</th>
-          <th>FECHA GENERADO EL REPORTE</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($ResulReportesGen as $ResulReporte)
-        <tr>
-          <td>{{ $ResulReporte['COD_REP_GENERADO'] }}</td>
-          <td>{{ $ResulReporte['TIT_REPORTE'] }}</td>
-          <td>{{ $ResulReporte['FEC_GEN_REPORTE'] }}</td>
-        </tr>
-        @endforeach
-      </tbody>
-    </table>
-
+    <div class="table-responsive">
+      <table id="reportesgenerados" class="table table-striped table-bordered shadow-lg mt-4">
+        <thead class="bg-dark text-white">
+          <tr>
+            <th class="text-center">CODIGO REPORTE GENERADO</th>
+            <th class="text-center">TITULO</th>
+            <th class="text-center">FECHA GENERADO EL REPORTE</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($ResulReportesGen as $ResulReporte)
+            <tr>
+              <td class="text-center">{{ $ResulReporte['COD_REP_GENERADO'] }}</td>
+              <td>{{ $ResulReporte['TIT_REPORTE'] }}</td>
+              <td>{{ $ResulReporte['FEC_GEN_REPORTE'] }}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
+
 
 @section('footer')
 <div class="float-right d-none d-sm-block">

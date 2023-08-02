@@ -51,6 +51,7 @@ Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->
 
 //Tipos de Reportes
 Route::get('TiposReportes', [TiposReportesController::class, 'index'])->name('TiposReportes.index');
+Route::post('Post-TiposReportes', [TiposReportesController::class, 'store'])->name('Post-TiposReportes.store');
 
 //Reportes Guardados
 Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->name('ReportesGuardados.index');

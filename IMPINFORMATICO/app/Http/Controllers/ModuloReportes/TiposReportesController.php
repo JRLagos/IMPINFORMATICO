@@ -17,9 +17,9 @@ class TiposReportesController extends Controller
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $ResulTipReportes  = json_decode($data, true);
+        $TipReportes  = json_decode($data, true);
     
-        return view('modreportes.tiporeportes')->with('ResulTipReportes', $ResulTipReportes);
+        return view('modreportes.tiporeportes')->with('ResulTipReportes', $TipReportes);
     }
 
     /**
@@ -27,7 +27,7 @@ class TiposReportesController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +35,16 @@ class TiposReportesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar los campos recibidos del formulario de creación
+        $request->validate([
+    
+        ]);
+
+        // Obtener los datos del formulario
+        $TipReportes = $request->all();
+        // Realizar la solicitud POST a la API para guardar el nuevo registro
+        $res = Http::post("http://localhost:3000/InsReportes/Tipos_Reportes", $TipReportes);
+        return redirect()->route('TiposReportes.index');
     }
 
     /**
