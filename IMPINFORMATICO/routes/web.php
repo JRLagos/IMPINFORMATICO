@@ -7,6 +7,7 @@ use App\Http\Controllers\ModuloPlanillas\HoraExtraController;
 use App\Http\Controllers\ModuloPlanillas\PlanillaController;
 use App\Http\Controllers\ModuloReportes\ReportesGeneradosController;
 use App\Http\Controllers\ModuloReportes\ReportesController;
+use App\Http\Controllers\ModuloReportes\TiposReportesController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
@@ -43,7 +44,12 @@ Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-P
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
+
+//Reportes Generados
 Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
+
+//Tipos de Reportes
+Route::get('TiposReportes', [TiposReportesController::class, 'index'])->name('TiposReportes.index');
 
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
