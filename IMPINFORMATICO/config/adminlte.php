@@ -344,7 +344,7 @@ return [
                 [
                     'text' => 'Municipios',
                     'icon' => 'fas fa-fw fa-map-pin gns text-red',
-                    'url'  => '\\',
+                    'url'  => 'Municipios',
                 ], 
                 [
                     'text' => 'Direcciones',

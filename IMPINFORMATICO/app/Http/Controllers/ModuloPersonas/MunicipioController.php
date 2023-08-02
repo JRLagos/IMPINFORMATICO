@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\ModuloPlanillas;
+namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class PlanillaController extends Controller
+class MunicipioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA/2');
+        $response = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/0');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Planilla = json_decode($data, true);
+        $Municipio = json_decode($data, true);
     
-        return view('modplanilla.planilla')->with('ResulPlanilla', $Planilla);
+        return view('modpersonas.municipio')->with('ResulMunicipio', $Municipio);
     }
 
     /**
@@ -36,13 +36,12 @@ class PlanillaController extends Controller
      */
     public function store(Request $request)
     {
-        $Planilla = $request->all();
+        $Municipio = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $Planilla);
+        $res = Http::post("http://localhost:3000/INS_MUNICIPIO/MUNICIPIO", $Municipio);
 
-        return redirect(route('Planilla.index'));
+        return redirect(route('Municipio.index'));
     }
-
 
     /**
      * Display the specified resource.

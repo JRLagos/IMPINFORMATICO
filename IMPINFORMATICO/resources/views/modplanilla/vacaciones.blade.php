@@ -79,7 +79,7 @@
                 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Codigo del Empleado</label>
-                    <input type="text" class="form-control" placeholder="COD_EMPLEADO" name="COD_EMPLEADO" required>
+                    <input type="text" class="form-control" placeholder="" name="COD_EMPLEADO" required>
                     <div class="valid-feedback"></div>
                     </div>
 

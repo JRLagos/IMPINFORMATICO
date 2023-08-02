@@ -52,7 +52,7 @@
               <td>{{ $Reportes['EMAIL'] }}</td>
               <td>{{ $Reportes['URL_ARCHIVO'] }}</td>
               <td>{{ $Reportes['FRE_REPORTE'] }}</td>
-              <td class="text-center">{{ $Reportes['IND_REPORTE'] }}</td>
+              <td>{{ $Reportes['IND_REPORTE'] }}</td>
               <td class="text-center">
                 <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#updReporte">
                   <i class="fa-solid fa-pen-to-square"></i>Editar

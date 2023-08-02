@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Planillas')
+@section('title', 'Municipio')
 
 <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,45 +13,31 @@
 
 @section('content_header')
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addPlanilla" type="button"> Generar Planilla</button>
+  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"> Agregar Municipio</button>
 </div>
 @stop
 @section('content')
 <div class = "card">
     <div class = "card-body">
-    <table id ="Planilla" class= "table table-striped table-bordered shadow-lg mt-4" style="width:100%">
+    <table id ="vacaciones" class= "table table-striped table-bordered shadow-lg mt-4" style="width:100%">
       <thead class="bg-dark text-white">
         <tr> 
-        <th>CODIGO PLANILLA</th>
-        <TH>NOMBRE COMPLETO</TH>
-        <th>SALARIO BASE</th>
-        <th>FECHA</th>
-        <th>SALARIO BRUTO</th>
-        <th>HORAS EXTRAS</th>
-        <th>VACACIONES</th>
-        <th>CATORCEAVO</th>
-        <th>AGUINALDO</th>
-        <th>IHSS</th>
-        <th>SALARIO NETO</th>
+        <th>CODIGO MUNICIPIO</th>
+        <TH>NOMBRE MUNICIPIO</TH>
+        <TH>NOMBRE DEPARTAMENTO</TH>
+        <th>CODIGO DEPARTAMENTO</th>
         <th>ACCION</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulPlanilla as $Planilla)
+      @foreach ($ResulMunicipio as $Municipio)
         <tr>
-          <td>{{ $Planilla['COD_PLANILLA'] }}</td>
-          <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
-          <td>{{ $Planilla['SAL_BAS_EMPLEADO'] }}</td>
-          <td>{{ $Planilla['FEC_REA_PLANILLA'] }}</td>
-          <td>{{ $Planilla['SALARIO_BRUTO'] }}</td>
-          <td>{{ $Planilla['HORAS_EXTRAS'] }}</td>
-          <td>{{ $Planilla['VACACIONES'] }}</td>
-          <td>{{ $Planilla['CATORCEAVO'] }}</td>
-          <td>{{ $Planilla['AGUINALDO'] }}</td>
-          <td>{{ $Planilla['IHSS'] }}</td>
-          <td>{{ $Planilla['SALARIO_NETO'] }}</td>
+          <td>{{ $Municipio['COD_MUNICIPIO'] }}</td>
+          <td>{{ $Municipio['NOM_MUNICIPIO'] }}</td>
+          <td>{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
+          <td>{{ $Municipio['COD_DEPARTAMENTO'] }}</td>
           <td>
-                 <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#UptPlanilla"><i class="fa-solid fa-pen-to-square"></i>Editar</button>
+                 <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#UptHoraExtra"><i class="fa-solid fa-pen-to-square"></i>Editar</button>
                         
         </td>
         </tr>
@@ -71,31 +57,30 @@
 @stop
 @stop
 
-
-<div class="modal" id="addPlanilla" role="dialog">
+<div class="modal" id="addMunicipio" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
 
                     <div class="modal-header">
-                    <h3>Vacaciones</h3>
+                    <h3>Municipio</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Generar Planilla</h4>
+                        <h4>Ingresar Municipio</h4>
 
-                    <form action="{{route('Post-Planilla.Store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-Municipio.store')}}" method="post" class="was-validated">
                     @csrf
                     
                 
                         <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Codigo del Empleado</label>
-                    <input type="text" class="form-control" placeholder="" name="COD_EMPLEADO" required>
+                    <label for="dni" class="form-label">Nombre del Municipio</label>
+                    <input type="text" class="form-control" placeholder="" name="NOM_MUNICIPIO" required>
                     <div class="valid-feedback"></div>
                     </div>
 
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Fecha Planilla</label>
-                    <input type="date" class="form-control" placeholder="" name="FEC_REA_PLANILLA" required>
+                        <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Codigo Departamento</label>
+                    <input type="text" class="form-control" placeholder="" name="COD_DEPARTAMENTO" required>
                     <div class="valid-feedback"></div>
                     </div>
 
@@ -109,5 +94,4 @@
                 </div>
             </div>
         </div>
-       
     </div>

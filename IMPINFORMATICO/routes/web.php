@@ -8,6 +8,7 @@ use App\Http\Controllers\ModuloPlanillas\PlanillaController;
 use App\Http\Controllers\ModuloReportes\ReportesGeneradosController;
 use App\Http\Controllers\ModuloReportes\ReportesController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
+use App\Http\Controllers\ModuloPersonas\MunicipioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +38,7 @@ Route::post('Post-Vacaciones', [VacacionesController::class, 'store'])->name('Po
 
 // Planillas
 Route::get('Planilla', [PlanillaController::class, 'index'])->name('Planilla.index');
+Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-Planilla.Store');
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
@@ -44,4 +46,8 @@ Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->
 
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
-Route::post('Post-Departamentos', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
+Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
+
+// Municipios
+Route::get('Municipios', [MunicipioController::class, 'index'])->name('Muncipio.index');
+Route::post('Post-Municipio', [MunicipioController::class, 'index'])->name('Post-Municipio.store');
