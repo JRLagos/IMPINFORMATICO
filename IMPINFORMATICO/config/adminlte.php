@@ -385,19 +385,13 @@ return [
                 ], 
                 [
                     'text' => 'Tipos Reportes',
-<<<<<<< HEAD
                     'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'TiposReportes',
->>>>>>> 9d92d78188577a8cec396d71497bfe8303476ee0
                 ], 
                 
                 [
                     'text' => 'Reportes Guardados',
-<<<<<<< HEAD
                     'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => '\\',
-=======
-                    'icon' => 'fas fa-fw fa-archive gns text-red',
                     'url'  => 'ReportesGuardados',
                 ], 
                 [
