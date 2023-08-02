@@ -8,6 +8,7 @@ use App\Http\Controllers\ModuloPlanillas\PlanillaController;
 use App\Http\Controllers\ModuloReportes\ReportesGeneradosController;
 use App\Http\Controllers\ModuloReportes\ReportesController;
 use App\Http\Controllers\ModuloReportes\TiposReportesController;
+use App\Http\Controllers\ModuloReportes\ReportesGuardadosController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
@@ -50,6 +51,10 @@ Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->
 
 //Tipos de Reportes
 Route::get('TiposReportes', [TiposReportesController::class, 'index'])->name('TiposReportes.index');
+
+//Reportes Guardados
+Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->name('ReportesGuardados.index');
+
 
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
