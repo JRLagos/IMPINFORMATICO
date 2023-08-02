@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\ModuloPlanillas\VacacionesController;
 use App\Http\Controllers\ModuloPlanillas\HoraExtraController;
 use App\Http\Controllers\ModuloPlanillas\PlanillaController;
-
+//Reportes
+use App\Http\Controllers\ModuloReportes\ReportesGeneradosController;
+use App\Http\Controllers\ModuloReportes\ReportesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +34,7 @@ Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacacion
 Route::post('Post-Vacaciones', [VacacionesController::class, 'store'])->name('Post-Vacaciones.store');
 
 Route::get('Planilla', [PlanillaController::class, 'index'])->name('Planilla.index');
+
+//Reportes
+Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
+Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
