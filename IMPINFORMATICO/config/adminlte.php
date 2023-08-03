@@ -323,7 +323,7 @@ return [
                 [
                     'text' => 'Empleados',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Empleado',
                 ], 
                 [
                     'text' => 'Usuarios',

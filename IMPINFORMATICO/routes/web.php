@@ -12,6 +12,7 @@ use App\Http\Controllers\ModuloReportes\ReportesGuardadosController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
+use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,7 +34,8 @@ Route::get('/HoraExtra', function () {
 
 // Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
-route::post('Post-HoraExtra',[HoraExtraController::class, 'store'])->name('Post-HoraExtra.store');
+Route::post('Post-HoraExtra',[HoraExtraController::class, 'store'])->name('Post-HoraExtra.store');
+Route::get('HEmpleado',[HoraExtraController::class, 'create'])->name('HEmpleado.create');
 
 // Vacaciones
 Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacaciones.index');
@@ -63,7 +65,11 @@ Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Muncipio.index');
-Route::post('Post-Municipio', [MunicipioController::class, 'index'])->name('Post-Municipio.store');
+Route::post('Post-Municipio', [MunicipioController::class, 'store'])->name('Post-Municipio.store');
 
 // Estadisticas
 Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadistica.index');
+
+// Empleado
+Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
+Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');

@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Horas Extras')
+  @section('title', 'Empleados')
 
   @section('content_header')
 
@@ -14,9 +14,9 @@
 
 
 
-  <h1>Horas Extras</h1>
+  <h1>Empleados</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"> Agregar Hora Extra</button>
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"> Agregar Empleado</button>
 </div>
   @stop
 
@@ -30,28 +30,28 @@
 
   @section('content')
 
-  <!-- Modal para agregar un nuevo producto -->
-  <div class="modal fade bd-example-modal-sm" id="addHoraExtra" tabindex="-1">
+  <!-- Modal para agregar un nuevo Empleado -->
+  <div class="modal fade bd-example-modal-sm" id="addEmpleado" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
 
 
                     <div class="modal-header">
-                    <h3>Hora Extra</h3>
+                    <h3>Empleados</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Hora Extra del Empleado</h4>
+                        <h4>Ingresar Empleado</h4>
 
-                    <form action="{{route('Post-HoraExtra.store')}}" method="post">
+                    <form action="{{route('Post-Empleado.store')}}" method="post">
                     @csrf
                     
                 
                         <div class="mb-3 mt-3">
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
                     <option> Selecionar Empleado </option>
-                    @foreach ($ResulHoraExtra as $HoraExtra)
-                    <option value="{{ $HoraExtra['COD_EMPLEADO'] }}">{{ $HoraExtra['NOMBRE_COMPLETO'] }}</option>
+                    @foreach ($ResulEmpleado as $Empleado)
+                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
                     </select>
                     </div>
@@ -90,25 +90,25 @@
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
-  <table id="productos" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="empleado" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
         <TH>Nombre Completo</TH>
-        <th>Descripcion Hora Extra</th>
-        <th>Cantidad</th>
-        <th>Fecha</th>
+        <th>Puesto Trabajo</th>
+        <th>Tipo Contrato</th>
+        <th>Sueldo Base</th>
         <th>Accion</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulHoraExtra as $HoraExtra)
+      @foreach ($ResulEmpleado as $Empleado)
         <tr>
         <td>{{ $loop->iteration }}</td>
-          <td>{{ $HoraExtra['NOMBRE_COMPLETO'] }}</td>
-          <td>{{ $HoraExtra['DES_HOR_EXTRA'] }}</td>
-          <td>{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
-          <td>{{ $HoraExtra['FEC_HOR_EXTRA'] }}</td>
+          <td>{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
+          <td>{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
+          <td>{{ $Empleado['TIP_CONTRATO'] }}</td>
+          <td>{{ $Empleado['SAL_BAS_EMPLEADO'] }}</td>
           <td>
             <a class="btn btn-warning" href="">
               <i class="fa fa-edit"></i>
@@ -140,7 +140,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#productos').DataTable({
+    $('#empleado').DataTable({
       responsive: true,
       autWidth: false,
 

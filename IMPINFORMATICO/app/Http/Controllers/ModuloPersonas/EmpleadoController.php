@@ -1,27 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\ModuloPlanillas;
+namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
+
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class HoraExtraController extends Controller
+class EmpleadoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_HORA_EXTRA/GETALL_HORA_EXTRA/2');
+        $response = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $HoraExtra = json_decode($data, true);
+        $Empleado = json_decode($data, true);
     
-        return view('modplanilla.horaextra')->with('ResulHoraExtra', $HoraExtra);
-
+        return view('modpersonas.empleado')->with('ResulEmpleado', $Empleado);
     }
 
     /**
@@ -37,11 +37,11 @@ class HoraExtraController extends Controller
      */
     public function store(Request $request)
     {
-        $HoraExtra = $request->all();
+        $Empleado = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $HoraExtra);
+        $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Empleado);
 
-        return redirect(route('HoraExtra.index'));
+        return redirect(route('Empleado.index'));
     }
 
     /**

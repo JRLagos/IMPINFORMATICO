@@ -43,14 +43,14 @@
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
-        <TH>USUARIO</TH>
-        <TH>TIPO </TH>
-        <TH>TITULO</TH>
-        <TH>FORMATO</TH>
-        <TH>EMAIL</TH>
-        <TH>FECHA</TH>
-        <TH>ESTADO</TH>
-        <th>ACCION</th>
+        <TH>Usuario</TH>
+        <TH>Tipo </TH>
+        <TH>Titulo</TH>
+        <TH>Formato</TH>
+        <TH>E-Mail</TH>
+        <TH>Fecha</TH>
+        <TH>Estado</TH>
+        <th>Accion</th>
       </tr>
     </thead>
     <tbody>
@@ -65,6 +65,11 @@
           <td>{{ $Estadistica['HOR_FEC_ESTADISTICA'] }}</td>
           <td>{{ $Estadistica['IND_ESTADISTICA'] }}</td>
           <td>
+            <a class="btn btn-warning" href="">
+              <i class="fa fa-edit"></i>
+            </a>
+          </td>
+            
         </tr>
       @endforeach
     </tbody>
