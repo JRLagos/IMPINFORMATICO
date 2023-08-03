@@ -21,7 +21,7 @@
 <div class="card">
   <div class="card-body">
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addTiposReporte" type="button">Nuevo Tipo de Reporte</button>
+  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addTiposReporte" type="button">GUARDAR UN REPORTE</button>
 </div>
     <div class="table-responsive">
       <table id="reportes" class="table table-striped table-bordered shadow-lg mt-4">
@@ -30,7 +30,6 @@
             <th class="text-center">CODIGO DE REPORTE</th>
             <th class="text-center">TITULO</th>
             <th class="text-center">FECHA GUARDADO</th>
-            <th class="text-center">ACCION</th>
           </tr>
         </thead>
         <tbody>
@@ -39,11 +38,6 @@
               <td class="text-center">{{ $ReportesGuardados['COD_REPORTE'] }}</td>
               <td class="text-center">{{ $ReportesGuardados['TIT_REPORTE'] }}</td>
               <td class="text-center">{{ $ReportesGuardados['FEC_GUA_REPORTE'] }}</td>
-              <td class="text-center">
-                <button type="button" class="btn btn-warning" onclick="" data-bs-toggle="modal" data-bs-target="#updReporte">
-                  <i class="fa-solid fa-pen-to-square"></i>Editar
-                </button>
-              </td>
             </tr>
           @endforeach
         </tbody>
