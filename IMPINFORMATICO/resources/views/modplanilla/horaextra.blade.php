@@ -15,7 +15,7 @@
 
   <h1>Horas Extras</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"> Agregar Hora Extra</button>
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"> Agregar Hora Extra</button>
 </div>
   @stop
 
@@ -91,23 +91,21 @@
  <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
-  <table id="productos" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-grey">
+  <table id="horaextra" class="table table-striped table-bordered table-condensed table-hover">
+    <thead class="bg-dark">
     <tr> 
-        <th>CODIGO HORA EXTRA</th>
-        <TH>CODIGO EMPLEADO</TH>
-        <TH>NOMBRE COMPLETO</TH>
-        <th>DESCRIPCION HORA EXTRA</th>
-        <th>CANTIDAD HORA EXTRA</th>
-        <th>FECHA</th>
-        <th>ACCION</th>
+        <th>#</th>
+        <TH>Nombre Completo</TH>
+        <th>Descripcion Hora Extra</th>
+        <th>Cantidad</th>
+        <th>Fecha</th>
+        <th>Accion</th>
       </tr>
     </thead>
     <tbody>
       @foreach ($ResulHoraExtra as $HoraExtra)
         <tr>
-          <td>{{ $HoraExtra['COD_HOR_EXTRA'] }}</td>
-          <td>{{ $HoraExtra['COD_EMPLEADO'] }}</td>
+        <td>{{ $loop->iteration }}</td>
           <td>{{ $HoraExtra['NOMBRE_COMPLETO'] }}</td>
           <td>{{ $HoraExtra['DES_HOR_EXTRA'] }}</td>
           <td>{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
@@ -143,7 +141,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#productos').DataTable({
+    $('#horaextra').DataTable({
       responsive: true,
       autWidth: false,
 
