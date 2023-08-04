@@ -49,9 +49,9 @@
                 
                         <div class="mb-3 mt-3">
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Selecionar Empleado </option>
-                    @foreach ($ResulHoraExtra as $HoraExtra)
-                    <option value="{{ $HoraExtra['COD_EMPLEADO'] }}">{{ $HoraExtra['NOMBRE_COMPLETO'] }}</option>
+                    <option> Seleccionar Empleado </option>
+                    @foreach ($ResulEmpleado as $Empleado)
+                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
                     </select>
                     </div>
