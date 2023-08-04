@@ -64,7 +64,7 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Cantidad Hora Extra</label>
-                    <input type="text" class="form-control" placeholder="Cantidad" name="CANT_HOR_EXTRA" required>
+                    <input type="number" class="form-control" max="100" placeholder="Cantidad" name="CANT_HOR_EXTRA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
