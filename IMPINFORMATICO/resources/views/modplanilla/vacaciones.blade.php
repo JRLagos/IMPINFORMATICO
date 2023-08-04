@@ -37,7 +37,7 @@
 
 
                     <div class="modal-header">
-                    <h3>Hora Extra</h3>
+                    <h3>Vacaciones</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
@@ -50,8 +50,8 @@
                         <div class="mb-3 mt-3">
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
                     <option> Selecionar Empleado </option>
-                    @foreach ($ResulVacaciones as $Vacaciones)
-                    <option value="{{ $Vacaciones['COD_EMPLEADO'] }}">{{ $Vacaciones['NOMBRE_COMPLETO'] }}</option>
+                    @foreach ($ResulEmpleado as $Empleado)
+                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
                     </select>
                     </div>
