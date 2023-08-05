@@ -15,3 +15,4 @@ export default defineConfig({
 //Juan
 //José Elías 
 // IMPERIO INFORMATICO 2
+// Jorge Coello
