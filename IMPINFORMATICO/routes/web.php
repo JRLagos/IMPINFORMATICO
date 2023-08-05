@@ -25,7 +25,7 @@ use App\Http\Controllers\ModuloSeguridad\AuthController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/admin', function () {
     return view('admin.admin');
 })->name('dashboard');
 /*
@@ -34,7 +34,7 @@ Route::get('/HoraExtra', function () {
 });*/
 
 //Login
-Route::get('login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
+Route::get('/',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
 Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.enviar');
 
 //Preguntas
