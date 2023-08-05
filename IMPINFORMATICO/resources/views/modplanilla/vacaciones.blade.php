@@ -47,24 +47,25 @@
                     @csrf
                     
                 
-                        <div class="mb-3 mt-3">
+                      <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Empleados</label>
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
                     <option> Selecionar Empleado </option>
-                    @foreach ($ResulVacaciones as $Vacaciones)
-                    <option value="{{ $Vacaciones['COD_EMPLEADO'] }}">{{ $Vacaciones['NOMBRE_COMPLETO'] }}</option>
+                    @foreach ($ResulEmpleado as $Empleado)
+                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
                     </select>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="text" class="form-control" name="VACACIONES_ACU" required>
+                    <input type="number" class="form-control" name="VACACIONES_ACU" required>
                     <div class="valid-feedback"></div>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Usadas</label>
-                    <input type="text" class="form-control" name="VACACIONES_USA" required>
+                    <input type="number" class="form-control" name="VACACIONES_USA" required>
                     <div class="valid-feedback"></div>
                     </div>
 

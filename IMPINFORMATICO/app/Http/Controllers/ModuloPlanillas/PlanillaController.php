@@ -14,7 +14,7 @@ class PlanillaController extends Controller
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA/2');
+        $response = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
