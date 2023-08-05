@@ -14,16 +14,13 @@ class PlanillaController extends Controller
      */
     public function index()
     {
-        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA');
-        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
-        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA/2');
+        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Planilla = json_decode($data1, true);
-        $Empleado = json_decode($data2, true);
+        $Planilla = json_decode($data, true);
     
-        return view('modplanilla.planilla')->with('ResulPlanilla', $Planilla)->with('ResulEmpleado', $Empleado);
+        return view('modplanilla.planilla')->with('ResulPlanilla', $Planilla);
     }
 
     /**

@@ -58,19 +58,19 @@
 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripcion</label>
-                    <input type="text" class="form-control" name="DES_HOR_EXTRA" pattern="[A-Za-z].{4,}"  required>
+                    <input type="text" class="form-control" name="DES_HOR_EXTRA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Cantidad Hora Extra</label>
-                    <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" required>
+                    <input type="text" class="form-control" placeholder="Cantidad" name="CANT_HOR_EXTRA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">FECHA HORA EXTRA</label>
-                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" min="2023-08-01" max="<?= date("Y-m-d") ?>" required>
+                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
@@ -169,7 +169,4 @@
 </script>
 
     </script>
-
-    
-
     @stop

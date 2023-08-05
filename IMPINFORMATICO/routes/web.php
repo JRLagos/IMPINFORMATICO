@@ -13,8 +13,7 @@ use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
-use App\Http\Controllers\ModuloSeguridad\UsuarioController;
-use App\Http\Controllers\ModuloPersonas\DireccionController;
+use App\Http\Controllers\ModuloSeguridad\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,6 +32,16 @@ Route::get('/', function () {
 Route::get('/HoraExtra', function () {
     return view('horaextra.index');
 });*/
+
+//Login
+Route::get('login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
+Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.enviar');
+
+//Preguntas
+Route::get('preguntas',[AuthController::class,'ShowPreguntas'])->name('ModuloSeguridad.Preguntas');
+//Registro
+Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
+
 
 // Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
@@ -75,9 +84,3 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
-
-// Usuarios
-Route::get('Usuario', [UsuarioController::class, 'index'])->name('Usuario.index');
-
-// Direcciones
-Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');

@@ -14,16 +14,13 @@ class MunicipioController extends Controller
      */
     public function index()
     {
-        $response1 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/0');
-        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_DEPARTAMENTO/GETALL_DEPARTAMENTO/0');
-        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/0');
+        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Municipio = json_decode($data1, true);
-        $Departamento = json_decode($data2, true);
+        $Municipio = json_decode($data, true);
     
-        return view('modpersonas.municipio')->with('ResulMunicipio', $Municipio)->with('ResulDepartamento', $Departamento);
+        return view('modpersonas.municipio')->with('ResulMunicipio', $Municipio);
     }
 
     /**
@@ -41,9 +38,9 @@ class MunicipioController extends Controller
     {
         $Municipio = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_MUNICPIO/MUNICIPIO", $Municipio);
+        $res = Http::post("http://localhost:3000/INS_MUNICIPIO/MUNICIPIO", $Municipio);
 
-        return redirect(route('Muncipio.index'));
+        return redirect(route('Municipio.index'));
     }
 
     /**
