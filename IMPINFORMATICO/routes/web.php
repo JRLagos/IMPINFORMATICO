@@ -13,6 +13,7 @@ use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
+use App\Http\Controllers\ModuloSeguridad\UsuarioController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,3 +74,6 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+
+// Usuarios
+Route::get('Usuario', [UsuarioController::class, 'index'])->name('Usuario.index');

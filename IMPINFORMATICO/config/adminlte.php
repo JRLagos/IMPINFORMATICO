@@ -328,7 +328,7 @@ return [
                 [
                     'text' => 'Usuarios',
                     'icon' => 'fas fa-fw fa-user gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Usuario',
                 ], 
             ],
         ],
@@ -414,6 +414,27 @@ return [
                 [
                     'text' => 'Tipos Estadisticas',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Seguridad',
+            'icon' => 'fas fa-fw fa-users gns text-yellow',
+            'submenu' => [
+                [
+                    'text' => 'Personas',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Empleados',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => 'Empleado',
+                ], 
+                [
+                    'text' => 'Usuarios',
+                    'icon' => 'fas fa-fw fa-user gns text-info',
                     'url'  => '\\',
                 ], 
             ],

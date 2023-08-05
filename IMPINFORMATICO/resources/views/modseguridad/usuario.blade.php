@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Vacaciones')
+  @section('title', 'Usuarios')
 
   @section('content_header')
 
@@ -14,9 +14,9 @@
 
 
 
-  <h1>Vacaciones</h1>
+  <h1>Usuarios</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"> Agregar Vacaciones</button>
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addUsuario" type="button"> Agregar Usuario</button>
 </div>
   @stop
 
@@ -30,40 +30,37 @@
 
   @section('content')
 
-  <!-- Modal para agregar un nueva Vacaciones -->
-  <div class="modal fade bd-example-modal-sm" id="addVacaciones" tabindex="-1">
+  <!-- Modal para agregar un nuevo producto -->
+  <div class="modal fade bd-example-modal-sm" id="addUsuario" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
 
 
                     <div class="modal-header">
-                    <h3>Vacaciones</h3>
+                    <h3>Hora Extra</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar las Vacaciones del Empleado</h4>
+                        <h4>Ingresar Hora Extra del Empleado</h4>
 
-                    <form action="{{route('Post-Vacaciones.store')}}" method="post">
                     @csrf
                     
-                
+
                         <div class="mb-3 mt-3">
-                    <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Selecionar Empleado </option>
-                    @foreach ($ResulEmpleado as $Empleado)
-                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
-                    @endforeach
-                    </select>
+                    <label for="dni" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" name="DES_HOR_EXTRA" pattern="[A-Za-z].{4,}"  required>
+                    <div class="valid-feedback"></div>
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="number" class="form-control"  min="1" max="20" name="VACACIONES_ACU" required>
+                    <label for="dni" class="form-label">Cantidad Hora Extra</label>
+                    <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" required>
+                    <div class="valid-feedback"></div>
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Usadas</label>
-                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA" required>
+                    <label for="dni" class="form-label">FECHA HORA EXTRA</label>
+                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" min="2023-08-01" max="<?= date("Y-m-d") ?>" required>
                     <div class="valid-feedback"></div>
                     </div>
 
@@ -83,26 +80,34 @@
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
-  <table id="vacaciones" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="usuario" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
-        <TH>Nombre Completo</TH>
-        <th>Vacaciones Acumuladas</th>
-        <th>Vacaciones Usadas</th>
-        <th>Vacaciones Disponible</th>
+        <TH>Usuario</TH>
+        <th>ROl</th>
+        <th>E-Mail</th>
+        <th>Preguntas</th>
+        <th>Estado</th>
+        <th>Ultima Conexion</th>
+        <th>Primer Ingreso</th>
+        <th>Fecha Vencimiento</th>
         <th>Accion</th>
       </tr>
     </thead>
     <tbody>
-    @foreach ($ResulVacaciones as $Vacaciones)
+      @foreach ($ResulUsuario as $Usuario)
         <tr>
         <td>{{ $loop->iteration }}</td>
-        <td>{{ $Vacaciones['NOMBRE_COMPLETO'] }}</td>
-        <td>{{ $Vacaciones['VACACIONES_ACU'] }}</td>
-        <td>{{ $Vacaciones['VACACIONES_USA'] }}</td>
-        <td>{{ $Vacaciones['VACACIONES_DIS'] }}</td>
-        <td>
+          <td>{{ $Usuario['NOM_USUARIO'] }}</td>
+          <td>{{ $Usuario['NOM_ROL'] }}</td>
+          <td>{{ $Usuario['EMAIL'] }}</td>
+          <td>{{ $Usuario['PRE_CONTESTADAS'] }}</td>
+          <td>{{ $Usuario['IND_USUARIO'] }}</td>
+          <td>{{ $Usuario['FEC_ULT_CONEXION'] }}</td>
+          <td>{{ $Usuario['FEC_PRI_INGRESO'] }}</td>
+          <td>{{ $Usuario['FEC_VENCIMIENTO'] }}</td>
+          <td>
             <a class="btn btn-warning" href="">
               <i class="fa fa-edit"></i>
             </a>
@@ -133,7 +138,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#vacaciones').DataTable({
+    $('#usuario').DataTable({
       responsive: true,
       autWidth: false,
 
@@ -162,4 +167,7 @@
 </script>
 
     </script>
+
+    
+
     @stop
