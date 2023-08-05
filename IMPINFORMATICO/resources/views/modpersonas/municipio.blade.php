@@ -68,19 +68,22 @@
                     <div class="modal-body">
                         <h4>Ingresar Municipio</h4>
 
-                    <form action="{{route('Post-Municipio.store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-Municipio.store')}}" method="post">
                     @csrf
                     
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Departamento</label>
+                    <select class="form-control js-example-basic-single"  name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO">
+                    <option> Seleccionar Departamento </option>
+                    @foreach ($ResulDepartamento as $Departamento)
+                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">{{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
+                    @endforeach
+                    </select>
+                    </div>
                 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre del Municipio</label>
-                    <input type="text" class="form-control" placeholder="" name="NOM_MUNICIPIO" required>
-                    <div class="valid-feedback"></div>
-                    </div>
-
-                        <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Codigo Departamento</label>
-                    <input type="text" class="form-control" placeholder="" name="COD_DEPARTAMENTO" required>
+                    <input type="text" class="form-control" placeholder="" name="NOM_MUNICIPIO" pattern="[A-Za-z].{4,}"required>
                     <div class="valid-feedback"></div>
                     </div>
 

@@ -317,17 +317,17 @@ return [
             'submenu' => [
                 [
                     'text' => 'Personas',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-user-alt gns text-info',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Empleados',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-user-tie gns text-info',
                     'url'  => 'Empleado',
                 ], 
                 [
                     'text' => 'Usuarios',
-                    'icon' => 'fas fa-fw fa-user gns text-info',
+                    'icon' => 'fas fa-fw fa-user-circle gns text-info',
                     'url'  => 'Usuario',
                 ], 
             ],
@@ -349,7 +349,7 @@ return [
                 [
                     'text' => 'Direcciones',
                     'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Direcciones',
                 ], 
             ],
         ],
@@ -364,13 +364,29 @@ return [
                 ], 
                 [
                     'text' => 'Horas Extras',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-user-clock gns text-info',
                     'url'  => 'HoraExtra',
                 ], 
                 [
                     'text' => 'Vacaciones',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'far fa-fw fa-calendar-alt gns text-info',
                     'url'  => 'Vacaciones',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Empresa',
+            'icon' => 'far fa-fw fa-building gns text-yellow',
+            'submenu' => [
+                [
+                    'text' => 'Sucursal',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Departamentos Empresa',
+                    'icon' => 'far fa-fw fa-building gns text-info',
+                    'url'  => '\\',
                 ], 
             ],
         ],
@@ -423,14 +439,14 @@ return [
             'icon' => 'fas fa-fw fa-users gns text-yellow',
             'submenu' => [
                 [
-                    'text' => 'Personas',
+                    'text' => 'Roles',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Empleados',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => 'Empleado',
+                    'url'  => '\\',
                 ], 
                 [
                     'text' => 'Usuarios',

@@ -14,6 +14,7 @@ use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 use App\Http\Controllers\ModuloSeguridad\UsuarioController;
+use App\Http\Controllers\ModuloPersonas\DireccionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -77,3 +78,6 @@ Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-E
 
 // Usuarios
 Route::get('Usuario', [UsuarioController::class, 'index'])->name('Usuario.index');
+
+// Direcciones
+Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');

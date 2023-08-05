@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Departamentos')
+  @section('title', 'Direcciones')
 
   @section('content_header')
 
@@ -14,10 +14,7 @@
 
 
 
-  <h1>Departamentos</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addDepartamento" type="button"> Agregar Departamento</button>
-</div>
+  <h1>Direcciones</h1>
   @stop
 
 
@@ -31,25 +28,37 @@
   @section('content')
 
   <!-- Modal para agregar un nuevo producto -->
-  <div class="modal fade bd-example-modal-sm" id="addDepartamento" tabindex="-1">
+  <div class="modal fade bd-example-modal-sm" id="addHoraExtra" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
 
 
                     <div class="modal-header">
-                    <h3>Departamentos</h3>
+                    <h3>Hora Extra</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Departamento</h4>
+                        <h4>Ingresar Hora Extra del Empleado</h4>
 
-                        <form action="{{route('Post-Departamento.store')}}" method="post">
+
                     @csrf
                     
-                
+
                         <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Nombre del Departamento</label>
-                    <input type="text" class="form-control" placeholder="" name="NOM_DEPARTAMENTO" pattern="[A-Za-z].{3,}" required>
+                    <label for="dni" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" name="DES_HOR_EXTRA" pattern="[A-Za-z].{4,}"  required>
+                    <div class="valid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Cantidad Hora Extra</label>
+                    <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" required>
+                    <div class="valid-feedback"></div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">FECHA HORA EXTRA</label>
+                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" min="2023-08-01" max="<?= date("Y-m-d") ?>" required>
                     <div class="valid-feedback"></div>
                     </div>
 
@@ -66,27 +75,24 @@
     </div>
 
 
-   <!-- /.card-header -->
- <div class="table-responsive p-0">
+    <div class="table-responsive p-0">
  <br>
-  <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="productos" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
-        <TH>Nombre Departamento</TH>
-        <th>ACCION</th>
+        <TH>Nombre Completo</TH>
+        <th>Municipio</th>
+        <th>Descripcion</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulDepartamento as $Departamento)
+      @foreach ($ResulDireccion as $Direccion)
         <tr>
-          <td>{{ $loop->iteration }}</td>
-          <td>{{ $Departamento['NOM_DEPARTAMENTO'] }}</td>
-          <td>
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
+        <td>{{ $loop->iteration }}</td>
+          <td>{{ $Direccion['NOMBRE_COMPLETO'] }}</td>
+          <td>{{ $Direccion['NOM_MUNICIPIO'] }}</td>
+          <td>{{ $Direccion['DES_DIRECCION'] }}</td>
         </tr>
       @endforeach
     </tbody>
@@ -113,7 +119,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#departamento').DataTable({
+    $('#productos').DataTable({
       responsive: true,
       autWidth: false,
 
@@ -142,4 +148,7 @@
 </script>
 
     </script>
+
+    
+
     @stop
