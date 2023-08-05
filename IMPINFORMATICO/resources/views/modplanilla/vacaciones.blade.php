@@ -58,13 +58,12 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="text" class="form-control" name="VACACIONES_ACU" required>
-                    <div class="valid-feedback"></div>
+                    <input type="number" class="form-control"  min="1" max="20" name="VACACIONES_ACU" required>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Usadas</label>
-                    <input type="text" class="form-control" name="VACACIONES_USA" required>
+                    <input type="number" class="form-control" min="1" max="20" name="VACACIONES_USA" required>
                     <div class="valid-feedback"></div>
                     </div>
 
