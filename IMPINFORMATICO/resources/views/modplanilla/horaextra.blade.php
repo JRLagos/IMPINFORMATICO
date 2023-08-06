@@ -48,6 +48,7 @@
                     
                 
                         <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Empleado</label>
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
                     <option> Seleccionar Empleado </option>
                     @foreach ($ResulEmpleado as $Empleado)
@@ -58,20 +59,17 @@
 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripcion</label>
-                    <input type="text" class="form-control" name="DES_HOR_EXTRA" required>
-                    <div class="valid-feedback"></div>
+                    <input type="text" class="form-control" pattern="[A-Za-z].{4,}" name="DES_HOR_EXTRA" required>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Cantidad Hora Extra</label>
-                    <input type="text" class="form-control" placeholder="Cantidad" name="CANT_HOR_EXTRA" required>
-                    <div class="valid-feedback"></div>
+                    <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" required>
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">FECHA HORA EXTRA</label>
-                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" required>
-                    <div class="valid-feedback"></div>
+                    <label for="dni" class="form-label">Fecha Hora Extra</label>
+                    <input type="date" class="form-control" max="<?= date('Y-m-d'); ?>" name="FEC_HOR_EXTRA" required>
                     </div>
 
                     </div>
@@ -93,23 +91,23 @@
   <table id="productos" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
-        <th>#</th>
-        <TH>Nombre Completo</TH>
-        <th>Descripcion Hora Extra</th>
-        <th>Cantidad</th>
-        <th>Fecha</th>
-        <th>Accion</th>
+        <th style="text-align: center;">#</th>
+        <th style="text-align: center;">Nombre Completo</th>
+        <th style="text-align: center;">Descripcion Hora Extra</th>
+        <th style="text-align: center;">Cantidad</th>
+        <th style="text-align: center;">Fecha</th>
+        <th style="text-align: center;">Accion</th>
       </tr>
     </thead>
     <tbody>
       @foreach ($ResulHoraExtra as $HoraExtra)
         <tr>
-        <td>{{ $loop->iteration }}</td>
-          <td>{{ $HoraExtra['NOMBRE_COMPLETO'] }}</td>
-          <td>{{ $HoraExtra['DES_HOR_EXTRA'] }}</td>
-          <td>{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
-          <td>{{ $HoraExtra['FEC_HOR_EXTRA'] }}</td>
-          <td>
+        <td style="text-align: center;">{{ $loop->iteration }}</td>
+        <td style="text-align: center;">{{ $HoraExtra['NOMBRE_COMPLETO'] }}</td>
+        <td style="text-align: center;">{{ $HoraExtra['DES_HOR_EXTRA'] }}</td>
+        <td style="text-align: center;">{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
+        <td style="text-align: center;">{{ date('d-m-Y', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}</td>
+        <td style="text-align: center;">
             <a class="btn btn-warning" href="">
               <i class="fa fa-edit"></i>
             </a>
