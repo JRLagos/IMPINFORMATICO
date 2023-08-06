@@ -13,6 +13,28 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+<style>
+  div {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+input + span {
+  padding-right: 30px;
+}
+
+input:invalid + span:after {
+  position: absolute;
+  content: "x";
+  padding-left: 5px;
+}
+
+input:valid + span:after {
+  position: absolute;
+  content: "✓";
+  padding-left: 5px;
+}
+</style>
 
   <h1>Vacaciones</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -59,12 +81,14 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="number" class="form-control" min="0" max="20" placeholder="Valor Maximo 20" name="VACACIONES_ACU" required>
+                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_ACU" required>
+                    <span class="validity"></span>
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Usadas</label>
-                    <input type="number" class="form-control" min="0" max="20" placeholder="Valor Maximo 20" name="VACACIONES_USA" required>
+                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA" required>
+                    <span class="validity"></span>
                     </div>
 
                     </div>

@@ -43,7 +43,7 @@
                     <div class="modal-body">
                         <h4>Generar Planilla del Empleado</h4>
 
-                    <form action="{{route('Post-HoraExtra.store')}}" method="post">
+                    <form action="{{route('Post-Planilla.Store')}}" method="post">
                     @csrf
                     
                 
@@ -59,7 +59,7 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Fecha Generar Planilla</label>
-                    <input type="date" class="form-control" max="<?= date('Y-m-d'); ?>" name="FEC_REA_PLANILLA" required>
+                    <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d'); ?>" name="FEC_REA_PLANILLA" required>
                     </div>
 
                     </div>
