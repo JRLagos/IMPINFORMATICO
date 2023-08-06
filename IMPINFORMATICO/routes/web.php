@@ -75,7 +75,7 @@ Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Dep
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
 
 // Municipios
-Route::get('Municipios', [MunicipioController::class, 'index'])->name('Muncipio.index');
+Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
 Route::post('Post-Municipio', [MunicipioController::class, 'store'])->name('Post-Municipio.store');
 
 // Estadisticas

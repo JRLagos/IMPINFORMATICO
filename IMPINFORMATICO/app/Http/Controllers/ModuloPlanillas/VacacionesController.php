@@ -22,6 +22,7 @@ class VacacionesController extends Controller
         // Convierte los datos JSON a un array asociativo
         $Vacaciones = json_decode($data1, true);
         $Empleado = json_decode($data2, true);
+    
         return view('modplanilla.vacaciones')->with('ResulVacaciones', $Vacaciones)->with('ResulEmpleado', $Empleado);
     }
 
