@@ -69,10 +69,12 @@ input:valid + span:after {
                     @csrf
                     
                 
+
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Empleado</label>
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
                     <option> Seleccionar Empleado </option>
+
                     @foreach ($ResulEmpleado as $Empleado)
                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
@@ -83,7 +85,6 @@ input:valid + span:after {
                     <label for="dni" class="form-label">Vacaciones Acumuladas</label>
                     <input type="number" class="form-control" min="0" max="20" name="VACACIONES_ACU" required>
                     <span class="validity"></span>
-                    </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Usadas</label>
