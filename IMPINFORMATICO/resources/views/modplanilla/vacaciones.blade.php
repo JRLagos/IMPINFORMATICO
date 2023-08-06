@@ -13,29 +13,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-<style>
-  div {
-  margin-bottom: 10px;
-  position: relative;
-}
-
-input + span {
-  padding-right: 30px;
-}
-
-input:invalid + span:after {
-  position: absolute;
-  content: "x";
-  padding-left: 5px;
-}
-
-input:valid + span:after {
-  position: absolute;
-  content: "✓";
-  padding-left: 5px;
-}
-</style>
-
   <h1>Vacaciones</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"> Agregar Vacaciones</button>
@@ -59,22 +36,19 @@ input:valid + span:after {
 
 
                     <div class="modal-header">
-                    <h3>Hora Extra</h3>
+                    <h3>Vacaciones</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Ingresar las Vacaciones del Empleado</h4>
 
-                    <form action="{{route('Post-Vacaciones.store')}}" method="post">
+                    <form action="{{route('Post-Vacaciones.store')}}" method="post" class="was-validated">
                     @csrf
                     
-                
-
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Empleado</label>
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Seleccionar Empleado </option>
-
+                    <option disabled selected> Seleccionar Empleado </option>
                     @foreach ($ResulEmpleado as $Empleado)
                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
