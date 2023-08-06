@@ -12,29 +12,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<style>
-  div {
-  margin-bottom: 10px;
-  position: relative;
-}
-
-input + span {
-  padding-right: 30px;
-}
-
-input:invalid + span:after {
-  position: absolute;
-  content: "x";
-  padding-left: 5px;
-}
-
-input:valid + span:after {
-  position: absolute;
-  content: "✓";
-  padding-left: 5px;
-}
-</style>
-
 
   <h1>Horas Extras</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -66,14 +43,14 @@ input:valid + span:after {
                     <div class="modal-body">
                         <h4>Ingresar Hora Extra del Empleado</h4>
 
-                    <form action="{{route('Post-HoraExtra.store')}}" method="post">
+                    <form action="{{route('Post-HoraExtra.store')}}" method="post" class="was-validated">
                     @csrf
                     
-                
-                        <div class="mb-3 mt-3">
+                 
+                    <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Empleado</label>
-                    <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Seleccionar Empleado </option>
+                    <select class="form-select js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
+                    <option disabled selected> Seleccionar Empleado</option>
                     @foreach ($ResulEmpleado as $Empleado)
                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
@@ -82,14 +59,67 @@ input:valid + span:after {
 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripcion</label>
-                    <input type="text" class="form-control" pattern="[A-Za-z].{4,}" name="DES_HOR_EXTRA" required>
-                    <span class="validity"></span>
+                    <input type="text" class="form-control" pattern="[A-Za-z].{4,}" name="DES_HOR_EXTRA" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Cantidad Hora Extra</label>
                     <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" required>
-                    <span class="validity"></span>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Hora Extra</label>
+                    <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d'); ?>" name="FEC_HOR_EXTRA" required>
+                    </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
+                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <!-- Modal para agregar un nuevo producto -->
+  <div class="modal fade bd-example-modal-sm" id="uptHoraExtra" tabindex="-1" >
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+
+                    <div class="modal-header">
+                    <h3>Hora Extra</h3>
+                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Ingresar Hora Extra del Empleado</h4>
+
+
+                    @csrf
+                    
+                 
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Empleado</label>
+                    <select class="form-select js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
+                    <option disabled selected> Seleccionar Empleado</option>
+                    @foreach ($ResulEmpleado as $Empleado)
+                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
+                    @endforeach
+                    </select>
+                    </div>
+
+                        <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Descripcion</label>
+                    <input type="text" class="form-control" pattern="[A-Za-z].{4,}" name="DES_HOR_EXTRA" required>                   
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Cantidad Hora Extra</label>
+                    <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" required>
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -133,7 +163,7 @@ input:valid + span:after {
         <td style="text-align: center;">{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
         <td style="text-align: center;">{{ date('d-m-Y', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}</td>
         <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
+            <a class="btn btn-warning me-md-2" data-bs-toggle="modal" data-bs-target="#uptHoraExtra">
               <i class="fa fa-edit"></i>
             </a>
           </td>

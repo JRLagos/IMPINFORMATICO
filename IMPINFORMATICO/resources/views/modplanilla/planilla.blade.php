@@ -43,14 +43,14 @@
                     <div class="modal-body">
                         <h4>Generar Planilla del Empleado</h4>
 
-                    <form action="{{route('Post-Planilla.Store')}}" method="post">
+                    <form action="{{route('Post-Planilla.Store')}}" method="post" class="was-validated">
                     @csrf
                     
                 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Empleado</label>
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Seleccionar Empleado </option>
+                    <option disabled selected> Seleccionar Empleado </option>
                     @foreach ($ResulEmpleado as $Empleado)
                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
