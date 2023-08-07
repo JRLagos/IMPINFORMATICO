@@ -2,10 +2,12 @@
 
 
 namespace App\Http\Controllers\ModuloReportes;
-
+use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
+
 class ReportesController extends Controller
 {
     /**
@@ -15,11 +17,15 @@ class ReportesController extends Controller
     {
         $response = Http::get('http://localhost:3000/Reportes?accion=REPORTES');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response1 = Http::get('http://localhost:3000/Reportes?accion=TIPOS_REPORTES');
+        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
         $ResulReportes = json_decode($data, true);
-    
-        return view('modreportes.reportes')->with('ResulReportes', $ResulReportes);
+        $TipReportes  = json_decode($data1, true);
+       
+
+        return view('modreportes.reportes')->with('ResulTipReportes', $TipReportes)->with('ResulReportes', $ResulReportes);
     }
 
     /**
@@ -35,7 +41,17 @@ class ReportesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $userId = Auth::id();
+        $Reportes = $request->all();
+        $Reportes['PB_COD_USUARIO'] = $userId;
+        // Imprimir los datos del reporte antes de enviarlos a la API
+        dd('Datos del Reporte:', $Reportes);
+    
+        // Realizar la solicitud HTTP a la API externa
+        $res = Http::post("http://localhost:3000/InsReportes/Reportes", $Reportes);
+    
+        // Imprimir la respuesta de la API después de recibir la respuesta
+        dd('Respuesta de la API:', $res->json());
     }
 
     /**
