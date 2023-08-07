@@ -26,8 +26,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
     @endsection
 
-    
-
   @section('content')
 
   <!-- Modal para agregar un nuevo producto -->
@@ -95,9 +93,8 @@
                     <h3>Hora Extra</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body">  
                         <h4>Ingresar Hora Extra del Empleado</h4>
-
 
                     @csrf
                     
