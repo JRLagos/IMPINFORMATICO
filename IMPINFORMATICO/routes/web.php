@@ -28,10 +28,10 @@ use App\Http\Controllers\ModuloSeguridad\AuthController;
 Route::get('/', function () {
     return view('modseguridad.Login');
 })->name('Login');
-/*
-Route::get('/HoraExtra', function () {
-    return view('horaextra.index');
-});*/
+
+Route::get('/Dashboard', function () {
+    return view('admin.admin');
+})->name('Dashboard');
 
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');

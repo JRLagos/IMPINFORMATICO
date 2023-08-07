@@ -253,7 +253,7 @@ return [
     */
 
     'use_route_url' => false,
-    'dashboard_url' => '/',
+    'dashboard_url' => '/Dashboard',
     'logout_url' => 'logout',
     'login_url' => 'login',
     'register_url' => 'register',
@@ -317,17 +317,38 @@ return [
             'submenu' => [
                 [
                     'text' => 'Personas',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-user-circle gns text-info',
                     'url'  => '\\',
                 ], 
                 [
                     'text' => 'Empleados',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-user-tie gns text-info',
                     'url'  => 'Empleado',
                 ], 
                 [
                     'text' => 'Usuarios',
                     'icon' => 'fas fa-fw fa-user gns text-info',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'Informacion',
+            'icon' => 'fas fa-fw fa-folder-plus gns text-yellow',
+            'submenu' => [
+                [
+                    'text' => 'Bancos',
+                    'icon' => 'fas fa-fw fa-kaaba gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Correos',
+                    'icon' => 'fas fa-fw fa-mail-bulk gns text-info',
+                    'url'  => 'Empleado',
+                ], 
+                [
+                    'text' => 'Estudios',
+                    'icon' => 'far fa-fw fa-address-book gns text-info',
                     'url'  => '\\',
                 ], 
             ],
@@ -349,6 +370,22 @@ return [
                 [
                     'text' => 'Direcciones',
                     'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'EMPRESA',
+            'icon' => 'far fa-fw fa-building gns text-yellow',  
+            'submenu' => [
+                [
+                    'text' => 'Sucursales',
+                    'icon' => 'fas fa-fw fa-store-alt gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Departamentos Empresa',
+                    'icon' => 'fas fa-fw fa-code-branch gns text-info',
                     'url'  => '\\',
                 ], 
             ],
@@ -418,10 +455,54 @@ return [
                 ], 
             ],
         ],
-        
-        
-        
+        [
+            'text' => 'SEGURIDAD',
+            'icon' => 'fas fa-fw fa-key gns text-yellow',
+            'submenu' => [
+                [
+                    'text' => 'Roles',
+                    'icon' => 'fas fa-fw fa-scroll gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Permisos',
+                    'icon' => 'fab fa-fw fa-accusoft gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Objetos',
+                    'icon' => 'fa fa-fw fa-object-group gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Parametros',
+                    'icon' => 'fab fa-fw fa-pied-piper gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Historial Contraseñas',
+                    'icon' => 'fas fa-fw fa-asterisk gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Preguntas Usuario',
+                    'icon' => 'fab fa-fw fa-lastfm gns text-info',
+                    'url'  => '\\',
+                ], 
+                [
+                    'text' => 'Preguntas',
+                    'icon' => 'fab fa-fw fa-lastfm gns text-info',
+                    'url'  => '\\',
+                ], 
+            ],
+        ],
+        [
+            'text' => 'BITACORA',
+            'icon' => 'fas fa-fw fa-swatchbook gns text-yellow',
+            'url'  => '\\',
+        ],
     ],
+    
 
     /*
     |--------------------------------------------------------------------------
