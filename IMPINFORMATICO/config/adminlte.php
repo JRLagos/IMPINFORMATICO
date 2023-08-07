@@ -401,12 +401,12 @@ return [
                 ], 
                 [
                     'text' => 'Horas Extras',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fa fa-fw fa-clipboard gns text-info',
                     'url'  => 'HoraExtra',
                 ], 
                 [
                     'text' => 'Vacaciones',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Vacaciones',
                 ], 
             ],
@@ -417,23 +417,23 @@ return [
             'submenu' => [
                 [
                     'text' => 'Reportes',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-clipboard-list gns text-info',
                     'url'  => 'Reportes',
                 ], 
                 [
                     'text' => 'Tipos Reportes',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-list gns text-info',
                     'url'  => 'TiposReportes',
                 ], 
                 
                 [
                     'text' => 'Reportes Guardados',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fa fa-fw fa-th-list gns text-info',
                     'url'  => 'ReportesGuardados',
                 ], 
                 [
                     'text' => 'Reportes Generados',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fa fa-fw fa-th-list gns text-info',
                     'url'  => 'ReportesGenerados',
                 ], 
                 
@@ -445,12 +445,12 @@ return [
             'submenu' => [
                 [
                     'text' => 'Estadisticas',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-chart-line gns text-info',
                     'url'  => 'Estadistica',
                 ], 
                 [
                     'text' => 'Tipos Estadisticas',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'icon' => 'fas fa-fw fa-chart-bar gns text-info',
                     'url'  => '\\',
                 ], 
             ],
