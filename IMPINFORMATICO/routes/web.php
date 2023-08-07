@@ -46,7 +46,7 @@ Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSegur
 // Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
 Route::post('Post-HoraExtra',[HoraExtraController::class, 'store'])->name('Post-HoraExtra.store');
-Route::get('HEmpleado',[HoraExtraController::class, 'create'])->name('HEmpleado.create');
+Route::put('/Upt-HoraExtra/{id}',[HoraExtraController::class, 'update'])->name('Upt-HoraExtra.update');
 
 // Vacaciones
 Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacaciones.index');
@@ -58,6 +58,8 @@ Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-P
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
+Route::post('Post-Reportes', [ReportesController::class, 'store'])->name('Post-Reportes.store');
+
 
 //Reportes Generados
 Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
