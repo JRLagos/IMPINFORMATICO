@@ -10,7 +10,3 @@ export default defineConfig({
     ],
 });
 
-// Jorge Lagos
-// Mario Varela
-//Juan
-// IMPERIO INFORMATICO 2

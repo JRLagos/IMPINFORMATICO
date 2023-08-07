@@ -14,7 +14,7 @@
 
 
 
-  <h1>Planillas</h1>
+  <h1>Planilla</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPlanilla" type="button"> Generar Planilla</button>
 </div>
@@ -30,36 +30,36 @@
 
   @section('content')
 
-  <!-- Modal para agregar un nueva Vacaciones -->
+  <!-- Modal para agregar un nuevo producto -->
   <div class="modal fade bd-example-modal-sm" id="addPlanilla" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
 
 
                     <div class="modal-header">
-                    <h3>Planillas</h3>
+                    <h3>Planilla</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Generar la Planilla del Empleado</h4>
+                        <h4>Generar Planilla del Empleado</h4>
 
-                    <form action="{{route('Post-Planilla.Store')}}" method="post">
+                    <form action="{{route('Post-Planilla.Store')}}" method="post" class="was-validated">
                     @csrf
                     
                 
                         <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Empleado</label>
                     <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Selecionar Empleado </option>
+                    <option disabled selected> Seleccionar Empleado </option>
                     @foreach ($ResulEmpleado as $Empleado)
                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
                     </select>
                     </div>
 
-                        <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Fecha Planilla</label>
-                    <input type="date" class="form-control" placeholder="" name="FEC_REA_PLANILLA" required>
-                    <div class="valid-feedback"></div>
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Generar Planilla</label>
+                    <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d'); ?>" name="FEC_REA_PLANILLA" required>
                     </div>
 
                     </div>
@@ -82,42 +82,46 @@
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
-        <TH>Nombre Completo</TH>
-        <th>Salario Base</th>
-        <th>Fecha</th>
-        <th>Salario Bruto</th>
-        <th>Horas Extras</th>
-        <th>Vacaciones</th>
-        <th>Catorceavo</th>
-        <th>Aguinaldo</th>
+        <TH>NOMBRE COMPLETO</TH>
+        <th>SALARIO BASE</th>
+        <th>FECHA</th>
+        <th>SALARIO BRUTO</th>
+        <th>HORAS EXTRAS</th>
+        <th>VACACIONES</th>
+        <th>CATORCEAVO</th>
+        <th>AGUINALDO</th>
         <th>IHSS</th>
-        <th>Salario Neto</th>
-        <th>Accion</th>
+        <th>SALARIO NETO</th>
+        <th>RAS IHSS</th>
+        <th>RPS IHSS</th>
+        <th>ACCION</th>
       </tr>
     </thead>
     <tbody>
       @foreach ($ResulPlanilla as $Planilla)
         <tr>
-          <td>{{ $loop->iteration }}</td>
-          <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
-          <td>{{ $Planilla['SAL_BAS_EMPLEADO'] }}</td>
-          <td>{{ $Planilla['FEC_REA_PLANILLA'] }}</td>
-          <td>{{ $Planilla['SALARIO_BRUTO'] }}</td>
-          <td>{{ $Planilla['HORAS_EXTRAS'] }}</td>
-          <td>{{ $Planilla['VACACIONES'] }}</td>
-          <td>{{ $Planilla['CATORCEAVO'] }}</td>
-          <td>{{ $Planilla['AGUINALDO'] }}</td>
-          <td>{{ $Planilla['IHSS'] }}</td>
-          <td>{{ $Planilla['SALARIO_NETO'] }}</td>
+        <td>{{ $loop->iteration }}</td>
+        <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
+        <td>{{ number_format($Planilla['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
+        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_REA_PLANILLA'])) }}</td>
+        <td>{{ number_format($Planilla['SALARIO_BRUTO'], 2, '.', ',') }}</td>
+        <td>{{ $Planilla['HORAS_EXTRAS'] }}</td>
+        <td>{{ number_format($Planilla['VACACIONES'], 2, '.', ',') }}</td>
+        <td>{{ $Planilla['CATORCEAVO'] }}</td>
+        <td>{{ $Planilla['AGUINALDO'] }}</td>
+        <td>{{ $Planilla['IHSS'] }}</td>
+        <td>{{ number_format($Planilla['SALARIO_NETO'], 2, '.', ',') }}</td>
+        <td>{{ $Planilla['RAS_IHSS'] }}</td>
+        <td>{{ $Planilla['RPS_IHSS'] }}</td>
         <td>
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
+          <a class="btn btn-warning" href="">
+            <i class="fa fa-edit"></i>
+          </a>
+         </td>
+      </tr>
+    @endforeach
+  </tbody>
+</table>
 </div>
 
   @stop
@@ -140,7 +144,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#planilla  ').DataTable({
+    $('#planilla').DataTable({
       responsive: true,
       autWidth: false,
 
