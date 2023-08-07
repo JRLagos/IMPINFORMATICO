@@ -344,7 +344,7 @@ return [
                 [
                     'text' => 'Correos',
                     'icon' => 'fas fa-fw fa-mail-bulk gns text-info',
-                    'url'  => 'Empleado',
+                    'url'  => '\\',
                 ], 
                 [
                     'text' => 'Estudios',
