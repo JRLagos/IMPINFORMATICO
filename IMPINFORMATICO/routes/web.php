@@ -58,6 +58,8 @@ Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-P
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
+Route::post('Post-Reportes', [ReportesController::class, 'store'])->name('Post-Reportes.store');
+
 
 //Reportes Generados
 Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
