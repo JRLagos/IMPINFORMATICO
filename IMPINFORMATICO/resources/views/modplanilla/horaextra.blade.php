@@ -26,8 +26,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
     @endsection
 
-    <!-- Jorge -->
-
   @section('content')
 
   <!-- Modal para agregar un nuevo producto -->
