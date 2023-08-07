@@ -95,9 +95,8 @@
                     <h3>Hora Extra</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body">  
                         <h4>Ingresar Hora Extra del Empleado</h4>
-
 
                     @csrf
                     
