@@ -370,7 +370,7 @@ return [
                 [
                     'text' => 'Direcciones',
                     'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Direcciones',
                 ], 
             ],
         ],
