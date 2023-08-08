@@ -19,8 +19,7 @@
 
 <h1>Reportes</h1>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addreporte" type="button">Agregar Nuevo
-        Reportes</button>
+    <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addreporte" type="button">Agregar Nuevo Reporte</button>
 </div>
 @stop
 
@@ -48,32 +47,31 @@
 
                     <div class="mb-3 mt-3">
                         <label for="COD_TIP_REPORTE" class="form-label">Tipo de Reportes</label>
-                        <select class="form-control js-example-basic-single" name="PB_COD_TIP_ESTADISTICA_REPORTE" id="PB_COD_TIP_ESTADISTICA_REPORTE"
-                            required>
+                        <select class="form-control js-example-basic-single" name="PB_COD_TIP_ESTADISTICA_REPORTE" id="PB_COD_TIP_ESTADISTICA_REPORTE" required>
                             <option value="" selected disabled>Seleccionar un tipo de reporte</option>
                             @foreach ($ResulTipReportes as $TiposReportes)
-                            <option value="{{ $TiposReportes['COD_TIP_REPORTE'] }}"
-                                data-report-code="{{ $TiposReportes['COD_TIP_REPORTE'] }}">
-                                {{ $TiposReportes['NOM_TIP_REPORTE'] }}</option>
+                            <option value="{{ $TiposReportes['COD_TIP_REPORTE'] }}" data-report-code="{{ $TiposReportes['COD_TIP_REPORTE'] }}">
+                                {{ $TiposReportes['NOM_TIP_REPORTE'] }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
-
+                    
                     <div class="mb-3 mt-3">
-                        <label for="PV_TIT_ESTADISTICA_REPORTE" class="form-label">Titulo del Reporte</label>
+                        <label for="PV_TIT_ESTADISTICA_REPORTE" class="form-label">Título del Reporte</label>
                         <input type="text" class="form-control" placeholder="Ingrese el Nombre del Titulo del Reporte"
-                            name="PV_TIT_ESTADISTICA_REPORTE" required>
-                        <div class="valid-feedback"></div>
+                            name="PV_TIT_ESTADISTICA_REPORTE" required pattern=".{5,}" title="Ingrese al menos 5 caracteres">
+                        <div class="valid-feedback">Título válido</div>
                     </div>
 
                     <div class="mb-3 mt-3">
                         <label for="PV_DES_ESTADISTICA_REPORTE" class="form-label">Descripción del Reporte</label>
                         <input type="text" class="form-control" placeholder="Ingrese el nombre del tipo de Reporte"
-                            name="PV_DES_ESTADISTICA_REPORTE" required>
-                        <div class="valid-feedback"></div>
+                            name="PV_DES_ESTADISTICA_REPORTE" required pattern=".{5,}" title="Ingrese al menos 5 caracteres">
+                            <div class="valid-feedback">Descripción válida</div>
                     </div>
 
-                    <input type="hidden" name="PB_COD_USUARIO" value="{{ Auth::id() }}">
+                    <input type="hidden" name="COD_USUARIO" value="{{ Auth::id() }}">
 
                     <div class="mb-3 mt-3">
                         <label for="PE_FOR_ENV_ESTADISTICA_REPORTE" class="form-label">Formato del Reporte</label>
@@ -85,21 +83,20 @@
                             <option value="PNG">PNG</option>
                             <option value="JPG">JPG</option>
                         </select>
-                        <div class="valid-feedback"></div>
+                        <div class="valid-feedback">Formato válido</div>
                     </div>
-
+                    
                     <div class="mb-3 mt-3">
                         <label for="url_archivo" class="form-label">URL DONDE SE DESEA GUARDAR</label>
-                        <input type="text" class="form-control" placeholder="Ingrese la URL" name="PV_URL_ARCHIVO"
-                            required>
-                        <div class="valid-feedback"></div>
-                    </div>
+                        <input type="text" class="form-control" placeholder="Ingrese la URL" name="PV_URL_ARCHIVO" required>
+                        <div class="valid-feedback">Url válida</div>
+                    </div>                    
 
                     <div class="mb-3 mt-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" placeholder="Ingrese el Email" name="PV_EMAIL"
                             required>
-                        <div class="valid-feedback"></div>
+                        <div class="valid-feedback">Email válido</div>
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -112,7 +109,7 @@
                             <option value="MENSUAL">MENSUAL</option>
                             <option value="ANUAL">ANUAL</option>
                         </select>
-                        <div class="valid-feedback"></div>
+                        <div class="valid-feedback">Frecuencia del reporte válida</div>
                     </div>
 
                     <div class="mb-3 mt-3">
