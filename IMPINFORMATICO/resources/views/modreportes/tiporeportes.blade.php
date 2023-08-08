@@ -26,10 +26,10 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
 <!-- botones -->
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
+
 
 @section('content')
 <!-- Modal para agregar un nuevo producto -->
@@ -100,7 +100,7 @@
         </tbody>
     </table>
 </div>
-@stop
+@endsection
 
 @section('content')
 <div class="container">
@@ -110,7 +110,33 @@
     </form>
 </div>
 @endsection
-  
+@section('styles')
+<style>
+    div.dt-button-collection {
+        width: 400px;
+    }
+    div.dt-button-collection button.dt-button {
+        display: inline-block;
+        width: 32%;
+    }
+    div.dt-button-collection button.buttons-colvis {
+        display: inline-block;
+        width: 49%;
+    }
+    div.dt-button-collection h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-weight: 100;
+        border-bottom: 1px solid rgba(150, 150, 150, 0.5);
+        font-size: 1em;
+        padding: 0 1em;
+    }
+    div.dt-button-collection h3.not-top-heading {
+        margin-top: 10px;
+    }
+</style>
+@endsection
+
 @section('footer')
 <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.1.0
@@ -127,28 +153,32 @@
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 <!-- botones -->
-
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.bootstrap5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
 
 <script>
    script: $('#codigotiporeporte').DataTable({
     dom: '<"top"Bl>frt<"bottom"ip><"clear">',
-    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+        buttons: [
+            {
+                extend: 'collection',
+                className: 'custom-html-collection',
+                buttons: [
+                    '<h5>Exportar</h5>',
+                    'pdf',
+                    'csv',
+                    'excel',
+                    '<h5 class="not-top-heading">Columnas Visibles</h5>',
+                    'columnsToggle',
+                ],
+            },
+        ],
     responsive: true,
     autWidth: false,
     "language": {
