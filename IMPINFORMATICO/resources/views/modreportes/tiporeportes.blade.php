@@ -25,6 +25,10 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+<!-- botones -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
 @endsection
 
 @section('content')
@@ -96,27 +100,11 @@
         </tbody>
     </table>
 </div>
-
-
-@extends('layouts.app')
+@stop
 
 @section('content')
 <div class="container">
     <h1>Editar Tipo de Reporte</h1>
-
-    <form action="{{ route('Put-TiposReportes.update', $TipReportes['id']) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre del Tipo de Reporte</label>
-            <input type="text" class="form-control" id="nombre" name="PV_NOM_TIP_ESTADISTICA_REPORTE" value="{{ $reporte['NOM_TIP_REPORTE'] }}" required>
-        </div>
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción del Tipo de Reporte</label>
-            <textarea class="form-control" id="descripcion" name="PV_DES_TIP_ESTADISTICA_REPORTE" rows="3" required>{{ $reporte['DES_TIP_REPORTE'] }}</textarea>
-        </div>
-        <!-- Agrega otros campos que deseas editar -->
 
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
@@ -138,11 +126,31 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+<!-- botones -->
+
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.bootstrap5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+
 <script>
-$('#codigotiporeporte').DataTable({
+   script: $('#codigotiporeporte').DataTable({
+    dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+    buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
     responsive: true,
     autWidth: false,
-
     "language": {
         "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
         "zeroRecords": "Nada encontrado - disculpas",
@@ -165,6 +173,6 @@ $(document).ready(function() {
     $('.js-example-basic-single').select2({});
 });
 </script>
-
+;
 </script>
 @stop
