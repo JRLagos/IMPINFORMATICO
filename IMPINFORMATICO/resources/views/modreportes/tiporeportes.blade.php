@@ -171,17 +171,40 @@
                 extend: 'collection',
                 className: 'custom-html-collection',
                 buttons: [
-                    '<h5>Exportar</h5>',
-                    'pdf',
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Tipos de Reportes',
+                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                       // customize: function(doc) {
+                            // Agregar tu logo al encabezado del PDF
+                        //    var logo = new Image();
+                        //    logo.src = 'COMPUTEREMPIRE.png';
+                        //    doc.content.splice(0, 0, {
+                        //        margin: [0, 0, 0, 12],
+                        //        alignment: 'center',
+                        //        image: logo,
+                         //       fit: [100, 100]
+                        //    });
+                        //}
+                    },
                     'csv',
-                    'excel',
-                    '<h5 class="not-top-heading">Columnas Visibles</h5>',
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Tipos de Reporte',
+                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
                     'columnsToggle',
                 ],
             },
         ],
-    responsive: true,
-    autWidth: false,
+        responsive: true,
+        autWidth: false,
     "language": {
         "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
         "zeroRecords": "Nada encontrado - disculpas",
