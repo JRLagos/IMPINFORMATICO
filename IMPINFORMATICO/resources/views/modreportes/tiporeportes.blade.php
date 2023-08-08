@@ -134,6 +134,7 @@
     div.dt-button-collection h3.not-top-heading {
         margin-top: 10px;
     }
+    
 </style>
 @endsection
 
