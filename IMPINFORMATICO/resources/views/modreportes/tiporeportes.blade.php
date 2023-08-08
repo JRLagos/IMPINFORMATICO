@@ -1,6 +1,9 @@
 @extends('adminlte::page')
+
 @section('title', 'Tipos de Reportes')
+
 @section('content_header')
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,12 +18,15 @@
     <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addtiporeporte" type="button">Agregar
         Tipo de Reportes</button>
 </div>
+
 @stop
+
 @section('css')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
 @endsection
+
 @section('content')
 <!-- Modal para agregar un nuevo producto -->
 <div class="modal fade bd-example-modal-sm" id="addtiporeporte" tabindex="-1">
@@ -81,23 +87,53 @@
                 <td class="text-nowrap">{{ $TiposReportes['NOM_TIP_REPORTE'] }}</td>
                 <td class="text-nowrap">{{ $TiposReportes['DES_TIP_REPORTE'] }}</td>
                 <td>
-                    <a class="btn btn-warning" href="">
-                        <i class="fa fa-edit"></i>
-                    </a>
+                    <button class="btn btn-primary btn-editar" data-id="{{ $TiposReportes['COD_TIP_REPORTE'] }}" data-nombre="{{ $TiposReportes['NOM_TIP_REPORTE'] }}" data-descripcion="{{ $TiposReportes['DES_TIP_REPORTE'] }}" data-toggle="modal" data-target="#modalActualizar">
+                    Editar
+                    </button>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
 </div>
-@stop
+
+
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Editar Tipo de Reporte</h1>
+
+    <form action="{{ route('Put-TiposReportes.update', $TipReportes['id']) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre del Tipo de Reporte</label>
+            <input type="text" class="form-control" id="nombre" name="PV_NOM_TIP_ESTADISTICA_REPORTE" value="{{ $reporte['NOM_TIP_REPORTE'] }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción del Tipo de Reporte</label>
+            <textarea class="form-control" id="descripcion" name="PV_DES_TIP_ESTADISTICA_REPORTE" rows="3" required>{{ $reporte['DES_TIP_REPORTE'] }}</textarea>
+        </div>
+        <!-- Agrega otros campos que deseas editar -->
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+</div>
+@endsection
+  
 @section('footer')
 <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.1.0
 </div>
 <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
 @stop
+
+
+
 @section('js')
+
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -131,4 +167,4 @@ $(document).ready(function() {
 </script>
 
 </script>
-    @stop
+@stop

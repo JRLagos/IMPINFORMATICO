@@ -42,6 +42,7 @@ class TiposReportesController extends Controller
 
         // Obtener los datos del formulario
         $TipReportes = $request->all();
+        dd('Datos a enviar a la API:', $TipReportes);
         // Realizar la solicitud POST a la API para guardar el nuevo registro
         $res = Http::post("http://localhost:3000/InsReportes/Tipos_Reportes", $TipReportes);
         return redirect()->route('TiposReportes.index');
@@ -60,7 +61,19 @@ class TiposReportesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Obtener el tipo de reporte por su ID desde la API
+        $res = Http::put("http://localhost:3000/ObtReportes/Tipos_Reportes/$id");
+
+        // Verificar si la solicitud fue exitosa y obtener los datos del reporte
+        if ($res->successful()) {
+            $TipReportes = $res->json(); // Cambiamos la variable a $TipReportes
+            // Renderizar la vista de edición con los datos del reporte
+            return view('tipos_reportes.edit', compact('TipReportes'));
+        } else {
+            // Manejar el error si la solicitud no fue exitosa
+            // Por ejemplo, redireccionar a una página de error o volver a la página anterior con un mensaje de error
+            return redirect()->back()->with('error', 'Error al obtener el reporte para editar.');
+        }
     }
 
     /**
@@ -68,7 +81,24 @@ class TiposReportesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Obtener los datos del formulario
+    $TipReportes = $request->all();
+
+    // Realizar la solicitud PUT a la API para actualizar el registro con el ID proporcionado
+    $res = Http::put("http://localhost:3000/UpdReportes/Tipos_Reportes/$id", $TipReportes);
+
+    // Verificar la respuesta de la API y realizar acciones adecuadas (puedes validar la respuesta, manejar errores, etc.)
+    if ($res->successful()) {
+        // La actualización fue exitosa
+        // Puedes agregar un mensaje de éxito a través de la sesión o flash data
+        session()->flash('success', 'Reporte actualizado correctamente.');
+    } else {
+        // La actualización falló
+        // Puedes agregar un mensaje de error a través de la sesión o flash data
+        session()->flash('error', 'Error al actualizar el reporte.');
+    }
+
+    return redirect()->route('TiposReportes.index');
     }
 
     /**
