@@ -11,9 +11,11 @@ use App\Http\Controllers\ModuloReportes\TiposReportesController;
 use App\Http\Controllers\ModuloReportes\ReportesGuardadosController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
+use App\Http\Controllers\ModuloPersonas\PersonaController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 use App\Http\Controllers\ModuloSeguridad\AuthController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,3 +86,7 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+
+// Persona
+Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
+Route::post('Post-Persona',[PersonaController::class, 'store'])->name('Post-Persona.store');
