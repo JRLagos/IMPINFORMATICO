@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+    <!-- botones -->
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     @endsection
 
   @section('content')
@@ -123,7 +126,32 @@
     </tbody>
   </table>
 </div>
-
+<div id="reportModal" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Ingresar Título y Descripción</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <div class="form-group">
+                  <label for="reportTitle">Título:</label>
+                  <input type="text" class="form-control" id="reportTitle">
+              </div>
+              <div class="form-group">
+                  <label for="reportDescription">Descripción:</label>
+                  <textarea class="form-control" id="reportDescription" rows="3"></textarea>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="button" class="btn btn-primary" id="generateReportBtn">Generar Reporte</button>
+          </div>
+      </div>
+  </div>
+</div>
   @stop
 
   @section('footer')
@@ -143,8 +171,47 @@
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+  <!-- botones -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+
   <script>
     $('#departamento').DataTable({
+      
+dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+        buttons: [
+            {
+                extend: 'collection',
+                className: 'custom-html-collection',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Departamentos',
+                        message: 'Imperio Informático\nReporte que muestra la cantidad de departamentos que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+
+                    },
+                    'csv',
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Tipos de Reporte',
+                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    'columnsToggle',
+                ],
+            },
+        ],
       responsive: true,
       autWidth: false,
 
