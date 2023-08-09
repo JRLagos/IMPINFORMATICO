@@ -25,7 +25,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+<!-- botones -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
+
 
 @section('content')
 <!-- Modal para agregar un nuevo producto -->
@@ -96,33 +100,44 @@
         </tbody>
     </table>
 </div>
-
-
-@extends('layouts.app')
+@endsection
 
 @section('content')
 <div class="container">
     <h1>Editar Tipo de Reporte</h1>
 
-    <form action="{{ route('Put-TiposReportes.update', $TipReportes['id']) }}" method="POST">
-        @csrf
-        @method('PUT')
-
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre del Tipo de Reporte</label>
-            <input type="text" class="form-control" id="nombre" name="PV_NOM_TIP_ESTADISTICA_REPORTE" value="{{ $reporte['NOM_TIP_REPORTE'] }}" required>
-        </div>
-        <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción del Tipo de Reporte</label>
-            <textarea class="form-control" id="descripcion" name="PV_DES_TIP_ESTADISTICA_REPORTE" rows="3" required>{{ $reporte['DES_TIP_REPORTE'] }}</textarea>
-        </div>
-        <!-- Agrega otros campos que deseas editar -->
-
         <button type="submit" class="btn btn-primary">Guardar Cambios</button>
     </form>
 </div>
 @endsection
-  
+@section('styles')
+<style>
+    div.dt-button-collection {
+        width: 400px;
+    }
+    div.dt-button-collection button.dt-button {
+        display: inline-block;
+        width: 32%;
+    }
+    div.dt-button-collection button.buttons-colvis {
+        display: inline-block;
+        width: 49%;
+    }
+    div.dt-button-collection h3 {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-weight: 100;
+        border-bottom: 1px solid rgba(150, 150, 150, 0.5);
+        font-size: 1em;
+        padding: 0 1em;
+    }
+    div.dt-button-collection h3.not-top-heading {
+        margin-top: 10px;
+    }
+    
+</style>
+@endsection
+
 @section('footer')
 <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.1.0
@@ -138,11 +153,58 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-<script>
-$('#codigotiporeporte').DataTable({
-    responsive: true,
-    autWidth: false,
+<!-- botones -->
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
 
+<script>
+   script: $('#codigotiporeporte').DataTable({
+    dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+        buttons: [
+            {
+                extend: 'collection',
+                className: 'custom-html-collection',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Tipos de Reportes',
+                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                       // customize: function(doc) {
+                            // Agregar tu logo al encabezado del PDF
+                        //    var logo = new Image();
+                        //    logo.src = 'COMPUTEREMPIRE.png';
+                        //    doc.content.splice(0, 0, {
+                        //        margin: [0, 0, 0, 12],
+                        //        alignment: 'center',
+                        //        image: logo,
+                         //       fit: [100, 100]
+                        //    });
+                        //}
+                    },
+                    'csv',
+                    {
+                        extend: 'excelHtml5',
+                        title: 'Tipos de Reporte',
+                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    'columnsToggle',
+                ],
+            },
+        ],
+        responsive: true,
+        autWidth: false,
     "language": {
         "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
         "zeroRecords": "Nada encontrado - disculpas",
@@ -165,6 +227,6 @@ $(document).ready(function() {
     $('.js-example-basic-single').select2({});
 });
 </script>
-
+;
 </script>
 @stop
