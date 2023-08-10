@@ -15,39 +15,84 @@ class AuthController extends Controller
     }
 
     public function SendLogin(Request $request){
+    // Obtener el valor actual del contador de intentos fallidos de la sesión
+    $intentosFallidos = $request->session()->get('intentos_fallidos', 0);
 
-       $usuario = $request->input('usuario');
-       $contrasena = $request->input('contrasena');
+    $usuario = $request->input('usuario');
+    $contrasena = $request->input('contrasena');
 
-       $url='http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
+    $urlParametros = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
+    $responseParametros = Http::get($urlParametros);
 
-       //
-
-       $response=Http::get($url);
     // Verificar si la respuesta tiene un código de estado 200 (OK)
-       if ($response->status() === 200) {
-        // Utilizar el método json() para obtener el contenido de la respuesta en formato JSON
-        $jsonContent = $response->json();
+    if ($responseParametros->status() === 200) {
+        $jsonContentParametros = $responseParametros->json();
 
-        // Verificar si el arreglo no está vacío
-        if (!empty($jsonContent)) {
+        // Buscar el valor del parámetro "ADMIN_INTENTOS_INVALIDOS"
+        $adminIntentosInvalidos = 0;
+        foreach ($jsonContentParametros as $parametro) {
+            if ($parametro['DES_PARAMETRO'] === 'ADMIN_INTENTOS_INVALIDOS') {
+                $adminIntentosInvalidos = (int)$parametro['DES_VALOR'];
+                break;
+            }
+        }
+
+        // Realizar la validación de inicio de sesión
+        $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
+        $responseUsuarios = Http::get($urlUsuarios);
+
+        if ($responseUsuarios->status() === 200) {
+            $jsonContentUsuarios = $responseUsuarios->json();
+            $credencialesCorrectas = false;
+
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
-            foreach ($jsonContent as $user) {
-                // Imprimir los datos del usuario en la consola o página web
-
+            foreach ($jsonContentUsuarios as $user) {
                 if ($user['NOM_USUARIO'] === $usuario && $user['CONTRASENA'] === $contrasena && $user['IND_USUARIO'] === 'ENABLED') {
-                    // Credenciales válidas, realizar acciones adicionales (por ejemplo, iniciar sesión)
+                    // Credenciales válidas, restablecer el contador de intentos fallidos
+                    $request->session()->forget('intentos_fallidos');
+                    $credencialesCorrectas = true;
                     $request->session()->put('usuario', $usuario);
                     return view('admin.admin');
                 }
             }
+
+            // Verificar si ambas credenciales son incorrectas
+            if (!$credencialesCorrectas) {
+                // Incrementar el contador de intentos fallidos en la sesión
+                $intentosFallidos++;
+                $request->session()->put('intentos_fallidos', $intentosFallidos);
+
+                // Verificar si se supera el límite de intentos fallidos
+                if ($intentosFallidos >= $adminIntentosInvalidos) {
+                    // Bloquear al usuario: Actualizar el estado del usuario a "DISABLED" en la base de datos
+                    $urlBloquearUsuario = 'http://localhost:3000/USUARIOS/';
+                    $dataBloquearUsuario = [
+                        "COD_ROL" => $user['COD_USUARIO'], // Utilizar el código de rol del usuario
+                        "NOM_USUARIO" => $user['NOM_USUARIO'],
+                        "CONTRASENA" => $user['CONTRASENA'], // Utilizar la contraseña del usuario
+                        "ESTADO" => "DISABLED",
+                        "PRE_CONTESTADAS" => 0,
+                        "COR_ELECTRONICO" => $user['EMAIL'] // Utilizar el correo electrónico del usuario
+                    ];
+                    
+                    $responseBloquearUsuario = Http::put($urlBloquearUsuario, $dataBloquearUsuario);
+
+                    
+                    if ($responseBloquearUsuario->status() === 200) {
+                        $intentosFallidos=0;
+                        $request->session()->put('intentos_fallidos', $intentosFallidos);
+                        return view('modseguridad.LoginBloqueado');
+                    }
+                }
+            }
         }
     }
-
-    // Credenciales inválidas, mostrar mensaje de error o redirigir a otra vista
-    return view('modseguridad.login');
     
-    }
+    // Mostrar mensaje o redirigir indicando que las credenciales son incorrectas
+    return view('modseguridad.LoginFallido');
+}
+
+
 
    
     //Preguntas y sus relacionados
@@ -63,7 +108,7 @@ class AuthController extends Controller
     //
     public function SendPreguntas(Request $request){
 
-        $correo = $request->input('correo');
+    $correo = $request->input('correo');
     $pregunta = $request->input('pregunta');
     $respuesta = $request->input('respuesta');
     
@@ -172,20 +217,20 @@ class AuthController extends Controller
 
     public function SendRegistro(Request $request){
 
-        $nombre = $request->input('nombre');
-        $apellido = $request->input('apellido');
-        $correo = $request->input('correo');
+        $nombre = strtoupper($request->input('nombre'));
+        $apellido = strtoupper($request->input('apellido'));
+        $correo = strtoupper($request->input('correo'));
         $contrasenia = $request->input('contrasenia');
-        $usuario = $request->input('usuario');
-        $dni = $request->input('dni');
-        $rtn = $request->input('rtn');
+        $usuario = strtoupper($request->input('usuario'));
+        $dni = strtoupper($request->input('dni'));
+        $rtn = strtoupper($request->input('rtn'));
         $tipoTelefono = $request->input('tipo_telefono');
         $numeroTelefono = $request->input('numero_telefono');
         $sexo = $request->input('sexo');
         $edad = $request->input('edad');
         $fechaNacimiento = $request->input('fecha_nacimiento');
-        $lugarNacimiento = $request->input('lugar_nacimiento');
-        $estadoCivil = $request->input('estado_civil');
+        $lugarNacimiento = strtoupper($request->input('lugar_nacimiento'));
+        $estadoCivil = strtoupper($request->input('estado_civil'));
         $peso = $request->input('peso');
         $estatura = $request->input('estatura');
     
