@@ -2,10 +2,11 @@
 
 
 namespace App\Http\Controllers\ModuloReportes;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\User;
+
 class ReportesController extends Controller
 {
     /**
@@ -15,11 +16,15 @@ class ReportesController extends Controller
     {
         $response = Http::get('http://localhost:3000/Reportes?accion=REPORTES');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response1 = Http::get('http://localhost:3000/Reportes?accion=TIPOS_REPORTES');
+        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
         $ResulReportes = json_decode($data, true);
-    
-        return view('modreportes.reportes')->with('ResulReportes', $ResulReportes);
+        $TipReportes  = json_decode($data1, true);
+       
+
+        return view('modreportes.reportes')->with('ResulTipReportes', $TipReportes)->with('ResulReportes', $ResulReportes);
     }
 
     /**
@@ -35,7 +40,35 @@ class ReportesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+                        // Obtener el nombre de usuario desde la variable de sesión
+                    $usuario = $request->session()->get('usuario');
+
+                    // Obtener todos los usuarios desde la API
+                    $url = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
+                    $response = Http::get($url);
+                    $jsonContent = $response->json();
+                    // Buscar el código de usuario correspondiente al nombre de usuario en $jsonContent
+                    $codigoUsuario = null;
+                    foreach ($jsonContent as $user) {
+                        if ($user['NOM_USUARIO'] === $usuario) {
+                            $codigoUsuario = $user['COD_USUARIO'];
+                            break;
+                        }
+                    }
+
+                    // Asignar el código de usuario a $Reportes
+                    $Reportes = $request->all();
+                    $Reportes['PB_COD_USUARIO'] = $codigoUsuario;
+
+                    // Guardar el valor de PB_COD_USUARIO en una variable de sesión
+                    $request->session()->put('PB_COD_USUARIO', $codigoUsuario);
+                    //dd('Datos a enviar a la API:', $Reportes);
+                    
+                    // Realizar la solicitud HTTP a la API externa
+                    $res = Http::post("http://localhost:3000/InsReportes/Reportes", $Reportes);
+                    return redirect()->route('Reportes.index');
+                    // Imprimir la respuesta de la API después de recibir la respuesta
+                    //dd('Respuesta de la API:', $res->json());
     }
 
     /**

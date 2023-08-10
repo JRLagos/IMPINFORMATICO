@@ -17,13 +17,13 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Admin</b>LTE</a>
+    <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO® </a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Inicia sesión para comenzar tu sesión</p>
-      <form action="{{ route('ModuloSeguridad.enviar') }}" method="post">
+      <form action="{{ route('ModuloSeguridad.entrar') }}" method="post">
         @csrf
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Usuario" name="usuario">

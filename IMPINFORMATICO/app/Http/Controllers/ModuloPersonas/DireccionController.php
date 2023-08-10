@@ -1,25 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\ModuloReportes;
+namespace App\Http\Controllers\ModuloPersonas;
+
+use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
-class TiposReportesController extends Controller
+class DireccionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/Reportes?accion=TIPOS_REPORTES');
+        $response = Http::get('http://localhost:3000/SHOW_DIRECCION/GETALL_DIRECCION');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $TipReportes  = json_decode($data, true);
+        $Direccion = json_decode($data, true);
     
-        return view('modreportes.tiporeportes')->with('ResulTipReportes', $TipReportes);
+        return view('modpersonas.direccion')->with('ResulDireccion', $Direccion);
     }
 
     /**
@@ -27,7 +28,7 @@ class TiposReportesController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -35,17 +36,7 @@ class TiposReportesController extends Controller
      */
     public function store(Request $request)
     {
-        // Validar los campos recibidos del formulario de creación
-        $request->validate([
-    
-        ]);
-
-        // Obtener los datos del formulario
-        $TipReportes = $request->all();
-        //dd('Datos a enviar a la API:', $TipReportes);
-        // Realizar la solicitud POST a la API para guardar el nuevo registro
-        $res = Http::post("http://localhost:3000/InsReportes/Tipos_Reportes", $TipReportes);
-        return redirect()->route('TiposReportes.index');
+        //
     }
 
     /**
@@ -61,6 +52,7 @@ class TiposReportesController extends Controller
      */
     public function edit(string $id)
     {
+        //
     }
 
     /**
@@ -68,8 +60,7 @@ class TiposReportesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Obtener los datos del formulario
-   
+        //
     }
 
     /**

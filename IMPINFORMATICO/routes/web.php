@@ -15,7 +15,7 @@ use App\Http\Controllers\ModuloPersonas\PersonaController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 use App\Http\Controllers\ModuloSeguridad\AuthController;
-
+use App\Http\Controllers\ModuloPersonas\DireccionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,20 +30,23 @@ use App\Http\Controllers\ModuloSeguridad\AuthController;
 Route::get('/', function () {
     return view('modseguridad.Login');
 })->name('Login');
-/*
-Route::get('/HoraExtra', function () {
-    return view('horaextra.index');
-});*/
+
+Route::get('/Dashboard', function () {
+    return view('admin.admin');
+})->name('Dashboard');
 
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
-Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.enviar');
+Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.entrar');
 
 //Preguntas
 Route::get('preguntas',[AuthController::class,'ShowPreguntas'])->name('ModuloSeguridad.Preguntas');
+Route::get('recuperar',[AuthController::class,'SendPreguntas'])->name('ModuloSeguridad.recuperar');
+Route::get('nuevacontrasena',[AuthController::class,'SendRecuperar'])->name('ModuloSeguridad.nueva');
+
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
-
+Route::post('guardar',[AuthController::class,'SendRegistro'])->name('ModuloSeguridad.enviar');
 
 // Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
@@ -60,6 +63,7 @@ Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-P
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
+Route::post('Post-Reportes', [ReportesController::class, 'store'])->name('Post-Reportes.store');
 
 //Reportes Generados
 Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
@@ -71,10 +75,10 @@ Route::post('Post-TiposReportes', [TiposReportesController::class, 'store'])->na
 //Reportes Guardados
 Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->name('ReportesGuardados.index');
 
-
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
+Route::post('Upt-Departamento', [DepartamentoController::class, 'update'])->name('Upt-Departamento.update');
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
@@ -87,6 +91,10 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
 
-// Persona
+// Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
 Route::post('Post-Persona',[PersonaController::class, 'store'])->name('Post-Persona.store');
+
+// Direcciones
+Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');
+
