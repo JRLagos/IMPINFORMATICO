@@ -317,8 +317,9 @@ return [
             'submenu' => [
                 [
                     'text' => 'Personas',
+                    'url'  => 'Persona',
                     'icon' => 'fas fa-fw fa-user-circle gns text-info',
-                    'url'  => '\\',
+
                 ], 
                 [
                     'text' => 'Empleados',
