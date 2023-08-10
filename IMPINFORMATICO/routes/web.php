@@ -35,12 +35,17 @@ Route::get('/Dashboard', function () {
 
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
-Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.enviar');
+Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.entrar');
 
 //Preguntas
 Route::get('preguntas',[AuthController::class,'ShowPreguntas'])->name('ModuloSeguridad.Preguntas');
+Route::get('recuperar',[AuthController::class,'SendPreguntas'])->name('ModuloSeguridad.recuperar');
+Route::get('nuevacontrasena',[AuthController::class,'SendRecuperar'])->name('ModuloSeguridad.nueva');
+
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
+Route::post('guardar',[AuthController::class,'SendRegistro'])->name('ModuloSeguridad.enviar');
+
 
 
 // Horas Extras
