@@ -19,6 +19,9 @@
   <div class="login-logo">
     <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO® </a>
   </div>
+        <div class="alert alert-danger" role="alert">
+            <strong>Error en el inicio de sesión. Usuario Bloqueado</strong>
+        </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
@@ -90,9 +93,5 @@
     });
   });
 </script>
-
-<!-- ... (resto del código) ... -->
-
-
 </body>
 </html>
