@@ -2,7 +2,6 @@
 
 
 namespace App\Http\Controllers\ModuloReportes;
-use Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -41,17 +40,35 @@ class ReportesController extends Controller
      */
     public function store(Request $request)
     {
-        $userId = Auth::id();
-        $Reportes = $request->all();
-        $Reportes['PB_COD_USUARIO'] = $userId;
-        // Imprimir los datos del reporte antes de enviarlos a la API
-        dd('Datos del Reporte:', $Reportes);
-    
-        // Realizar la solicitud HTTP a la API externa
-        $res = Http::post("http://localhost:3000/InsReportes/Reportes", $Reportes);
-    
-        // Imprimir la respuesta de la API después de recibir la respuesta
-        dd('Respuesta de la API:', $res->json());
+                        // Obtener el nombre de usuario desde la variable de sesión
+                    $usuario = $request->session()->get('usuario');
+
+                    // Obtener todos los usuarios desde la API
+                    $url = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
+                    $response = Http::get($url);
+                    $jsonContent = $response->json();
+                    // Buscar el código de usuario correspondiente al nombre de usuario en $jsonContent
+                    $codigoUsuario = null;
+                    foreach ($jsonContent as $user) {
+                        if ($user['NOM_USUARIO'] === $usuario) {
+                            $codigoUsuario = $user['COD_USUARIO'];
+                            break;
+                        }
+                    }
+
+                    // Asignar el código de usuario a $Reportes
+                    $Reportes = $request->all();
+                    $Reportes['PB_COD_USUARIO'] = $codigoUsuario;
+
+                    // Guardar el valor de PB_COD_USUARIO en una variable de sesión
+                    $request->session()->put('PB_COD_USUARIO', $codigoUsuario);
+                    //dd('Datos a enviar a la API:', $Reportes);
+                    
+                    // Realizar la solicitud HTTP a la API externa
+                    $res = Http::post("http://localhost:3000/InsReportes/Reportes", $Reportes);
+                    return redirect()->route('Reportes.index');
+                    // Imprimir la respuesta de la API después de recibir la respuesta
+                    //dd('Respuesta de la API:', $res->json());
     }
 
     /**

@@ -37,6 +37,7 @@ class AuthController extends Controller
 
                 if ($user['NOM_USUARIO'] === $usuario && $user['CONTRASENA'] === $contrasena && $user['IND_USUARIO'] === 'ENABLED') {
                     // Credenciales válidas, realizar acciones adicionales (por ejemplo, iniciar sesión)
+                    $request->session()->put('usuario', $usuario);
                     return view('admin.admin');
                 }
             }

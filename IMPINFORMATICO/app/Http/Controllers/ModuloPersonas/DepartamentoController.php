@@ -62,9 +62,13 @@ class DepartamentoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upt_departamento = Http::put('http://localhost::3000/UPD_DEPARTAMENTO/DEPARTAMENTO'.$request->input("COD_DEPARTAMENTO"),[
+            "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
+        ]);
+        
+        return redirect(route('Departamento.index'));
     }
 
     /**

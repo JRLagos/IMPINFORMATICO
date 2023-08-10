@@ -14,6 +14,7 @@ use App\Http\Controllers\ModuloPersonas\MunicipioController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 use App\Http\Controllers\ModuloSeguridad\AuthController;
+use App\Http\Controllers\ModuloPersonas\DireccionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -80,6 +81,7 @@ Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
+Route::post('Upt-Departamento', [DepartamentoController::class, 'update'])->name('Upt-Departamento.update');
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
@@ -91,3 +93,6 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+
+// Direcciones
+Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');
