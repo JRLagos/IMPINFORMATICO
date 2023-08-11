@@ -48,7 +48,7 @@
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Empleado</label>
                     <select class="form-select js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option disabled selected> Seleccionar Empleado</option>
+                    <option value="" selected disabled>Seleccionar Empleado</option>
                     @foreach ($ResulEmpleado as $Empleado)
                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                     @endforeach
