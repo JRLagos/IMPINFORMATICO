@@ -9,10 +9,15 @@ use Illuminate\Support\Facades\Http;
 class AuthController extends Controller
 {
     //Retorna la vista del inicio de sesión
-    public function ShowLogin(){
-        
-        return view('modseguridad.Login');
-    }
+    public function ShowLogin(){return view('modseguridad.Login');}
+    //
+    //Preguntas y sus relacionados
+    public function ShowPreguntas(){return view('modseguridad.preguntas');}
+    //
+    public function GuardarPreguntas(){return view('modseguridad.preguntas_usuario');}
+    //
+    public function ShowRecuperar(){return view('modseguridad.contrasena');}
+
 
     public function SendLogin(Request $request){
     // Obtener el valor actual del contador de intentos fallidos de la sesión
@@ -52,8 +57,20 @@ class AuthController extends Controller
                     $request->session()->forget('intentos_fallidos');
                     $credencialesCorrectas = true;
                     $request->session()->put('usuario', $usuario);
+                    $request->session()->put('credenciales', $user);
                     return view('admin.admin');
                 }
+
+                if ($user['NOM_USUARIO'] === $usuario && $user['CONTRASENA'] === $contrasena && $user['IND_USUARIO'] === 'NUEVO') {
+                    // Credenciales válidas, restablecer el contador de intentos fallidos
+                    $request->session()->forget('intentos_fallidos');
+                    $credencialesCorrectas = true;
+                    $request->session()->put('usuario', $usuario);
+                    $request->session()->put('credenciales', $user);
+                    return view('modseguridad.preguntas_usuario');
+                }
+
+
             }
 
             // Verificar si ambas credenciales son incorrectas
@@ -91,19 +108,6 @@ class AuthController extends Controller
     // Mostrar mensaje o redirigir indicando que las credenciales son incorrectas
     return view('modseguridad.LoginFallido');
 }
-
-
-
-   
-    //Preguntas y sus relacionados
-    public function ShowPreguntas(){
-        return view('modseguridad.preguntas');
-    }
-
-    //
-    public function ShowRecuperar(){
-        return view('modseguridad.contrasena');
-    }
 
     //
     public function SendPreguntas(Request $request){
@@ -163,8 +167,7 @@ class AuthController extends Controller
 }
     
     //
-    public function SendRecuperar(Request $request)
-{
+    public function SendRecuperar(Request $request){
     // Acceder a los datos del usuario desde la sesión
     $usuarioEncontrado = session('usuarioEncontrado');
 
@@ -185,7 +188,7 @@ class AuthController extends Controller
             "COD_ROL" => $usuarioEncontrado['COD_USUARIO'],
             "NOM_USUARIO" => $usuarioEncontrado['NOM_USUARIO'],
             "CONTRASENA" => $nuevaContrasenia,
-            "ESTADO" => $usuarioEncontrado['IND_USUARIO'],
+            "ESTADO" => "ENABLED",
             "PRE_CONTESTADAS" => $usuarioEncontrado['PRE_CONTESTADAS'],
             "COR_ELECTRONICO" => $usuarioEncontrado['EMAIL']
         ];
@@ -211,26 +214,24 @@ class AuthController extends Controller
 }
 
     //Registro y sus relacionados
-    public function ShowRegistro(){
-        return view('modseguridad.registro');
-    }
+    public function ShowRegistro(){return view('modseguridad.registro');}
 
     public function SendRegistro(Request $request){
 
-        $nombre = strtoupper($request->input('nombre'));
-        $apellido = strtoupper($request->input('apellido'));
-        $correo = strtoupper($request->input('correo'));
+        $nombre = $request->input('nombre');
+        $apellido = $request->input('apellido');
+        $correo = $request->input('correo');
         $contrasenia = $request->input('contrasenia');
         $usuario = strtoupper($request->input('usuario'));
-        $dni = strtoupper($request->input('dni'));
-        $rtn = strtoupper($request->input('rtn'));
+        $dni = $request->input('dni');
+        $rtn = $request->input('rtn');
         $tipoTelefono = $request->input('tipo_telefono');
         $numeroTelefono = $request->input('numero_telefono');
         $sexo = $request->input('sexo');
         $edad = $request->input('edad');
         $fechaNacimiento = $request->input('fecha_nacimiento');
-        $lugarNacimiento = strtoupper($request->input('lugar_nacimiento'));
-        $estadoCivil = strtoupper($request->input('estado_civil'));
+        $lugarNacimiento = $request->input('lugar_nacimiento');
+        $estadoCivil = $request->input('estado_civil');
         $peso = $request->input('peso');
         $estatura = $request->input('estatura');
     
@@ -244,7 +245,7 @@ class AuthController extends Controller
             "COD_ROL" => 1,
             "NOM_USUARIO" => $usuario,
             "CONTRASENA" => $contrasenia,
-            "IND_USUARIO" => "ENABLED",
+            "IND_USUARIO" => "NUEVO",
             "PRE_CONTESTADAS"=>3,
             "EMAIL" => $correo,
             "COD_USUARIO" => 1,
@@ -295,6 +296,86 @@ class AuthController extends Controller
             // Inserción fallida, redireccionar o mostrar mensaje de error
             return view('modseguridad.preguntas');
         }
+
+
+    }
+
+    public function SendPreguntasSecretas(Request $request){
+      
+        $credenciales = $request->session()->get('credenciales');
+
+        $pregunta = $request->input('pregunta');
+        $respuesta= $request->input('respuesta');
+        $contrasenaNueva= $request->input('nueva_contrasenia');
+
+        $urlPre = 'http://localhost:3000/INS_USUARIO/SEGURIDAD_PREGUNTAS_USUARIO';
+        $responsePre = Http::post($urlPre, [
+            "NOM_ROL" => null,
+            "DES_ROL" => null,
+            "COD_ROL" => null,
+            "NOM_USUARIO" => null,
+            "CONTRASENA" => null,
+            "IND_USUARIO" => null,
+            "PRE_CONTESTADAS"=>null,
+            "EMAIL" => null,
+            "COD_USUARIO" => $credenciales['COD_USUARIO'],
+            "CONTRASENA_HIST" => null,
+            "NOM_OBJETO" => null,
+            "DES_OBJETO" => null,
+            "TIP_OBJETO" => null,
+            "COD_OBJETO" => null,
+            "PER_INSERTAR" => null,
+            "PER_ELIMINAR" => null,
+            "PER_ACTUALIZAR" => null,
+            "PER_CONSULTAR" => null,
+            "DES_PARAMETRO" => null,
+            "DES_VALOR" => null,
+            "COD_PARAMETRO" => null,
+            "FEC_CREACION" => null,
+            "FEC_MODIFICACION" => null,
+            "DES_PREGUNTA" => null,
+            "COD_PREGUNTA" => $pregunta,
+            "DES_RESPUESTA" => $respuesta,
+            "NOM_PERSONA" => null,
+            "APE_PERSONA" => null,
+            "DNI_PERSONA" => null,
+            "RTN_PERSONA" => null,
+            "TIP_TELEFONO" => null,
+            "NUM_TELEFONO" => null,
+            "SEX_PERSONA" => null,
+            "EDAD_PERSONA" => null,
+            "FEC_NAC_PERSONA" => null,
+            "LUG_NAC_PERSONA" => null,
+            "IND_CIVIL" => null,
+            "PES_PERSONA" => null,
+            "EST_PERSONA" => null,
+            "FOTO_PERSONA" => null,
+            "CORREO_ELECTRONICO" => null,
+            "DES_CORREO" => null,
+            "NIV_ESTUDIO" => null,
+            "NOM_CENTRO_ESTUDIO" => null,
+            "COD_MUNICIPIO" => null,
+            "DES_DIRECCION" => null
+        ]);
+
+        $urlUp = 'http://localhost:3000/USUARIOS';
+        $responseUp = Http::put($urlUp,[
+            "COD_ROL" => $credenciales['COD_USUARIO'],
+            "NOM_USUARIO" => $credenciales['NOM_USUARIO'],
+            "CONTRASENA" => $contrasenaNueva,
+            "ESTADO"=>"ENABLED",
+            "PRE_CONTESTADAS" => $credenciales['PRE_CONTESTADAS'],
+            "COR_ELECTRONICO" => $credenciales['EMAIL']
+        ]);
+
+
+        if ($responsePre->status() === 200 && $responseUp->status() === 200) {
+            // Ambas solicitudes exitosas, redirigir a la vista deseada
+            return view('modseguridad.login');
+        }
+    
+        // Si alguna de las solicitudes falló, mostrar mensaje o redirigir a vista de fallo
+        return view('modseguridad.preguntas_usuario');
 
 
     }

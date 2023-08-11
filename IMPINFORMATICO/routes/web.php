@@ -43,6 +43,7 @@ Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.
 Route::get('preguntas',[AuthController::class,'ShowPreguntas'])->name('ModuloSeguridad.Preguntas');
 Route::get('recuperar',[AuthController::class,'SendPreguntas'])->name('ModuloSeguridad.recuperar');
 Route::get('nuevacontrasena',[AuthController::class,'SendRecuperar'])->name('ModuloSeguridad.nueva');
+Route::get('preguntasSeg',[AuthController::class,'SendPreguntasSecretas'])->name('ModuloSeguridad.preguntasSeg');
 
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
