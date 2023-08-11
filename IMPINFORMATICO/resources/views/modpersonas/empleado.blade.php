@@ -97,6 +97,7 @@
         <TH>Nombre Completo</TH>
         <th>Puesto Trabajo</th>
         <th>Tipo Contrato</th>
+        <th>Numero Seguro Social</th>
         <th>Sueldo Base</th>
         <th>Accion</th>
       </tr>
@@ -108,7 +109,8 @@
           <td>{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
           <td>{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
           <td>{{ $Empleado['TIP_CONTRATO'] }}</td>
-          <td>{{ $Empleado['SAL_BAS_EMPLEADO'] }}</td>
+          <td>{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
+          <td>{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
           <td>
             <a class="btn btn-warning" href="">
               <i class="fa fa-edit"></i>

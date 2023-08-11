@@ -14,7 +14,7 @@
 
 
 
-  <h1>Personas</h1>
+  <h1>Registro de Personas</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"> Agregar Persona</button>
 </div>
@@ -41,26 +41,25 @@
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar nueva persona</h4>
+                        <h4>Ingresar nuevo registro</h4>
 
                     <form action="{{route('Post-Persona.store')}}" method="post" class="was-validated">
                     @csrf
                     
-                 
 
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="NOM_PERSONA" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="NOM_PERSONA" required>                   
                     </div>
                      
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" name="APE_PERSONA" required>                   
+                    <input type="text" class="form-control alphanumeric-input"  name="APE_PERSONA" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">DNI</label>
-                    <input type="number" class="form-control" name="DNI_PERSONA" required>
+                    <input type="number" class="form-control" pattern="[0-9]{4}-[0-9]{4}-[0-9]{5}" id="dni" name="DNI_PERSONA" required>
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -72,28 +71,27 @@
                    <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
                    <select class="form-control" name="TIP_TELEFONO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="FIJO">FIJO</option>
-                   <option value="CELULAR">CELULAR</option>
+                   <option value="FIJO">Fijo</option>
+                   <option value="CELULAR">Celular</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Número Teléfono</label>
-                    <input type="number" class="form-control" name="NUM_TELEFONO" required>
+                    <input type="tel" class="form-control"  name="NUM_TELEFONO" required>
                     </div>
                     
-                    <div class="mb-3 mt-3">
+                   <div class="mb-3 mt-3">
                    <label for="SEX_PERSONA" class="form-label">Sexo Persona</label>
                    <select class="form-control" name="SEX_PERSONA" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="MASCULINO">MASCULINO</option>
-                   <option value="FEMENINO">FEMENINO</option>
+                   <option value="MASCULINO">Masculino</option>
+                   <option value="FEMENINO">Femenino</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
-                    
-                    
+                                      
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Edad Persona</label>
                     <input type="number" class="form-control" name="EDAD_PERSONA" required>
@@ -106,35 +104,21 @@
                     
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Lugar Nacimiento Persona</label>
-                    <input type="text" class="form-control" name="LUG_NAC_PERSONA" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="LUG_NAC_PERSONA" required>                   
                     </div>
                      
                   <div class="mb-3 mt-3">
-                   <label for="IND_CIVIL" class="form-label">ESTADO CIVIL</label>
+                   <label for="IND_CIVIL" class="form-label">Estado Civil</label>
                    <select class="form-control" name="IND_CIVIL" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="SOLTERO">SOLTERO</option>
-                   <option value="CASADO">CASADO</option>
-                   <option value="UNION LIBRE">UNION LIBRE</option>
-                   <option value="VIUDO">VIUDO</option>
+                   <option value="SOLTERO">Soltero</option>
+                   <option value="CASADO">Casado</option>
+                   <option value="UNION LIBRE">Unión Libre</option>
+                   <option value="VIUDO">Viudo</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
 
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Peso Persona</label>
-                    <input type="num" class="form-control" name="PES_PERSONA" required>                   
-                    </div>
-
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Estatura Persona</label>
-                    <input type="num" class="form-control" name="EST_PERSONA" required>                   
-                    </div>
-
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Foto Persona</label>
-                    <input type="text" class="form-control" name="FOTO_PERSONA" required>                   
-                    </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Correo Electronico</label>
@@ -143,23 +127,23 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripción Correo</label>
-                    <input type="text" class="form-control" name="DES_CORREO" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="DES_CORREO" required>                   
                     </div>
                      
                    <div class="mb-3 mt-3">
                    <label for="NIV_ESTUDIO" class="form-label">Nivel de Estudio</label>
                    <select class="form-control" name="NIV_ESTUDIO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="primaria">PRIMARIA</option>
-                   <option value="secundaria">SECUNDARIA</option>
-                   <option value="universitario">UNIVERSITARIO</option>
+                   <option value="primaria">Primaria</option>
+                   <option value="secundaria">Secundaria</option>
+                   <option value="universitario">Universitario</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre Centro de Estudio</label>
-                    <input type="text" class="form-control" name="NOM_CENTRO_ESTUDIO" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="NOM_CENTRO_ESTUDIO" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -174,7 +158,7 @@
                     
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Direccion</label>
-                    <input type="text" class="form-control" name="DES_DIRECCION" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="DES_DIRECCION" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -190,7 +174,7 @@
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Departamento Empresa</label>
                     <select class="form-control js-example-basic-single"  name="COD_DEPTO_EMPRESA" id="COD_DEPTO_EMPRESA">
-                    <option> Seleccionar Dpertamento Empresa </option>
+                    <option> Seleccionar Departamento Empresa </option>
                     @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                     <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
                     @endforeach
@@ -231,12 +215,12 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Número Seguro Social</label>
-                    <input type="num" class="form-control" name="NUM_SEG_SOCIAL" required>                   
+                    <input type="number" class="form-control" name="NUM_SEG_SOCIAL" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Salario Base Empleado</label>
-                    <input type="num" class="form-control" name="SAL_BAS_EMPLEADO" required>                   
+                    <input type="number" class="form-control" name="SAL_BAS_EMPLEADO" required>                   
                     </div>
                     
                     <div class="mb-3 mt-3">
@@ -246,12 +230,12 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripción Banco</label>
-                    <input type="text" class="form-control" name="DES_BANCO" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="DES_BANCO" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Número de Cuenta Banco</label>
-                    <input type="num" class="form-control" name="NUM_CTA_BANCO" required>                   
+                    <input type="number" class="form-control" name="NUM_CTA_BANCO" required>                   
                     </div>
 
                     </div>
@@ -280,7 +264,7 @@
         <th style="text-align: center;">DNI</th>
         <th style="text-align: center;">RTN</th>
         <th style="text-align: center;">ESTADO CIVIL</th>
-       <!-- <th>TIPO TELÉFONO</th> -->
+       <th style="text-align: center;">TIPO TELÉFONO</th> 
         <th style="text-align: center;">NÚMERO TELÉFONO</th>
         <th style="text-align: center;">SEXO</th>
         <th style="text-align: center;">EDAD</th>
@@ -298,7 +282,7 @@
           <td style="text-align: center;">{{ $Persona['DNI_PERSONA'] }}</td>
           <td style="text-align: center;">{{ $Persona['RTN_PERSONA'] }}</td>
           <td style="text-align: center;">{{ $Persona['IND_CIVIL'] }}</td>
-     <!-- <td>{{ $Persona['TIP_TELEFONO'] }}</td> -->
+          <td style="text-align: center;">{{ $Persona['TIP_TELEFONO'] }}</td> 
           <td style="text-align: center;">{{ $Persona['NUM_TELEFONO'] }}</td>
           <td style="text-align: center;">{{ $Persona['SEX_PERSONA'] }}</td>
           <td style="text-align: center;">{{ $Persona['EDAD_PERSONA'] }}</td>
@@ -342,7 +326,7 @@
 
       "language": {
               "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-              "zeroRecords": "Nada encontrado - disculpas",
+              "zeroRecords": "Nada encontrado - Disculpas",
               "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
               "infoFiltered": "(Filtrado de _MAX_ registros totales)",
@@ -362,7 +346,26 @@
     $(document).ready(function() {
       $('.js-example-basic-single').select2({});
   });
+  </script>
+     
+  </script>
+
+<script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
+
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
 </script>
 
-    </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stop
