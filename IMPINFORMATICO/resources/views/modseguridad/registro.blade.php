@@ -8,7 +8,7 @@
 <body>
     <div class="contenedor">
         <h1>Crear Cuenta</h1>
-        <form action="/guardar_persona" method="post">
+        <form action=" {{ route('ModuloSeguridad.enviar') }}" method="post">
             @csrf <!-- Token CSRF de Laravel para protección contra ataques Cross-Site Request Forgery -->
             <div class="form-group">
                 <label for="nombre">Nombre:</label>

@@ -8,9 +8,9 @@
 <body class="hold-transition login-page">
 <div class="contenedor">
     <h1 class="text-center">Recuperar Contraseña</h1>
-    <form action="/recuperar_contrasenia" method="post">
+    <form action="{{ route('ModuloSeguridad.recuperar')}}" method="get">
         <!-- Aquí puedes agregar el token CSRF si estás utilizando un framework como Laravel -->
-        <!-- @csrf -->
+        @csrf
 
         <!-- Campo para ingresar el correo electrónico -->
         <label for="correo" class="font-weight-bold">Correo Electrónico:</label>
