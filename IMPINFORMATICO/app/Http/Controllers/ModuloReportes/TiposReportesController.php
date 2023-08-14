@@ -42,6 +42,7 @@ class TiposReportesController extends Controller
 
         // Obtener los datos del formulario
         $TipReportes = $request->all();
+        //dd('Datos a enviar a la API:', $TipReportes);
         // Realizar la solicitud POST a la API para guardar el nuevo registro
         $res = Http::post("http://localhost:3000/InsReportes/Tipos_Reportes", $TipReportes);
         return redirect()->route('TiposReportes.index');
@@ -60,7 +61,6 @@ class TiposReportesController extends Controller
      */
     public function edit(string $id)
     {
-        //
     }
 
     /**
@@ -68,7 +68,8 @@ class TiposReportesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Obtener los datos del formulario
+   
     }
 
     /**

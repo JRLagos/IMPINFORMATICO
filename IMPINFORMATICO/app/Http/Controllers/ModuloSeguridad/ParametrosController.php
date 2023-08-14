@@ -1,26 +1,29 @@
 <?php
 
-namespace App\Http\Controllers\ModuloReportes;
+namespace App\Http\Controllers\ModuloSeguridad;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class EstadisticaController extends Controller
+class ParametrosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_ESTADISTICA/GET_ESTADISTICAS');
-        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response1 = Http::get('http://localhost:3000/SHOW_PARAMETROS/SEGURIDAD_PARAMETROS');
+        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response2 = Http::get('http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS');
+        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Estadistica = json_decode($data, true);
+        $Parametros = json_decode($data1, true);
+        $Usuarios = json_decode($data2, true);
     
-        return view('modreportes.estadistica')->with('ResulEstadistica', $Estadistica);
+        return view('modseguridad.parametros')->with('ResulParametros', $Parametros)->with('ResulUsuario', $Usuarios);
     }
 
     /**
@@ -30,13 +33,17 @@ class EstadisticaController extends Controller
     {
         //
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $Parametros = $request->all();
+
+        $res = Http::post("http://localhost:3000/INS_PARAMETROS/SEGURIDAD_PARAMETROS", $Parametros);
+
+        return redirect(route('Parametros.index'));
     }
 
     /**
@@ -50,15 +57,9 @@ class EstadisticaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit(string $id)
     {
-        $response = Http::get('http://localhost:3000/SHOW_ESTADISTICA/GET_TIPO_CONTRATO');
-        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-    
-        // Convierte los datos JSON a un array asociativo
-        $Sucursal = json_decode($data, true);
-    
-        return view('modreportes.estasucursal')->with('ResulSucursal', $Sucursal);
+        //
     }
 
     /**

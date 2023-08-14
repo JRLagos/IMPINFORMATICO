@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Direcciones')
+  @section('title', 'Roles')
 
   @section('content_header')
 
@@ -12,7 +12,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <h1>Direcciones</h1>
+
+  <h1>Roles</h1>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addRol" type="button"> Agregar Rol</button>
+</div>
   @stop
 
 
@@ -24,37 +28,17 @@
 
 
   @section('content')
+  @foreach ($ResulSucursal as $sucursal)
 
-   <!-- /.card-header -->
- <div class="table-responsive p-0">
- <br>
-  <table id="direccion" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
-    <tr> 
-        <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Nombre Completo</th>
-        <th style="text-align: center;">Municipio</th>
-        <th style="text-align: center;">Descripcion</th>
-        <th style="text-align: center;">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($ResulDireccion as $Direccion)
-        <tr>
-        <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Direccion['NOMBRE_COMPLETO'] }}</td>
-        <td style="text-align: center;">{{ $Direccion['NOM_MUNICIPIO'] }}</td>
-        <td style="text-align: center;">{{ $Direccion['DES_DIRECCION'] }}</td>
-        <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
+<div class="info-box">
+  <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text">Empleado por Contratos</span>
+    <span class="info-box-number">{{ $sucursal['TIP_CONTRATO'] }}</span>
+    <span class="info-box-number">{{ $sucursal['CANTIDAD_GENERO_EMPLEADOS'] }}</span>
+  </div>
 </div>
+@endforeach
 
   @stop
 
@@ -76,7 +60,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#direccion').DataTable({
+    $('#rol').DataTable({
       responsive: true,
       autWidth: false,
 
@@ -98,5 +82,29 @@
 
     </script>
 
+    <script>
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2({});
+  });
+</script>
+
     </script>
+
+
+    <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
+
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+</script>
     @stop

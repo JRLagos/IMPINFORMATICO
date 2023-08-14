@@ -11,9 +11,15 @@ use App\Http\Controllers\ModuloReportes\TiposReportesController;
 use App\Http\Controllers\ModuloReportes\ReportesGuardadosController;
 use App\Http\Controllers\ModuloPersonas\DepartamentoController;
 use App\Http\Controllers\ModuloPersonas\MunicipioController;
+use App\Http\Controllers\ModuloPersonas\PersonaController;
 use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 use App\Http\Controllers\ModuloSeguridad\AuthController;
+use App\Http\Controllers\ModuloPersonas\DireccionController;
+use App\Http\Controllers\ModuloSeguridad\RolesController;
+use App\Http\Controllers\ModuloSeguridad\ObjetosController;
+use App\Http\Controllers\ModuloSeguridad\PermisosController;
+use App\Http\Controllers\ModuloSeguridad\ParametrosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,13 +41,16 @@ Route::get('/Dashboard', function () {
 
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
-Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.enviar');
+Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.entrar');
 
 //Preguntas
 Route::get('preguntas',[AuthController::class,'ShowPreguntas'])->name('ModuloSeguridad.Preguntas');
+Route::get('recuperar',[AuthController::class,'SendPreguntas'])->name('ModuloSeguridad.recuperar');
+Route::get('nuevacontrasena',[AuthController::class,'SendRecuperar'])->name('ModuloSeguridad.nueva');
+
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
-
+Route::post('guardar',[AuthController::class,'SendRegistro'])->name('ModuloSeguridad.enviar');
 
 // Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
@@ -60,7 +69,6 @@ Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-P
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
 Route::post('Post-Reportes', [ReportesController::class, 'store'])->name('Post-Reportes.store');
 
-
 //Reportes Generados
 Route::get('ReportesGenerados', [ReportesGeneradosController::class, 'index'])->name('ReportesGenerados.index');
 
@@ -71,10 +79,10 @@ Route::post('Post-TiposReportes', [TiposReportesController::class, 'store'])->na
 //Reportes Guardados
 Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->name('ReportesGuardados.index');
 
-
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
+Route::post('Upt-Departamento', [DepartamentoController::class, 'update'])->name('Upt-Departamento.update');
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
@@ -86,3 +94,28 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+
+// Personas
+Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
+Route::post('Post-Persona',[PersonaController::class, 'store'])->name('Post-Persona.store');
+
+// Direcciones
+Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');
+
+// Roles
+Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
+Route::post('Post-Roles',[RolesController::class, 'store'])->name('Post-Roles.store');
+
+// Objetos
+Route::get('Objetos', [ObjetosController::class, 'index'])->name('Objetos.index');
+Route::post('Post-Objetos',[ObjetosController::class, 'store'])->name('Post-Objetos.store');
+
+// Permisos
+Route::get('Permisos', [PermisosController::class, 'index'])->name('Permisos.index');
+Route::post('Post-Permisos',[PermisosController::class, 'store'])->name('Post-Permisos.store');
+
+// Parametros
+Route::get('Parametros', [ParametrosController::class, 'index'])->name('Parametros.index');
+Route::post('Post-Parametros',[ParametrosController::class, 'store'])->name('Post-Parametro.store');
+
+Route::get('EstaSucursal', [EstadisticaController::class, 'edit'])->name('EstaSucursal.edit');

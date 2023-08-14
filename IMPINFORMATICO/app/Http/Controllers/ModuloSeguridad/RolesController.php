@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\ModuloPersonas;
+namespace App\Http\Controllers\ModuloSeguridad;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DepartamentoController extends Controller
+class RolesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_DEPARTAMENTO/GETALL_DEPARTAMENTO/2');
+        $response = Http::get('http://localhost:3000/SHOW_ROLES/SEGURIDAD_ROLES');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Departamento = json_decode($data, true);
+        $Roles = json_decode($data, true);
     
-        return view('modpersonas.departamento')->with('ResulDepartamento', $Departamento);
+        return view('modseguridad.roles')->with('ResulRoles', $Roles);
     }
 
     /**
@@ -36,11 +36,11 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        $Departamento = $request->all();
+        $Roles = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_DEPARTAMENTO/DEPARTAMENTO", $Departamento);
+        $res = Http::post("http://localhost:3000/INS_ROL/SEGURIDAD_ROLES", $Roles);
 
-        return redirect(route('Departamento.index'));
+        return redirect(route('Roles.index'));
     }
 
     /**
@@ -62,14 +62,9 @@ class DepartamentoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
-
+    public function update(Request $request, string $id)
     {
-        $upt_departamento = Http::put('http://localhost::3000/UPD_DEPARTAMENTO/DEPARTAMENTO'.$request->input("PI_COD_DEPARTAMENTO"),[
-            "PV_NOM_DEPARTAMENTO" => $request->input("PV_NOM_DEPARTAMENTO"),
-        ]);
-        
-        return redirect(route('Departamento.index')->with('agregado','El asiento fue agregado correctamente'));
+        //
     }
 
     /**

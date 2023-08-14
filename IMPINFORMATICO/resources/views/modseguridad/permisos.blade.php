@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Municipio')
+  @section('title', 'Permisos')
 
   @section('content_header')
 
@@ -13,9 +13,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-  <h1>Municipios</h1>
+  <h1>Permisos</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"> Agregar Municipio</button>
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"> Agregar Permiso</button>
 </div>
   @stop
 
@@ -30,35 +30,62 @@
   @section('content')
 
   <!-- Modal para agregar un nuevo producto -->
-  <div class="modal fade bd-example-modal-sm" id="addMunicipio" tabindex="-1">
+  <div class="modal fade bd-example-modal-sm" id="addPermiso" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
 
 
                     <div class="modal-header">
-                    <h3>Municipio</h3>
+                    <h3>Objetos</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Municipio</h4>
+                        <h4>Ingresar Objeto</h4>
 
-                    <form action="{{route('Post-Municipio.store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-Permisos.store')}}" method="post" class="was-validated">
                     @csrf
                     
-                
-                        <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Departamento</label>
-                    <select class="form-control js-example-basic-single"  name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO">
-                    <option> Seleccionar Departamento </option>
-                    @foreach ($ResulDepartamento as $Departamento)
-                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">{{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Roles</label>
+                    <select class="form-select js-example-basic-single"  name="COD_ROL" id="COD_ROL">
+                    <option value="" selected disabled>Seleccionar Rol</option>
+                    @foreach ($ResulRoles as $Roles)
+                    <option value="{{ $Roles['COD_ROL'] }}">{{ $Roles['NOM_ROL'] }}</option>
+                    @endforeach
+                    </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Objetos</label>
+                    <select class="form-select js-example-basic-single"  name="COD_OBJETO" id="COD_OBJETO">
+                    <option value="" selected disabled>Seleccionar Objeto</option>
+                    @foreach ($ResulObjetos as $Objeto)
+                    <option value="{{ $Objeto['COD_OBJETO'] }}">{{ $Objeto['NOM_OBJETO'] }}</option>
                     @endforeach
                     </select>
                     </div>
 
                         <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Nombre Municipio</label>
-                    <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" name="NOM_MUNICIPIO" required minlength="4" maxlength="20"/>
+                    <label for="dni" class="form-label">Permiso Instalar</label>
+                    <input type="text" class="form-control" name="PER_INSERTAR" required minlength="1" maxlength="1"/>
+                    <span class="validity"></span>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Permiso Eliminar</label>
+                    <input type="text" class="form-control"  name="PER_ELIMINAR" required minlength="1" maxlength="1"/>
+                    <span class="validity"></span>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Permiso Actualizar</label>
+                    <input type="text" class="form-control"  name="PER_ACTUALIZAR" required minlength="1" maxlength="1"/>
+                    <span class="validity"></span>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Permiso Consultar</label>
+                    <input type="text" class="form-control" name="PER_CONSULTAR" required minlength="1" maxlength="1"/>
                     <span class="validity"></span>
                     </div>
 
@@ -78,21 +105,29 @@
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
-  <table id="municipio" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="permisos" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
         <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Municipio</th>
-        <th style="text-align: center;">Departamento</th>
+        <th style="text-align: center;">Rol</th>
+        <th style="text-align: center;">Objeto</th>
+        <th style="text-align: center;">Insertar</th>
+        <th style="text-align: center;">Eliminar</th>
+        <th style="text-align: center;">Actualizar</th>
+        <th style="text-align: center;">Consultar</th>
         <th style="text-align: center;">Accion</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulMunicipio as $Municipio)
+      @foreach ($ResulPermisos as $Permisos)
         <tr>
         <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
-        <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
+        <td style="text-align: center;">{{ $Permisos['NOM_ROL'] }}</td>
+        <td style="text-align: center;">{{ $Permisos['NOM_OBJETO'] }}</td>
+        <td style="text-align: center;">{{ $Permisos['PER_INSERTAR'] }}</td>
+        <td style="text-align: center;">{{ $Permisos['PER_ELIMINAR'] }}</td>
+        <td style="text-align: center;">{{ $Permisos['PER_ACTUALIZAR'] }}</td>
+        <td style="text-align: center;">{{ $Permisos['PER_CONSULTAR'] }}</td>
         <td style="text-align: center;">
             <a class="btn btn-warning" href="">
               <i class="fa fa-edit"></i>
@@ -124,7 +159,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#municipio').DataTable({
+    $('#permisos').DataTable({
       responsive: true,
       autWidth: false,
 
