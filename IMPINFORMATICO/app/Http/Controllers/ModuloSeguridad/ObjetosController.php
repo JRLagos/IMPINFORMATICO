@@ -1,26 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\ModuloReportes;
+namespace App\Http\Controllers\ModuloSeguridad;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class EstadisticaController extends Controller
+class ObjetosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_ESTADISTICA/GET_ESTADISTICAS');
+        $response = Http::get('http://localhost:3000/SHOW_OBJETOS/SEGURIDAD_OBJETOS');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Estadistica = json_decode($data, true);
+        $Objetos = json_decode($data, true);
     
-        return view('modreportes.estadistica')->with('ResulEstadistica', $Estadistica);
+        return view('modseguridad.objetos')->with('ResulObjetos', $Objetos);
     }
 
     /**
@@ -30,13 +30,17 @@ class EstadisticaController extends Controller
     {
         //
     }
-
+    
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $Roles = $request->all();
+
+        $res = Http::post("http://localhost:3000/INS_OBJETO/SEGURIDAD_OBJETOS", $Roles);
+
+        return redirect(route('Objetos.index'));
     }
 
     /**
@@ -50,15 +54,9 @@ class EstadisticaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit()
+    public function edit(string $id)
     {
-        $response = Http::get('http://localhost:3000/SHOW_ESTADISTICA/GET_TIPO_CONTRATO');
-        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-    
-        // Convierte los datos JSON a un array asociativo
-        $Sucursal = json_decode($data, true);
-    
-        return view('modreportes.estasucursal')->with('ResulSucursal', $Sucursal);
+        //
     }
 
     /**
