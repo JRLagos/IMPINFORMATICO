@@ -40,10 +40,14 @@ Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.
 Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.entrar');
 
 //Preguntas
+Route::get('menurecuperar',[AuthController::class,'ShowMenuRecuperar'])->name('ModuloSeguridad.reMenu');
+Route::get('contrasenaCorreo',[AuthController::class,'SendPreguntasContra'])->name('ModuloSeguridad.seCorreo');
 Route::get('preguntas',[AuthController::class,'ShowPreguntas'])->name('ModuloSeguridad.Preguntas');
 Route::get('recuperar',[AuthController::class,'SendPreguntas'])->name('ModuloSeguridad.recuperar');
 Route::get('nuevacontrasena',[AuthController::class,'SendRecuperar'])->name('ModuloSeguridad.nueva');
 Route::get('preguntasSeg',[AuthController::class,'SendPreguntasSecretas'])->name('ModuloSeguridad.preguntasSeg');
+Route::get('correoCon',[AuthController::class,'ShowCorreoContrasena'])->name('ModuloSeguridad.ConCorreo');
+Route::get('emailCon',[AuthController::class,'SendCorreoContra'])->name('ModuloSeguridad.emailEnviarCon');
 
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
