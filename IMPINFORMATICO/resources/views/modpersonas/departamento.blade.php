@@ -61,65 +61,58 @@
         </div>
     </div>
 
-    @foreach ($ResulDepartamento as $Departamento)
-     <!-- Modal para agregar un nuevo producto -->
-     <div class="modal fade bd-example-modal-sm" id="uptDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-                    <div class="modal-header">
-                    <h3>Departamento</h3>
-                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">  
-                        <h4>Actualizar Departamento</h4>
-                        <form action="{{route('Upt-Departamento.update')}}" method="post" class="was-validated">
-                    @csrf
-                    
-                    <input type="hidden" class="form-control" id="COD_DEPARTAMENTO" name="COD_DEPARTAMENTO"  value="{{$Departamento['COD_DEPARTAMENTO']}}" required>
-
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Nombre Departamento</label>
-                    <input type="text" class="form-control" pattern="[A-Za-z].{3,}"id="NOM_DEPARTAMENTO" name="NOM_DEPARTAMENTO" value="{{$Departamento['NOM_DEPARTAMENTO']}}" required>                   
-                    </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
-                    </div>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
   <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
-    <tr> 
-        <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Departamento</th>
-        <th style="text-align: center;">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-        <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Departamento['NOM_DEPARTAMENTO'] }}</td>
-        <td style="text-align: center;">
-            <a class="btn btn-warning me-md-2" data-bs-toggle="modal" data-bs-target="#uptDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+    <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Accion</th>
+    </tr>
+        </thead>
+        <tbody>
+            @foreach($ResulDepartamento as $Departamento)
+                <tr>
+                <td>{{ $loop->iteration }}</td>
+                    <td>{{$Departamento['NOM_DEPARTAMENTO']}}</td>
+                    <td>
+                        <button value="Editar" title="Editar" class="btn btn-outline-info" type="button" data-toggle="modal" data-target="#Departamento-edit-{{$Departamento['COD_DEPARTAMENTO']}}">
+                            <i class='fas fa-edit' style='font-size:13px;color:Orange'></i> Editar
+                        </button>
+                    </td>
+                </tr>
+                <!-- Modal for editing goes here -->
+                <div class="modal fade bd-example-modal-sm" id="Departamento-edit-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Departamento</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>Ingresar nuevos datos</p>
+                                <form action="{{route('Upt-Departamento.update')}}" method="post">
+                                    @csrf
+                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO" value="{{$Departamento['COD_DEPARTAMENTO']}}">
+                                        <div class="mb-3">
+                                        <label for="dni" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="NOM_DEPARTAMENTO" name="NOM_DEPARTAMENTO"  value="{{$Departamento['NOM_DEPARTAMENTO']}}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <button type="submit" class="btn btn-primary">Editar</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </tbody>
+    </table>
 
   @stop
 
