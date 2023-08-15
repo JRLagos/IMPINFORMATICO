@@ -65,8 +65,8 @@ class DepartamentoController extends Controller
     public function update(Request $request)
 
     {
-        $upt_departamento = Http::put('http://localhost::3000/UPD_DEPARTAMENTO/DEPARTAMENTO'.$request->input("PI_COD_DEPARTAMENTO"),[
-            "PV_NOM_DEPARTAMENTO" => $request->input("PV_NOM_DEPARTAMENTO"),
+        $upt_departamento = Http::put('http://localhost::3000/UPT_DEPARTAMENTO/'.$request->input("COD_DEPARTAMENTO"),[
+            "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
         ]);
         
         return redirect(route('Departamento.index')->with('agregado','El asiento fue agregado correctamente'));

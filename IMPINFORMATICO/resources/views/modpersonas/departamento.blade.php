@@ -61,13 +61,11 @@
         </div>
     </div>
 
-
+    @foreach ($ResulDepartamento as $Departamento)
      <!-- Modal para agregar un nuevo producto -->
-  <div class="modal fade bd-example-modal-sm" id="uptDepartamento" tabindex="-1" >
+     <div class="modal fade bd-example-modal-sm" id="uptDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
-
                     <div class="modal-header">
                     <h3>Departamento</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
@@ -77,11 +75,11 @@
                         <form action="{{route('Upt-Departamento.update')}}" method="post" class="was-validated">
                     @csrf
                     
-                    <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"  require>
+                    <input type="hidden" class="form-control" id="COD_DEPARTAMENTO" name="COD_DEPARTAMENTO"  value="{{$Departamento['COD_DEPARTAMENTO']}}" required>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre Departamento</label>
-                    <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="NOM_DEPARTAMENTO" required>                   
+                    <input type="text" class="form-control" pattern="[A-Za-z].{3,}"id="NOM_DEPARTAMENTO" name="NOM_DEPARTAMENTO" value="{{$Departamento['NOM_DEPARTAMENTO']}}" required>                   
                     </div>
 
                     </div>
@@ -109,12 +107,11 @@
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulDepartamento as $Departamento)
         <tr>
         <td style="text-align: center;">{{ $loop->iteration }}</td>
         <td style="text-align: center;">{{ $Departamento['NOM_DEPARTAMENTO'] }}</td>
         <td style="text-align: center;">
-            <a class="btn btn-warning me-md-2" data-bs-toggle="modal" data-bs-target="#uptDepartamento">
+            <a class="btn btn-warning me-md-2" data-bs-toggle="modal" data-bs-target="#uptDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}">
               <i class="fa fa-edit"></i>
             </a>
           </td>
