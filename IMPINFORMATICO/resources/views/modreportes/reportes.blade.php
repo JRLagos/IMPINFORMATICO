@@ -157,9 +157,6 @@
                 <th class="text-align: center;">TITULO DEL REPORTE</th>
                 <th class="text-align: center;">DESCRIPCION</th>
                 <th class="text-align: center;">FORMATO</th>
-                <th class="text-align: center;">EMAIL</th>
-                <th class="text-align: center;">URL</th>
-                <th class="text-align: center;">FRECUENCIA</th>
                 <th class="text-align: center;">ESTADO</th>
                 <th class="text-align: center;">ACCION</th>
             </tr>
@@ -173,9 +170,7 @@
                 <td>{{ $Reportes['TIT_REPORTE'] }}</td>
                 <td class="text-nowrap">{{ $Reportes['DES_REPORTE'] }}</td>
                 <td>{{ $Reportes['FOR_REPORTE'] }}</td>
-                <td>{{ $Reportes['EMAIL'] }}</td>
-                <td>{{ $Reportes['URL_ARCHIVO'] }}</td>
-                <td>{{ $Reportes['FRE_REPORTE'] }}</td>
+
                 <td class="text-center">
                     @if ($Reportes['IND_REPORTE'] =="DISABLED")
                     <span class="badge bg-danger">DISABLED</span>
@@ -195,10 +190,7 @@
         </tbody>
     </table>
 </div>
-</div>
-</div>
 
-@stop
 
 <div class="modal" id="updreporte" role="dialog">
     <div class="modal-dialog">
@@ -254,13 +246,13 @@
     </div>
 </div>
 </div>
-@section('footer')
+@endsection
 
+@section('footer')
 <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.1.0
 </div>
 <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
-
 @stop
 
 @section('js')
