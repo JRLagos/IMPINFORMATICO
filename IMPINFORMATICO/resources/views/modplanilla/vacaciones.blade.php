@@ -56,11 +56,6 @@
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_ACU" required>
-                    <span class="validity"></span>
-
-                    <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Usadas</label>
                     <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA" required>
                     <span class="validity"></span>
@@ -68,8 +63,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                      <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                      <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                     </div>
                     </form>
 
@@ -138,7 +133,7 @@
 
       "language": {
               "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-              "zeroRecords": "Nada encontrado - disculpas",
+              "zeroRecords": "Nada Encontrado - ¡Disculpas!",
               "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
               "infoFiltered": "(Filtrado de _MAX_ registros totales)",

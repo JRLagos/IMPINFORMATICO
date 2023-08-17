@@ -55,7 +55,7 @@ Route::post('guardar',[AuthController::class,'SendRegistro'])->name('ModuloSegur
 // Horas Extras
 Route::get('HoraExtra',[HoraExtraController::class, 'index'])->name('HoraExtra.index');
 Route::post('Post-HoraExtra',[HoraExtraController::class, 'store'])->name('Post-HoraExtra.store');
-Route::put('/Upt-HoraExtra/{id}',[HoraExtraController::class, 'update'])->name('Upt-HoraExtra.update');
+Route::post('/Upt-HoraExtra',[HoraExtraController::class, 'update'])->name('Upt-HoraExtra.update');
 
 // Vacaciones
 Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacaciones.index');

@@ -64,8 +64,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                      <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                      <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                     </div>
                     </form>
 
@@ -92,8 +92,6 @@
         <th>AGUINALDO</th>
         <th>IHSS</th>
         <th>SALARIO NETO</th>
-        <th>RAS IHSS</th>
-        <th>RPS IHSS</th>
         <th>ACCION</th>
       </tr>
     </thead>
@@ -111,8 +109,6 @@
         <td>{{ $Planilla['AGUINALDO'] }}</td>
         <td>{{ $Planilla['IHSS'] }}</td>
         <td>{{ number_format($Planilla['SALARIO_NETO'], 2, '.', ',') }}</td>
-        <td>{{ $Planilla['RAS_IHSS'] }}</td>
-        <td>{{ $Planilla['RPS_IHSS'] }}</td>
         <td>
           <a class="btn btn-warning" href="">
             <i class="fa fa-edit"></i>
@@ -150,7 +146,7 @@
 
       "language": {
               "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-              "zeroRecords": "Nada encontrado - disculpas",
+              "zeroRecords": "Nada Encontrado - ¡Disculpas!",
               "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
               "infoFiltered": "(Filtrado de _MAX_ registros totales)",
