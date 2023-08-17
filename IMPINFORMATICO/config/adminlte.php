@@ -437,6 +437,11 @@ return [
                     'icon' => 'fa fa-fw fa-th-list gns text-info',
                     'url'  => 'ReportesGenerados',
                 ], 
+                [
+                    'text' => 'Reportes Vista',
+                    'icon' => 'fa fa-fw fa-th-list gns text-info',
+                    'url'  => 'reportevista',
+                ], 
                 
             ],
         ],

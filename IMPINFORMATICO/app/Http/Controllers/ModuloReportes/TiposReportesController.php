@@ -34,14 +34,36 @@ class TiposReportesController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
+    {   
+        $usuario = $request->session()->get('usuario');
+
+                    // Obtener todos los usuarios desde la API
+                    $url = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
+                    $response = Http::get($url);
+                    $jsonContent = $response->json();
+                    // Buscar el código de usuario correspondiente al nombre de usuario en $jsonContent
+                    $codigoUsuario = null;
+                    foreach ($jsonContent as $user) {
+                        if ($user['NOM_USUARIO'] === $usuario) {
+                            $codigoUsuario = $user['COD_USUARIO'];
+                            break;
+                        }
+                    }
+
+                    // Asignar el código de usuario a $Reportes
+                    $TipReportes = $request->all();
+                    $TipReportes['PB_COD_USUARIO'] = $codigoUsuario;
+
+                    // Guardar el valor de PB_COD_USUARIO en una variable de sesión
+                    $request->session()->put('PB_COD_USUARIO', $codigoUsuario);
+                    dd('Datos a enviar a la API:', $Reportes);
         // Validar los campos recibidos del formulario de creación
         $request->validate([
     
         ]);
 
         // Obtener los datos del formulario
-        $TipReportes = $request->all();
+       
         //dd('Datos a enviar a la API:', $TipReportes);
         // Realizar la solicitud POST a la API para guardar el nuevo registro
         $res = Http::post("http://localhost:3000/InsReportes/Tipos_Reportes", $TipReportes);
