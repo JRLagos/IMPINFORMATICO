@@ -24,6 +24,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
     @endsection
 
 
@@ -132,28 +135,167 @@
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+   <!-- botones -->
+   <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+   <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+   <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+   <style>
+       .btn-group>.btn {
+           font-size: 12px;
+           padding: 6px 12px;
+       }
+   </style>
+   <style>
+       div.dt-button-collection {
+           width: 600px;
+       }
+
+       div.dt-button-collection button.dt-button {
+           display: inline-block;
+           width: 32%;
+       }
+
+       div.dt-button-collection button.buttons-colvis {
+           display: inline-block;
+           width: 49%;
+       }
+
+       div.dt-button-collection h3 {
+           margin-top: 5px;
+           margin-bottom: 5px;
+           font-weight: 100;
+           border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+           font-size: 1em;
+           padding: 0 1em;
+       }
+
+       div.dt-button-collection h3.not-top-heading {
+           margin-top: 10px;
+       }
+   </style>
+
   <script>
-    $('#planilla').DataTable({
-      responsive: true,
-      autWidth: false,
+        $(document).ready(function() {
+            var table = $('#planilla').DataTable({
+                responsive: true,
+        autWidth: false,
+        language: {
+            lengthMenu: "Mostrar _MENU_ Registros Por Página",
+            zeroRecords: "Nada Encontrado - ¡Disculpas!",
+            info: "Página _PAGE_ de _PAGES_",
+            infoEmpty: "No hay registros disponibles",
+            infoFiltered: "(Filtrado de _MAX_ registros totales)",
+            search: "Buscar:",
+            paginate: {
+                next: "Siguiente",
+                previous: "Anterior"
+            }
+        },
 
-      "language": {
-              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-              "zeroRecords": "Nada Encontrado - ¡Disculpas!",
-              "info": "Pagina _PAGE_ de _PAGES_",
-              "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+        dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+        buttons: [{
+            extend: 'collection',
+            className: 'custom-html-collection',
+            text: 'Opciones',
+            buttons: [{
+                    extend: 'pdf',
+                    title: 'IMPINFORMATICO | Planilla',
+                    orientation: 'landscape',
+                    customize: function(doc) {
+                        var now = obtenerFechaHora();
+                        var titulo = "Reporte de Planilla ";
+                        var descripcion =
+                            "Descripción del reporte: Planilla de los empleados";
 
-              'search' : 'Buscar:',
-              'paginate' : {
-                'next': 'Siguiente',
-                'previous' : 'Anterior'
-              }
+                        doc['header'] = function(currentPage, pageCount) {
+                            return {
+                                text: titulo,
+                                fontSize: 14,
+                                alignment: 'center',
+                                margin: [0, 10]
+                            };
+                        };
 
-          }
+                        doc['footer'] = function(currentPage, pageCount) {
+                            return {
+                                columns: [{
+                                        text: 'Imperio Informatico',
+                                        alignment: 'left',
+                                        margin: [10, 10]
+                                    },
+                                    {
+                                        text: 'Fecha y Hora: ' + now,
+                                        alignment: 'right',
+                                        margin: [10, 10]
+                                    }
+                                ],
+                                margin: [10, 0]
+                            };
+                        };
+                        doc.contentMargins = [10, 10, 10, 10]; // Ajusta el margen de la tabla aquí
+                        doc.content.unshift({
+                            text: descripcion,
+                            alignment: 'left',
+                            margin: [10, 0, 10, 10]
+                        });
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    action: function (e, dt, node, config) {
+                        // Ocultar la columna número 12
+                        table.column(3).visible(false);
+                        // Imprimir
+                        $.fn.dataTable.ext.buttons.print.action(e, dt, node, config);
+                        // Restablecer la visibilidad de la columna después de imprimir
+                        table.column(3).visible(true);
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: 'Planilla IMPINFORMATICO',
+                    messageTop: 'Reporte de planilla con todos los empleados',
+                    customize: function(xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        $('row:first c', sheet).attr('s', '7');
+                    }
+                }
+            ]
+        },
+        {
+            extend: 'colvis',
+            text: 'Columnas visibles' // Botón de columnas visibles
+        }]
     });
 
+    // Mover los botones de exportación al contenedor adecuado
+    table.buttons().container()
+        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+});
+
+function obtenerFechaHora() {
+    var now = new Date();
+    var options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false
+    };
+    return now.toLocaleDateString('es-ES', options);
+}
+
     </script>
+
 
     <script>
     $(document).ready(function() {
