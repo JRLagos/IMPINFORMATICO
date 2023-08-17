@@ -180,90 +180,96 @@
         }
     </style>
     <script>
-      $(document).ready(function() {
-    var table = $('#departamento').DataTable({
-        dom: '<"top"Bl>frt<"bottom"ip><"clear">',
-        buttons: [{
-            extend: 'collection',
-            className: 'custom-html-collection',
-            text: 'Opciones', // Cambia el texto de la colección de botones
-            buttons: [
-                {
-                    extend: 'pdf',
-                    title: 'Reporte de Departamento',
-                    customize: function(doc) {
-                        var now = obtenerFechaHora();
-                        var titulo = "Título del Reporte";
-                        var descripcion = "Descripción del reporte: Agrega aquí tu descripción.";
+        $(document).ready(function() {
+            var table = $('#departamento').DataTable({
+                dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+                buttons: [{
+                    extend: 'collection',
+                    className: 'custom-html-collection',
+                    text: 'Opciones', // Cambia el texto de la colección de botones
+                    buttons: [{
+                            extend: 'pdf',
+                            title: 'IMPINFORMATICO | Departamentos',
+                            customize: function(doc) {
+                                var now = obtenerFechaHora();
+                                var titulo = "Reporte de Departamentos";
+                                var descripcion =
+                                    "Descripción del reporte: Departamentos del pais";
 
-                        // Encabezado
-                        doc['header'] = function(currentPage, pageCount) {
-                            return {
-                                text: titulo,
-                                fontSize: 18,
-                                alignment: 'center',
-                                margin: [0, 10]
-                            };
-                        };
+                                // Encabezado
+                                doc['header'] = function(currentPage, pageCount) {
+                                    return {
+                                        text: titulo,
+                                        fontSize: 14,
+                                        alignment: 'center',
+                                        margin: [0, 10]
+                                    };
+                                };
 
-                        // Pie de Página
-                        doc['footer'] = function(currentPage, pageCount) {
-                            return {
-                                columns: [
-                                    {
-                                        text: 'imperioinformatico',
-                                        alignment: 'left',
-                                        margin: [10, 10]
-                                    },
-                                    {
-                                        text: 'Fecha y Hora: ' + now,
-                                        alignment: 'right',
-                                        margin: [10, 10]
-                                    }
-                                ],
-                                margin: [10, 0]
-                            };
-                        };
+                                // Pie de Página
+                                doc['footer'] = function(currentPage, pageCount) {
+                                    return {
+                                        columns: [{
+                                                text: 'imperioinformatico',
+                                                alignment: 'left',
+                                                margin: [10, 10]
+                                            },
+                                            {
+                                                text: 'Fecha y Hora: ' + now,
+                                                alignment: 'right',
+                                                margin: [10, 10]
+                                            }
+                                        ],
+                                        margin: [10, 0]
+                                    };
+                                };
 
-                        // Contenido
-                        doc.content.unshift({
-                            text: descripcion,
-                            alignment: 'left',
-                            margin: [10, 0, 10, 10]
-                        });
+                                // Contenido
+                                doc.content.unshift({
+                                    text: descripcion,
+                                    alignment: 'left',
+                                    margin: [10, 0, 10, 10]
+                                });
+                            }
+                        },
+                        'csv',
+                        'excel',
+                        'columnsToggle'
+                    ],
+                }],
+                responsive: true,
+                autoWidth: false,
+                language: {
+                    lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                    zeroRecords: "Nada encontrado - disculpas",
+                    info: "Página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    search: 'Buscar:',
+                    paginate: {
+                        next: 'Siguiente',
+                        previous: 'Anterior'
                     }
-                },
-                'csv',
-                'excel',
-                'columnsToggle'
-            ],
-        }],
-        responsive: true,
-        autoWidth: false,
-        language: {
-            lengthMenu: "Mostrar _MENU_ Registros Por Página",
-            zeroRecords: "Nada encontrado - disculpas",
-            info: "Página _PAGE_ de _PAGES_",
-            infoEmpty: "No hay registros disponibles",
-            infoFiltered: "(Filtrado de _MAX_ registros totales)",
-            search: 'Buscar:',
-            paginate: {
-                next: 'Siguiente',
-                previous: 'Anterior'
-            }
+                }
+            });
+
+            table.buttons().container()
+                .appendTo('#departamento_wrapper .col-md-6:eq(0)');
+        });
+
+        function obtenerFechaHora() {
+            var now = new Date();
+            var options = {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: false
+            };
+            return now.toLocaleDateString('es-ES', options);
         }
-    });
-
-    table.buttons().container()
-        .appendTo('#departamento_wrapper .col-md-6:eq(0)');
-});
-
-function obtenerFechaHora() {
-    var now = new Date();
-    var options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false };
-    return now.toLocaleDateString('es-ES', options);
-}
-
     </script>
 
     </script>
