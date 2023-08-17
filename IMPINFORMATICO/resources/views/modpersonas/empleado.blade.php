@@ -14,7 +14,7 @@
 
 
 
-  <h1>Empleados</h1>
+  <h1>Registro de Empleados</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"> Agregar Empleado</button>
 </div>
@@ -31,56 +31,312 @@
   @section('content')
 
   <!-- Modal para agregar un nuevo Empleado -->
-  <div class="modal fade bd-example-modal-sm" id="addEmpleado" tabindex="-1">
+  <div class="modal fade bd-example-modal-sm" id="addEmpleado" tabindex="-1" >
     <div class="modal-dialog">
       <div class="modal-content">
 
 
                     <div class="modal-header">
-                    <h3>Empleados</h3>
+                    <h3>Personas</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Empleado</h4>
+                        <h4>Ingresar nuevo registro</h4>
 
-                    <form action="{{route('Post-Empleado.store')}}" method="post">
+                    <form action="{{route('Post-Empleado.store')}}" method="post" class="was-validated">
                     @csrf
                     
-                
-                        <div class="mb-3 mt-3">
-                    <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
-                    <option> Selecionar Empleado </option>
-                    @foreach ($ResulEmpleado as $Empleado)
-                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Nombre</label>
+                    <input type="text" class="form-control alphanumeric-input"  name="NOM_PERSONA" required minlength="3" maxlength="50">
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un nombre válido (al menos 3 caracteres).
+                    </div>                     
+                    </div>
+                     
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Apellido</label>
+                    <input type="text" class="form-control alphanumeric-input"  name="APE_PERSONA" required minlength="5" maxlength="50">                   
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">DNI</label>
+                    <input type="number"  class="form-control" name="DNI_PERSONA" required  oninput="validateDNI(this)">
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un DNI válido de 13 digitos.
+                    </div>    
+                    </div>
+
+                  <script>
+                     function validateDNI(input) {
+                     const value = input.value;
+                     const maxLength = 13;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El DNI debe tener 13 dígitos.");
+                    }
+                  }
+                  </script>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">RTN</label>
+                    <input type="number"  class="form-control" name="RTN_PERSONA" required  oninput="validateRTN(this)">
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un RTN válido de 14 digitos.
+                    </div>    
+                    </div>
+
+                  <script>
+                     function validateRTN(input) {
+                     const value = input.value;
+                     const maxLength = 14;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El RTN debe tener 14 dígitos.");
+                    }
+                  }
+                  </script>
+
+
+                   <div class="mb-3 mt-3">
+                   <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
+                   <select class="form-control" name="TIP_TELEFONO" required>
+                   <option value="" selected disabled>Seleccione una opción</option>
+                   <option value="FIJO">Fijo</option>
+                   <option value="CELULAR">Celular</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+
+                   <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Número Télefono</label>
+                    <input type="number" class="form-control" name="NUM_TELEFONO" required  oninput="validateNUMERO(this)">
+                    </div>
+
+               <script>
+                  function validateNUMERO(input) {
+                  const value = input.value;
+                  const maxLength = 8;
+
+                  if (value.length > maxLength) {
+                      input.value = value.slice(0, maxLength);
+                  }
+                }
+                </script>
+                    
+                   <div class="mb-3 mt-3">
+                   <label for="SEX_PERSONA" class="form-label">Sexo Persona</label>
+                   <select class="form-control" name="SEX_PERSONA" required>
+                   <option value="" selected disabled>Seleccione una opción</option>
+                   <option value="MASCULINO">Masculino</option>
+                   <option value="FEMENINO">Femenino</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+                                      
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Edad Persona</label>
+                    <input type="number" id="tentacles"  min="18" max="55" class="form-control" name="EDAD_PERSONA" required>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Nacimiento Persona</label>
+                    <input type="date" class="form-control" max="<?= date('Y-m-d'); ?>" name="FEC_NAC_PERSONA" required>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Lugar Nacimiento Persona</label>
+                    <input type="text" class="form-control alphanumeric-input" name="LUG_NAC_PERSONA" required minlength="3" maxlength="50">                   
+                    </div>
+                     
+                  <div class="mb-3 mt-3">
+                   <label for="IND_CIVIL" class="form-label">Estado Civil</label>
+                   <select class="form-control" name="IND_CIVIL" required>
+                   <option value="" selected disabled>Seleccione una opción</option>
+                   <option value="SOLTERO">Soltero</option>
+                   <option value="CASADO">Casado</option>
+                   <option value="UNION LIBRE">Unión Libre</option>
+                   <option value="VIUDO">Viudo</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Correo Electronico</label>
+                    <input type="email" id="email" pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30" class="form-control" name="CORREO_ELECTRONICO" required>                   
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Descripción Correo</label>
+                    <input type="text" class="form-control alphanumeric-input" name="DES_CORREO" required minlength="7" maxlength="50">                   
+                    </div>
+                     
+                   <div class="mb-3 mt-3">
+                   <label for="NIV_ESTUDIO" class="form-label">Nivel de Estudio</label>
+                   <select class="form-control" name="NIV_ESTUDIO" required>
+                   <option value="" selected disabled>Seleccione una opción</option>
+                   <option value="primaria">Primaria</option>
+                   <option value="secundaria">Secundaria</option>
+                   <option value="universitario">Universitario</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Nombre Centro de Estudio</label>
+                    <input type="text" class="form-control alphanumeric-input" name="NOM_CENTRO_ESTUDIO" required minlength="4" maxlength="50">                   
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Municipio</label>
+                    <select class="form-control js-example-basic-single"  name="COD_MUNICIPIO" id="COD_MUNICIPIO">
+                    <option value="" selected disabled> Seleccionar Municipio </option>
+                    @foreach ($ResulMunicipio as $Municipio)
+                    <option value="{{ $Municipio['COD_MUNICIPIO'] }}">{{ $Municipio['NOM_MUNICIPIO'] }}</option>
                     @endforeach
                     </select>
                     </div>
-
-                        <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Descripcion</label>
-                    <input type="text" class="form-control" name="DES_HOR_EXTRA" required>
-                    <div class="valid-feedback"></div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Direccion</label>
+                    <input type="text" class="form-control alphanumeric-input" name="DES_DIRECCION" required minlength="3" maxlength="50">                   
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Cantidad Hora Extra</label>
-                    <input type="text" class="form-control" placeholder="Cantidad" name="CANT_HOR_EXTRA" required>
-                    <div class="valid-feedback"></div>
+                    <label for="dni" class="form-label">Sucursal</label>
+                    <select class="form-control js-example-basic-single"  name="COD_SUCURSAL" id="COD_SUCURSAL">
+                    <option> Seleccionar Sucursal </option>
+                    @foreach ($ResulSucursal as $Sucursal)
+                    <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}</option>
+                    @endforeach
+                    </select>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Departamento Empresa</label>
+                    <select class="form-control js-example-basic-single"  name="COD_DEPTO_EMPRESA" id="COD_DEPTO_EMPRESA">
+                    <option value="" selected disabled> Seleccionar Departamento Empresa </option>
+                    @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
+                    <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
+                    @endforeach
+                    </select>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                   <label for="TIP_CONTRATO" class="form-label">Tipo de Contrato</label>
+                   <select class="form-control" name="TIP_CONTRATO" required>
+                   <option value="" selected disabled>Seleccione una opción</option>
+                   <option value="TEMPORAL">Temporal</option>
+                   <option value="PERMANENTE">Permanente</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+
+                    
+                   <div class="mb-3 mt-3">
+                   <label for="PUE_TRA_EMPLEADO" class="form-label">Puesto Trabajo del Empleado</label>
+                   <select class="form-control" name="PUE_TRA_EMPLEADO" required>
+                   <option value="" selected disabled>Seleccione una opción</option>
+                   <option value="GERENTE">Gerente</option>
+                   <option value="ADMINISTRADOR">Administrador</option>
+                   <option value="JEFE DE PLANTA">Jefe de Planta</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Ingreso</label>
+                    <input type="date" class="form-control" max="<?= date('Y-m-d'); ?>" name="FEC_INGRESO" required>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Egreso</label>
+                    <input type="date" class="form-control"  name="FEC_EGRESO" required>
+                    </div>
+
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Número Seguro Social</label>
+                    <input type="number" class="form-control" name="NUM_SEG_SOCIAL" required  oninput="validateSEGURO(this)">
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un NÚMERO válido de 9 digitos.
+                    </div>    
+                    </div>
+
+                  <script>
+                    function validateSEGURO(input) {
+                     const value = input.value;
+                     const maxLength = 9;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El NUMERO SOCIAL debe tener 9 dígitos.");
+                    }
+                  }
+                  </script>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Salario Base Empleado</label>
+                    <input type="number" class="form-control" name="SAL_BAS_EMPLEADO" required>                   
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Nombre del Banco</label>
+                    <input type="text" class="form-control" name="NOM_BANCO" required minlength="5" maxlength="50">                   
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">FECHA HORA EXTRA</label>
-                    <input type="date" class="form-control" placeholder="Fecha Hora Extra" name="FEC_HOR_EXTRA" required>
-                    <div class="valid-feedback"></div>
+                    <label for="dni" class="form-label">Descripción Banco</label>
+                    <input type="text" class="form-control alphanumeric-input" name="DES_BANCO" required minlength="5" maxlength="50">                   
                     </div>
 
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Número de Cuenta Banco</label>
+                    <input type="number" class="form-control" name="NUM_CTA_BANCO" required oninput="validateCUENTA(this)">
+                    <div class="invalid-feedback">
+                      Por favor, ingresa un Número válido de 8 dígitos.
+                    </div>    
+                    </div>
+
+                  <script>
+                     function validateCUENTA(input) {
+                     const value = input.value;
+                     const maxLength = 8;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El Numero debe tener 8 dígitos.");
+                    }
+                  }
+                  </script>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
                         <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
                     </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -94,11 +350,11 @@
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
-        <TH>Nombre Completo</TH>
-        <th>Puesto Trabajo</th>
-        <th>Tipo Contrato</th>
-        <th>Numero Seguro Social</th>
-        <th>Sueldo Base</th>
+        <th style="text-align: center;">NOMBRE COMPLETO</TH>
+        <th style="text-align: center;">PUESTO TRABAJO</th>
+        <th style="text-align: center;">TIPO CONTRATO</th>
+        <th style="text-align: center;">NUMERO SEGURO SOCIAL</th>
+        <th style="text-align: center;">SUELDO BASE</th>
         <th>Accion</th>
       </tr>
     </thead>
@@ -106,11 +362,11 @@
       @foreach ($ResulEmpleado as $Empleado)
         <tr>
         <td>{{ $loop->iteration }}</td>
-          <td>{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
-          <td>{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
-          <td>{{ $Empleado['TIP_CONTRATO'] }}</td>
-          <td>{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
-          <td>{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
+          <td style="text-align: center;" >{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
+          <td style="text-align: center;">{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
+          <td style="text-align: center;">{{ $Empleado['TIP_CONTRATO'] }}</td>
+          <td style="text-align: center;">{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
+          <td style="text-align: center;">{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
           <td>
             <a class="btn btn-warning" href="">
               <i class="fa fa-edit"></i>
@@ -171,4 +427,21 @@
 </script>
 
     </script>
+
+  <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
+
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+</script> 
     @stop

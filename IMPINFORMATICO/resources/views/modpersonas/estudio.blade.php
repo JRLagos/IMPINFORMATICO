@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Direcciones')
+  @section('title', 'Estudio')
 
   @section('content_header')
 
@@ -12,7 +12,10 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <h1>Direcciones</h1>
+
+
+  <h1>Registro de Estudios</h1>
+
   @stop
 
 
@@ -25,35 +28,38 @@
 
   @section('content')
 
+
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
-  <table id="direccion" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="Estudio" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
         <th style="text-align: center;">#</th>
-        <th style="text-align: center;">NOMBRE COMPLETO</th>
-        <th style="text-align: center;">MUNICIPIO</th>
-        <th style="text-align: center;">DESCRIPCIÓN</th>
-        <th style="text-align: center;">ACCION</th>
+        <th style="text-align: center;">NOMBRE PERSONA</th>
+        <th style="text-align: center;">NIVEL DE ESTUDIO</th>
+        <th style="text-align: center;">NOMBRE CENTRO DE ESTUDIO</th>
+        <th>ACCION</th>
       </tr>
     </thead>
     <tbody>
-      @foreach ($ResulDireccion as $Direccion)
-        <tr>
+
+      @foreach ($ResulEstudio as $Estudio) 
+      <tr>
         <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Direccion['NOMBRE_COMPLETO'] }}</td>
-        <td style="text-align: center;">{{ $Direccion['NOM_MUNICIPIO'] }}</td>
-        <td style="text-align: center;">{{ $Direccion['DES_DIRECCION'] }}</td>
-        <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
+        <td style="text-align: center;">{{ $Estudio['NOMBRE_COMPLETO'] }}</td>
+        <td style="text-align: center;">{{ $Estudio['NIV_ESTUDIO'] }}</td>
+        <td style="text-align: center;">{{ $Estudio['NOM_CENTRO_ESTUDIO'] }}</td>
+        <td>
+          <a class="btn btn-warning" href="">
+            <i class="fa fa-edit"></i>
+          </a>
+         </td>
+      </tr>
+
+    @endforeach
+  </tbody>
+</table>
 </div>
 
   @stop
@@ -76,7 +82,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#direccion').DataTable({
+    $('#Estudio').DataTable({
       responsive: true,
       autWidth: false,
 
@@ -97,6 +103,12 @@
     });
 
     </script>
+
+    <script>
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2({});
+  });
+</script>
 
     </script>
     @stop

@@ -12,28 +12,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<style>
-  div {
-  margin-bottom: 10px;
-  position: relative;
-}
-
-input + span {
-  padding-right: 30px;
-}
-
-input:invalid + span:after {
-  position: absolute;
-  content: "x";
-  padding-left: 5px;
-}
-
-input:valid + span:after {
-  position: absolute;
-  content: "✓";
-  padding-left: 5px;
-}
-</style>
 
   <h1>Municipios</h1>
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -65,10 +43,8 @@ input:valid + span:after {
                         <h4>Ingresar Municipio</h4>
 
                     <form action="{{route('Post-Municipio.store')}}" method="post">
-                    @csrf
-                    
-                
-                        <div class="mb-3 mt-3">
+                    @csrf      
+                       <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Departamento</label>
                     <select class="form-control js-example-basic-single"  name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO">
                     <option> Seleccionar Departamento </option>
@@ -96,6 +72,45 @@ input:valid + span:after {
         </div>
     </div>
 
+      <!-- Modal para editar un registro existente -->
+<div class="modal fade bd-example-modal-sm" id="editMunicipio" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Municipio</h3>
+                <button class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <h4>Municipios</h4>
+
+                <form action="" method="post">
+                    @method('PUT') <!-- Agrega el método PUT -->
+                    @csrf
+
+                    <!-- Agrega los campos ocultos para identificar el registro -->
+                    <input type="hidden" name="municipio_id" id="municipio_id">
+
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Departamento</label>
+                        <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO">
+                            <!-- Opciones del select -->
+                        </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Nombre Municipio</label>
+                        <input type="text" class="form-control alphanumeric-input" name="NOM_MUNICIPIO"  required minlength="4" maxlength="30">
+                        <span class="validity"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-primary">ACEPTAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
@@ -104,9 +119,9 @@ input:valid + span:after {
     <thead class="bg-dark">
     <tr> 
         <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Municipio</th>
-        <th style="text-align: center;">Departamento</th>
-        <th style="text-align: center;">Accion</th>
+        <th style="text-align: center;">MUNICIPIO</th>
+        <th style="text-align: center;">DEPARTAMENTO</th>
+        <th style="text-align: center;">ACCION</th>
       </tr>
     </thead>
     <tbody>
@@ -116,9 +131,10 @@ input:valid + span:after {
         <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
         <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
         <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
+        <a class="btn btn-warning" href="#" onclick="cargarDatosEditar('{{ $Municipio['COD_MUNICIPIO'] }}', '{{ $Municipio['COD_DEPARTAMENTO'] }}', '{{ $Municipio['NOM_MUNICIPIO'] }}')">
+         <i class="fa fa-edit"></i> Editar
+        </a>
+
           </td>
         </tr>
       @endforeach
@@ -127,6 +143,7 @@ input:valid + span:after {
 </div>
 
   @stop
+
 
   @section('footer')
 
@@ -167,7 +184,22 @@ input:valid + span:after {
     });
 
     </script>
+      <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
 
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+</script>
     <script>
     $(document).ready(function() {
       $('.js-example-basic-single').select2({});
