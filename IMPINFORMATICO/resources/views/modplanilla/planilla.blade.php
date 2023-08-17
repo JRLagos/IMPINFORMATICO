@@ -13,10 +13,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-
-  <h1>Planilla</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPlanilla" type="button"> Generar Planilla</button>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+  <h1><b>Planillas</b></h1>
+  <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPlanilla" type="button"><b>Generar Planilla</b></button>
 </div>
   @stop
 
@@ -92,7 +91,6 @@
         <th>AGUINALDO</th>
         <th>IHSS</th>
         <th>SALARIO NETO</th>
-        <th>ACCION</th>
       </tr>
     </thead>
     <tbody>
@@ -109,11 +107,6 @@
         <td>{{ $Planilla['AGUINALDO'] }}</td>
         <td>{{ $Planilla['IHSS'] }}</td>
         <td>{{ number_format($Planilla['SALARIO_NETO'], 2, '.', ',') }}</td>
-        <td>
-          <a class="btn btn-warning" href="">
-            <i class="fa fa-edit"></i>
-          </a>
-         </td>
       </tr>
     @endforeach
   </tbody>

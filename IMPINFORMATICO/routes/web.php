@@ -60,6 +60,7 @@ Route::post('/Upt-HoraExtra',[HoraExtraController::class, 'update'])->name('Upt-
 // Vacaciones
 Route::get('Vacaciones', [VacacionesController::class, 'index'])->name('Vacaciones.index');
 Route::post('Post-Vacaciones', [VacacionesController::class, 'store'])->name('Post-Vacaciones.store');
+Route::post('/Upt-Vacaciones',[VacacionesController::class, 'update'])->name('Upt-Vacaciones.update');
 
 // Planillas
 Route::get('Planilla', [PlanillaController::class, 'index'])->name('Planilla.index');
