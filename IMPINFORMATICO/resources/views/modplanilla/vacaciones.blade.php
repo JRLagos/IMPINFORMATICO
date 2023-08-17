@@ -12,10 +12,9 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-  <h1>Vacaciones</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"> Agregar Vacaciones</button>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+  <h1><b>Vacaciones</b></h1>
+  <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"><b>Agregar Vacaciones</b></button>
 </div>
   @stop
 
@@ -56,11 +55,6 @@
                     </div>
 
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Vacaciones Acumuladas</label>
-                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_ACU" required>
-                    <span class="validity"></span>
-
-                    <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Vacaciones Usadas</label>
                     <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA" required>
                     <span class="validity"></span>
@@ -68,8 +62,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                      <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                      <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                     </div>
                     </form>
 
@@ -80,11 +74,11 @@
 
 
    <!-- /.card-header -->
- <div class="table-responsive p-0">
- <br>
-  <table id="vacaciones" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
-    <tr> 
+   <div class="table-responsive p-0">
+    <br>
+    <table id="vacaciones" class="table table-striped table-bordered table-condensed table-hover">
+      <thead class="bg-dark">
+        <tr>
         <th>#</th>
         <TH>Nombre Completo</TH>
         <th>Vacaciones Acumuladas</th>
@@ -101,17 +95,63 @@
         <td>{{ $Vacaciones['VACACIONES_ACU'] }}</td>
         <td>{{ $Vacaciones['VACACIONES_USA'] }}</td>
         <td>{{ $Vacaciones['VACACIONES_DIS'] }}</td>
-        <td>
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+              <td style="text-align: center;">
+                <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UptVacaciones-{{$Vacaciones['COD_VACACIONES']}}">
+                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                </button>
+              </td>
+            </tr>
+                <!-- Modal for editing goes here -->
+  <div class="modal fade bd-example-modal-sm" id="UptVacaciones-{{$Vacaciones['COD_VACACIONES']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Vacaciones</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar Nuevos Datos</p></h4>
+              <hr>
+                <form action="{{route('Upt-Vacaciones.update')}}" method="post" class="was-validated">
+                @csrf
 
+                    <input type="hidden" class="form-control" name="COD_VACACIONES"  value="{{$Vacaciones['COD_VACACIONES']}}">
+
+                    <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Empleado</label>
+                      <select class="form-control js-example-basic-single"  name="COD_EMPLEADO" id="COD_EMPLEADO">
+                        <option value="{{$Vacaciones['COD_EMPLEADO']}}" style="display: none;">{{ $Vacaciones['NOMBRE_COMPLETO'] }}</option>
+                          @foreach ($ResulEmpleado as $Empleado)
+                        <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+ 
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Vacaciones Acumuladas</label>
+                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_ACU" value="{{$Vacaciones['VACACIONES_ACU']}}" required>
+                    <span class="validity"></span>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Vacaciones Usadas</label>
+                    <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA" value="{{$Vacaciones['VACACIONES_USA']}}" required>
+                    <span class="validity"></span>
+                    </div>
+
+                  <div class="modal-footer">
+                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </tbody>
+    </table>
   @stop
 
   @section('footer')
@@ -138,7 +178,7 @@
 
       "language": {
               "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-              "zeroRecords": "Nada encontrado - disculpas",
+              "zeroRecords": "Nada Encontrado - ¡Disculpas!",
               "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
               "infoFiltered": "(Filtrado de _MAX_ registros totales)",

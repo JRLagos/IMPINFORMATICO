@@ -73,7 +73,7 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Permiso Eliminar</label>
-                    <input type="text" class="form-control"  name="PER_ELIMINAR" required minlength="1" maxlength="1"/>
+                    <input type="text" class="form-control"  name="PER_ELIMINAR" required maxlength="1"/>
                     <span class="validity"></span>
                     </div>
 
