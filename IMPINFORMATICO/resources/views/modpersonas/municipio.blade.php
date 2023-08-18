@@ -15,14 +15,11 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-    <h1>Municipios</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"> Agregar
-            Municipio</button>
-    </div>
-@stop
-
+  <h1>Municipios</h1>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"> Agregar Municipio</button>
+</div>
+  @stop
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -45,6 +42,7 @@
                 <div class="modal-header">
                     <h3>Municipio</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
+                    
                 </div>
                 <div class="modal-body">
                     <h4>Ingresar Municipio</h4>
@@ -268,7 +266,22 @@
             return now.toLocaleDateString('es-ES', options);
         }
     </script>
+      <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
 
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+</script>
     <script>
         $(document).ready(function() {
             $('.js-example-basic-single').select2({});
@@ -277,21 +290,4 @@
 
     </script>
 
-
-    <script>
-        function cleanInputValue(inputElement) {
-            var inputValue = inputElement.value;
-            var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
-            if (cleanValue !== inputValue) {
-                inputElement.value = cleanValue;
-            }
-        }
-
-        var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
-        alphanumericInputs.forEach(function(input) {
-            input.addEventListener("input", function() {
-                cleanInputValue(this);
-            });
-        });
-    </script>
 @stop

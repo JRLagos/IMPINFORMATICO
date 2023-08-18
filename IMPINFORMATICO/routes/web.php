@@ -17,6 +17,11 @@ use App\Http\Controllers\ModuloReportes\EstadisticaController;
 use App\Http\Controllers\ModuloPersonas\EmpleadoController;
 use App\Http\Controllers\ModuloSeguridad\AuthController;
 use App\Http\Controllers\ModuloPersonas\DireccionController;
+use App\Http\Controllers\ModuloPersonas\BancoController;
+use App\Http\Controllers\ModuloPersonas\CorreoController;
+use App\Http\Controllers\ModuloPersonas\SucursalController;
+use App\Http\Controllers\ModuloPersonas\DeptoEmpresaController;
+use App\Http\Controllers\ModuloPersonas\EstudioController;
 use App\Http\Controllers\ModuloSeguridad\RolesController;
 use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
@@ -91,7 +96,8 @@ Route::get('reportevista', [ReportesvistaController::class, 'index'])->name('Rep
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
-Route::post('Upt-Departamento', [DepartamentoController::class, 'update'])->name('Upt-Departamento.update');
+Route::put('Put-Departamento', [DepartamentoController::class, 'update'])->name('Put-Departamento.update');
+
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
@@ -103,13 +109,33 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarRtn']);
 
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
 Route::post('Post-Persona',[PersonaController::class, 'store'])->name('Post-Persona.store');
 
+
 // Direcciones
 Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');
+
+//Bancos
+Route::get('Banco', [BancoController::class, 'index'])->name('Banco.index');
+
+//Correos
+Route::get('Correo', [CorreoController::class, 'index'])->name('Correo.index');
+
+
+//Estudios
+Route::get('Estudio', [EstudioController::class, 'index'])->name('Estudio.index');
+
+//Sucursal
+Route::get('Sucursal', [SucursalController::class, 'index'])->name('Sucursal.index');
+Route::post('Post-Sucursal',[SucursalController::class, 'store'])->name('Post-Sucursal.store');
+
+//Departamento de empresa
+Route::get('DeptoEmpresa', [DeptoEmpresaController::class, 'index'])->name('DeptoEmpresa.index');
+Route::post('Post-DeptoEmpresa',[DeptoEmpresaController::class, 'store'])->name('Post-DeptoEmpresa.store');
 
 // Roles
 Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
