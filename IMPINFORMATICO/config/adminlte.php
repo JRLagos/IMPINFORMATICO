@@ -84,7 +84,7 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'Auth Logo',
@@ -130,11 +130,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -437,6 +437,11 @@ return [
                     'icon' => 'fa fa-fw fa-th-list gns text-info',
                     'url'  => 'ReportesGenerados',
                 ], 
+                [
+                    'text' => 'Reportes Vista',
+                    'icon' => 'fa fa-fw fa-th-list gns text-info',
+                    'url'  => 'reportevista',
+                ], 
                 
             ],
         ],
@@ -452,7 +457,7 @@ return [
                 [
                     'text' => 'Tipos Estadisticas',
                     'icon' => 'fas fa-fw fa-chart-bar gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'EstaSucursal',
                 ], 
             ],
         ],
@@ -463,38 +468,23 @@ return [
                 [
                     'text' => 'Roles',
                     'icon' => 'fas fa-fw fa-scroll gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Roles',
                 ], 
                 [
                     'text' => 'Permisos',
                     'icon' => 'fab fa-fw fa-accusoft gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Permisos',
                 ], 
                 [
                     'text' => 'Objetos',
                     'icon' => 'fa fa-fw fa-object-group gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Objetos',
                 ], 
                 [
                     'text' => 'Parametros',
                     'icon' => 'fab fa-fw fa-pied-piper gns text-info',
-                    'url'  => '\\',
-                ], 
-                [
-                    'text' => 'Historial Contraseñas',
-                    'icon' => 'fas fa-fw fa-asterisk gns text-info',
-                    'url'  => '\\',
-                ], 
-                [
-                    'text' => 'Preguntas Usuario',
-                    'icon' => 'fab fa-fw fa-lastfm gns text-info',
-                    'url'  => '\\',
-                ], 
-                [
-                    'text' => 'Preguntas',
-                    'icon' => 'fab fa-fw fa-lastfm gns text-info',
-                    'url'  => '\\',
-                ], 
+                    'url'  => 'Parametros',
+                ],  
             ],
         ],
         [

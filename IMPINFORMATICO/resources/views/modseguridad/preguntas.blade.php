@@ -12,11 +12,6 @@
         <!-- Aquí puedes agregar el token CSRF si estás utilizando un framework como Laravel -->
         @csrf
 
-        <!-- Campo para ingresar el correo electrónico -->
-        <label for="correo" class="font-weight-bold">Correo Electrónico:</label>
-        <input type="email" name="correo" id="correo" class="form-control" required placeholder="Ingrese su correo electrónico">
-        <br>
-
         <!-- Pregunta de seguridad -->
         <label for="pregunta" class="font-weight-bold">Pregunta de Seguridad:</label>
         <select name="pregunta" id="pregunta" class="form-control" required>

@@ -66,17 +66,17 @@ class HoraExtraController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //DD($request);
-        $COD_HOR_EXTRA = $request->id;
-        $reponse = http::put('http://localhost:3000/UPT_HORA_EXTRA', [
-            "PI_COD_HOR_EXTRA"=> $COD_PRODUCTO,
-            "PI_COD_EMPLEADO"=> $request->get("COD_EMPLEADO"),
-            "PV_DES_HOR_EXTRA"=> $request->get("DES_HOR_EXTRA"),
-            "PI_CANT_HOR_EXTRA"=> $request->get("CANT_HOR_EXTRA"),
-            "PDATE_FEC_HOR_EXTRA"=> $request->get("FEC_HOR_EXTRA")
+        $upt_HoraExtra = Http::put('http://localhost:3000/UPT_HORA_EXTRA/HORA_EXTRA/'.$request->input("COD_HOR_EXTRA"),[
+            "COD_HOR_EXTRA" => $request->input('COD_HOR_EXTRA'),
+            "COD_EMPLEADO" => $request->input("COD_EMPLEADO"),
+            "DES_HOR_EXTRA" => $request->input("DES_HOR_EXTRA"),
+            "CANT_HOR_EXTRA" => $request->input("CANT_HOR_EXTRA"),
+            "FEC_HOR_EXTRA" => $request->input("FEC_HOR_EXTRA"),
         ]);
+        
+        return redirect(route('HoraExtra.index'));
 
     }
 

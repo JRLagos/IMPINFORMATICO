@@ -100,6 +100,79 @@
         </tbody>
     </table>
 </div>
+
+<div class="modal" id="addreportes" tabindex="-1" role="dialog" aria-labelledby="addreporteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuevo Reporte</h3>
+                <button class="btn btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{ route('Post-Reportes.store')}}" method="POST" class="was-validated">
+                    @csrf
+
+                    <div class="mb-3 mt-3">
+                        <label for="COD_TIP_REPORTE" class="form-label">Tipo de Reportes</label>
+                        <select class="form-control js-example-basic-single" name="PB_COD_TIP_ESTADISTICA_REPORTE" id="PB_COD_TIP_ESTADISTICA_REPORTE" required>
+                            <option value="" selected disabled>Seleccionar un tipo de reporte</option>
+                            @foreach ($ResulTipReportes as $TiposReportes)
+                            <option value="{{ $TiposReportes['COD_TIP_REPORTE'] }}" data-report-code="{{ $TiposReportes['COD_TIP_REPORTE'] }}">
+                                {{ $TiposReportes['NOM_TIP_REPORTE'] }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                        <label for="PV_TIT_ESTADISTICA_REPORTE" class="form-label">Título del Reporte</label>
+                        <input type="text" class="form-control" placeholder="Ingrese el Nombre del Titulo del Reporte"
+                            name="PV_TIT_ESTADISTICA_REPORTE" required pattern=".{5,}" title="Ingrese al menos 5 caracteres">
+                        <div class="valid-feedback">Título válido</div>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="PV_DES_ESTADISTICA_REPORTE" class="form-label">Descripción del Reporte</label>
+                        <input type="text" class="form-control" placeholder="Ingrese el nombre del tipo de Reporte"
+                            name="PV_DES_ESTADISTICA_REPORTE" required pattern=".{5,}" title="Ingrese al menos 5 caracteres">
+                            <div class="valid-feedback">Descripción válida</div>
+                    </div>
+
+                    <input type="hidden" name="COD_USUARIO" value="{{ Auth::id() }}">
+
+                    <div class="mb-3 mt-3">
+                        <label for="PE_FOR_ENV_ESTADISTICA_REPORTE" class="form-label">Formato del Reporte</label>
+                        <select class="form-control" name="PE_FOR_ENV_ESTADISTICA_REPORTE" required>
+                            <option value="" selected disabled>Seleccione un formato</option>
+                            <option value="XSLX">XSLX</option>
+                            <option value="PDF">PDF</option>
+                            <option value="CSV">CSV</option>
+                        </select>
+                        <div class="valid-feedback">Formato válido</div>
+                    </div>
+
+                    <input type="hidden" name="PV_URL_ARCHIVO" value="/DESCARGA">
+                    <input type="hidden" name="PV_EMAIL" value="ejemplo@correo">
+                    <input type="hidden" name="PE_FRE_ESTADISTICA_REPORTE" value="MENSUAL">
+
+                    <div class="mb-3 mt-3">
+                        <label for="indice_reporte" class="form-label">Indice del Reporte</label>
+                        <select class="form-control" name="PE_IND_ESTADISTICA_REPORTE" required>
+                            <option value="ENABLED" selected>ENABLED</option>
+                            <option value="DISABLED">DISABLED</option>
+                        </select>
+                        <div class="valid-feedback"></div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
+                        <button id="btn-generar-reporte" class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
@@ -163,9 +236,19 @@
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.3/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+
 <script>
-   script: $('#codigotiporeporte').DataTable({
-    dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+    
+$(document).ready(function() {
+
+    
+    var table = $('#codigotiporeporte').DataTable({
+        dom: '<"top"Bl>frt<"bottom"ip><"clear">',
         buttons: [
             {
                 extend: 'collection',
@@ -174,52 +257,86 @@
                     {
                         extend: 'pdfHtml5',
                         title: 'Tipos de Reportes',
-                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
                         exportOptions: {
                             columns: ':visible'
                         },
-                       // customize: function(doc) {
-                            // Agregar tu logo al encabezado del PDF
-                        //    var logo = new Image();
-                        //    logo.src = 'COMPUTEREMPIRE.png';
-                        //    doc.content.splice(0, 0, {
-                        //        margin: [0, 0, 0, 12],
-                        //        alignment: 'center',
-                        //        image: logo,
-                         //       fit: [100, 100]
-                        //    });
-                        //}
+                        customize: function(doc) {
+                            var currentDate = new Date().toLocaleString();
+                            var titulo = $('#PV_TIT_ESTADISTICA_REPORTE').val();
+                            var descripcion = $('#PV_DES_ESTADISTICA_REPORTE').val();
+                            doc.content.splice(0, 0, {
+                                text: 'Título del Reporte:' + titulo,
+                                fontSize: 16,
+                                alignment: 'center',
+                                margin: [0, 0, 0, 10]
+                            });
+                            
+                            doc.content.splice(1, 0, {
+                                text: 'Descripción:' + descripcion,
+                                fontSize: 12,
+                                margin: [0, 0, 0, 5]
+                            });
+                            
+                            doc.content.splice(2, 0, {
+                                text: 'Fecha y Hora: ' + currentDate,
+                                fontSize: 12,
+                                margin: [0, 0, 0, 5]
+                            });
+                        },
+                        action: function(e, dt, button, config) {
+                            $('#addreportes').modal('show'); // Abre el modal con el id "addreportes"
+                            button.trigger();
+                        }
                     },
-                    'csv',
+                    {
+                        extend: 'csv',
+                        title: 'Tipos de Reporte',
+                        exportOptions: {
+                            columns: ':visible'
+                        },
+                        action: function(e, dt, button, config) {
+                            $('#addreportes').modal('show'); // Abre el modal con el id "addreportes"
+                        }
+                    },
                     {
                         extend: 'excelHtml5',
                         title: 'Tipos de Reporte',
-                        message: 'Imperio Informático\nReporte que muestra la cantidad de Tipo de reportes que hay guardados en el sistema\nFecha y hora: ' + new Date().toLocaleString(),
                         exportOptions: {
                             columns: ':visible'
+                        },
+                        customize: function(xlsx) {
+                            var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                            $('row c', sheet).attr('s', '25');
+                        },
+                        action: function(e, dt, button, config) {
+                            $('#addreportes').modal('show'); // Abre el modal con el id "addreportes"
                         }
                     },
-                    'columnsToggle',
-                ],
-            },
+                    'columnsToggle'
+                ]
+            }
         ],
+        
         responsive: true,
         autWidth: false,
-    "language": {
-        "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-        "zeroRecords": "Nada encontrado - disculpas",
-        "info": "Pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No records available",
-        "infoFiltered": "(Filtrado de MAX registros totales)",
-
-        'search': 'Buscar:',
-        'paginate': {
-            'next': 'Siguiente',
-            'previous': 'Anterior'
+        language: {
+            "lengthMenu": "Mostrar _MENU_ Registros Por Página",
+            "zeroRecords": "Nada encontrado - disculpas",
+            "info": "Página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de MAX registros totales)",
+            'search': 'Buscar:',
+            'paginate': {
+                'next': 'Siguiente',
+                'previous': 'Anterior'
+            }   
         }
-
-    }
+        
+        
+    });
+    
 });
+
 </script>
 
 <script>
