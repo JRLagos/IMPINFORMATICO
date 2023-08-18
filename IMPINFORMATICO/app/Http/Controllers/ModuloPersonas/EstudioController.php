@@ -5,23 +5,26 @@ namespace App\Http\Controllers\ModuloPersonas;
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-class DepartamentoController extends Controller
+
+class EstudioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_DEPARTAMENTO/GETALL_DEPARTAMENTO/2');
+        $response = Http::get('http://localhost:3000/SHOW_ESTUDIO/GETALL_ESTUDIO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-    
+  
         // Convierte los datos JSON a un array asociativo
-        $Departamento = json_decode($data, true);
-    
-        return view('modpersonas.departamento')->with('ResulDepartamento', $Departamento);
-    }
+        $Estudio = json_decode($data, true);
+
+        
+        return view('modpersonas.estudio')->with('ResulEstudio', $Estudio);
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -36,11 +39,7 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        $Departamento = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_DEPARTAMENTO/DEPARTAMENTO", $Departamento);
-
-        return redirect(route('Departamento.index'));
+        //
     }
 
     /**
@@ -62,16 +61,10 @@ class DepartamentoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
-        $upt_departamento = Http::put('http://localhost:3000/UPD_DEPARTAMENTO/DEPARTAMENTO/'.$request->input("COD_DEPARTAMENTO"),[
-            "COD_DEPARTAMENTO" => $request->input('COD_DEPARTAMENTO'),
-            "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
-        ]);
-        
-        return redirect(route('Departamento.index'));
+        //
     }
-    
 
     /**
      * Remove the specified resource from storage.

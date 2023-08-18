@@ -4,7 +4,6 @@ namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
 
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -15,13 +14,21 @@ class EmpleadoController extends Controller
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
-        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-    
+        $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
+        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response3 = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/0');
+        $data3 = $response3->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response4 = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/0');
+        $data4 = $response4->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+
         // Convierte los datos JSON a un array asociativo
-        $Empleado = json_decode($data, true);
-    
-        return view('modpersonas.empleado')->with('ResulEmpleado', $Empleado);
+        $Empleado = json_decode($data1, true);
+        $Municipio = json_decode($data2, true);
+        $Sucursal = json_decode($data3, true);
+        $DeptoEmpresa = json_decode($data4, true);
+       return view('modpersonas.empleado')->with('ResulEmpleado', $Empleado)->with('ResulMunicipio', $Municipio)->with('ResulSucursal', $Sucursal)->with('ResulDeptoEmpresa', $DeptoEmpresa); 
     }
 
     /**
