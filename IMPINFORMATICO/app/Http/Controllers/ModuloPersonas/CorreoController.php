@@ -1,26 +1,26 @@
 <?php
-
 namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-class DepartamentoController extends Controller
+class CorreoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_DEPARTAMENTO/GETALL_DEPARTAMENTO/2');
+        $response = Http::get('http://localhost:3000/SHOW_CORREO/GETALL_CORREO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-    
+
         // Convierte los datos JSON a un array asociativo
-        $Departamento = json_decode($data, true);
-    
-        return view('modpersonas.departamento')->with('ResulDepartamento', $Departamento);
+        $Correo = json_decode($data, true);
+  
+        return view('modpersonas.correo')->with('ResulCorreo', $Correo); 
     }
 
     /**
@@ -36,11 +36,7 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
-        $Departamento = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_DEPARTAMENTO/DEPARTAMENTO", $Departamento);
-
-        return redirect(route('Departamento.index'));
+        //
     }
 
     /**
@@ -62,14 +58,22 @@ class DepartamentoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+
+    public function editarCorreo(Request $request, $id)
     {
-        $upt_departamento = Http::put('http://localhost:3000/UPD_DEPARTAMENTO/DEPARTAMENTO/'.$request->input("COD_DEPARTAMENTO"),[
-            "COD_DEPARTAMENTO" => $request->input('COD_DEPARTAMENTO'),
-            "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
+        $response = Http::put('http://localhost:3000/UPD_CORREO/CORREO/' . $id, [
+            'CORREO_ELECTRONICO' => $request->input('CORREO_ELECTRONICO'),
+            'DES_CORREO' => $request->input('DES_CORREO'),
+            // Agrega otros campos si es necesario
         ]);
-        
-        return redirect(route('Departamento.index'));
+    
+        if ($response->successful()) {
+            // La solicitud PUT fue exitosa, puedes redirigir o realizar otras acciones
+            return redirect()->route('modpersonas.correo')->with('mensaje', 'Los campos se actualizaron correctamente.');
+        } else {
+            // La solicitud PUT falló, maneja el error según tus necesidades
+            // Puedes mostrar un mensaje de error o redirigir a otra página
+        }
     }
     
 

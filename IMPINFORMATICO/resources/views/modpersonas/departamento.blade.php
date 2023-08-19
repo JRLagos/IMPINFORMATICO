@@ -15,6 +15,7 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1>Departamentos</h1>
@@ -40,6 +41,7 @@
                 <div class="modal-header">
                     <h3>Departamento</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
+                    
                 </div>
                 <div class="modal-body">
                     <h4>Ingresar Departamento</h4>
@@ -61,11 +63,22 @@
             </div>
         </div>
     </div>
-    <!-- /.card-header -->
-    <div class="table-responsive p-0">
-        <br>
-        <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+
+   <!-- /.card-header -->
+ <div class="table-responsive p-0">
+ <br>
+  <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
+    <thead class="bg-dark">
+
+    <tr>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Nombre</th>
+            <th style="text-align: center;">Accion</th>
+    </tr>
+        </thead>
+        <tbody>
+            @foreach($ResulDepartamento as $Departamento)
+
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>

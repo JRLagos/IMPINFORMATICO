@@ -340,17 +340,17 @@ return [
                 [
                     'text' => 'Bancos',
                     'icon' => 'fas fa-fw fa-kaaba gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Banco',
                 ], 
                 [
                     'text' => 'Correos',
                     'icon' => 'fas fa-fw fa-mail-bulk gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Correo',
                 ], 
                 [
                     'text' => 'Estudios',
                     'icon' => 'far fa-fw fa-address-book gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Estudio',
                 ], 
             ],
         ],
@@ -382,12 +382,12 @@ return [
                 [
                     'text' => 'Sucursales',
                     'icon' => 'fas fa-fw fa-store-alt gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Sucursal',
                 ], 
                 [
                     'text' => 'Departamentos Empresa',
                     'icon' => 'fas fa-fw fa-code-branch gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'DeptoEmpresa',
                 ], 
             ],
         ],
