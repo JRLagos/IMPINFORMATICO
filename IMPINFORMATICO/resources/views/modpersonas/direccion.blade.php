@@ -81,15 +81,15 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-    <!-- botones -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.0.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+       <!-- botones -->
+       <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+       <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+       <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+       <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+       <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
     <style>
         .btn-group>.btn {
             font-size: 12px;
@@ -127,94 +127,116 @@
     <script>
         $(document).ready(function() {
             var table = $('#direccion').DataTable({
-                dom: '<"top"Bl>frt<"bottom"ip><"clear">',
-                buttons: [{
-                    extend: 'collection',
-                    className: 'custom-html-collection',
-                    text: 'Opciones', // Cambia el texto de la colección de botones
-                    buttons: [{
-                            extend: 'pdf',
-                            title: 'IMPINFORMATICO | Direcciones',
-                            customize: function(doc) {
-                                var now = obtenerFechaHora();
-                                var titulo = "Reporte de Direcciones";
-                                var descripcion = "Empleados con sus respectivas direcciones";
-
-                                // Encabezado
-                                doc['header'] = function(currentPage, pageCount) {
-                                    return {
-                                        text: titulo,
-                                        fontSize: 18,
-                                        alignment: 'center',
-                                        margin: [0, 10]
-                                    };
-                                };
-
-                                // Pie de Página
-                                doc['footer'] = function(currentPage, pageCount) {
-                                    return {
-                                        columns: [{
-                                                text: 'imperioinformatico',
-                                                alignment: 'left',
-                                                margin: [10, 10]
-                                            },
-                                            {
-                                                text: 'Fecha y Hora: ' + now,
-                                                alignment: 'right',
-                                                margin: [10, 10]
-                                            }
-                                        ],
-                                        margin: [10, 0]
-                                    };
-                                };
-
-                                // Contenido
-                                doc.content.unshift({
-                                    text: descripcion,
-                                    alignment: 'left',
-                                    margin: [10, 0, 10, 10]
-                                });
-                            }
-                        },
-                        'csv',
-                        'excel',
-                        'columnsToggle'
-                    ],
-                }],
                 responsive: true,
-                autoWidth: false,
-                language: {
-                    lengthMenu: "Mostrar _MENU_ Registros Por Página",
-                    zeroRecords: "Nada encontrado - disculpas",
-                    info: "Página _PAGE_ de _PAGES_",
-                    infoEmpty: "No hay registros disponibles",
-                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
-                    search: 'Buscar:',
-                    paginate: {
-                        next: 'Siguiente',
-                        previous: 'Anterior'
+        autWidth: false,
+        language: {
+            lengthMenu: "Mostrar _MENU_ Registros Por Página",
+            zeroRecords: "Nada Encontrado - ¡Disculpas!",
+            info: "Página _PAGE_ de _PAGES_",
+            infoEmpty: "No hay registros disponibles",
+            infoFiltered: "(Filtrado de _MAX_ registros totales)",
+            search: "Buscar:",
+            paginate: {
+                next: "Siguiente",
+                previous: "Anterior"
+            }
+        },
+
+        dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+        buttons: [{
+            extend: 'collection',
+            className: 'custom-html-collection',
+            text: 'Opciones',
+            buttons: [{
+                    extend: 'pdf',
+                    title: 'IMPINFORMATICO | Direcciones',
+                    customize: function(doc) {
+                        var now = obtenerFechaHora();
+                        var titulo = "Reporte de Direcciones de los Empleados ";
+                        var descripcion =
+                            "Descripción del reporte: Empleados de la empresa con su respectivo municipio y direccion";
+
+                        doc['header'] = function(currentPage, pageCount) {
+                            return {
+                                text: titulo,
+                                fontSize: 14,
+                                alignment: 'center',
+                                margin: [0, 10]
+                            };
+                        };
+
+                        doc['footer'] = function(currentPage, pageCount) {
+                            return {
+                                columns: [{
+                                        text: 'Imperio Informatico',
+                                        alignment: 'left',
+                                        margin: [10, 10]
+                                    },
+                                    {
+                                        text: 'Fecha y Hora: ' + now,
+                                        alignment: 'right',
+                                        margin: [10, 10]
+                                    }
+                                ],
+                                margin: [10, 0]
+                            };
+                        };
+                        doc.contentMargins = [10, 10, 10, 10]; // Ajusta el margen de la tabla aquí
+                        doc.content.unshift({
+                            text: descripcion,
+                            alignment: 'left',
+                            margin: [10, 0, 10, 10]
+                        });
+                    }
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    action: function (e, dt, node, config) {
+                        // Ocultar la columna número 4
+                        table.column(4).visible(false);
+                        // Imprimir
+                        $.fn.dataTable.ext.buttons.print.action(e, dt, node, config);
+                        // Restablecer la visibilidad de la columna después de imprimir
+                        table.column(4).visible(true);
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Excel',
+                    title: 'Direcciones de los Empleados',
+                    messageTop: 'Empleados con su respectivo municipio y direccion',
+                    customize: function(xlsx) {
+                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                        $('row:first c', sheet).attr('s', '7');
                     }
                 }
-            });
+            ]
+        },
+        {
+            extend: 'colvis',
+            text: 'Columnas visibles' // Botón de columnas visibles
+        }]
+    });
 
-            table.buttons().container()
-                .appendTo('#departamento_wrapper .col-md-6:eq(0)');
-        });
+    // Mover los botones de exportación al contenedor adecuado
+    table.buttons().container()
+        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+});
 
-        function obtenerFechaHora() {
-            var now = new Date();
-            var options = {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-                second: 'numeric',
-                hour12: false
-            };
-            return now.toLocaleDateString('es-ES', options);
-        }
-    </script>
+function obtenerFechaHora() {
+    var now = new Date();
+    var options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: false
+    };
+    return now.toLocaleDateString('es-ES', options);
+}
 
     </script>
 @stop

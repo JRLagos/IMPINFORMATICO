@@ -21,13 +21,11 @@
     <link href="https://cdn.boldreports.com/5.2.26/content/material/bold.reports.all.min.css" rel="stylesheet" />
 @endsection
 
-@section('content')
-    <div style="height:100%; width:100%">
-        <div style="height: 600px; width: 950px; min-height: 400px;" id="reportvisor">
-        
-        </div>
-    </div>
 
+@section('content')
+<div style="height: 600px; width: 950px;">
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/b59a7d46-4c34-416e-b226-1fd7787d1177/PRUEBA/IMPERIO%20INFORMATICO' id='reportvisor' width='110%' height='620px' allowfullscreen frameborder='0'></iframe>
+</div>
 @endsection
 
 @section('footer')
@@ -61,8 +59,9 @@
 
     <script type="text/javascript">
         $('#reportvisor').boldReportViewer({
+            serviceAuthorizationToken: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlvdmFyZWxhMDE4QGdtYWlsLmNvbSIsIm5hbWVpZCI6IjEiLCJ1bmlxdWVfbmFtZSI6IjBhZDhhZGI3LWEzNzQtNDA0OS1hNTAxLWIwZWQ3MGIwNzdiOSIsIklQIjoiOjoxIiwiaXNzdWVkX2RhdGUiOiIxNjkyMzU4NjQwIiwibmJmIjoxNjkyMzU4NjQwLCJleHAiOjE2OTYyNDY2NDAsImlhdCI6MTY5MjM1ODY0MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTQzMC9yZXBvcnRpbmcvc2l0ZS9zaXRlMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTE0MzAvcmVwb3J0aW5nL3NpdGUvc2l0ZTEifQ.j6TJxH70FyioCJrfV3ftvJA80cT_mVnephQ9tSluxbM",
             reportServiceUrl: "https://demos.boldreports.com/services/api/ReportViewer",
-           reportPath: 'product-line-sales.rdl',
+           reportPath: 'http://localhost:51430/reporting/site/site1/reports/b59a7d46-4c34-416e-b226-1fd7787d1177/PRUEBA/IMPERIO%20INFORMATICO',
         });
     </script>
 @stop
