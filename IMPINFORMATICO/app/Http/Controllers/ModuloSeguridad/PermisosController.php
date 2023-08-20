@@ -1,34 +1,32 @@
 <?php
 
-namespace App\Http\Controllers\ModuloPersonas;
+namespace App\Http\Controllers\ModuloSeguridad;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class EmpleadoController extends Controller
+class PermisosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $response1 = Http::get('http://localhost:3000/SHOW_PERMISOS/SEGURIDAD_PERMISOS');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
+        $response2 = Http::get('http://localhost:3000/SHOW_ROLES/SEGURIDAD_ROLES');
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response3 = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/0');
+        $response3 = Http::get('http://localhost:3000/SHOW_OBJETOS/SEGURIDAD_OBJETOS');
         $data3 = $response3->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response4 = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/0');
-        $data4 = $response4->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-
+    
         // Convierte los datos JSON a un array asociativo
-        $Empleado = json_decode($data1, true);
-        $Municipio = json_decode($data2, true);
-        $Sucursal = json_decode($data3, true);
-        $DeptoEmpresa = json_decode($data4, true);
-       return view('modpersonas.empleado')->with('ResulEmpleado', $Empleado)->with('ResulMunicipio', $Municipio)->with('ResulSucursal', $Sucursal)->with('ResulDeptoEmpresa', $DeptoEmpresa); 
+        $Permisos = json_decode($data1, true);
+        $Roles = json_decode($data2, true);
+        $Objetos = json_decode($data3, true);
+    
+        return view('modseguridad.permisos')->with('ResulPermisos', $Permisos)->with('ResulRoles', $Roles)->with('ResulObjetos', $Objetos);
     }
 
     /**
@@ -44,11 +42,11 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
-        $Empleado = $request->all();
+        $Permisos = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Empleado);
+        $res = Http::post("http://localhost:3000/INS_PERMISOS/SEGURIDAD_PERMISOS", $Permisos);
 
-        return redirect(route('Empleado.index'));
+        return redirect(route('Permisos.index'));
     }
 
     /**

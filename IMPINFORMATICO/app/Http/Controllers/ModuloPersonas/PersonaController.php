@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
+//use Illuminate\Validation\Rule;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -41,16 +42,16 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
+        public function store(Request $request)
         {
-            $Persona = $request->all();
-    
-            $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Persona);
-    
-            return redirect(route('Persona.index'));
+            {
+                $Persona = $request->all();
+        
+                $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Persona);
+        
+                return redirect(route('Persona.index'));
+            }
         }
-    }
 
     /**
      * Display the specified resource.

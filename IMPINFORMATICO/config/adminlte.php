@@ -84,7 +84,7 @@ return [
     */
 
     'auth_logo' => [
-        'enabled' => false,
+        'enabled' => true,
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'Auth Logo',
@@ -130,11 +130,11 @@ return [
     */
 
     'usermenu_enabled' => true,
-    'usermenu_header' => false,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => false,
-    'usermenu_desc' => false,
-    'usermenu_profile_url' => false,
+    'usermenu_image' => true,
+    'usermenu_desc' => true,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -340,17 +340,17 @@ return [
                 [
                     'text' => 'Bancos',
                     'icon' => 'fas fa-fw fa-kaaba gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Banco',
                 ], 
                 [
                     'text' => 'Correos',
                     'icon' => 'fas fa-fw fa-mail-bulk gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Correo',
                 ], 
                 [
                     'text' => 'Estudios',
                     'icon' => 'far fa-fw fa-address-book gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Estudio',
                 ], 
             ],
         ],
@@ -382,12 +382,12 @@ return [
                 [
                     'text' => 'Sucursales',
                     'icon' => 'fas fa-fw fa-store-alt gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Sucursal',
                 ], 
                 [
                     'text' => 'Departamentos Empresa',
                     'icon' => 'fas fa-fw fa-code-branch gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'DeptoEmpresa',
                 ], 
             ],
         ],
@@ -417,26 +417,27 @@ return [
             'icon' => 'fas fa-fw fa-clipboard-list gns text-yellow',
             'submenu' => [
                 [
-                    'text' => 'Reportes',
+                    'text' => 'Reporte de Horas Extra y Vacaciones',
                     'icon' => 'fas fa-fw fa-clipboard-list gns text-info',
                     'url'  => 'Reportes',
                 ], 
                 [
-                    'text' => 'Tipos Reportes',
+                    'text' => 'Reporte General de Empleados',
                     'icon' => 'fas fa-fw fa-list gns text-info',
                     'url'  => 'TiposReportes',
                 ], 
                 
                 [
-                    'text' => 'Reportes Guardados',
+                    'text' => 'Reporte de Empleados',
                     'icon' => 'fa fa-fw fa-th-list gns text-info',
                     'url'  => 'ReportesGuardados',
                 ], 
                 [
-                    'text' => 'Reportes Generados',
+                    'text' => 'Reporte de Planilla',
                     'icon' => 'fa fa-fw fa-th-list gns text-info',
                     'url'  => 'ReportesGenerados',
                 ], 
+
                 
             ],
         ],
@@ -452,7 +453,7 @@ return [
                 [
                     'text' => 'Tipos Estadisticas',
                     'icon' => 'fas fa-fw fa-chart-bar gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'EstaSucursal',
                 ], 
             ],
         ],
@@ -463,38 +464,23 @@ return [
                 [
                     'text' => 'Roles',
                     'icon' => 'fas fa-fw fa-scroll gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Roles',
                 ], 
                 [
                     'text' => 'Permisos',
                     'icon' => 'fab fa-fw fa-accusoft gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Permisos',
                 ], 
                 [
                     'text' => 'Objetos',
                     'icon' => 'fa fa-fw fa-object-group gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Objetos',
                 ], 
                 [
                     'text' => 'Parametros',
                     'icon' => 'fab fa-fw fa-pied-piper gns text-info',
-                    'url'  => '\\',
-                ], 
-                [
-                    'text' => 'Historial Contraseñas',
-                    'icon' => 'fas fa-fw fa-asterisk gns text-info',
-                    'url'  => '\\',
-                ], 
-                [
-                    'text' => 'Preguntas Usuario',
-                    'icon' => 'fab fa-fw fa-lastfm gns text-info',
-                    'url'  => '\\',
-                ], 
-                [
-                    'text' => 'Preguntas',
-                    'icon' => 'fab fa-fw fa-lastfm gns text-info',
-                    'url'  => '\\',
-                ], 
+                    'url'  => 'Parametros',
+                ],  
             ],
         ],
         [
