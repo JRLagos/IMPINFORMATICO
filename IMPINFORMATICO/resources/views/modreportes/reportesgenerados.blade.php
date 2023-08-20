@@ -24,7 +24,7 @@
 
 @section('content')
 <div style="height: 1000px; width: 1000px;">
-    <iframe src='http://localhost:51430/reporting/site/site1/reports/ba0c6409-8c9d-483e-bad4-c59d88a32530/PRUEBA/Reporte%20de%20Planilla?isembed=true' id='report-frame' width='125%' height='720px' allowfullscreen frameborder='0'></iframe>
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/8677e94a-cfb4-4a4d-a8c0-568a77582c26/PRUEBA/Reporte%20de%20Planilla%20IMP?isembed=true' id='report-frame' width='125%' height='720px' allowfullscreen frameborder='0'></iframe>
 </div>
 @endsection
 
