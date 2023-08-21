@@ -93,6 +93,8 @@ Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->
 
 //Rpeortesvista
 Route::get('reportevista', [ReportesvistaController::class, 'index'])->name('Reportesvista.index');
+Route::get('/generar-reporte', 'ReportController@generarReporte');
+
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
