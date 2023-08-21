@@ -588,9 +588,9 @@
                     title: 'IMPINFORMATICO | Empledaos',
                     customize: function(doc) {
                         var now = obtenerFechaHora();
-                        var titulo = "Reporte de Emnpleados ";
+                        var titulo = "Empleados";
                         var descripcion =
-                            "Descripción del reporte: Informacion de los empleados laborando actualemente en la empresa.";
+                            "Empleados con su informacion laboral";
 
                         doc['header'] = function(currentPage, pageCount) {
                             return {
@@ -641,7 +641,7 @@
                     extend: 'excelHtml5',
                     text: 'Excel',
                     title: 'Empleados IMPINFORMATICO',
-                    messageTop: 'Reporte de Empledoas con sus datos laborales.',
+                    messageTop: 'Empledoas con sus datos laborales.',
                     customize: function(xlsx) {
                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                         $('row:first c', sheet).attr('s', '7');
