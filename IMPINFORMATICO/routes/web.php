@@ -140,10 +140,12 @@ Route::post('Post-DeptoEmpresa',[DeptoEmpresaController::class, 'store'])->name(
 // Roles
 Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
 Route::post('Post-Roles',[RolesController::class, 'store'])->name('Post-Roles.store');
+Route::post('Upt-Roles',[RolesController::class, 'update'])->name('Upt-Roles.update');
 
 // Objetos
 Route::get('Objetos', [ObjetosController::class, 'index'])->name('Objetos.index');
 Route::post('Post-Objetos',[ObjetosController::class, 'store'])->name('Post-Objetos.store');
+
 
 // Permisos
 Route::get('Permisos', [PermisosController::class, 'index'])->name('Permisos.index');
