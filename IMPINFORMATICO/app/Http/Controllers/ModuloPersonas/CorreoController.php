@@ -72,7 +72,7 @@ class CorreoController extends Controller
             "DES_CORREO" => $request->input("DES_CORREO"),
         ]);
         
-        return redirect(route('Correo.index'));
+        return redirect(route('Correo.index'))->with('success', 'La actualización se ha realizado con éxito.');
 
     }
     

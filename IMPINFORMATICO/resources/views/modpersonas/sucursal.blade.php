@@ -14,9 +14,9 @@
 
 
 
-  <h1>Registro de Sucursales</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar Sucursal</button>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Registro Sucursales</b></h1>
+  <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button"><b>Agregar Sucursal</b></button>
 </div>
   @stop
 

@@ -187,7 +187,21 @@
     setTimeout(function(){
         $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
     }, 5000); // 5000 ms = 5 segundos
-</script>
+    </script>
+       <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z áéíóú]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
 
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
     </script>
     @stop
