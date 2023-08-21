@@ -53,7 +53,7 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre Departamento</label>
-                    <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="NOM_DEPARTAMENTO" required>                   
+                    <input type="text" class="form-control alphanumeric-input" name="NOM_DEPARTAMENTO" required>                   
                     </div>
 
                     </div>
@@ -65,6 +65,15 @@
         </div>
       </div>
     </div>
+
+      
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif    
+
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
@@ -98,8 +107,8 @@
                                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <h4>Ingresar Nuevos Datos</h4>
-                                <form action="{{route('Upt-Departamento.update')}}" method="post" class="was-validated">
+                                <h4>Ingresar nuevos datos</h4>
+                                <form action="{{route('Put-Departamento.update')}}" method="post" class="was-validated">
                                     @csrf
                                         <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"  value="{{$Departamento['COD_DEPARTAMENTO']}}">
 
@@ -109,8 +118,8 @@
                                         </div>
 
                                       <div class="modal-footer">
-                                        <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                        <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
+                                         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                         <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
                                       </div>
                                 </form>
                             </div>
@@ -292,6 +301,12 @@
       cleanInputValue(this);
     });
   });
+</script>
+
+<script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
 </script>
 
     @stop

@@ -18,12 +18,14 @@ class BancoController extends Controller
     {
         $response = Http::get('http://localhost:3000/SHOW_BANCO/GETALL_BANCO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response2 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
   
         // Convierte los datos JSON a un array asociativo
         $Banco = json_decode($data, true);
-
+        $Empleado = json_decode($data2, true);
         
-        return view('modpersonas.banco')->with('ResulBanco', $Banco);
+        return view('modpersonas.banco')->with('ResulBanco', $Banco)->with('ResulEmpleado', $Empleado);
     }
 
     /**
@@ -61,9 +63,18 @@ class BancoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upd_Banco = Http::put('http://localhost:3000/UPD_BANCO/BANCO/'.$request->input("COD_BANCO"),[
+            "COD_BANCO" => $request->input('COD_BANCO'),
+            "COD_EMPLEADO" => $request->input("COD_EMPLEADO"),
+            "NOM_BANCO" => $request->input("NOM_BANCO"),
+            "DES_BANCO" => $request->input("DES_BANCO"),
+            "NUM_CTA_BANCO" => $request->input("NUM_CTA_BANCO"),
+        ]);
+        
+        return redirect(route('Banco.index'))->with('success', 'La actualización se ha realizado con éxito.');
+
     }
 
     /**

@@ -15,10 +15,10 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <h1>Municipios</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"> Agregar Municipio</button>
-</div>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Municipios</b></h1>
+    <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"><b>Agregar Municipio</b></button>
+    </div>
   @stop
 
 @section('css')
@@ -83,6 +83,13 @@
     </div>
 
 
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif   
+
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
@@ -101,18 +108,59 @@
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
                         <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
+                        
                         <td style="text-align: center;">
-                            <a class="btn btn-warning" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UpdMunicipio-{{$Municipio['COD_MUNICIPIO']}}">
+                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                </button>
+              </td>
+            </tr>
+                <!-- Modal for editing goes here -->
+  <div class="modal fade bd-example-modal-sm" id="UpdMunicipio-{{$Municipio['COD_MUNICIPIO']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Municipio</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar nuevos datos</p></h4>
+              <hr>
+                <form action="{{route('Upd-Municipio.update')}}" method="post" class="was-validated">
+                @csrf
 
-@stop
+                    <input type="hidden" class="form-control" name="COD_MUNICIPIO"  value="{{$Municipio['COD_MUNICIPIO']}}">
+
+
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Municipio</label>
+                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="NOM_MUNICIPIO" value="{{$Municipio['NOM_MUNICIPIO']}}" required maxlength="30">                   
+                  </div>
+
+
+                  <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Departamento</label>
+                      <select class="form-control js-example-basic-single"  name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO">
+                        <option value="{{$Municipio['COD_DEPARTAMENTO']}}" style="display: none;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</option>
+                          @foreach ($ResulDepartamento as $Departamento)
+                        <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">{{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </tbody>
+    </table>
+  @stop
 
 @section('footer')
 
@@ -287,6 +335,11 @@
             $('.js-example-basic-single').select2({});
         });
     </script>
+       <script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
+        </script>
 
     </script>
 

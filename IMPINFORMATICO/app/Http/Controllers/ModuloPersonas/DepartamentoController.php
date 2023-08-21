@@ -40,7 +40,7 @@ class DepartamentoController extends Controller
 
         $res = Http::post("http://localhost:3000/INS_DEPARTAMENTO/DEPARTAMENTO", $Departamento);
 
-        return redirect(route('Departamento.index'));
+        return redirect(route('Departamento.index'))->with('success', 'Registro ingresado con éxito.');
     }
 
     /**
@@ -69,7 +69,7 @@ class DepartamentoController extends Controller
             "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
         ]);
         
-        return redirect(route('Departamento.index'));
+        return redirect(route('Departamento.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
     
 

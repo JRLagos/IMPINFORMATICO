@@ -18,10 +18,10 @@
 
 
 
-  <h1>Registro de Empleados</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"> Agregar Empleado</button>
-</div>
+        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Registro de Empleados</b></h1>
+    <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"><b>Agregar Empleado</b></button>
+    </div>
   @stop
 
 
@@ -45,7 +45,7 @@
 
 
                     <div class="modal-header">
-                    <h3>Personas</h3>
+                    <h3>Empleado</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
@@ -358,6 +358,14 @@
     </div>
     </div>
 
+     
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif  
+
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
@@ -365,35 +373,132 @@
             <thead class="bg-dark">
                 <tr>
                     <th>#</th>
-                    <TH>Nombre Completo</TH>
-                    <th>Puesto Trabajo</th>
-                    <th>Tipo Contrato</th>
-                    <th>Numero Seguro Social</th>
-                    <th>Sueldo Base</th>
-                    <th>Accion</th>
+                    <th style="text-align: center;">Nombre Completo</th>
+                    <th style="text-align: center;">Sucursal</th>
+                    <th style="text-align: center;">Departamento Empresa</th>
+                    <th style="text-align: center;">Puesto Trabajo</th>
+                    <th style="text-align: center;">Tipo Contrato</th>
+                    <th style="text-align: center;">Fecha Ingreso</th>
+                    <th style="text-align: center;">Numero Seguro Social</th>
+                    <th style="text-align: center;">Sueldo Base</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
-                        <td>{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
-                        <td>{{ $Empleado['TIP_CONTRATO'] }}</td>
-                        <td>{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
-                        <td>{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
-                        <td>
-                            <a class="btn btn-warning" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                        <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['TIP_CONTRATO'] }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Empleado['FEC_INGRESO'])) }}</td>
+                        <td style="text-align: center;">{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
+                        <td style="text-align: center;">{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">
+                <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UpdEmpleado-{{$Empleado['COD_EMPLEADO']}}">
+                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                </button>
+              </td>
+            </tr>
+                <!-- Modal for editing goes here -->
+  <div class="modal fade bd-example-modal-sm" id="UpdEmpleado-{{$Empleado['COD_EMPLEADO']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Empleado</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar nuevos datos</p></h4>
+              <hr>
+                <form action="{{route('Upd-Empleado.update')}}" method="post" class="was-validated">
+                @csrf
 
-@stop
+                    <input type="hidden" class="form-control" name="COD_EMPLEADO"  value="{{$Empleado['COD_EMPLEADO']}}">
+
+                    <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Empleado</label>
+                      <select class="form-control js-example-basic-single"  name="COD_PERSONA" id="COD_PERSONA">
+                        <option value="{{$Empleado['COD_PERSONA']}}" style="display: none;">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
+                        <option disabled >¡No se puede seleccionar otro Empleado!</option>
+                      </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Sucursal</label>
+                      <select class="form-control js-example-basic-single"  name="COD_SUCURSAL" id="COD_SUCURSAL">
+                        <option value="{{$Empleado['COD_SUCURSAL']}}" style="display: none;">{{ $Empleado['NOM_SUCURSAL'] }}</option>
+                          @foreach ($ResulSucursal as $Sucursal)
+                        <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Departamento de Empresa</label>
+                      <select class="form-control js-example-basic-single"  name="COD_DEPTO_EMPRESA" id="COD_DEPTO_EMPRESA">
+                        <option value="{{$Empleado['COD_DEPTO_EMPRESA']}}" style="display: none;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</option>
+                          @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
+                        <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                    <label for="PUE_TRA_EMPLEADO" class="form-label">Puesto de Trabajo</label>
+                    <select class="form-control" name="PUE_TRA_EMPLEADO" required>
+                    <option value="" style="display: none;" disabled>Seleccione una opción</option>
+                    <option value="Gerente" {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente' ? 'selected' : '' }}>Gerente</option>
+                    <option value="Administrador" {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Administrador' ? 'selected' : '' }}>Administrador</option>
+                    <option value="Jefe de Planta" {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_Planta' ? 'selected' : '' }}>Jefe de Planta</option>
+                  </select>
+                 <div class="valid-feedback"></div>
+                 </div>
+
+                     
+                    <div class="mb-3 mt-3">
+                    <label for="TIP_CONTRATO" class="form-label">Tipo de Contrato</label>
+                    <select class="form-control" name="TIP_CONTRATO" required>
+                    <option value="" style="display: none;" disabled>Seleccione una opción</option>
+                    <option value="Temporal" {{ $Empleado['TIP_CONTRATO'] === 'Temporal' ? 'selected' : '' }}>Temporal</option>
+                    <option value="Permanente" {{ $Empleado['TIP_CONTRATO'] === 'Permanente' ? 'selected' : '' }}>Permanente</option>
+                  </select>
+                 <div class="valid-feedback"></div>
+                 </div>
+
+                 <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Ingreso</label>
+                    <input type="date" class="form-control" min="2023-08-15" max="<?= date('Y-m-d'); ?>" name="FEC_INGRESO" value="{{date('Y-m-d',strtotime($Empleado['FEC_INGRESO']))}}" required>
+                  </div>
+
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Nùmero Seguro Social</label>
+                    <input type="number" class="form-control"  name="NUM_SEG_SOCIAL" value="{{$Empleado['NUM_SEG_SOCIAL']}}" required>
+                    <span class="validity"></span>
+                  </div>
+                  
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Salario Base</label>
+                    <input type="number" class="form-control" name="SAL_BAS_EMPLEADO" value="{{$Empleado['SAL_BAS_EMPLEADO']}}" required>
+                    <span class="validity"></span>
+                  </div>
+
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </tbody>
+    </table>
+  @stop
 
 @section('footer')
 
@@ -574,6 +679,11 @@
     });
   });
 </script> 
+<script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
+</script>
 
     @stop
 

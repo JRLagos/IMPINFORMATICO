@@ -30,6 +30,12 @@
 
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif    
 
     <!-- /.card-header -->
     <div class="table-responsive p-0">
@@ -52,27 +58,73 @@
                         <td style="text-align: center;">{{ $Direccion['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">{{ $Direccion['DES_DIRECCION'] }}</td>
                         <td style="text-align: center;">
-                            <a class="btn btn-warning" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                        <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UpdDireccion-{{$Direccion['COD_DIRECCION']}}">
+                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                </button>
+              </td>
+            </tr>
+
+                <!-- Modal for editing goes here -->
+  <div class="modal fade bd-example-modal-sm" id="UpdDireccion-{{$Direccion['COD_DIRECCION']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Dirección</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar nuevos datos</p></h4>
+              <hr>
+                <form action="{{route('Upd-Direcciones.update')}}" method="post" class="was-validated">
+                @csrf
+
+                    <input type="hidden" class="form-control" name="COD_DIRECCION"  value="{{$Direccion['COD_DIRECCION']}}">
+
+                  <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Persona</label>
+                      <select class="form-control js-example-basic-single"  name="COD_PERSONA" id="COD_PERSONA">
+                        <option value="{{$Direccion['COD_PERSONA']}}" style="display: none;">{{ $Direccion['NOMBRE_COMPLETO'] }}</option>
+                      </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Municipio</label>
+                      <select class="form-control js-example-basic-single"  name="COD_MUNICIPIO" id="COD_MUNICIPIO">
+                        <option value="{{$Direccion['COD_MUNICIPIO']}}" style="display: none;">{{ $Direccion['NOM_MUNICIPIO'] }}</option>
+                          @foreach ($ResulMunicipio as $Municipio)
+                        <option value="{{ $Municipio['COD_MUNICIPIO'] }}">{{ $Municipio['NOM_MUNICIPIO'] }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Descripción</label>
+                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="DES_DIRECCION" value="{{$Direccion['DES_DIRECCION']}}" required maxlength="255">                   
+                  </div>
+
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </tbody>
+    </table>
+  @stop
+
+  @section('footer')
+
+   <div class="float-right d-none d-sm-block">
+    <b>Version</b> 3.1.0
     </div>
+<strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
 
 @stop
-
-@section('footer')
-
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
-
-@stop
-
 
 
 @section('js')
@@ -215,6 +267,10 @@
             return now.toLocaleDateString('es-ES', options);
         }
     </script>
-
+       <script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
+       </script>
     </script>
 @stop
