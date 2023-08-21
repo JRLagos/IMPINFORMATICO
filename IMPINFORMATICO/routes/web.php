@@ -93,6 +93,8 @@ Route::get('ReportesGuardados', [ReportesGuardadosController::class, 'index'])->
 
 //Rpeortesvista
 Route::get('reportevista', [ReportesvistaController::class, 'index'])->name('Reportesvista.index');
+Route::get('/generar-reporte', 'ReportController@generarReporte');
+
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
@@ -149,10 +151,12 @@ Route::post('/Upd-DeptoEmpresa',[DeptoEmpresaController::class, 'update'])->name
 // Roles
 Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
 Route::post('Post-Roles',[RolesController::class, 'store'])->name('Post-Roles.store');
+Route::post('Upt-Roles',[RolesController::class, 'update'])->name('Upt-Roles.update');
 
 // Objetos
 Route::get('Objetos', [ObjetosController::class, 'index'])->name('Objetos.index');
 Route::post('Post-Objetos',[ObjetosController::class, 'store'])->name('Post-Objetos.store');
+
 
 // Permisos
 Route::get('Permisos', [PermisosController::class, 'index'])->name('Permisos.index');

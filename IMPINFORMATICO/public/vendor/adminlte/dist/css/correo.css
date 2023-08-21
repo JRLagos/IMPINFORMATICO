@@ -58,3 +58,33 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+
+/*Css error de contraseña temporal existente  */
+.alert-custom {
+    background-color: #f8d7da; /* Color de fondo rojo claro */
+    border-color: #f5c6cb; /* Color del borde rojo claro */
+    color: #721c24; /* Color del texto rojo oscuro */
+    padding: 0.60rem 1rem; /* Espaciado interno de la alerta */
+    border-radius: 0.25rem; /* Bordes redondeados */
+    text-align: center; /* Centrar el contenido del mensaje */
+    max-height: 60px; /* Ajusta la altura máxima de la caja */
+    overflow: hidden; /* Oculta el contenido si supera la altura máxima */
+    margin: 0 auto; /* Centra horizontalmente la caja */
+}
+
+
+
+
+.alert-success {
+    background-color: #d4edda; /* Color de fondo verde claro */
+    border-color: #c3e6cb; /* Color del borde verde claro */
+    color: #155724; /* Color del texto verde oscuro */
+}
+
+.alert-info {
+    background-color: #cce5ff; /* Color de fondo azul claro */
+    border-color: #b8daff; /* Color del borde azul claro */
+    color: #004085; /* Color del texto azul oscuro */
+}
