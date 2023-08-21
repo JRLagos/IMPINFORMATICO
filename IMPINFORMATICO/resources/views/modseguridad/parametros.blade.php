@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-  @section('title', 'Parametros')
+  @section('title', 'Parametro')
 
   @section('content_header')
 
@@ -36,13 +36,13 @@
 
 
                     <div class="modal-header">
-                    <h3>Parametros</h3>
+                    <h3>Objetos</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Parametro</h4>
+                        <h4>Ingresar Rol</h4>
 
-                    <form action="{{route('Post-Parametro.store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-Parametros.store')}}" method="post" class="was-validated">
                     @csrf
                     
                     <div class="mb-3 mt-3">
@@ -89,13 +89,13 @@
         </div>
     </div>
 
-
    <!-- /.card-header -->
- <div class="table-responsive p-0">
+   <div class="table-responsive p-0">
  <br>
-  <table id="parametros" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="parametro" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
-    <tr> 
+
+    <tr>
         <th style="text-align: center;">#</th>
         <th style="text-align: center;">Descripcion Parametro</th>
         <th style="text-align: center;">Descripcion Valor</th>
@@ -103,27 +103,81 @@
         <th style="text-align: center;">Fecha Creacion</th>
         <th style="text-align: center;">Fecha Modificacion</th>
         <th style="text-align: center;">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($ResulParametros as $Parametros)
+    </tr>
+        </thead>
+        <tbody>
+                @foreach ($ResulParametros as $Parametros)
         <tr>
-        <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Parametros['DES_PARAMETRO'] }}</td>
-        <td style="text-align: center;">{{ $Parametros['DES_VALOR'] }}</td>
-        <td style="text-align: center;">{{ $Parametros['NOM_USUARIO'] }}</td>
-        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Parametros['FEC_CREACION'])) }}</td>
-        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Parametros['FEC_MODIFICACION'])) }}</td>
-        <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+                   <td style="text-align: center;">{{ $loop->iteration }}</td>
+                   <td style="text-align: center;">{{ $Parametros['DES_PARAMETRO'] }}</td>
+                   <td style="text-align: center;">{{ $Parametros['DES_VALOR'] }}</td>
+                   <td style="text-align: center;">{{ $Parametros['NOM_USUARIO'] }}</td>
+                   <td style="text-align: center;">{{ date('d-m-Y', strtotime($Parametros['FEC_CREACION'])) }}</td>
+                   <td style="text-align: center;">{{ date('d-m-Y', strtotime($Parametros['FEC_MODIFICACION'])) }}</td>
+                    <td style="text-align: center;">
+                        <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#Parametro-edit-{{$Parametros['COD_PARAMETRO']}}">
+                            <i class='fas fa-edit' style='font-size:20px;'></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <div class="modal fade bd-example-modal-sm" id="Parametro-edit-{{$Parametros['COD_PARAMETRO']}}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Parametro</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Ingresar Nuevos Datos</h4>
+                                <form action="{{route('Upt-Parametros.update')}}" method="post" class="was-validated">
+                                    @csrf
+                                        <input type="hidden" class="form-control" name="COD_PARAMETRO"  value="{{$Parametros['COD_PARAMETRO']}}">
+                                       
+                                        <div class="mb-3 mt-3">
+                                     <label for="dni" class="form-label">Nombre Empleado</label>
+                      <select class="form-control js-example-basic-single"  name="COD_USUARIO" id="COD_USUARIO">
+                        <option value="{{$Parametros['COD_USUARIO']}}" style="display: none;">{{ $Parametros['NOM_USUARIO'] }}</option>
+                        <option disabled >¡No se puede seleccionar otro Empleado!</option>
+                      </select>
+                    </div>
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Descripcion Parametro</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="DES_PARAMETRO" name="DES_PARAMETRO" pattern="[A-Z a-z].{3,}" value="{{$Parametros['DES_PARAMETRO']}}" required maxlength="50">
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Valor Parametro</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="DES_VALOR" name="DES_VALOR" pattern="[A-Z a-z].{3,}" value="{{$Parametros['DES_VALOR']}}" required maxlength="100">
+                                        </div>
+
+                                          <div class="mb-3 mt-3">
+                                              <label for="dni" class="form-label">Fecha Creacion</label>
+                                              <input type="date" class="form-control" min="2023-08-01"
+                                                  max="<?= date('Y-m-d') ?>" name="FEC_CREACION"
+                                                  value="{{ date('Y-m-d', strtotime($Parametros['FEC_CREACION'])) }}"
+                                                  required>
+                                          </div>
+                                          <div class="mb-3 mt-3">
+                                              <label for="dni" class="form-label">Fecha Modificacion</label>
+                                              <input type="date" class="form-control" min="2023-08-01"
+                                                  max="<?= date('Y-m-d') ?>" name="FEC_MODIFICACION"
+                                                  value="{{ date('Y-m-d', strtotime($Parametros['FEC_MODIFICACION'])) }}"
+                                                  required>
+                                          </div>
+   
+                                      <div class="modal-footer">
+                                        <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                                        <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
+                                      </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </tbody>
+    </table>
 
   @stop
 
@@ -145,16 +199,16 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#parametros').DataTable({
+    $('#parametro').DataTable({
       responsive: true,
       autWidth: false,
 
       "language": {
-              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
+              "lengthMenu": "Mostrar  MENU  Registros Por Página",
               "zeroRecords": "Nada encontrado - disculpas",
-              "info": "Pagina _PAGE_ de _PAGES_",
+              "info": "Pagina PAGE de PAGES",
               "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+              "infoFiltered": "(Filtrado de MAX registros totales)",
 
               'search' : 'Buscar:',
               'paginate' : {
