@@ -49,7 +49,7 @@ class AuthController extends Controller
 
     }
 
-    
+
     
 
 
@@ -108,7 +108,6 @@ class AuthController extends Controller
                     $credencialesCorrectas=true;
                     $request->session()->put('intentos_fallidos', $intentosFallidos);
                     Session::flash('error', 'Credenciales inválidas. Inténtalo de nuevo.');
-                    dd("estoy aquí 2");
                     break;
                     
                 }
