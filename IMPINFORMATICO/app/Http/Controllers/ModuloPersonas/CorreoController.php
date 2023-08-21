@@ -16,11 +16,15 @@ class CorreoController extends Controller
     {
         $response = Http::get('http://localhost:3000/SHOW_CORREO/GETALL_CORREO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response1 = Http::get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
+        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+
 
         // Convierte los datos JSON a un array asociativo
         $Correo = json_decode($data, true);
+        $Persona = json_decode($data1, true);
   
-        return view('modpersonas.correo')->with('ResulCorreo', $Correo); 
+        return view('modpersonas.correo')->with('ResulCorreo', $Correo)->with('ResulPersona', $Persona); 
     }
 
     /**
@@ -58,22 +62,18 @@ class CorreoController extends Controller
     /**
      * Update the specified resource in storage.
      */
-
-    public function editarCorreo(Request $request, $id)
-    {
-        $response = Http::put('http://localhost:3000/UPD_CORREO/CORREO/' . $id, [
-            'CORREO_ELECTRONICO' => $request->input('CORREO_ELECTRONICO'),
-            'DES_CORREO' => $request->input('DES_CORREO'),
-            // Agrega otros campos si es necesario
-        ]);
     
-        if ($response->successful()) {
-            // La solicitud PUT fue exitosa, puedes redirigir o realizar otras acciones
-            return redirect()->route('modpersonas.correo')->with('mensaje', 'Los campos se actualizaron correctamente.');
-        } else {
-            // La solicitud PUT falló, maneja el error según tus necesidades
-            // Puedes mostrar un mensaje de error o redirigir a otra página
-        }
+    public function update(Request $request)
+    {
+        $upd_Correo= Http::put('http://localhost:3000/UPD_CORREO/CORREO/'.$request->input("COD_CORREO"),[
+            "COD_CORREO" => $request->input('COD_CORREO'),
+            "COD_PERSONA" => $request->input("COD_PERSONA"),
+            "CORREO_ELECTRONICO" => $request->input("CORREO_ELECTRONICO"),
+            "DES_CORREO" => $request->input("DES_CORREO"),
+        ]);
+        
+        return redirect(route('Correo.index'));
+
     }
     
 

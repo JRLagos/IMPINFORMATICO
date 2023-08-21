@@ -42,7 +42,7 @@ class DeptoEmpresaController extends Controller
     
             $res = Http::post("http://localhost:3000/INS_DEPTO_EMPRESA/DEPARTAMENTOS_EMPRESA", $DeptoEmpresa);
     
-            return redirect(route('DeptoEmpresa.index'));
+            return redirect(route('DeptoEmpresa.index'))->with('success', 'Datos ingresados con éxito.');
         }
     }
 
@@ -65,11 +65,18 @@ class DeptoEmpresaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
-    }
+        $upd_municipio = Http::put('http://localhost:3000/UPD_DEPTO_EMPRESA/DEPARTAMENTO EMPRESA/'.$request->input("COD_DEPTO_EMPRESA"),[
+            "COD_DEPTO_EMPRESA" => $request->input('COD_DEPTO_EMPRESA'),
+            "NOM_DEPTO_EMPRESA" => $request->input("NOM_DEPTO_EMPRESA"),
+            "DES_DEPTO_EMPRESA" => $request->input("DES_DEPTO_EMPRESA"),
+        ]);
+        
+        return redirect(route('DeptoEmpresa.index'))->with('success', 'La actualización se ha realizado con éxito.');
 
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
