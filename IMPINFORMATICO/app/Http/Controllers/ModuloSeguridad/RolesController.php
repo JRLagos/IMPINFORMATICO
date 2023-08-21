@@ -62,9 +62,15 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upt_HoraExtra = Http::put('http://localhost:3000/UPT_ROLES/SEGURIDAD_ROLES/'.$request->input("COD_ROL"),[
+            "COD_ROL" => $request->input('COD_ROL'),
+            "NOM_ROL" => $request->input("NOM_ROL"),
+            "DES_ROL" => $request->input("DES_ROL"),
+        ]);
+        
+        return redirect(route('Roles.index'));
     }
 
     /**

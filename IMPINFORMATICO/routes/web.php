@@ -98,12 +98,13 @@ Route::get('/generar-reporte', 'ReportController@generarReporte');
 // Departamentos
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
-Route::put('Put-Departamento', [DepartamentoController::class, 'update'])->name('Put-Departamento.update');
+Route::post('Put-Departamento', [DepartamentoController::class, 'update'])->name('Put-Departamento.update');
 
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
 Route::post('Post-Municipio', [MunicipioController::class, 'store'])->name('Post-Municipio.store');
+Route::post('/Upd-Municipio',[MunicipioController::class, 'update'])->name('Upd-Municipio.update');
 
 // Estadisticas
 Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadistica.index');
@@ -111,41 +112,51 @@ Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadi
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
 Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+Route::post('/Upd-Empleado',[EmpleadoController::class, 'update'])->name('Upd-Empleado.update');
 Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarRtn']);
 
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
 Route::post('Post-Persona',[PersonaController::class, 'store'])->name('Post-Persona.store');
+Route::post('/Upd-Persona',[PersonaController::class, 'update'])->name('Upd-Persona.update');
 
 
 // Direcciones
 Route::get('Direcciones', [DireccionController::class, 'index'])->name('Direcciones.index');
+Route::post('/Upd-Direcciones',[DireccionController::class, 'update'])->name('Upd-Direcciones.update');
+
 
 //Bancos
 Route::get('Banco', [BancoController::class, 'index'])->name('Banco.index');
+Route::post('/Upd-Banco',[BancoController::class, 'update'])->name('Upd-Banco.update');
 
 //Correos
 Route::get('Correo', [CorreoController::class, 'index'])->name('Correo.index');
-
+Route::post('Put-Correo', [CorreoController::class, 'update'])->name('Upd-Correo.update');
 
 //Estudios
 Route::get('Estudio', [EstudioController::class, 'index'])->name('Estudio.index');
+Route::post('Put-Estudio', [EstudioController::class, 'update'])->name('Upd-Estudio.update');
 
 //Sucursal
 Route::get('Sucursal', [SucursalController::class, 'index'])->name('Sucursal.index');
 Route::post('Post-Sucursal',[SucursalController::class, 'store'])->name('Post-Sucursal.store');
+Route::post('/Upd-Sucursal',[SucursalController::class, 'update'])->name('Upd-Sucursal.update');
 
 //Departamento de empresa
 Route::get('DeptoEmpresa', [DeptoEmpresaController::class, 'index'])->name('DeptoEmpresa.index');
 Route::post('Post-DeptoEmpresa',[DeptoEmpresaController::class, 'store'])->name('Post-DeptoEmpresa.store');
+Route::post('/Upd-DeptoEmpresa',[DeptoEmpresaController::class, 'update'])->name('Upd-DeptoEmpresa.update');
 
 // Roles
 Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
 Route::post('Post-Roles',[RolesController::class, 'store'])->name('Post-Roles.store');
+Route::post('Upt-Roles',[RolesController::class, 'update'])->name('Upt-Roles.update');
 
 // Objetos
 Route::get('Objetos', [ObjetosController::class, 'index'])->name('Objetos.index');
 Route::post('Post-Objetos',[ObjetosController::class, 'store'])->name('Post-Objetos.store');
+
 
 // Permisos
 Route::get('Permisos', [PermisosController::class, 'index'])->name('Permisos.index');

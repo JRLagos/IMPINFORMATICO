@@ -14,31 +14,30 @@
 
 
 
-  <h1>Registro de Personas</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"> Agregar Persona</button>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Registro de Personas</b></h1>
+  <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"><b>Agregar Empleado</b></button>
 </div>
+
   @stop
-
-
     @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
         <!-- botones -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+       
     @endsection
 
 
   @section('content')
-
+       
     <!-- Modal para agregar un nuevo producto -->
     <div class="modal fade bd-example-modal-sm" id="addPersona" tabindex="-1" >
     <div class="modal-dialog">
       <div class="modal-content">
-
-
                     <div class="modal-header">
                     <h3>Personas</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
@@ -71,23 +70,6 @@
                     </div>   
                     </div>
                   
-                  <script>
-                     function validateDNI(input) {
-                     const value = input.value;
-                     const maxLength = 13;
-
-                     if (value.length > maxLength) {
-                         input.value = value.slice(0, maxLength);
-                     }
-    
-                    if (value.length === maxLength) {
-                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
-                    } else {
-                         input.setCustomValidity("El DNI debe tener 13 dígitos.");
-                    }
-                  }
-                  </script>
-
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">RTN</label>
                     <input type="number"  class="form-control" name="RTN_PERSONA" required  oninput="validateRTN(this)">
@@ -96,30 +78,12 @@
                     </div>    
                     </div>
 
-                  <script>
-                     function validateRTN(input) {
-                     const value = input.value;
-                     const maxLength = 14;
-
-                     if (value.length > maxLength) {
-                         input.value = value.slice(0, maxLength);
-                     }
-    
-                    if (value.length === maxLength) {
-                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
-                    } else {
-                         input.setCustomValidity("El RTN debe tener 14 dígitos.");
-                    }
-                  }
-                  </script>
-
-
                    <div class="mb-3 mt-3">
                    <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
                    <select class="form-control" name="TIP_TELEFONO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="FIJO">Fijo</option>
-                   <option value="CELULAR">Celular</option>
+                   <option value="Fijo">Fijo</option>
+                   <option value="Celular">Celular</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -128,24 +92,13 @@
                     <label for="dni" class="form-label">Número Télefono</label>
                     <input type="number" class="form-control" name="NUM_TELEFONO" required  oninput="validateNUMERO(this)">
                     </div>
-
-               <script>
-                  function validateNUMERO(input) {
-                  const value = input.value;
-                  const maxLength = 8;
-
-                  if (value.length > maxLength) {
-                      input.value = value.slice(0, maxLength);
-                  }
-                }
-                </script>
-                    
+              
                    <div class="mb-3 mt-3">
                    <label for="SEX_PERSONA" class="form-label">Sexo Persona</label>
                    <select class="form-control" name="SEX_PERSONA" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="MASCULINO">Masculino</option>
-                   <option value="FEMENINO">Femenino</option>
+                   <option value="Masculino">Masculino</option>
+                   <option value="Femenino">Femenino</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -169,17 +122,18 @@
                    <label for="IND_CIVIL" class="form-label">Estado Civil</label>
                    <select class="form-control" name="IND_CIVIL" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="SOLTERO">Soltero</option>
-                   <option value="CASADO">Casado</option>
-                   <option value="UNION LIBRE">Unión Libre</option>
-                   <option value="VIUDO">Viudo</option>
+                   <option value="Soltero">Soltero</option>
+                   <option value="Casado">Casado</option>
+                   <option value="Union Libre">Union Libre</option>
+                   <option value="Divorciado">Divorciado</option>
+                   <option value="Viudo">Viudo</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Correo Electronico</label>
-                    <input type="email" id="email" pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30" class="form-control" name="CORREO_ELECTRONICO" required>                   
+                    <input type="email" id="email" pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30" class="form-control alphanumeric-input" name="CORREO_ELECTRONICO" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -191,9 +145,9 @@
                    <label for="NIV_ESTUDIO" class="form-label">Nivel de Estudio</label>
                    <select class="form-control" name="NIV_ESTUDIO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="primaria">Primaria</option>
-                   <option value="secundaria">Secundaria</option>
-                   <option value="universitario">Universitario</option>
+                   <option value="Primaria">Primaria</option>
+                   <option value="Secundaria">Secundaria</option>
+                   <option value="Universitario">Universitario</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -215,7 +169,7 @@
                     
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Direccion</label>
-                    <input type="text" class="form-control alphanumeric-input" name="DES_DIRECCION" required minlength="3" maxlength="50">                   
+                    <input type="text" class="form-control" name="DES_DIRECCION" required minlength="3" maxlength="50">                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -242,8 +196,8 @@
                    <label for="TIP_CONTRATO" class="form-label">Tipo de Contrato</label>
                    <select class="form-control" name="TIP_CONTRATO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="TEMPORAL">Temporal</option>
-                   <option value="PERMANENTE">Permanente</option>
+                   <option value="Temporal">Temporal</option>
+                   <option value="Permanente">Permanente</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -253,9 +207,11 @@
                    <label for="PUE_TRA_EMPLEADO" class="form-label">Puesto Trabajo del Empleado</label>
                    <select class="form-control" name="PUE_TRA_EMPLEADO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="GERENTE">Gerente</option>
-                   <option value="ADMINISTRADOR">Administrador</option>
-                   <option value="JEFE DE PLANTA">Jefe de Planta</option>
+                   <option value="Gerente">Gerente</option>
+                   <option value="Administrador">Administrador</option>
+                   <option value="Jefe de Planta">Jefe de Planta</option>
+                   <option value="Conserje">Conserje</option>
+                   <option value="Guardia">Guardia</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -348,7 +304,14 @@
     </div>
 
   
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif    
 
+  
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
@@ -357,17 +320,17 @@
     <thead class="bg-dark">
     <tr> 
         <th style="text-align: center;">#</th>
-        <th style="text-align: center;">NOMBRE COMPLETO</TH>
-        <th style="text-align: center;">DNI PERSONA</th>
-        <th style="text-align: center;">RTN PERSONA</th>
-        <th style="text-align: center;">ESTADO CIVIL</th>
-       <th style="text-align: center;">TIPO TELÉFONO</th> 
-        <th style="text-align: center;">NÚMERO TELÉFONO</th>
-        <th style="text-align: center;">SEXO</th>
-        <th style="text-align: center;">EDAD</th>
-        <th style="text-align: center;">FECHA NACIMIENTO</th>
-        <th style="text-align: center;">LUGAR NACIMIENTO</th>
-        <th style="text-align: center;">ACCION</th>
+        <th style="text-align: center;">Nombre Completo</TH>
+        <th style="text-align: center;">DNI Persona</th>
+        <th style="text-align: center;">RTN Persona</th>
+       <th style="text-align: center;">Tipo Teléfono</th> 
+        <th style="text-align: center;">Número Teléfono</th>
+        <th style="text-align: center;">Sexo</th>
+        <th style="text-align: center;">Edad</th>
+        <th style="text-align: center;">Fecha Nacimiento</th>
+        <th style="text-align: center;">Lugar Nacimiento</th>
+        <th style="text-align: center;">Estado Civil</th>
+        <th style="text-align: center;">Accion</th>
       </tr>
     </thead>
     <tbody>
@@ -383,19 +346,120 @@
               {{ $formattedDni }}
           </td>
           <td style="text-align: center;">{{ $Persona['RTN_PERSONA'] }}</td>
-          <td style="text-align: center;">{{ $Persona['IND_CIVIL'] }}</td>
           <td style="text-align: center;">{{ $Persona['TIP_TELEFONO'] }}</td> 
           <td style="text-align: center;">{{ $Persona['NUM_TELEFONO'] }}</td>
           <td style="text-align: center;">{{ $Persona['SEX_PERSONA'] }}</td>
           <td style="text-align: center;">{{ $Persona['EDAD_PERSONA'] }}</td>
           <td style="text-align: center;">{{ date('d-m-Y', strtotime($Persona['FEC_NAC_PERSONA'])) }}</td>
           <td style="text-align: center;">{{ $Persona['LUG_NAC_PERSONA'] }}</td>
-          <td>
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
+          <td style="text-align: center;">{{ $Persona['IND_CIVIL'] }}</td>
+          <td style="text-align: center;">
+                <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UpdPersona-{{$Persona['COD_PERSONA']}}">
+                  <i class='fas fa-edit' style='font-size:15px;'></i>
+                </button>
+              </td>
+            </tr>
+        <!-- Modal for editing goes here -->
+
+  <div class="modal fade bd-example-modal-sm" id="UpdPersona-{{$Persona['COD_PERSONA']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Persona</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar nuevos datos</p></h4>
+              <hr>
+                <form action="{{route('Upd-Persona.update')}}" method="post" class="was-validated">
+                @csrf
+
+                    <input type="hidden" class="form-control" name="COD_PERSONA"  value="{{$Persona['COD_PERSONA']}}">
+
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Nombre Completo</label>
+                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="nombre_apellido" value="{{$Persona['NOMBRE_COMPLETO']}}" required maxlength="50">                   
+                  </div>
+ 
+
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">DNI Persona</label>
+                    <input type="number" class="form-control"  name="DNI_PERSONA" value="{{$Persona['DNI_PERSONA']}}" required>
+                    <span class="validity"></span>
+                  </div>
+
+  
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">RTN Persona</label>
+                    <input type="number" class="form-control"  name="RTN_PERSONA" value="{{$Persona['RTN_PERSONA']}}" required>
+                    <span class="validity"></span>
+                  </div>
+
+                  <div class="mb-3 mt-3">
+                    <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
+                    <select class="form-control" name="TIP_TELEFONO" required>
+                    <option value="" style="display: none;" disabled>Seleccione una opción</option>
+                    <option value="Fijo" {{ $Persona['TIP_TELEFONO'] === 'Fijo' ? 'selected' : '' }}>Fijo</option>
+                    <option value="Celular" {{ $Persona['TIP_TELEFONO'] === 'Celular' ? 'selected' : '' }}>Celular</option>
+                  </select>
+                 <div class="valid-feedback"></div>
+                 </div>
+
+                  
+                   <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Número Télefono</label>
+                    <input type="number" class="form-control" name="NUM_TELEFONO" value="{{$Persona['NUM_TELEFONO']}}" required oninput="validateNUMERO(this)">
+                  </div> 
+                  
+                  <div class="mb-3 mt-3">
+                    <label for="TIP_TELEFONO" class="form-label">SEXO</label>
+                    <select class="form-control" name="SEX_PERSONA" required>
+                    <option value="" style="display: none;" disabled>Seleccione una opción</option>
+                    <option value="Masculino" {{ $Persona['SEX_PERSONA'] === 'Masculino' ? 'selected' : '' }}>Masculino</option>
+                    <option value="Femenino" {{ $Persona['SEX_PERSONA'] === 'Femenino' ? 'selected' : '' }}>Femenino</option>
+                  </select>
+                 <div class="valid-feedback"></div>
+                 </div>
+
+                  
+                   <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Edad</label>
+                    <input type="number" class="form-control" name="EDAD_PERSONA" value="{{$Persona['EDAD_PERSONA']}}" required>
+                  </div> 
+                    
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Fecha Nacimiento</label>
+                    <input type="date" class="form-control"  max="<?= date('Y-m-d'); ?>" name="FEC_NAC_PERSONA" value="{{date('Y-m-d',strtotime($Persona['FEC_NAC_PERSONA']))}}" required>
+                  </div>
+                    
+                    <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Lugar Nacimiento Persona</label>
+                    <input type="text" class="form-control alphanumeric-input" name="LUG_NAC_PERSONA"  value="{{$Persona['LUG_NAC_PERSONA']}}" required minlength="3" maxlength="50">                   
+                    </div>
+                     
+                  <div class="mb-3 mt-3">
+                   <label for="IND_CIVIL" class="form-label">Estado Civil</label>
+                   <select class="form-control" name="IND_CIVIL" required>
+                   <option value="" style="display: none;" disabled>Seleccione una opción</option>
+                   <option value="Soltero" {{ $Persona['IND_CIVIL'] === 'Soltero' ? 'selected' : '' }}>Soltero</option>
+                   <option value="Casado" {{ $Persona['IND_CIVIL'] === 'Casado' ? 'selected' : '' }}>Casado</option>
+                   <option value="Union Libre" {{ $Persona['IND_CIVIL'] === 'Union_Libre ' ? 'selected' : '' }}>Union Libre</option>
+                   <option value="Divorciado" {{ $Persona['IND_CIVIL'] === 'Divorciado' ? 'selected' : '' }}>Divorciado</option>
+                   <option value="Viudo" {{ $Persona['IND_CIVIL'] === 'Viudo' ? 'selected' : '' }}>Viudo</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+               
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       @endforeach
     </tbody>
   </table>
@@ -584,48 +648,11 @@ function obtenerFechaHora() {
     $(document).ready(function() {
       $('.js-example-basic-single').select2({});
   });
-  </script>
-     
-  </script>
-<!-- Script para validar y mostrar notificación -->
-<script>
-function validateForm() {
-    const field1 = document.getElementById("field1").value;
-    const field2 = document.getElementById("field2").value;
-    // ... Validación de otros campos ...
-
-    // Realiza la validación de los campos
-    if (field1 && field2 /* ... && otros campos ... */) {
-        // Si todos los campos están completos, mostrar la notificación
-        showNotification("Registro completado correctamente");
-    } else {
-        // Mostrar el modal con el mensaje de error
-        $('#myModal').modal('show');
-    }
-}
-
-function showNotification(message) {
-    $('#notificationContainer').append(`
-        <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="me-auto">Éxito</strong>
-                <small>Hace un momento</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Cerrar"></button>
-            </div>
-            <div class="toast-body">
-                ${message}
-            </div>
-        </div>
-    `);
-    const toast = new bootstrap.Toast(document.querySelector('.toast'));
-    toast.show();
-}
-</script>
 
 <script>
   function cleanInputValue(inputElement) {
     var inputValue = inputElement.value;
-    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
     if (cleanValue !== inputValue) {
       inputElement.value = cleanValue;
     }
@@ -637,6 +664,67 @@ function showNotification(message) {
       cleanInputValue(this);
     });
   });
+</script>
+
+
+<script>
+function actualizar() {
+    var nombreApellido = document.getElementById("nombre_apellido").value;
+    var nombre = nombreApellido.split(' ')[0];
+    var apellido = nombreApellido.split(' ')[1];
+}
+</script>
+
+                 <script>
+                     function validateDNI(input) {
+                     const value = input.value;
+                     const maxLength = 13;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El DNI debe tener 13 dígitos.");
+                    }
+                  }
+                  </script>
+
+
+                 <script>
+                     function validateRTN(input) {
+                     const value = input.value;
+                     const maxLength = 14;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El RTN debe tener 14 dígitos.");
+                    }
+                  }
+                </script>
+
+               <script>
+                  function validateNUMERO(input) {
+                  const value = input.value;
+                  const maxLength = 8;
+
+                  if (value.length > maxLength) {
+                      input.value = value.slice(0, maxLength);
+                  }
+                }
+                </script>
+
+<script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
 </script>
 
 

@@ -18,12 +18,14 @@ class EstudioController extends Controller
     {
         $response = Http::get('http://localhost:3000/SHOW_ESTUDIO/GETALL_ESTUDIO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response1 = Http::get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
+        $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
   
         // Convierte los datos JSON a un array asociativo
         $Estudio = json_decode($data, true);
-
+        $Persona = json_decode($data1, true);
         
-        return view('modpersonas.estudio')->with('ResulEstudio', $Estudio);
+        return view('modpersonas.estudio')->with('ResulEstudio', $Estudio)->with('ResulPersona', $Persona); 
     } 
 
     /**
@@ -61,9 +63,17 @@ class EstudioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upd_Estudio= Http::put('http://localhost:3000/UPD_ESTUDIO/ESTUDIO/'.$request->input("COD_ESTUDIO"),[
+            "COD_ESTUDIO" => $request->input('COD_ESTUDIO'),
+            "COD_PERSONA" => $request->input("COD_PERSONA"),
+            "NIV_ESTUDIO" => $request->input("NIV_ESTUDIO"),
+            "NOM_CENTRO_ESTUDIO" => $request->input("NOM_CENTRO_ESTUDIO"),
+        ]);
+        
+        return redirect(route('Estudio.index'));
+
     }
 
     /**
