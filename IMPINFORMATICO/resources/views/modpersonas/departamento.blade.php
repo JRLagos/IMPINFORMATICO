@@ -60,9 +60,19 @@
                     <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
+
+      
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif    
+
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
@@ -84,35 +94,20 @@
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($ResulDepartamento as $Departamento)
-                    <tr>
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Departamento['NOM_DEPARTAMENTO'] }}</td>
-                        <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
-                                data-target="#Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <div class="modal fade bd-example-modal-sm"
-                        id="Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Editar Departamento</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h4>Ingresar Nuevos Datos</h4>
-                                    <form action="{{ route('Upt-Departamento.update') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
-                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"
-                                            value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
+
+
+                <div class="modal fade bd-example-modal-sm" id="Departamento-edit-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Departamento</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Ingresar nuevos datos</h4>
+                                <form action="{{route('Put-Departamento.update')}}" method="post" class="was-validated">
+                                    @csrf
+                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"  value="{{$Departamento['COD_DEPARTAMENTO']}}">
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Nombre</label>
@@ -121,12 +116,12 @@
                                                 value="{{ $Departamento['NOM_DEPARTAMENTO'] }}" required maxlength="30">
                                         </div>
 
-                                        <div class="modal-footer">
-                                            <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                            <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
+
+                                      <div class="modal-footer">
+                                         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                         <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                      </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -314,5 +309,11 @@
                 return now.toLocaleDateString('es-ES', options);
             }
         </script>
+
+<script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
+</script>
 
     @stop

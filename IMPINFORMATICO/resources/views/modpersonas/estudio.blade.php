@@ -36,10 +36,10 @@
     <thead class="bg-dark">
     <tr> 
         <th style="text-align: center;">#</th>
-        <th style="text-align: center;">NOMBRE PERSONA</th>
-        <th style="text-align: center;">NIVEL DE ESTUDIO</th>
-        <th style="text-align: center;">NOMBRE CENTRO DE ESTUDIO</th>
-        <th>ACCION</th>
+        <th style="text-align: center;">Nombre Persona</th>
+        <th style="text-align: center;">Nivel De Estudio</th>
+        <th style="text-align: center;">Centro De Estudio</th>
+        <th>Accion</th>
       </tr>
     </thead>
     <tbody>
@@ -50,18 +50,69 @@
         <td style="text-align: center;">{{ $Estudio['NOMBRE_COMPLETO'] }}</td>
         <td style="text-align: center;">{{ $Estudio['NIV_ESTUDIO'] }}</td>
         <td style="text-align: center;">{{ $Estudio['NOM_CENTRO_ESTUDIO'] }}</td>
-        <td>
-          <a class="btn btn-warning" href="">
-            <i class="fa fa-edit"></i>
-          </a>
-         </td>
-      </tr>
+        <td style="text-align: center;">
+        <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UpdEstudio-{{$Estudio['COD_ESTUDIO']}}">
+                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                </button>
+              </td>
+            </tr>
 
-    @endforeach
-  </tbody>
-</table>
-</div>
+                <!-- Modal for editing goes here -->
+  <div class="modal fade bd-example-modal-sm" id="UpdEstudio-{{$Estudio['COD_ESTUDIO']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Estudios</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar nuevos datos</p></h4>
+              <hr>
+                <form action="{{route('Upd-Estudio.update')}}" method="post" class="was-validated">
+                @csrf
 
+                    <input type="hidden" class="form-control" name="COD_ESTUDIO"  value="{{$Estudio['COD_ESTUDIO']}}">
+
+                  <div class="mb-3 mt-3">
+                      <label for="dni" class="form-label">Estudios</label>
+                      <select class="form-control js-example-basic-single"  name="COD_PERSONA" id="COD_PERSONA">
+                        <option value="{{$Estudio['COD_PERSONA']}}" style="display: none;">{{ $Estudio['NOMBRE_COMPLETO'] }}</option>
+                          @foreach ($ResulPersona as $Persona)
+                        <option value="{{ $Persona['COD_PERSONA'] }}">{{ $Persona['NOMBRE_COMPLETO'] }}</option>
+                          @endforeach
+                      </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                   <label for="IND_CIVIL" class="form-label">Nivel de Estudio</label>
+                   <select class="form-control" name="NIV_ESTUDIO" required>
+                   <option value="" style="display: none;" disabled>Seleccione una opción</option>
+                   <option value="Primaria" {{ $Estudio['NIV_ESTUDIO'] === 'Primaria' ? 'selected' : '' }}>Primaria</option>
+                   <option value="Secundaria" {{ $Estudio['NIV_ESTUDIO'] === 'Secundaria' ? 'selected' : '' }}>Secundaria</option>
+                   <option value="Universitario" {{ $Estudio['NIV_ESTUDIO'] === 'Universitario ' ? 'selected' : '' }}>Universitario</option>
+                   </select>
+                   <div class="valid-feedback"></div>
+                   </div>
+
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Centro de Estudio</label>
+                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="NOM_CENTRO_ESTUDIO" value="{{$Estudio['NOM_CENTRO_ESTUDIO']}}" required maxlength="255">                   
+                  </div>
+
+
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </tbody>
+    </table>
   @stop
 
   @section('footer')

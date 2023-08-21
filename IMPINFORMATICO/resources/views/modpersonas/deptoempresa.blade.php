@@ -68,6 +68,14 @@
         </div>
     </div>
 
+    @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif    
+
+
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
@@ -75,30 +83,68 @@
     <thead class="bg-dark">
     <tr> 
         <th style="text-align: center;">#</th>
-        <th style="text-align: center;">NOMBRE</th>
-        <th style="text-align: center;">DESCRIPCION</th>
-        <th>ACCION</th>
+        <th style="text-align: center;">Nombre</th>
+        <th style="text-align: center;">Descripción</th>
+        <th>Accion</th>
       </tr>
-    </thead>
+     </thead>
     <tbody>
+
         
     @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
       <tr>
         <td style="text-align: center;">{{ $loop->iteration }}</td>
         <td style="text-align: center;">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</td>
         <td style="text-align: center;">{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}</td>
-        <td>
-          <a class="btn btn-warning" href="">
-            <i class="fa fa-edit"></i>
-          </a>
-         </td>
-      </tr>
-    @endforeach
-  </tbody>
-</table>
-</div>
+        <td style="text-align: center;">
+                <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#UpdDeptoEmpresa-{{$DeptoEmpresa['COD_DEPTO_EMPRESA']}}">
+                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                </button>
+              </td>
+            </tr>
+                <!-- Modal for editing goes here -->
+  <div class="modal fade bd-example-modal-sm" id="UpdDeptoEmpresa-{{$DeptoEmpresa['COD_DEPTO_EMPRESA']}}" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title"><b>Editar Departamento Empresa</b></h4>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+            <div class="modal-body">
+              <h4><p>Ingresar nuevos datos</p></h4>
+              <hr>
+                <form action="{{route('Upd-DeptoEmpresa.update')}}" method="post" class="was-validated">
+                @csrf
 
+                    <input type="hidden" class="form-control" name="COD_DEPTO_EMPRESA"  value="{{$DeptoEmpresa['COD_DEPTO_EMPRESA']}}">
+
+
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Nombre</label>
+                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="NOM_DEPTO_EMPRESA" value="{{$DeptoEmpresa['NOM_DEPTO_EMPRESA']}}" required maxlength="50">                   
+                  </div>
+                  
+                  <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Descripción</label>
+                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="DES_DEPTO_EMPRESA" value="{{$DeptoEmpresa['DES_DEPTO_EMPRESA']}}" required maxlength="50">                   
+                  </div>
+
+          
+                  <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endforeach
+      </tbody>
+    </table>
   @stop
+
 
   @section('footer')
 
@@ -160,6 +206,11 @@
       cleanInputValue(this);
     });
   });
+   </script>
+   <script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
    </script>
     </script>
     @stop

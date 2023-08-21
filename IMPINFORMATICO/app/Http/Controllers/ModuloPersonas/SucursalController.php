@@ -41,7 +41,7 @@ class SucursalController extends Controller
     
             $res = Http::post("http://localhost:3000/INS_SUCURSAL/SUCURSAL", $Sucursal);
     
-            return redirect(route('Sucursal.index'));
+            return redirect(route('Sucursal.index'))->with('success', 'Datos ingresados con éxito.');
         }
     }
 
@@ -64,9 +64,15 @@ class SucursalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upd_sucursal = Http::put('http://localhost:3000/UPD_SUCURSAL/SUCURSAL/'.$request->input("COD_SUCURSAL"),[
+            "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
+            "NOM_SUCURSAL" => $request->input("NOM_SUCURSAL"),
+            "DES_SUCURSAL" => $request->input("DES_SUCURSAL"),
+        ]);
+        
+        return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
     /**
