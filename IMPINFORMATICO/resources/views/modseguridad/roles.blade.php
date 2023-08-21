@@ -69,35 +69,67 @@
         </div>
     </div>
 
-
    <!-- /.card-header -->
- <div class="table-responsive p-0">
+   <div class="table-responsive p-0">
  <br>
   <table id="rol" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
-    <tr> 
-        <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Nombre</th>
-        <th style="text-align: center;">Descripcion</th>
-        <th style="text-align: center;">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($ResulRoles as $Roles)
-        <tr>
-        <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Roles['NOM_ROL'] }}</td>
-        <td style="text-align: center;">{{ $Roles['DES_ROL'] }}</td>
-        <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+
+    <tr>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Nombre</th>
+            <th style="text-align: center;">Descripcion</th>
+            <th style="text-align: center;">Accion</th>
+    </tr>
+        </thead>
+        <tbody>
+            @foreach($ResulRoles as $Roles)
+                <tr>
+                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                    <td style="text-align: center;">{{$Roles['NOM_ROL']}}</td>
+                    <td style="text-align: center;">{{$Roles['DES_ROL']}}</td>
+                    <td style="text-align: center;">
+                        <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#Rol-edit-{{$Roles['COD_ROL']}}">
+                            <i class='fas fa-edit' style='font-size:20px;'></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <div class="modal fade bd-example-modal-sm" id="Rol-edit-{{$Roles['COD_ROL']}}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Departamento</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Ingresar Nuevos Datos</h4>
+                                <form action="{{route('Upt-Roles.update')}}" method="post" class="was-validated">
+                                    @csrf
+                                        <input type="hidden" class="form-control" name="COD_ROL"  value="{{$Roles['COD_ROL']}}">
+
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Nombre Del Rol</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="NOM_ROL" name="NOM_ROL" pattern="[A-Z a-z].{3,}" value="{{$Roles['NOM_ROL']}}" required maxlength="30">
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Nombre Del Rol</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="DES_ROL" name="DES_ROL" pattern="[A-Z a-z].{3,}" value="{{$Roles['DES_ROL']}}" required maxlength="30">
+                                        </div>
+
+                                      <div class="modal-footer">
+                                        <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                                        <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
+                                      </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </tbody>
+    </table>
 
   @stop
 

@@ -18,6 +18,23 @@
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
+
+<!-- Mensaje de credenciales inválidas -->
+@if(session()->has('error'))
+    <div class="alert alert-danger">
+      {{ session('error') }}
+    </div>
+    {{ session()->forget('error') }} <!-- Elimina la sesión flash 'error' -->
+  @endif
+
+  <!-- Mensaje de usuario bloqueado -->
+  @if(session()->has('blocked'))
+    <div class="alert alert-danger">
+      {{ session('blocked') }}
+    </div>
+    {{ session()->forget('blocked') }} <!-- Elimina la sesión flash 'blocked' -->
+  @endif
+
   <div class="login-logo">
     <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO® </a>
   </div>
