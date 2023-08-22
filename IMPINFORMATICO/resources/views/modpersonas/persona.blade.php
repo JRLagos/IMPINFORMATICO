@@ -56,10 +56,12 @@
                       Por favor, ingresa un nombre válido (al menos 3 caracteres).
                     </div>                     
                     </div>
+
+
                      
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Apellido</label>
-                    <input type="text" class="form-control alphanumeric-input"  name="APE_PERSONA" required minlength="5" maxlength="50">                   
+                    <input type="text" class="form-control alphanumeric-input"  name="APE_PERSONA" required minlength="4" maxlength="50">                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -131,10 +133,10 @@
                    <div class="valid-feedback"></div>
                    </div>
 
-                    <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Correo Electronico</label>
-                    <input type="email" id="email" pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30" class="form-control alphanumeric-input" name="CORREO_ELECTRONICO" required>                   
-                    </div>
+                   <div class="mb-3 mt-3">
+                   <label for="dni" class="form-label">Correo Electrónico</label>
+                   <input type="email" id="email" pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" size="30" class="form-control" name="CORREO_ELECTRONICO" required>
+                   </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripción Correo</label>
@@ -168,14 +170,36 @@
                     </div>
                     
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Direccion</label>
-                    <input type="text" class="form-control" name="DES_DIRECCION" required minlength="3" maxlength="50">                   
+                    <label for="dni" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" name="DES_DIRECCION" id="direccionInput" required minlength="3" maxlength="50">
+                    <p id="direccionError" style="color: red; font-size: 14px;"></p>
                     </div>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                        var direccionInput = document.getElementById("direccionInput");
+                        var direccionError = document.getElementById("direccionError");
+
+                        direccionInput.addEventListener("input", function () {
+                        var regex = /^[A-Za-z0-9,.\s]+$/;
+                        var inputValue = direccionInput.value;
+
+                        if (!regex.test(inputValue)) {
+                        direccionError.textContent = "La dirección puede contener solo letras, números, comas y puntos.";
+                        direccionInput.setCustomValidity("Invalid");
+                        } else {
+                        direccionError.textContent = "";
+                        direccionInput.setCustomValidity("");
+                        }
+                      });
+                    });
+                  </script>
+
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Sucursal</label>
                     <select class="form-control js-example-basic-single"  name="COD_SUCURSAL" id="COD_SUCURSAL">
-                    <option> Seleccionar Sucursal </option>
+                    <option selected disabled> Seleccionar Sucursal </option>
                     @foreach ($ResulSucursal as $Sucursal)
                     <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}</option>
                     @endforeach
@@ -185,7 +209,7 @@
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Departamento Empresa</label>
                     <select class="form-control js-example-basic-single"  name="COD_DEPTO_EMPRESA" id="COD_DEPTO_EMPRESA">
-                    <option value="" selected disabled> Seleccionar Departamento Empresa </option>
+                    <option value="" selected> Seleccionar Departamento Empresa </option>
                     @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                     <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
                     @endforeach
@@ -385,7 +409,7 @@
 
                   <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">DNI Persona</label>
-                    <input type="number" class="form-control"  name="DNI_PERSONA" value="{{$Persona['DNI_PERSONA']}}" required>
+                    <input type="number" class="form-control"  name="DNI_PERSONA" value="{{$Persona['DNI_PERSONA']}}" required oninput="validateDNI(this)">
                     <span class="validity"></span>
                   </div>
 
@@ -429,12 +453,12 @@
                   </div> 
                     
                   <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Fecha Nacimiento</label>
+                    <label for="dni" class="form-label">Fecha de Nacimiento</label>
                     <input type="date" class="form-control"  max="<?= date('Y-m-d'); ?>" name="FEC_NAC_PERSONA" value="{{date('Y-m-d',strtotime($Persona['FEC_NAC_PERSONA']))}}" required>
                   </div>
                     
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Lugar Nacimiento Persona</label>
+                    <label for="dni" class="form-label">Lugar de Nacimiento</label>
                     <input type="text" class="form-control alphanumeric-input" name="LUG_NAC_PERSONA"  value="{{$Persona['LUG_NAC_PERSONA']}}" required minlength="3" maxlength="50">                   
                     </div>
                      
@@ -649,22 +673,7 @@ function obtenerFechaHora() {
       $('.js-example-basic-single').select2({});
   });
 
-<script>
-  function cleanInputValue(inputElement) {
-    var inputValue = inputElement.value;
-    var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
-    if (cleanValue !== inputValue) {
-      inputElement.value = cleanValue;
-    }
-  }
 
-  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
-  alphanumericInputs.forEach(function(input) {
-    input.addEventListener("input", function() {
-      cleanInputValue(this);
-    });
-  });
-</script>
 
 
 <script>
@@ -726,6 +735,23 @@ function actualizar() {
         $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
     }, 5000); // 5000 ms = 5 segundos
 </script>
+
+<script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
+
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+  </script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

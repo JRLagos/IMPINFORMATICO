@@ -82,7 +82,7 @@
 
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">{{$Departamento['NOM_DEPARTAMENTO']}}</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
