@@ -197,7 +197,7 @@
                     responsive: true,
                     autWidth: false,
                     language: {
-                        lengthMenu: "Mostrar MENU Registros Por Página",
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
                         zeroRecords: "Nada Encontrado - ¡Disculpas!",
                         info: "Página PAGE de PAGES",
                         infoEmpty: "No hay registros disponibles",
@@ -216,7 +216,7 @@
                             text: 'Opciones',
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'IMPINFORMATICO | Direcciones,
+                                    title: 'IMPINFORMATICO | Direcciones',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
@@ -316,5 +316,4 @@
             }, 5000); // 5000 ms = 5 segundos
         </script>
 
-        </script>
     @stop
