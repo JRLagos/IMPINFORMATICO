@@ -62,10 +62,18 @@ class ObjetosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upt_objetos = Http::put('http://localhost:3000/UPT_OBJETOS/SEGURIDAD_OBJETOS/'.$request->input("COD_OBJETO"),[
+            "COD_OBJETO" => $request->input('COD_OBJETO'),
+            "NOM_OBJETO" => $request->input('NOM_OBJETO'),
+            "DES_OBJETO" => $request->input('DES_OBJETO'),
+            "TIP_OBJETO" => $request->input('TIP_OBJETO'),
+        ]);
+        
+        return redirect(route('Objetos.index'));
     }
+    
 
     /**
      * Remove the specified resource from storage.

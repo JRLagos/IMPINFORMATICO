@@ -156,14 +156,18 @@ Route::post('Upt-Roles',[RolesController::class, 'update'])->name('Upt-Roles.upd
 // Objetos
 Route::get('Objetos', [ObjetosController::class, 'index'])->name('Objetos.index');
 Route::post('Post-Objetos',[ObjetosController::class, 'store'])->name('Post-Objetos.store');
+Route::post('Upt-Objetos',[ObjetosController::class, 'update'])->name('Upt-Objetos.update');
+
 
 
 // Permisos
 Route::get('Permisos', [PermisosController::class, 'index'])->name('Permisos.index');
 Route::post('Post-Permisos',[PermisosController::class, 'store'])->name('Post-Permisos.store');
+Route::post('Upt-Permisos',[PermisosController::class, 'update'])->name('Upt-Permisos.update');
 
 // Parametros
 Route::get('Parametros', [ParametrosController::class, 'index'])->name('Parametros.index');
-Route::post('Post-Parametros',[ParametrosController::class, 'store'])->name('Post-Parametro.store');
+Route::post('Post-Parametros',[ParametrosController::class, 'store'])->name('Post-Parametros.store');
+Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt-Parametros.update');
 
 Route::get('EstaSucursal', [EstadisticaController::class, 'edit'])->name('EstaSucursal.edit');
