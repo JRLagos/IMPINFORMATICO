@@ -117,7 +117,7 @@
                                         <input type="hidden" class="form-control" name="COD_OBJETO"  value="{{$Objetos['COD_OBJETO']}}">
 
                                         <div class="mb-3 mt-3">
-                                        <label for="dni" class="form-label">Nombre Del Rol</label>
+                                        <label for="dni" class="form-label">Noimbre del Objeto</label>
                                         <input type="text" class="form-control alphanumeric-input" id="NOM_OBJETO" name="NOM_OBJETO" pattern="[A-Z a-z].{3,}" value="{{$Objetos['NOM_OBJETO']}}" required maxlength="30">
                                         </div>
 
@@ -134,7 +134,7 @@
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
                                         <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                        </div>
+                                         </div>
                                 </form>
                             </div>
                         </div>
@@ -169,11 +169,11 @@
       autWidth: false,
 
       "language": {
-              "lengthMenu": "Mostrar  MENU  Registros Por Página",
+              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
               "zeroRecords": "Nada encontrado - disculpas",
-              "info": "Pagina PAGE de PAGES",
+              "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de MAX registros totales)",
+              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
 
               'search' : 'Buscar:',
               'paginate' : {
