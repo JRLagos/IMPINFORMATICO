@@ -191,12 +191,12 @@
                     responsive: true,
                     autWidth: false,
                     language: {
-                        lengthMenu: "Mostrar MENU Registros Por Página",
-                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página PAGE de PAGES",
-                        infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de MAX registros totales)",
-                        search: "Buscar:",
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                          info: "Página _PAGE_ de _PAGES_",
+                          infoEmpty: "No hay registros disponibles",
+                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                          search: "Buscar:",
                         paginate: {
                             next: "Siguiente",
                             previous: "Anterior"

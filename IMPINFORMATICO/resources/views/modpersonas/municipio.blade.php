@@ -294,7 +294,8 @@
                                             };
                                         };
                                         doc.contentMargins = [10, 10, 10,
-                                        10]; // Ajusta el margen de la tabla aquí
+                                            10
+                                        ]; // Ajusta el margen de la tabla aquí
                                         doc.content.unshift({
                                             text: descripcion,
                                             alignment: 'left',
@@ -310,7 +311,7 @@
                                         table.column(3).visible(false);
                                         // Imprimir
                                         $.fn.dataTable.ext.buttons.print.action(e, dt, node,
-                                        config);
+                                            config);
                                         // Restablecer la visibilidad de la columna después de imprimir
                                         table.column(3).visible(true);
                                     }
