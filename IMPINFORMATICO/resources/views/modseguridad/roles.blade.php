@@ -10,13 +10,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-  <h1>Roles</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addRol" type="button"> Agregar Rol</button>
-</div>
+  <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+          <h1><b>Roles</b></h1>
+          <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addRol"
+              type="button"><b>Agregar Rol</b></button>
+      </div>
   @stop
 
 
@@ -33,10 +33,8 @@
   <div class="modal fade bd-example-modal-sm" id="addRol" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
-
                     <div class="modal-header">
-                    <h3>Objetos</h3>
+                    <h3>Roles</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
@@ -59,8 +57,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                        <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
                     </div>
                     </form>
 
@@ -114,7 +112,7 @@
                                         </div>
 
                                         <div class="mb-3 mt-3">
-                                        <label for="dni" class="form-label">Nombre Del Rol</label>
+                                        <label for="dni" class="form-label">Descripcion Del Rol</label>
                                         <input type="text" class="form-control alphanumeric-input" id="DES_ROL" name="DES_ROL" pattern="[A-Z a-z].{3,}" value="{{$Roles['DES_ROL']}}" required maxlength="30">
                                         </div>
 
@@ -142,10 +140,10 @@
 
   @stop
 
-
-
   @section('js')
 
+
+    
   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
   <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -170,6 +168,8 @@
 
           }
     });
+
+    
 
     </script>
 
@@ -198,4 +198,5 @@
     });
   });
 </script>
+
     @stop
