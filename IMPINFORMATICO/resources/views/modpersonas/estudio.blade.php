@@ -27,7 +27,13 @@
 
 
   @section('content')
-
+  
+  @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif  
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
@@ -75,12 +81,11 @@
                     <input type="hidden" class="form-control" name="COD_ESTUDIO"  value="{{$Estudio['COD_ESTUDIO']}}">
 
                   <div class="mb-3 mt-3">
-                      <label for="dni" class="form-label">Estudios</label>
+                      <label for="dni" class="form-label">Empleado</label>
                       <select class="form-control js-example-basic-single"  name="COD_PERSONA" id="COD_PERSONA">
                         <option value="{{$Estudio['COD_PERSONA']}}" style="display: none;">{{ $Estudio['NOMBRE_COMPLETO'] }}</option>
-                          @foreach ($ResulPersona as $Persona)
-                        <option value="{{ $Persona['COD_PERSONA'] }}">{{ $Persona['NOMBRE_COMPLETO'] }}</option>
-                          @endforeach
+                        <option disabled >¡No se puede seleccionar otro Empleado!</option>
+                      </select>
                       </select>
                     </div>
 
@@ -160,6 +165,28 @@
       $('.js-example-basic-single').select2({});
   });
 </script>
+<script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
+    </script>
+
+       <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z áéíóú]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
+
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+    </script>
 
     </script>
     @stop

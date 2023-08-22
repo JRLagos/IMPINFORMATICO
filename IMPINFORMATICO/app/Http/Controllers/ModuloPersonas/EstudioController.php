@@ -72,7 +72,7 @@ class EstudioController extends Controller
             "NOM_CENTRO_ESTUDIO" => $request->input("NOM_CENTRO_ESTUDIO"),
         ]);
         
-        return redirect(route('Estudio.index'));
+        return redirect(route('Estudio.index'))->with('success', 'La actualización se ha realizado con éxito.');
 
     }
 

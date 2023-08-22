@@ -43,18 +43,19 @@
     <div class="modal-dialog">
       <div class="modal-content">
 
-
+      <div class="modal-content">
                     <div class="modal-header">
-                    <h3>Empleado</h3>
+                    <h3>Personas</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <h4>Ingresar nuevo registro</h4>
 
-                    <form action="{{route('Post-Empleado.store')}}" method="post" class="was-validated">
+                    <form action="{{route('Post-Persona.store')}}" method="post" class="was-validated">
                     @csrf
                     
-                    <div class="mb-3 mt-3">
+
+                        <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre</label>
                     <input type="text" class="form-control alphanumeric-input"  name="NOM_PERSONA" required minlength="3" maxlength="50">
                     <div class="invalid-feedback">
@@ -64,7 +65,7 @@
                      
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Apellido</label>
-                    <input type="text" class="form-control alphanumeric-input"  name="APE_PERSONA" required minlength="5" maxlength="50">                   
+                    <input type="text" class="form-control alphanumeric-input"  name="APE_PERSONA" required minlength="4" maxlength="50">                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -72,26 +73,9 @@
                     <input type="number"  class="form-control" name="DNI_PERSONA" required  oninput="validateDNI(this)">
                     <div class="invalid-feedback">
                       Por favor, ingresa un DNI válido de 13 digitos.
-                    </div>    
+                    </div>   
                     </div>
-
-                  <script>
-                     function validateDNI(input) {
-                     const value = input.value;
-                     const maxLength = 13;
-
-                     if (value.length > maxLength) {
-                         input.value = value.slice(0, maxLength);
-                     }
-    
-                    if (value.length === maxLength) {
-                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
-                    } else {
-                         input.setCustomValidity("El DNI debe tener 13 dígitos.");
-                    }
-                  }
-                  </script>
-
+                  
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">RTN</label>
                     <input type="number"  class="form-control" name="RTN_PERSONA" required  oninput="validateRTN(this)">
@@ -100,30 +84,12 @@
                     </div>    
                     </div>
 
-                  <script>
-                     function validateRTN(input) {
-                     const value = input.value;
-                     const maxLength = 14;
-
-                     if (value.length > maxLength) {
-                         input.value = value.slice(0, maxLength);
-                     }
-    
-                    if (value.length === maxLength) {
-                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
-                    } else {
-                         input.setCustomValidity("El RTN debe tener 14 dígitos.");
-                    }
-                  }
-                  </script>
-
-
                    <div class="mb-3 mt-3">
                    <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
                    <select class="form-control" name="TIP_TELEFONO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="FIJO">Fijo</option>
-                   <option value="CELULAR">Celular</option>
+                   <option value="Fijo">Fijo</option>
+                   <option value="Celular">Celular</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -132,24 +98,13 @@
                     <label for="dni" class="form-label">Número Télefono</label>
                     <input type="number" class="form-control" name="NUM_TELEFONO" required  oninput="validateNUMERO(this)">
                     </div>
-
-               <script>
-                  function validateNUMERO(input) {
-                  const value = input.value;
-                  const maxLength = 8;
-
-                  if (value.length > maxLength) {
-                      input.value = value.slice(0, maxLength);
-                  }
-                }
-                </script>
-                    
+              
                    <div class="mb-3 mt-3">
                    <label for="SEX_PERSONA" class="form-label">Sexo Persona</label>
                    <select class="form-control" name="SEX_PERSONA" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="MASCULINO">Masculino</option>
-                   <option value="FEMENINO">Femenino</option>
+                   <option value="Masculino">Masculino</option>
+                   <option value="Femenino">Femenino</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -173,17 +128,18 @@
                    <label for="IND_CIVIL" class="form-label">Estado Civil</label>
                    <select class="form-control" name="IND_CIVIL" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="SOLTERO">Soltero</option>
-                   <option value="CASADO">Casado</option>
-                   <option value="UNION LIBRE">Unión Libre</option>
-                   <option value="VIUDO">Viudo</option>
+                   <option value="Soltero">Soltero</option>
+                   <option value="Casado">Casado</option>
+                   <option value="Union Libre">Union Libre</option>
+                   <option value="Divorciado">Divorciado</option>
+                   <option value="Viudo">Viudo</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Correo Electronico</label>
-                    <input type="email" id="email" pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30" class="form-control" name="CORREO_ELECTRONICO" required>                   
+                    <input type="email" id="email" pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30" class="form-control alphanumeric-input" name="CORREO_ELECTRONICO" required>                   
                     </div>
 
                     <div class="mb-3 mt-3">
@@ -195,9 +151,9 @@
                    <label for="NIV_ESTUDIO" class="form-label">Nivel de Estudio</label>
                    <select class="form-control" name="NIV_ESTUDIO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="primaria">Primaria</option>
-                   <option value="secundaria">Secundaria</option>
-                   <option value="universitario">Universitario</option>
+                   <option value="Primaria">Primaria</option>
+                   <option value="Secundaria">Secundaria</option>
+                   <option value="Universitario">Universitario</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -218,14 +174,36 @@
                     </div>
                     
                     <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Direccion</label>
-                    <input type="text" class="form-control alphanumeric-input" name="DES_DIRECCION" required minlength="3" maxlength="50">                   
+                    <label for="dni" class="form-label">Dirección</label>
+                    <input type="text" class="form-control" name="DES_DIRECCION" id="direccionInput" required minlength="3" maxlength="50">
+                    <p id="direccionError" style="color: red; font-size: 14px;"></p>
                     </div>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                        var direccionInput = document.getElementById("direccionInput");
+                        var direccionError = document.getElementById("direccionError");
+
+                        direccionInput.addEventListener("input", function () {
+                        var regex = /^[A-Za-z0-9,.\s]+$/;
+                        var inputValue = direccionInput.value;
+
+                        if (!regex.test(inputValue)) {
+                        direccionError.textContent = "La dirección puede contener solo letras, números, comas y puntos.";
+                        direccionInput.setCustomValidity("Invalid");
+                        } else {
+                        direccionError.textContent = "";
+                        direccionInput.setCustomValidity("");
+                        }
+                      });
+                    });
+                  </script>
+
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Sucursal</label>
                     <select class="form-control js-example-basic-single"  name="COD_SUCURSAL" id="COD_SUCURSAL">
-                    <option> Seleccionar Sucursal </option>
+                    <option selected disabled> Seleccionar Sucursal </option>
                     @foreach ($ResulSucursal as $Sucursal)
                     <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}</option>
                     @endforeach
@@ -235,7 +213,7 @@
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Departamento Empresa</label>
                     <select class="form-control js-example-basic-single"  name="COD_DEPTO_EMPRESA" id="COD_DEPTO_EMPRESA">
-                    <option value="" selected disabled> Seleccionar Departamento Empresa </option>
+                    <option value="" selected> Seleccionar Departamento Empresa </option>
                     @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                     <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
                     @endforeach
@@ -246,8 +224,8 @@
                    <label for="TIP_CONTRATO" class="form-label">Tipo de Contrato</label>
                    <select class="form-control" name="TIP_CONTRATO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="TEMPORAL">Temporal</option>
-                   <option value="PERMANENTE">Permanente</option>
+                   <option value="Temporal">Temporal</option>
+                   <option value="Permanente">Permanente</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -257,9 +235,11 @@
                    <label for="PUE_TRA_EMPLEADO" class="form-label">Puesto Trabajo del Empleado</label>
                    <select class="form-control" name="PUE_TRA_EMPLEADO" required>
                    <option value="" selected disabled>Seleccione una opción</option>
-                   <option value="GERENTE">Gerente</option>
-                   <option value="ADMINISTRADOR">Administrador</option>
-                   <option value="JEFE DE PLANTA">Jefe de Planta</option>
+                   <option value="Gerente">Gerente</option>
+                   <option value="Administrador">Administrador</option>
+                   <option value="Jefe de Planta">Jefe de Planta</option>
+                   <option value="Conserje">Conserje</option>
+                   <option value="Guardia">Guardia</option>
                    </select>
                    <div class="valid-feedback"></div>
                    </div>
@@ -344,19 +324,13 @@
                         <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
                         <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
                     </div>
+                    
                     </form>
-
                 </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                    <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
-                </div>
-                </form>
-
             </div>
         </div>
     </div>
-    </div>
+
 
      
     @if(session('success'))
@@ -682,7 +656,53 @@ function obtenerFechaHora() {
         });
     </script>
 
-    </script>
+ 
+
+                <script>
+                     function validateDNI(input) {
+                     const value = input.value;
+                     const maxLength = 13;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El DNI debe tener 13 dígitos.");
+                    }
+                  }
+                  </script>
+
+
+                 <script>
+                     function validateRTN(input) {
+                     const value = input.value;
+                     const maxLength = 14;
+
+                     if (value.length > maxLength) {
+                         input.value = value.slice(0, maxLength);
+                     }
+    
+                    if (value.length === maxLength) {
+                         input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                    } else {
+                         input.setCustomValidity("El RTN debe tener 14 dígitos.");
+                    }
+                  }
+                </script>
+
+               <script>
+                  function validateNUMERO(input) {
+                  const value = input.value;
+                  const maxLength = 8;
+
+                  if (value.length > maxLength) {
+                      input.value = value.slice(0, maxLength);
+                  }
+                }
+                </script>
 
   <script>
   function cleanInputValue(inputElement) {

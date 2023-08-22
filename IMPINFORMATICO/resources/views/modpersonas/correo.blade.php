@@ -27,6 +27,13 @@
 
   @section('content')
 
+  @if(session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+  @endif
+    
    <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
@@ -83,7 +90,7 @@
 
                   <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Correo Electronico</label>
-                    <input type="text" class="form-control alphanumeric-input" pattern=".{3,}" name="CORREO_ELECTRONICO" value="{{$Correo['CORREO_ELECTRONICO']}}" required maxlength="255">                   
+                    <input type="text" class="form-control" pattern=".{3,}" name="CORREO_ELECTRONICO" value="{{$Correo['CORREO_ELECTRONICO']}}" required maxlength="255">                   
                   </div>
 
                   <div class="mb-3 mt-3">
@@ -146,12 +153,31 @@
     });
 
     </script>
+             <script>
+  function cleanInputValue(inputElement) {
+    var inputValue = inputElement.value;
+    var cleanValue = inputValue.replace(/[^a-z A-Z áéíóú]/g, "");
+    if (cleanValue !== inputValue) {
+      inputElement.value = cleanValue;
+    }
+  }
 
+  var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+  alphanumericInputs.forEach(function(input) {
+    input.addEventListener("input", function() {
+      cleanInputValue(this);
+    });
+  });
+    </script>
     <script>
     $(document).ready(function() {
       $('.js-example-basic-single').select2({});
   });
 </script>
-
+   <script>
+    setTimeout(function(){
+        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+    }, 5000); // 5000 ms = 5 segundos
+  </script>
     </script>
     @stop
