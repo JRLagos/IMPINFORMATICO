@@ -65,9 +65,16 @@ class VacacionesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upt_Vacaciones = Http::put('http://localhost:3000/UPT_VACACIONES/VACACIONES/'.$request->input("COD_VACACIONES"),[
+            "COD_VACACIONES" => $request->input('COD_VACACIONES'),
+            "COD_EMPLEADO" => $request->input("COD_EMPLEADO"),
+            "VACACIONES_ACU" => $request->input("VACACIONES_ACU"),
+            "VACACIONES_USA" => $request->input("VACACIONES_USA"),
+        ]);
+        
+        return redirect(route('Vacaciones.index'));
     }
 
     /**

@@ -1,85 +1,67 @@
 @extends('adminlte::page')
-@section('title', 'Reportes Guardados')
+
+@section('title', 'Bold Report')
+
 @section('content_header')
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-    integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <h1>Reporte de Empleados</h1>
 @stop
+
 @section('css')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+    <link href="https://cdn.boldreports.com/5.2.26/content/material/bold.reports.all.min.css" rel="stylesheet" />
 @endsection
+
+
 @section('content')
-<!-- /.card-header -->
-<div class="table-responsive p-0">
-    <br>
-    <table id="reporteguardados" class="table table-striped table-bordered table-condensed table-hover">
-        <thead class="bg-dark">
-            <tr>
-                <th style="text-align: center;">#</th>
-                <th class="text-center">TITULO</th>
-                <th class="text-center">FECHA GUARDADO EL REPORTE</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($ResulReportesGuardados as $ReportesGuardados)
-            <tr>
-                <td style="text-align: center;">{{ $loop->iteration }}</td>
-                <td>{{ $ReportesGuardados['TIT_REPORTE'] }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($ReportesGuardados['FEC_GUA_REPORTE'])) }}
-                </td>
-                </a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+<div style="height: 1000px; width: 1000px;">
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/0e80d78c-77f1-4c98-96bb-147e25243e92/PRUEBA/Reporte%20de%20Empleados%20IMP?isembed=true' id='report-frame' width='100%' height='720px' allowfullscreen frameborder='0'></iframe>
 </div>
-@stop
+@endsection
+
 @section('footer')
-<div class="float-right d-none d-sm-block">
-    <b>Version</b> 3.1.0
-</div>
-<strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
 @stop
+
 @section('js')
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-<script>
-$('#reporteguardados').DataTable({
-    responsive: true,
-    autWidth: false,
+    <script src="https://cdn.boldreports.com/external/jquery-1.10.2.min.js" type="text/javascript"></script>
 
+    <!--Render the gauge item. Add this script only if your report contains the gauge report item. -->
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/common/ej2-base.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/common/ej2-data.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/common/ej2-pdf-export.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/common/ej2-svg-base.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/data-visualization/ej2-lineargauge.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/data-visualization/ej2-circulargauge.min.js"></script>
 
-    "language": {
-        "lengthMenu": "Mostrar _MENU_ Registros Por Página",
-        "zeroRecords": "Nada encontrado - disculpas",
-        "info": "Pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No records available",
-        "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+    <!--Render the map item. Add this script only if your report contains the map report item.-->
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/data-visualization/ej2-maps.min.js"></script>
 
-        'search': 'Buscar:',
-        'paginate': {
-            'next': 'Siguiente',
-            'previous': 'Anterior'
-        }
+    <!-- Report Viewer component script-->
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/common/bold.reports.common.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/common/bold.reports.widgets.min.js"></script>
 
-    }
-});
-</script>
-<script>
-$(document).ready(function() {
-    $('.js-example-basic-single').select2({});
-});
-</script>
-</script>
+    <!--Render the chart item. Add this script only if your report contains the chart report item.-->
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/data-visualization/ej.chart.min.js"></script>
+    <script src="https://cdn.boldreports.com/5.2.26/scripts/bold.report-viewer.min.js"></script>
+
+    <script type="text/javascript">
+        $('#reportvisor').boldReportViewer({
+            serviceAuthorizationToken: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlvdmFyZWxhMDE4QGdtYWlsLmNvbSIsIm5hbWVpZCI6IjEiLCJ1bmlxdWVfbmFtZSI6IjBhZDhhZGI3LWEzNzQtNDA0OS1hNTAxLWIwZWQ3MGIwNzdiOSIsIklQIjoiOjoxIiwiaXNzdWVkX2RhdGUiOiIxNjkyMzU4NjQwIiwibmJmIjoxNjkyMzU4NjQwLCJleHAiOjE2OTYyNDY2NDAsImlhdCI6MTY5MjM1ODY0MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTQzMC9yZXBvcnRpbmcvc2l0ZS9zaXRlMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTE0MzAvcmVwb3J0aW5nL3NpdGUvc2l0ZTEifQ.j6TJxH70FyioCJrfV3ftvJA80cT_mVnephQ9tSluxbM",
+            reportServiceUrl: "https://demos.boldreports.com/services/api/ReportViewer",
+           reportPath: 'http://localhost:51430/reporting/site/site1/reports/d29d29c5-c47c-4f34-bacd-47d9d5690c97/PRUEBA/IMP%20REPORTE',
+        });
+    </script>
 @stop

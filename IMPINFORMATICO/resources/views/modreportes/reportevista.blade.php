@@ -14,7 +14,7 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <h1>Horas Extra y Vacaciones</h1>
+    <h1>Mis Reportes</h1>
 @stop
 
 @section('css')
@@ -23,8 +23,8 @@
 
 
 @section('content')
-<div style="height: 1000px; width: 1000px;">
-    <iframe src='http://localhost:51430/reporting/site/site1/reports/ceb10ccd-c826-4328-a6c6-d0870052b87b/PRUEBA/Reporte%20de%20Horas%20Extra%20y%20Vacaciones?isembed=true' id='report-frame' width='100%' height='720px' allowfullscreen frameborder='0'></iframe>
+<div style="height: 600px; width: 950px;">
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/b59a7d46-4c34-416e-b226-1fd7787d1177/PRUEBA/IMPERIO%20INFORMATICO' id='reportvisor' width='100%' height='620px' allowfullscreen frameborder='0'></iframe>
 </div>
 @endsection
 
@@ -61,7 +61,7 @@
         $('#reportvisor').boldReportViewer({
             serviceAuthorizationToken: "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hcmlvdmFyZWxhMDE4QGdtYWlsLmNvbSIsIm5hbWVpZCI6IjEiLCJ1bmlxdWVfbmFtZSI6IjBhZDhhZGI3LWEzNzQtNDA0OS1hNTAxLWIwZWQ3MGIwNzdiOSIsIklQIjoiOjoxIiwiaXNzdWVkX2RhdGUiOiIxNjkyMzU4NjQwIiwibmJmIjoxNjkyMzU4NjQwLCJleHAiOjE2OTYyNDY2NDAsImlhdCI6MTY5MjM1ODY0MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MTQzMC9yZXBvcnRpbmcvc2l0ZS9zaXRlMSIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NTE0MzAvcmVwb3J0aW5nL3NpdGUvc2l0ZTEifQ.j6TJxH70FyioCJrfV3ftvJA80cT_mVnephQ9tSluxbM",
             reportServiceUrl: "https://demos.boldreports.com/services/api/ReportViewer",
-           reportPath: 'http://localhost:51430/reporting/site/site1/reports/d29d29c5-c47c-4f34-bacd-47d9d5690c97/PRUEBA/IMP%20REPORTE',
+           reportPath: 'http://localhost:51430/reporting/site/site1/reports/b59a7d46-4c34-416e-b226-1fd7787d1177/PRUEBA/IMPERIO%20INFORMATICO',
         });
     </script>
 @stop

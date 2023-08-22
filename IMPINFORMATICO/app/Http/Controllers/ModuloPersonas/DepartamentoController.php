@@ -40,7 +40,7 @@ class DepartamentoController extends Controller
 
         $res = Http::post("http://localhost:3000/INS_DEPARTAMENTO/DEPARTAMENTO", $Departamento);
 
-        return redirect(route('Departamento.index'));
+        return redirect(route('Departamento.index'))->with('success', 'Registro ingresado con éxito.');
     }
 
     /**
@@ -63,14 +63,15 @@ class DepartamentoController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request)
-
     {
-        $upt_departamento = Http::put('http://localhost::3000/UPD_DEPARTAMENTO/DEPARTAMENTO'.$request->input("PI_COD_DEPARTAMENTO"),[
-            "PV_NOM_DEPARTAMENTO" => $request->input("PV_NOM_DEPARTAMENTO"),
+        $upt_departamento = Http::put('http://localhost:3000/UPD_DEPARTAMENTO/DEPARTAMENTO/'.$request->input("COD_DEPARTAMENTO"),[
+            "COD_DEPARTAMENTO" => $request->input('COD_DEPARTAMENTO'),
+            "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
         ]);
         
-        return redirect(route('Departamento.index')->with('agregado','El asiento fue agregado correctamente'));
+        return redirect(route('Departamento.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
+    
 
     /**
      * Remove the specified resource from storage.

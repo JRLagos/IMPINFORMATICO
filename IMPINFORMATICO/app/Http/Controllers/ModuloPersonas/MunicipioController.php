@@ -43,7 +43,7 @@ class MunicipioController extends Controller
 
         $res = Http::post("http://localhost:3000/INS_MUNICIPIO/MUNICIPIO", $Municipio);
 
-        return redirect(route('Municipio.index'));
+        return redirect(route('Municipio.index'))->with('success', 'Datos ingresados con éxito.');
     }
 
     /**
@@ -65,9 +65,15 @@ class MunicipioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upd_municipio = Http::put('http://localhost:3000/UPD_MUNICIPIO/MUNICIPIO/'.$request->input("COD_MUNICIPIO"),[
+            "COD_MUNICIPIO" => $request->input('COD_MUNICIPIO'),
+            "COD_DEPARTAMENTO" => $request->input("COD_DEPARTAMENTO"),
+            "NOM_MUNICIPIO" => $request->input("NOM_MUNICIPIO"),
+        ]);
+        
+        return redirect(route('Municipio.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
     /**

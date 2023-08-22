@@ -1,26 +1,26 @@
 <?php
-
-namespace App\Http\Controllers\ModuloSeguridad;
+namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-class RolesController extends Controller
+class SucursalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_ROLES/SEGURIDAD_ROLES');
+        $response = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Roles = json_decode($data, true);
-    
-        return view('modseguridad.roles')->with('ResulRoles', $Roles);
+        $Sucursal = json_decode($data, true);
+
+        return view('modpersonas.sucursal')->with('ResulSucursal', $Sucursal); 
     }
 
     /**
@@ -36,11 +36,13 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $Roles = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_ROL/SEGURIDAD_ROLES", $Roles);
-
-        return redirect(route('Roles.index'));
+        {
+            $Sucursal = $request->all();
+    
+            $res = Http::post("http://localhost:3000/INS_SUCURSAL/SUCURSAL", $Sucursal);
+    
+            return redirect(route('Sucursal.index'))->with('success', 'Datos ingresados con éxito.');
+        }
     }
 
     /**
@@ -64,13 +66,13 @@ class RolesController extends Controller
      */
     public function update(Request $request)
     {
-        $upt_HoraExtra = Http::put('http://localhost:3000/UPT_ROLES/SEGURIDAD_ROLES/'.$request->input("COD_ROL"),[
-            "COD_ROL" => $request->input('COD_ROL'),
-            "NOM_ROL" => $request->input("NOM_ROL"),
-            "DES_ROL" => $request->input("DES_ROL"),
+        $upd_sucursal = Http::put('http://localhost:3000/UPD_SUCURSAL/SUCURSAL/'.$request->input("COD_SUCURSAL"),[
+            "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
+            "NOM_SUCURSAL" => $request->input("NOM_SUCURSAL"),
+            "DES_SUCURSAL" => $request->input("DES_SUCURSAL"),
         ]);
         
-        return redirect(route('Roles.index'));
+        return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
     /**

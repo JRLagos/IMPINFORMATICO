@@ -1,0 +1,68 @@
+body {
+    font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    background-color: #e9ecef;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+    width: 350px; /* Aumenta el ancho del contenedor */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Estilos para el título */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilos para los labels */
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Estilos para los campos de entrada */
+input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #d2d6de;
+    border-radius: 4px;
+    color: #212529;
+    font-size: 14px;
+}
+
+/* Estilos para los botones */
+.button-container {
+    display: flex;
+    flex-direction: column; /* Cambia la dirección a columna para separar los botones verticalmente */
+    align-items: center; /* Centra los botones horizontalmente */
+    margin-top: 15px;
+}
+
+/* Estilos para el botón de enviar */
+button {
+    width: 100%; /* Ajusta el ancho al 100% */
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 10px; /* Agrega margen inferior para separar los botones */
+}
+
+button:hover {
+    background-color: #0056b3;
+}

@@ -5,30 +5,28 @@ namespace App\Http\Controllers\ModuloPersonas;
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-class DireccionController extends Controller
+
+class EstudioController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_DIRECCION/GETALL_DIRECCION');
+        $response = Http::get('http://localhost:3000/SHOW_ESTUDIO/GETALL_ESTUDIO/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
         $response1 = Http::get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
-        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-
-    
+  
         // Convierte los datos JSON a un array asociativo
-        $Direccion = json_decode($data, true);
+        $Estudio = json_decode($data, true);
         $Persona = json_decode($data1, true);
-        $Municipio = json_decode($data2, true);
-    
-        return view('modpersonas.direccion')->with('ResulDireccion', $Direccion)->with('ResulPersona', $Persona)->with('ResulMunicipio', $Municipio);
-    }
+        
+        return view('modpersonas.estudio')->with('ResulEstudio', $Estudio)->with('ResulPersona', $Persona); 
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -67,14 +65,14 @@ class DireccionController extends Controller
      */
     public function update(Request $request)
     {
-        $upd_Direccion = Http::put('http://localhost:3000/UPD_DIRECCION/DIRECCION/'.$request->input("COD_DIRECCION"),[
-            "COD_DIRECCION" => $request->input('COD_DIRECCION'),
+        $upd_Estudio= Http::put('http://localhost:3000/UPD_ESTUDIO/ESTUDIO/'.$request->input("COD_ESTUDIO"),[
+            "COD_ESTUDIO" => $request->input('COD_ESTUDIO'),
             "COD_PERSONA" => $request->input("COD_PERSONA"),
-            "COD_MUNICIPIO" => $request->input("COD_MUNICIPIO"),
-            "DES_DIRECCION" => $request->input("DES_DIRECCION"),
+            "NIV_ESTUDIO" => $request->input("NIV_ESTUDIO"),
+            "NOM_CENTRO_ESTUDIO" => $request->input("NOM_CENTRO_ESTUDIO"),
         ]);
         
-        return redirect(route('Direcciones.index'))->with('success', 'La actualización se ha realizado con éxito.');
+        return redirect(route('Estudio.index'))->with('success', 'La actualización se ha realizado con éxito.');
 
     }
 

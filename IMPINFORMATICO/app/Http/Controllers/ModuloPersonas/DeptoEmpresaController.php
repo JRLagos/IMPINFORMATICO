@@ -1,26 +1,27 @@
 <?php
 
-namespace App\Http\Controllers\ModuloSeguridad;
+namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-class RolesController extends Controller
+class DeptoEmpresaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_ROLES/SEGURIDAD_ROLES');
+        $response = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/2');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Roles = json_decode($data, true);
-    
-        return view('modseguridad.roles')->with('ResulRoles', $Roles);
+        $DeptoEmpresa = json_decode($data, true);
+
+        return view('modpersonas.deptoempresa')->with('ResulDeptoEmpresa', $DeptoEmpresa); 
     }
 
     /**
@@ -36,11 +37,13 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $Roles = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_ROL/SEGURIDAD_ROLES", $Roles);
-
-        return redirect(route('Roles.index'));
+        {
+            $DeptoEmpresa = $request->all();
+    
+            $res = Http::post("http://localhost:3000/INS_DEPTO_EMPRESA/DEPARTAMENTOS_EMPRESA", $DeptoEmpresa);
+    
+            return redirect(route('DeptoEmpresa.index'))->with('success', 'Datos ingresados con éxito.');
+        }
     }
 
     /**
@@ -64,15 +67,16 @@ class RolesController extends Controller
      */
     public function update(Request $request)
     {
-        $upt_HoraExtra = Http::put('http://localhost:3000/UPT_ROLES/SEGURIDAD_ROLES/'.$request->input("COD_ROL"),[
-            "COD_ROL" => $request->input('COD_ROL'),
-            "NOM_ROL" => $request->input("NOM_ROL"),
-            "DES_ROL" => $request->input("DES_ROL"),
+        $upd_municipio = Http::put('http://localhost:3000/UPD_DEPTO_EMPRESA/DEPARTAMENTO EMPRESA/'.$request->input("COD_DEPTO_EMPRESA"),[
+            "COD_DEPTO_EMPRESA" => $request->input('COD_DEPTO_EMPRESA'),
+            "NOM_DEPTO_EMPRESA" => $request->input("NOM_DEPTO_EMPRESA"),
+            "DES_DEPTO_EMPRESA" => $request->input("DES_DEPTO_EMPRESA"),
         ]);
         
-        return redirect(route('Roles.index'));
-    }
+        return redirect(route('DeptoEmpresa.index'))->with('success', 'La actualización se ha realizado con éxito.');
 
+    }
+    
     /**
      * Remove the specified resource from storage.
      */
