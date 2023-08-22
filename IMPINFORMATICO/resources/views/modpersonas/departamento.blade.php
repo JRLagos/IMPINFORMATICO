@@ -15,7 +15,7 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1>Departamentos</h1>
@@ -41,7 +41,7 @@
                 <div class="modal-header">
                     <h3>Departamento</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
-                    
+
                 </div>
                 <div class="modal-body">
                     <h4>Ingresar Departamento</h4>
@@ -65,49 +65,52 @@
         </div>
     </div>
 
-      
-    @if(session('success'))
+
+    @if (session('success'))
         <div class="alert alert-warning alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
-    @endif    
+    @endif
 
 
-   <!-- /.card-header -->
- <div class="table-responsive p-0">
- <br>
-  <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
-
-    <tr>
-            <th style="text-align: center;">#</th>
-            <th style="text-align: center;">Nombre</th>
-            <th style="text-align: center;">Accion</th>
-    </tr>
-        </thead>
-        <tbody>
-            @foreach($ResulDepartamento as $Departamento)
+    <!-- /.card-header -->
+    <div class="table-responsive p-0">
+        <br>
+        <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
+            <thead class="bg-dark">
 
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">{{$Departamento['NOM_DEPARTAMENTO']}}</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
+            </thead>
+            <tbody>
+                @foreach ($ResulDepartamento as $Departamento)
+                    <tr>
+                        <th style="text-align: center;">#</th>
+                        <th style="text-align: center;">Nombre</th>
+                        <th style="text-align: center;">Accion</th>
+                    </tr>
 
 
-                <div class="modal fade bd-example-modal-sm" id="Departamento-edit-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Editar Departamento</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h4>Ingresar nuevos datos</h4>
-                                <form action="{{route('Put-Departamento.update')}}" method="post" class="was-validated">
-                                    @csrf
-                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"  value="{{$Departamento['COD_DEPARTAMENTO']}}">
+                    <div class="modal fade bd-example-modal-sm"
+                        id="Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Editar Departamento</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Ingresar nuevos datos</h4>
+                                    <form action="{{ route('Put-Departamento.update') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"
+                                            value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Nombre</label>
@@ -117,14 +120,15 @@
                                         </div>
 
 
-                                      <div class="modal-footer">
-                                         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
-                                         <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                      </div>
-                                </form>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 @endforeach
             </tbody>
         </table>
@@ -219,9 +223,9 @@
                                     title: 'IMPINFORMATICO | Departamento',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
-                                        var titulo = "Reporte de Departamento ";
+                                        var titulo = "Departamentos ";
                                         var descripcion =
-                                            "Descripción del reporte: Departamentos del pais";
+                                            "Departamentos del pais";
 
                                         doc['header'] = function(currentPage, pageCount) {
                                             return {
@@ -275,7 +279,7 @@
                                     extend: 'excelHtml5',
                                     text: 'Excel',
                                     title: 'Departamentos',
-                                    messageTop: 'Reporte de Departamentos',
+                                    messageTop: 'Departamentos del pais',
                                     customize: function(xlsx) {
                                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                                         $('row:first c', sheet).attr('s', '7');
@@ -310,10 +314,10 @@
             }
         </script>
 
-<script>
-    setTimeout(function(){
-        $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
-    }, 5000); // 5000 ms = 5 segundos
-</script>
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
 
     @stop

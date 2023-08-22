@@ -24,7 +24,7 @@
 
 @section('content')
 <div style="height: 1000px; width: 1000px;">
-    <iframe src='http://localhost:51430/reporting/site/site1/reports/0e80d78c-77f1-4c98-96bb-147e25243e92/PRUEBA/Reporte%20de%20Empleados%20IMP?isembed=true' id='report-frame' width='125%' height='720px' allowfullscreen frameborder='0'></iframe>
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/0e80d78c-77f1-4c98-96bb-147e25243e92/PRUEBA/Reporte%20de%20Empleados%20IMP?isembed=true' id='report-frame' width='100%' height='720px' allowfullscreen frameborder='0'></iframe>
 </div>
 @endsection
 

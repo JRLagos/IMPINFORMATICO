@@ -580,9 +580,9 @@
                     orientation: 'landscape',
                     customize: function(doc) {
                         var now = obtenerFechaHora();
-                        var titulo = "Reporte de Personas ";
+                        var titulo = "Personas ";
                         var descripcion =
-                            "Descripción del reporte: Informacion Personal de los Empleados";
+                            "Informacion Personal de los Empleados";
 
                         doc['header'] = function(currentPage, pageCount) {
                             return {
@@ -633,7 +633,7 @@
                     extend: 'excelHtml5',
                     text: 'Excel',
                     title: 'Personas IMPINFORMATICO',
-                    messageTop: 'Reporte de Personas con sus respectivos datos personales.',
+                    messageTop: 'Personas con sus respectivos datos personales.',
                     customize: function(xlsx) {
                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                         $('row:first c', sheet).attr('s', '7');

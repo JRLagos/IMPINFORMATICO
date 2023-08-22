@@ -24,7 +24,7 @@
 
 @section('content')
 <div style="height: 600px; width: 950px;">
-    <iframe src='http://localhost:51430/reporting/site/site1/reports/b59a7d46-4c34-416e-b226-1fd7787d1177/PRUEBA/IMPERIO%20INFORMATICO' id='reportvisor' width='110%' height='620px' allowfullscreen frameborder='0'></iframe>
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/b59a7d46-4c34-416e-b226-1fd7787d1177/PRUEBA/IMPERIO%20INFORMATICO' id='reportvisor' width='100%' height='620px' allowfullscreen frameborder='0'></iframe>
 </div>
 @endsection
 
