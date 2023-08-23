@@ -16,15 +16,52 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+        @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'EMPLEADOS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
 
 
-    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Registro de Empleados</b></h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"><b>Agregar
-                Empleado</b></button>
-    </div>
-@stop
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
 
+
+  <h1>Registro de Empleados</h1>
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  @php
+       $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+  @endphp
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button" @if (!$permisoInsertar) disabled @endif> Agregar Empleado</button>
+</div>
+  @stop
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -388,6 +425,7 @@
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+
                         <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
@@ -396,12 +434,13 @@
                         <td style="text-align: center;">{{ date('d-m-Y', strtotime($Empleado['FEC_INGRESO'])) }}</td>
                         <td style="text-align: center;">{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
                         <td style="text-align: center;">{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}
-                        </td>
-                        <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button"
-                                data-toggle="modal" data-target="#UpdEmpleado-{{ $Empleado['COD_EMPLEADO'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
+                        <td>
+                        @php
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                            <a class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" href="">
+                                <i class="fa fa-edit"></i>
+                            </a>
                         </td>
                     </tr>
                     <!-- Modal for editing goes here -->
