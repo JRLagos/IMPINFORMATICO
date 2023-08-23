@@ -329,7 +329,7 @@ return [
                 [
                     'text' => 'Usuarios',
                     'icon' => 'fas fa-fw fa-user gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Usuarios',
                 ], 
             ],
         ],
@@ -439,22 +439,6 @@ return [
                 ], 
 
                 
-            ],
-        ],
-        [
-            'text' => 'ESTADISTICAS',
-            'icon' => 'fas fa-fw fa-chart-line gns text-yellow',
-            'submenu' => [
-                [
-                    'text' => 'Estadisticas',
-                    'icon' => 'fas fa-fw fa-chart-line gns text-info',
-                    'url'  => 'Estadistica',
-                ], 
-                [
-                    'text' => 'Tipos Estadisticas',
-                    'icon' => 'fas fa-fw fa-chart-bar gns text-info',
-                    'url'  => 'EstaSucursal',
-                ], 
             ],
         ],
         [
