@@ -1,9 +1,8 @@
 @extends('adminlte::page')
 
-@section('title', 'Correo')
+@section('title', 'Usuarios')
 
 @section('content_header')
-<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,9 +14,9 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-
-    <h1>Registro de Correos</h1>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Usuarios</b></h1>
+    </div>
 @stop
 
 
@@ -30,113 +29,57 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
-
 @section('content')
-
+   
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="Correo" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="usuario" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">NOMBRE PERSONA</th>
-                    <th style="text-align: center;">CORREO ELECTRONICO</th>
-                    <th style="text-align: center;">DESCRIPCION</th>
-                    <th>ACCION</th>
+                    <th style="text-align: center;">Nombre Usuario</th>
+                    <th style="text-align: center;">Rol</th>
+                    <th style="text-align: center;">Ultima Conexion</th>
+                    <th style="text-align: center;">Primer Ingreso</th>
+                    <th style="text-align: center;">Fecha Vencimiento</th>
+                    <th style="text-align: center;">Preguntas</th>
+                    <th style="text-align: center;">E-mail</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
-
-                @foreach ($ResulCorreo as $Correo)
+                @foreach ($ResulUsuario as $Usuario)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Correo['NOMBRE_COMPLETO'] }}</td>
-                        <td style="text-align: center;">{{ $Correo['CORREO_ELECTRONICO'] }}</td>
-                        <td style="text-align: center;">{{ $Correo['DES_CORREO'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
+                        <td style="text-align: center;">{{ $Usuario['PRE_CONTESTADAS'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
-                                data-target="#UpdCorreo-{{ $Correo['COD_CORREO'] }}">
+                            <button value="Editar" title="Editar" class="btn btn-warning" type="button"
+                                data-toggle="modal" data-target="#UptHoraExtra-{{ $Usuario['COD_USUARIO'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
                         </td>
                     </tr>
-
-                    <!-- Modal for editing goes here -->
-                    <div class="modal fade bd-example-modal-sm" id="UpdCorreo-{{ $Correo['COD_CORREO'] }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Correo</b></h4>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
-                                    <form action="{{ route('Upd-Correo.update') }}" method="post" class="was-validated">
-                                        @csrf
-
-                                        <input type="hidden" class="form-control" name="COD_CORREO"
-                                            value="{{ $Correo['COD_CORREO'] }}">
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Empleado</label>
-                                            <select class="form-control js-example-basic-single" name="COD_PERSONA"
-                                                id="COD_PERSONA">
-                                                <option value="{{ $Correo['COD_PERSONA'] }}" style="display: none;">
-                                                    {{ $Correo['NOMBRE_COMPLETO'] }}</option>
-                                                <option disabled>¡No se puede seleccionar otro Empleado!</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Correo Electronico</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="CORREO_ELECTRONICO" value="{{ $Correo['CORREO_ELECTRONICO'] }}"
-                                                required maxlength="255">
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_CORREO" value="{{ $Correo['DES_CORREO'] }}" required
-                                                maxlength="255">
-                                        </div>
-
-
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </tbody>
         </table>
+</div>
     @stop
 
     @section('footer')
-
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
         <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
-
     @stop
 
-
-
     @section('js')
-
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -187,21 +130,21 @@
 
         <script>
             $(document).ready(function() {
-                var table = $('#Correo').DataTable({
-                    responsive: true,
-                    autWidth: false,
-                    language: {
-                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
-                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                          info: "Página _PAGE_ de _PAGES_",
-                          infoEmpty: "No hay registros disponibles",
-                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
-                          search: "Buscar:",
-                        paginate: {
-                            next: "Siguiente",
-                            previous: "Anterior"
-                        }
-                    },
+            var table = $('#planilla').DataTable({
+                responsive: true,
+                autWidth: false,
+                language: {
+                    lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                    zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                    info: "Página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    search: "Buscar:",
+                    paginate: {
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                },
 
                     dom: '<"top"Bl>frt<"bottom"ip><"clear">',
                     buttons: [{
@@ -210,13 +153,13 @@
                             text: 'Opciones',
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'IMPINFORMATICO | Correos',
+                                    title: 'IMPINFORMATICO | Horas Extra',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
-                                        var titulo = "Correos";
+                                        var titulo = "Reporte de Horas Extra";
                                         var descripcion =
-                                            "tabla de Correos electronicos de los empleados";
+                                            "Descripción del reporte: Empleados con sus horas extras realizadas";
 
                                         doc['header'] = function(currentPage, pageCount) {
                                             return {
@@ -269,8 +212,8 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Correos IMPINFORMATICO',
-                                    messageTop: 'Tabla de Correos de los Empleados',
+                                    title: 'Horas Extra IMPINFORMATICO',
+                                    messageTop: 'Reporte con el detalle de horas extras de los empleados',
                                     customize: function(xlsx) {
                                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                                         $('row:first c', sheet).attr('s', '7');
@@ -305,10 +248,26 @@
             }
         </script>
 
-
         <script>
             $(document).ready(function() {
                 $('.js-example-basic-single').select2({});
+            });
+        </script>
+
+        <script>
+            function cleanInputValue(inputElement) {
+                var inputValue = inputElement.value;
+                var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
+                if (cleanValue !== inputValue) {
+                    inputElement.value = cleanValue;
+                }
+            }
+
+            var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+            alphanumericInputs.forEach(function(input) {
+                input.addEventListener("input", function() {
+                    cleanInputValue(this);
+                });
             });
         </script>
     @stop

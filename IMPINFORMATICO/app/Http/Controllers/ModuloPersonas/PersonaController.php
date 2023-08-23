@@ -49,7 +49,7 @@ class PersonaController extends Controller
         
                 $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Persona);
         
-                return redirect(route('Persona.index'));
+                return redirect(route('Persona.index'))->with('success', 'Datos ingresados con éxito.');
             }
         }
 
@@ -72,9 +72,32 @@ class PersonaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+    
+        // Obtén el valor del campo concatenado
+    $nombreApellido = $request->input('nombre_apellido');
+
+    // Divide el nombre y el apellido
+    list($nombre, $apellido) = explode(' ', $nombreApellido, 2);
+
+
+        $upd_persona = Http::put('http://localhost:3000/UPD_PERSONA/PERSONA/'.$request->input("COD_PERSONA"),[
+            "COD_PERSONA" => $request->input('COD_PERSONA'),
+            "NOM_PERSONA" => $nombre, // Usar el nombre dividido
+            "APE_PERSONA" => $apellido, // Usar el apellido dividido
+            "DNI_PERSONA" => $request->input("DNI_PERSONA"),
+            "RTN_PERSONA" => $request->input("RTN_PERSONA"),
+            "TIP_TELEFONO" => $request->input("TIP_TELEFONO"),
+            "NUM_TELEFONO" => $request->input("NUM_TELEFONO"),
+            "SEX_PERSONA" => $request->input("SEX_PERSONA"),
+            "EDAD_PERSONA" => $request->input("EDAD_PERSONA"),
+            "FEC_NAC_PERSONA" => $request->input("FEC_NAC_PERSONA"),
+            "LUG_NAC_PERSONA" => $request->input("LUG_NAC_PERSONA"),
+            "IND_CIVIL" => $request->input("IND_CIVIL"),
+        ]);
+        
+        return redirect(route('Persona.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
     /**

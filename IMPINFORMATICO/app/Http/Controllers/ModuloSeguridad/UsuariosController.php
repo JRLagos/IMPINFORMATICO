@@ -7,20 +7,20 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class RolesController extends Controller
+class UsuariosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $response = Http::get('http://localhost:3000/SHOW_ROLES/SEGURIDAD_ROLES');
+        $response = Http::get('http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
-        $Roles = json_decode($data, true);
+        $Usuario = json_decode($data, true);
     
-        return view('modseguridad.roles')->with('ResulRoles', $Roles);
+        return view('modseguridad.usuario')->with('ResulUsuario', $Usuario);
     }
 
     /**
@@ -36,11 +36,7 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $Roles = $request->all();
-
-        $res = Http::post("http://localhost:3000/INS_ROL/SEGURIDAD_ROLES", $Roles);
-
-        return redirect(route('Roles.index'));
+        //
     }
 
     /**
@@ -62,15 +58,9 @@ class RolesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, string $id)
     {
-        $upt_HoraExtra = Http::put('http://localhost:3000/UPT_ROLES/SEGURIDAD_ROLES/'.$request->input("COD_ROL"),[
-            "COD_ROL" => $request->input('COD_ROL'),
-            "NOM_ROL" => $request->input("NOM_ROL"),
-            "DES_ROL" => $request->input("DES_ROL"),
-        ]);
-        
-        return redirect(route('Roles.index'));
+        //
     }
 
     /**

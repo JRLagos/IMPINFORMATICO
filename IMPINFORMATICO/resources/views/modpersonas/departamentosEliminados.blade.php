@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Correo')
+@section('title', 'Departamentos')
 
 @section('content_header')
-<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,11 +15,12 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-
-    <h1>Registro de Correos</h1>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+          <h1><b>Departamentos Eliminados</b></h1>
+      </div>
 @stop
-
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -30,109 +31,80 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
-
 @section('content')
-
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="Correo" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+        <table id="departamentosEliminados" class="table table-striped table-bordered table-condensed table-hover">
+              <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">NOMBRE PERSONA</th>
-                    <th style="text-align: center;">CORREO ELECTRONICO</th>
-                    <th style="text-align: center;">DESCRIPCION</th>
-                    <th>ACCION</th>
+                    <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
-
-                @foreach ($ResulCorreo as $Correo)
+                @foreach ($ResulDepartamentoEliminado as $DepartamentoEliminado)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Correo['NOMBRE_COMPLETO'] }}</td>
-                        <td style="text-align: center;">{{ $Correo['CORREO_ELECTRONICO'] }}</td>
-                        <td style="text-align: center;">{{ $Correo['DES_CORREO'] }}</td>
+                        <td style="text-align: center;">{{$DepartamentoEliminado['NOM_DEPARTAMENTO']}}</th>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
-                                data-target="#UpdCorreo-{{ $Correo['COD_CORREO'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        </td>
+                              <button value="Editar" title="Editar" class="btn btn-success" type="button"
+                                  data-toggle="modal" data-target="#ActivarDepartamento-{{$DepartamentoEliminado['COD_DEPARTAMENTO']}}">
+                                  <i class='fas fa-check-circle' style='font-size:20px;'></i>
+                              </button>
+                          </td>
                     </tr>
-
-                    <!-- Modal for editing goes here -->
-                    <div class="modal fade bd-example-modal-sm" id="UpdCorreo-{{ $Correo['COD_CORREO'] }}" tabindex="-1">
+                    <div class="modal fade bd-example-modal-sm" id="ActivarDepartamento-{{$DepartamentoEliminado['COD_DEPARTAMENTO']}}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Correo</b></h4>
+                                    <h5 class="modal-title">Activar Departamento</h5>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
-                                    <form action="{{ route('Upd-Correo.update') }}" method="post" class="was-validated">
+                                    <h4>Departamento a Activar</h4>
+                                    <form action="{{ route('Act-Departamento.activar') }}" method="post"
+                                        class="was-validated">
                                         @csrf
-
-                                        <input type="hidden" class="form-control" name="COD_CORREO"
-                                            value="{{ $Correo['COD_CORREO'] }}">
+                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO" value="{{ $DepartamentoEliminado['COD_DEPARTAMENTO'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Empleado</label>
-                                            <select class="form-control js-example-basic-single" name="COD_PERSONA"
-                                                id="COD_PERSONA">
-                                                <option value="{{ $Correo['COD_PERSONA'] }}" style="display: none;">
-                                                    {{ $Correo['NOMBRE_COMPLETO'] }}</option>
-                                                <option disabled>¡No se puede seleccionar otro Empleado!</option>
-                                            </select>
+                                            <label for="dni" class="form-label">Nombre Departamento</label>
+                                            <label for="dni" class="form-control" >{{ $DepartamentoEliminado['NOM_DEPARTAMENTO'] }}</label>
                                         </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Correo Electronico</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="CORREO_ELECTRONICO" value="{{ $Correo['CORREO_ELECTRONICO'] }}"
-                                                required maxlength="255">
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_CORREO" value="{{ $Correo['DES_CORREO'] }}" required
-                                                maxlength="255">
-                                        </div>
-
 
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTIVAR</b></button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 @endforeach
             </tbody>
         </table>
+        <br>
+        <div class="container d-md-flex justify-content-md-end">
+        <a class=" btn btn-primary btn-xl" href="{{ route('Departamento.index') }}"><b>Regresar</b>
+        </a>
+    </div>
+    <br>
     @stop
 
     @section('footer')
-
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
+        <div class="float-left">
+            <strong>Copyright &copy; 2023 <a href="#">IMPERIO IMFORMATICO</a>.</strong> Todos los derechos
+            reservados.
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
-
+        <div class="float-right d-none d-sm-block">
+            <b>Versión</b> 3.1.0
+        </div>
     @stop
-
 
 
     @section('js')
@@ -150,6 +122,7 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+
         <style>
             .btn-group>.btn {
                 font-size: 12px;
@@ -184,19 +157,18 @@
                 margin-top: 10px;
             }
         </style>
-
         <script>
             $(document).ready(function() {
-                var table = $('#Correo').DataTable({
+                var table = $('#departamentosEliminados').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
                         lengthMenu: "Mostrar _MENU_ Registros Por Página",
-                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                          info: "Página _PAGE_ de _PAGES_",
-                          infoEmpty: "No hay registros disponibles",
-                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
-                          search: "Buscar:",
+                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                        info: "Página _PAGE_ de _PAGES_",
+                        infoEmpty: "No hay registros disponibles",
+                        infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                        search: "Buscar:",
                         paginate: {
                             next: "Siguiente",
                             previous: "Anterior"
@@ -210,13 +182,12 @@
                             text: 'Opciones',
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'IMPINFORMATICO | Correos',
-                                    orientation: 'landscape',
+                                    title: 'IMPINFORMATICO | Departamento',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
-                                        var titulo = "Correos";
+                                        var titulo = "Departamentos ";
                                         var descripcion =
-                                            "tabla de Correos electronicos de los empleados";
+                                            "Departamentos del pais";
 
                                         doc['header'] = function(currentPage, pageCount) {
                                             return {
@@ -258,19 +229,19 @@
                                     text: 'Imprimir',
                                     action: function(e, dt, node, config) {
                                         // Ocultar la columna número 12
-                                        table.column(5).visible(false);
+                                        table.column(4).visible(false);
                                         // Imprimir
                                         $.fn.dataTable.ext.buttons.print.action(e, dt, node,
                                             config);
                                         // Restablecer la visibilidad de la columna después de imprimir
-                                        table.column(5).visible(true);
+                                        table.column(4).visible(true);
                                     }
                                 },
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Correos IMPINFORMATICO',
-                                    messageTop: 'Tabla de Correos de los Empleados',
+                                    title: 'Departamentos',
+                                    messageTop: 'Departamentos del pais',
                                     customize: function(xlsx) {
                                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                                         $('row:first c', sheet).attr('s', '7');
@@ -305,10 +276,10 @@
             }
         </script>
 
-
         <script>
-            $(document).ready(function() {
-                $('.js-example-basic-single').select2({});
-            });
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
         </script>
+
     @stop

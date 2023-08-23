@@ -3,7 +3,7 @@
 @section('title', 'Direcciones')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +30,12 @@
 
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif
 
     <!-- /.card-header -->
     <div class="table-responsive p-0">
@@ -52,191 +58,262 @@
                         <td style="text-align: center;">{{ $Direccion['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">{{ $Direccion['DES_DIRECCION'] }}</td>
                         <td style="text-align: center;">
-                            <a class="btn btn-warning" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
+                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
+                                data-target="#UpdDireccion-{{ $Direccion['COD_DIRECCION'] }}">
+                                <i class='fas fa-edit' style='font-size:20px;'></i>
+                            </button>
                         </td>
                     </tr>
+
+                    <!-- Modal for editing goes here -->
+                    <div class="modal fade bd-example-modal-sm" id="UpdDireccion-{{ $Direccion['COD_DIRECCION'] }}"
+                        tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><b>Editar Dirección</b></h4>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <h4>
+                                        <p>Ingresar nuevos datos</p>
+                                    </h4>
+                                    <hr>
+                                    <form action="{{ route('Upd-Direcciones.update') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+
+                                        <input type="hidden" class="form-control" name="COD_DIRECCION"
+                                            value="{{ $Direccion['COD_DIRECCION'] }}">
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Persona</label>
+                                            <select class="form-control js-example-basic-single" name="COD_PERSONA"
+                                                id="COD_PERSONA">
+                                                <option value="{{ $Direccion['COD_PERSONA'] }}" style="display: none;">
+                                                    {{ $Direccion['NOMBRE_COMPLETO'] }}</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Municipio</label>
+                                            <select class="form-control js-example-basic-single" name="COD_MUNICIPIO"
+                                                id="COD_MUNICIPIO">
+                                                <option value="{{ $Direccion['COD_MUNICIPIO'] }}" style="display: none;">
+                                                    {{ $Direccion['NOM_MUNICIPIO'] }}</option>
+                                                @foreach ($ResulMunicipio as $Municipio)
+                                                    <option value="{{ $Municipio['COD_MUNICIPIO'] }}">
+                                                        {{ $Municipio['NOM_MUNICIPIO'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Descripción</label>
+                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
+                                                name="DES_DIRECCION" value="{{ $Direccion['DES_DIRECCION'] }}" required
+                                                maxlength="255">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             </tbody>
         </table>
-    </div>
+    @stop
 
-@stop
+    @section('footer')
 
-@section('footer')
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
 
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
-
-@stop
+    @stop
 
 
+    @section('js')
 
-@section('js')
-
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-       <!-- botones -->
-       <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-       <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-       <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-       <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-       <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-       <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <style>
-        .btn-group>.btn {
-            font-size: 12px;
-            padding: 6px 12px;
-        }
-    </style>
-    <style>
-        div.dt-button-collection {
-            width: 600px;
-        }
-
-        div.dt-button-collection button.dt-button {
-            display: inline-block;
-            width: 32%;
-        }
-
-        div.dt-button-collection button.buttons-colvis {
-            display: inline-block;
-            width: 49%;
-        }
-
-        div.dt-button-collection h3 {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            font-weight: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-            font-size: 1em;
-            padding: 0 1em;
-        }
-
-        div.dt-button-collection h3.not-top-heading {
-            margin-top: 10px;
-        }
-    </style>
-    <script>
-        $(document).ready(function() {
-            var table = $('#direccion').DataTable({
-                responsive: true,
-        autWidth: false,
-        language: {
-            lengthMenu: "Mostrar _MENU_ Registros Por Página",
-            zeroRecords: "Nada Encontrado - ¡Disculpas!",
-            info: "Página _PAGE_ de _PAGES_",
-            infoEmpty: "No hay registros disponibles",
-            infoFiltered: "(Filtrado de _MAX_ registros totales)",
-            search: "Buscar:",
-            paginate: {
-                next: "Siguiente",
-                previous: "Anterior"
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+        <!-- botones -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+        <style>
+            .btn-group>.btn {
+                font-size: 12px;
+                padding: 6px 12px;
             }
-        },
+        </style>
+        <style>
+            div.dt-button-collection {
+                width: 600px;
+            }
 
-        dom: '<"top"Bl>frt<"bottom"ip><"clear">',
-        buttons: [{
-            extend: 'collection',
-            className: 'custom-html-collection',
-            text: 'Opciones',
-            buttons: [{
-                    extend: 'pdf',
-                    title: 'IMPINFORMATICO | Direcciones',
-                    customize: function(doc) {
-                        var now = obtenerFechaHora();
-                        var titulo = "Reporte de Direcciones de los Empleados ";
-                        var descripcion =
-                            "Descripción del reporte: Empleados de la empresa con su respectivo municipio y direccion";
+            div.dt-button-collection button.dt-button {
+                display: inline-block;
+                width: 32%;
+            }
 
-                        doc['header'] = function(currentPage, pageCount) {
-                            return {
-                                text: titulo,
-                                fontSize: 14,
-                                alignment: 'center',
-                                margin: [0, 10]
-                            };
-                        };
+            div.dt-button-collection button.buttons-colvis {
+                display: inline-block;
+                width: 49%;
+            }
 
-                        doc['footer'] = function(currentPage, pageCount) {
-                            return {
-                                columns: [{
-                                        text: 'Imperio Informatico',
-                                        alignment: 'left',
-                                        margin: [10, 10]
-                                    },
-                                    {
-                                        text: 'Fecha y Hora: ' + now,
-                                        alignment: 'right',
-                                        margin: [10, 10]
+            div.dt-button-collection h3 {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                font-weight: 100;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+                font-size: 1em;
+                padding: 0 1em;
+            }
+
+            div.dt-button-collection h3.not-top-heading {
+                margin-top: 10px;
+            }
+        </style>
+        <script>
+            $(document).ready(function() {
+                var table = $('#direccion').DataTable({
+                    responsive: true,
+                    autWidth: false,
+                    language: {
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                          info: "Página _PAGE_ de _PAGES_",
+                          infoEmpty: "No hay registros disponibles",
+                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                          search: "Buscar:",
+                        paginate: {
+                            next: "Siguiente",
+                            previous: "Anterior"
+                        }
+                    },
+
+                    dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+                    buttons: [{
+                            extend: 'collection',
+                            className: 'custom-html-collection',
+                            text: 'Opciones',
+                            buttons: [{
+                                    extend: 'pdf',
+                                    title: 'IMPINFORMATICO | Direcciones',
+                                    orientation: 'landscape',
+                                    customize: function(doc) {
+                                        var now = obtenerFechaHora();
+                                        var titulo = "Direcciones de los Empleados";
+                                        var descripcion =
+                                            "Direcciones";
+
+                                        doc['header'] = function(currentPage, pageCount) {
+                                            return {
+                                                text: titulo,
+                                                fontSize: 14,
+                                                alignment: 'center',
+                                                margin: [0, 10]
+                                            };
+                                        };
+
+                                        doc['footer'] = function(currentPage, pageCount) {
+                                            return {
+                                                columns: [{
+                                                        text: 'Imperio Informatico',
+                                                        alignment: 'left',
+                                                        margin: [10, 10]
+                                                    },
+                                                    {
+                                                        text: 'Fecha y Hora: ' + now,
+                                                        alignment: 'right',
+                                                        margin: [10, 10]
+                                                    }
+                                                ],
+                                                margin: [10, 0]
+                                            };
+                                        };
+                                        doc.contentMargins = [10, 10, 10,
+                                        10]; // Ajusta el margen de la tabla aquí
+                                        doc.content.unshift({
+                                            text: descripcion,
+                                            alignment: 'left',
+                                            margin: [10, 0, 10, 10]
+                                        });
                                     }
-                                ],
-                                margin: [10, 0]
-                            };
-                        };
-                        doc.contentMargins = [10, 10, 10, 10]; // Ajusta el margen de la tabla aquí
-                        doc.content.unshift({
-                            text: descripcion,
-                            alignment: 'left',
-                            margin: [10, 0, 10, 10]
-                        });
-                    }
-                },
-                {
-                    extend: 'print',
-                    text: 'Imprimir',
-                    action: function (e, dt, node, config) {
-                        // Ocultar la columna número 4
-                        table.column(4).visible(false);
-                        // Imprimir
-                        $.fn.dataTable.ext.buttons.print.action(e, dt, node, config);
-                        // Restablecer la visibilidad de la columna después de imprimir
-                        table.column(4).visible(true);
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    text: 'Excel',
-                    title: 'Direcciones de los Empleados',
-                    messageTop: 'Empleados con su respectivo municipio y direccion',
-                    customize: function(xlsx) {
-                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                        $('row:first c', sheet).attr('s', '7');
-                    }
-                }
-            ]
-        },
-        {
-            extend: 'colvis',
-            text: 'Columnas visibles' // Botón de columnas visibles
-        }]
-    });
+                                },
+                                {
+                                    extend: 'print',
+                                    text: 'Imprimir',
+                                    action: function(e, dt, node, config) {
+                                        // Ocultar la columna número 12
+                                        table.column(5).visible(false);
+                                        // Imprimir
+                                        $.fn.dataTable.ext.buttons.print.action(e, dt, node,
+                                        config);
+                                        // Restablecer la visibilidad de la columna después de imprimir
+                                        table.column(5).visible(true);
+                                    }
+                                },
+                                {
+                                    extend: 'excelHtml5',
+                                    text: 'Excel',
+                                    title: 'Direcciones IMPINFORMATICO',
+                                    messageTop: 'Direcciones de los empleados',
+                                    customize: function(xlsx) {
+                                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                        $('row:first c', sheet).attr('s', '7');
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            extend: 'colvis',
+                            text: 'Columnas visibles' // Botón de columnas visibles
+                        }
+                    ]
+                });
 
-    // Mover los botones de exportación al contenedor adecuado
-    table.buttons().container()
-        .appendTo($('.col-sm-6:eq(0)', table.table().container()));
-});
+                // Mover los botones de exportación al contenedor adecuado
+                table.buttons().container()
+                    .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+            });
 
-function obtenerFechaHora() {
-    var now = new Date();
-    var options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-        hour12: false
-    };
-    return now.toLocaleDateString('es-ES', options);
-}
+            function obtenerFechaHora() {
+                var now = new Date();
+                var options = {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    hour12: false
+                };
+                return now.toLocaleDateString('es-ES', options);
+            }
+        </script>
 
-    </script>
-@stop
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
+
+    @stop

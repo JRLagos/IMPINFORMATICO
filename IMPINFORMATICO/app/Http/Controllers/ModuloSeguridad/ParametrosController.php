@@ -65,9 +65,17 @@ class ParametrosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upt_parametros = Http::put('http://localhost:3000/UPT_PARAMETROS/SEGURIDAD_PARAMETROS/'.$request->input("COD_PARAMETRO"),[
+            "COD_PARAMETRO" => $request->input('COD_PARAMETRO'),
+            "DES_PARAMETRO" => $request->input('DES_PARAMETRO'),
+            "DES_VALOR" => $request->input('DES_VALOR'),
+            "FEC_CREACION" => $request->input('FEC_CREACION'),
+            "FEC_MODIFICACION" => $request->input('FEC_MODIFICACION'),
+        ]);
+        
+        return redirect(route('Parametros.index'));
     }
 
     /**
