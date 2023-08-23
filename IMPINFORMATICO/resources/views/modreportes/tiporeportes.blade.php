@@ -3,6 +3,7 @@
 @section('title', 'Bold Report')
 
 @section('content_header')
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +25,7 @@
 
 @section('content')
 <div style="height: 1000px; width: 1000px;">
-    <iframe src='http://localhost:51430/reporting/site/site1/reports/072dee9d-1fea-458c-9723-14332bb5e141/PRUEBA/Reporte%20General%20de%20Empleados?isembed=true' id='report-frame' width='125%' height='720px' allowfullscreen frameborder='0'></iframe>
+    <iframe src='http://localhost:51430/reporting/site/site1/reports/072dee9d-1fea-458c-9723-14332bb5e141/PRUEBA/Reporte%20General%20de%20Empleados?isembed=true' id='report-frame' width='100%' height='720px' allowfullscreen frameborder='0'></iframe>
 </div>
 @endsection
 

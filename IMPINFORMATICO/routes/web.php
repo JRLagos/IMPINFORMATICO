@@ -26,6 +26,7 @@ use App\Http\Controllers\ModuloSeguridad\RolesController;
 use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
 use App\Http\Controllers\ModuloSeguridad\ParametrosController;
+use App\Http\Controllers\ModuloSeguridad\UsuariosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -99,15 +100,14 @@ Route::get('/generar-reporte', 'ReportController@generarReporte');
 Route::get('Departamentos', [DepartamentoController::class, 'index'])->name('Departamento.index');
 Route::post('Post-Departamento', [DepartamentoController::class, 'store'])->name('Post-Departamento.store');
 Route::post('Put-Departamento', [DepartamentoController::class, 'update'])->name('Put-Departamento.update');
-
+Route::get('/Departamentos-Eliminados', [DepartamentoController::class, 'indexEliminados'])->name('DepartamentoEliminado.indexEliminados');
+Route::post('Act-Departamento', [DepartamentoController::class, 'activar'])->name('Act-Departamento.activar');
+Route::post('Del-Departamento', [DepartamentoController::class, 'desactivar'])->name('Del-Departamento.desactivar');
 
 // Municipios
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
 Route::post('Post-Municipio', [MunicipioController::class, 'store'])->name('Post-Municipio.store');
 Route::post('/Upd-Municipio',[MunicipioController::class, 'update'])->name('Upd-Municipio.update');
-
-// Estadisticas
-Route::get('Estadistica', [EstadisticaController::class, 'index'])->name('Estadistica.index');
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
@@ -156,14 +156,18 @@ Route::post('Upt-Roles',[RolesController::class, 'update'])->name('Upt-Roles.upd
 // Objetos
 Route::get('Objetos', [ObjetosController::class, 'index'])->name('Objetos.index');
 Route::post('Post-Objetos',[ObjetosController::class, 'store'])->name('Post-Objetos.store');
-
+Route::post('Upt-Objetos',[ObjetosController::class, 'update'])->name('Upt-Objetos.update');
 
 // Permisos
 Route::get('Permisos', [PermisosController::class, 'index'])->name('Permisos.index');
 Route::post('Post-Permisos',[PermisosController::class, 'store'])->name('Post-Permisos.store');
+Route::post('Upt-Permisos',[PermisosController::class, 'update'])->name('Upt-Permisos.update');
 
 // Parametros
 Route::get('Parametros', [ParametrosController::class, 'index'])->name('Parametros.index');
-Route::post('Post-Parametros',[ParametrosController::class, 'store'])->name('Post-Parametro.store');
+Route::post('Post-Parametros',[ParametrosController::class, 'store'])->name('Post-Parametros.store');
+Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt-Parametros.update');
 
-Route::get('EstaSucursal', [EstadisticaController::class, 'edit'])->name('EstaSucursal.edit');
+// Usuarios
+Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.index');
+

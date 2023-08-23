@@ -39,7 +39,7 @@
  <!-- /.card-header -->
  <div class="table-responsive p-0">
  <br>
-  <table id="productos" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="estadistica" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
     <tr> 
         <th>#</th>
@@ -96,7 +96,7 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#productos').DataTable({
+    $('#estadistica').DataTable({
       responsive: true,
       autWidth: false,
 

@@ -3,6 +3,7 @@
   @section('title', 'Horas Extras')
 
   @section('content_header')
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,10 +15,53 @@
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+          @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "PLANILLAS"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'HORAS_EXTRA';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
+
+
+
       <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
           <h1><b>Horas Extras</b></h1>
+          @php
+          $permisoAgregarHoraExtra = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+          @endphp
           <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addHoraExtra"
-              type="button"><b>Agregar Hora Extra</b></button>
+              type="button" @if (!$permisoAgregarHoraExtra) disabled @endif ><b>Agregar Hora Extra</b></button>
       </div>
   @stop
 
@@ -32,6 +76,7 @@
   @endsection
 
   @section('content')
+
       <!-- Modal para agregar un nueva Hora Extra -->
       <div class="modal fade bd-example-modal-sm" id="addHoraExtra" tabindex="-1">
           <div class="modal-dialog">
@@ -112,8 +157,11 @@
                           <td style="text-align: center;">{{ date('d-m-Y', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}</td>
 
                           <td style="text-align: center;">
-                              <button value="Editar" title="Editar" class="btn btn-warning" type="button"
-                                  data-toggle="modal" data-target="#UptHoraExtra-{{ $HoraExtra['COD_HOR_EXTRA'] }}">
+                              @php
+                              $permisoEditarHoraExtra = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                              @endphp
+                              <button value="Editar" title="Editar" class="btn @if ($permisoEditarHoraExtra) btn-warning  @else btn-secondary disabled @endif" type="button"
+                                  data-toggle="modal" data-target="#UptHoraExtra-{{ $HoraExtra['COD_HOR_EXTRA'] }}" @if (!$permisoEditarHoraExtra) disabled @endif>
                                   <i class='fas fa-edit' style='font-size:20px;'></i>
                               </button>
                           </td>
@@ -205,165 +253,168 @@
           <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
           <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
           <!-- botones -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <style>
-        .btn-group>.btn {
-            font-size: 12px;
-            padding: 6px 12px;
-        }
-    </style>
-    <style>
-        div.dt-button-collection {
-            width: 600px;
-        }
+          <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+          <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+          <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+          <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+          <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+          <style>
+              .btn-group>.btn {
+                  font-size: 12px;
+                  padding: 6px 12px;
+              }
+          </style>
+          <style>
+              div.dt-button-collection {
+                  width: 600px;
+              }
 
-        div.dt-button-collection button.dt-button {
-            display: inline-block;
-            width: 32%;
-        }
+              div.dt-button-collection button.dt-button {
+                  display: inline-block;
+                  width: 32%;
+              }
 
-        div.dt-button-collection button.buttons-colvis {
-            display: inline-block;
-            width: 49%;
-        }
+              div.dt-button-collection button.buttons-colvis {
+                  display: inline-block;
+                  width: 49%;
+              }
 
-        div.dt-button-collection h3 {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            font-weight: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-            font-size: 1em;
-            padding: 0 1em;
-        }
+              div.dt-button-collection h3 {
+                  margin-top: 5px;
+                  margin-bottom: 5px;
+                  font-weight: 100;
+                  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+                  font-size: 1em;
+                  padding: 0 1em;
+              }
 
-        div.dt-button-collection h3.not-top-heading {
-            margin-top: 10px;
-        }
-    </style>
+              div.dt-button-collection h3.not-top-heading {
+                  margin-top: 10px;
+              }
+          </style>
 
-<script>
-  $(document).ready(function() {
-  var table = $('#horaextra').DataTable({
-      responsive: true,
-      autWidth: false,
-      language: {
-          lengthMenu: "Mostrar _MENU_ Registros Por Página",
-          zeroRecords: "Nada Encontrado - ¡Disculpas!",
-          info: "Página _PAGE_ de _PAGES_",
-          infoEmpty: "No hay registros disponibles",
-          infoFiltered: "(Filtrado de _MAX_ registros totales)",
-          search: "Buscar:",
-          paginate: {
-              next: "Siguiente",
-              previous: "Anterior"
-          }
-      },
+          <script>
+              $(document).ready(function() {
+                  var table = $('#horaextra').DataTable({
+                      responsive: true,
+                      autWidth: false,
+                      language: {
+                          lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                          info: "Página _PAGE_ de _PAGES_",
+                          infoEmpty: "No hay registros disponibles",
+                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                          search: "Buscar:",
+                          paginate: {
+                              next: "Siguiente",
+                              previous: "Anterior"
+                          }
+                      },
 
-      dom: '<"top"Bl>frt<"bottom"ip><"clear">',
-      buttons: [{
-          extend: 'collection',
-          className: 'custom-html-collection',
-          text: 'Opciones',
-          buttons: [{
-                  extend: 'pdf',
-                  title: 'IMPINFORMATICO | Horas Extra',
-                  orientation: 'landscape',
-                  customize: function(doc) {
-                      var now = obtenerFechaHora();
-                      var titulo = "Reporte de Horas Extra";
-                      var descripcion =
-                          "Descripción del reporte: Empleados con sus horas extras realizadas";
+                      dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+                      buttons: [{
+                              extend: 'collection',
+                              className: 'custom-html-collection',
+                              text: 'Opciones',
+                              buttons: [{
+                                      extend: 'pdf',
+                                      title: 'IMPINFORMATICO | Horas Extra',
+                                      orientation: 'landscape',
+                                      customize: function(doc) {
+                                          var now = obtenerFechaHora();
+                                          var titulo = "Reporte de Horas Extra";
+                                          var descripcion =
+                                              "Descripción del reporte: Empleados con sus horas extras realizadas";
 
-                      doc['header'] = function(currentPage, pageCount) {
-                          return {
-                              text: titulo,
-                              fontSize: 14,
-                              alignment: 'center',
-                              margin: [0, 10]
-                          };
-                      };
+                                          doc['header'] = function(currentPage, pageCount) {
+                                              return {
+                                                  text: titulo,
+                                                  fontSize: 14,
+                                                  alignment: 'center',
+                                                  margin: [0, 10]
+                                              };
+                                          };
 
-                      doc['footer'] = function(currentPage, pageCount) {
-                          return {
-                              columns: [{
-                                      text: 'Imperio Informatico',
-                                      alignment: 'left',
-                                      margin: [10, 10]
+                                          doc['footer'] = function(currentPage, pageCount) {
+                                              return {
+                                                  columns: [{
+                                                          text: 'Imperio Informatico',
+                                                          alignment: 'left',
+                                                          margin: [10, 10]
+                                                      },
+                                                      {
+                                                          text: 'Fecha y Hora: ' + now,
+                                                          alignment: 'right',
+                                                          margin: [10, 10]
+                                                      }
+                                                  ],
+                                                  margin: [10, 0]
+                                              };
+                                          };
+                                          doc.contentMargins = [10, 10, 10,
+                                              10
+                                          ]; // Ajusta el margen de la tabla aquí
+                                          doc.content.unshift({
+                                              text: descripcion,
+                                              alignment: 'left',
+                                              margin: [10, 0, 10, 10]
+                                          });
+                                      }
                                   },
                                   {
-                                      text: 'Fecha y Hora: ' + now,
-                                      alignment: 'right',
-                                      margin: [10, 10]
+                                      extend: 'print',
+                                      text: 'Imprimir',
+                                      action: function(e, dt, node, config) {
+                                          // Ocultar la columna número 12
+                                          table.column(5).visible(false);
+                                          // Imprimir
+                                          $.fn.dataTable.ext.buttons.print.action(e, dt, node,
+                                              config);
+                                          // Restablecer la visibilidad de la columna después de imprimir
+                                          table.column(5).visible(true);
+                                      }
+                                  },
+                                  {
+                                      extend: 'excelHtml5',
+                                      text: 'Excel',
+                                      title: 'Horas Extra IMPINFORMATICO',
+                                      messageTop: 'Reporte con el detalle de horas extras de los empleados',
+                                      customize: function(xlsx) {
+                                          var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                          $('row:first c', sheet).attr('s', '7');
+                                      }
                                   }
-                              ],
-                              margin: [10, 0]
-                          };
-                      };
-                      doc.contentMargins = [10, 10, 10, 10]; // Ajusta el margen de la tabla aquí
-                      doc.content.unshift({
-                          text: descripcion,
-                          alignment: 'left',
-                          margin: [10, 0, 10, 10]
-                      });
-                  }
-              },
-              {
-                  extend: 'print',
-                  text: 'Imprimir',
-                  action: function (e, dt, node, config) {
-                      // Ocultar la columna número 12
-                      table.column(5).visible(false);
-                      // Imprimir
-                      $.fn.dataTable.ext.buttons.print.action(e, dt, node, config);
-                      // Restablecer la visibilidad de la columna después de imprimir
-                      table.column(5).visible(true);
-                  }
-              },
-              {
-                  extend: 'excelHtml5',
-                  text: 'Excel',
-                  title: 'Horas Extra IMPINFORMATICO',
-                  messageTop: 'Reporte con el detalle de horas extras de los empleados',
-                  customize: function(xlsx) {
-                      var sheet = xlsx.xl.worksheets['sheet1.xml'];
-                      $('row:first c', sheet).attr('s', '7');
-                  }
+                              ]
+                          },
+                          {
+                              extend: 'colvis',
+                              text: 'Columnas visibles' // Botón de columnas visibles
+                          }
+                      ]
+                  });
+
+                  // Mover los botones de exportación al contenedor adecuado
+                  table.buttons().container()
+                      .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+              });
+
+              function obtenerFechaHora() {
+                  var now = new Date();
+                  var options = {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                      hour: 'numeric',
+                      minute: 'numeric',
+                      second: 'numeric',
+                      hour12: false
+                  };
+                  return now.toLocaleDateString('es-ES', options);
               }
-          ]
-      },
-      {
-          extend: 'colvis',
-          text: 'Columnas visibles' // Botón de columnas visibles
-      }]
-  });
-
-  // Mover los botones de exportación al contenedor adecuado
-  table.buttons().container()
-      .appendTo($('.col-sm-6:eq(0)', table.table().container()));
-});
-
-function obtenerFechaHora() {
-  var now = new Date();
-  var options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      hour12: false
-  };
-  return now.toLocaleDateString('es-ES', options);
-}
-
-  </script>
+          </script>
 
           <script>
               $(document).ready(function() {

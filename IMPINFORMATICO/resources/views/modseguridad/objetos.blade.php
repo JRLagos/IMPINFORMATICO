@@ -12,11 +12,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-
-  <h1>Objetos</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addObjeto" type="button"> Agregar Objeto</button>
-</div>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+          <h1><b>Objetos</b></h1>
+          <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addObjeto"
+              type="button"><b>Agregar Objeto</b></button>
+      </div>
   @stop
 
 
@@ -40,14 +40,14 @@
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Objeto</h4>
+                        <h4>Ingresar Objetos</h4>
 
                     <form action="{{route('Post-Objetos.store')}}" method="post" class="was-validated">
                     @csrf
                     
                         <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Nombre Objeto</label>
-                    <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" name="NOM_OBJETO" required minlength="4" maxlength="100"/>
+                    <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" name="NOM_OBJETO" required minlength="4" maxlength="30"/>
                     <span class="validity"></span>
                     </div>
 
@@ -59,7 +59,7 @@
 
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Tipo Objeto</label>
-                    <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" name="TIP_OBJETO" required minlength="4" maxlength="15"/>
+                    <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" name="TIP_OBJETO" required minlength="4" maxlength="30"/>
                     <span class="validity"></span>
                     </div>
 
@@ -75,37 +75,74 @@
         </div>
     </div>
 
-
    <!-- /.card-header -->
- <div class="table-responsive p-0">
+   <div class="table-responsive p-0">
  <br>
-  <table id="objeto" class="table table-striped table-bordered table-condensed table-hover">
+  <table id="rol" class="table table-striped table-bordered table-condensed table-hover">
     <thead class="bg-dark">
-    <tr> 
-        <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Nombre</th>
-        <th style="text-align: center;">Descripcion</th>
-        <th style="text-align: center;">Tipo</th>
-        <th style="text-align: center;">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($ResulObjetos as $Objetos)
-        <tr>
-        <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Objetos['NOM_OBJETO'] }}</td>
-        <td style="text-align: center;">{{ $Objetos['DES_OBJETO'] }}</td>
-        <td style="text-align: center;">{{ $Objetos['TIP_OBJETO'] }}</td>
-        <td style="text-align: center;">
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
+
+    <tr>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Nombre</th>
+            <th style="text-align: center;">Descripcion</th>
+            <th style="text-align: center;">Tipo</th>
+            <th style="text-align: center;">Accion</th>
+    </tr>
+        </thead>
+        <tbody>
+            @foreach($ResulObjetos as $Objetos)
+                <tr>
+                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                    <td style="text-align: center;">{{$Objetos['NOM_OBJETO']}}</td>
+                    <td style="text-align: center;">{{$Objetos['DES_OBJETO']}}</td>
+                    <td style="text-align: center;">{{$Objetos['TIP_OBJETO']}}</td>
+                    <td style="text-align: center;">
+                        <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#Objeto-edit-{{$Objetos['COD_OBJETO']}}">
+                            <i class='fas fa-edit' style='font-size:20px;'></i>
+                        </button>
+                    </td>
+                </tr>
+
+                <div class="modal fade bd-example-modal-sm" id="Objeto-edit-{{$Objetos['COD_OBJETO']}}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Editar Objeto</h5>
+                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h4>Ingresar Nuevos Datos</h4>
+                                <form action="{{route('Upt-Objetos.update')}}" method="post" class="was-validated">
+                                    @csrf
+                                        <input type="hidden" class="form-control" name="COD_OBJETO"  value="{{$Objetos['COD_OBJETO']}}">
+
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Nombre Del Rol</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="NOM_OBJETO" name="NOM_OBJETO" pattern="[A-Z a-z].{3,}" value="{{$Objetos['NOM_OBJETO']}}" required maxlength="30">
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Descripcion del Objeto</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="DES_OBJETO" name="DES_OBJETO" pattern="[A-Z a-z].{3,}" value="{{$Objetos['DES_OBJETO']}}" required maxlength="30">
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                        <label for="dni" class="form-label">Tipo de Objeto</label>
+                                        <input type="text" class="form-control alphanumeric-input" id="TIP_OBJETO" name="TIP_OBJETO" pattern="[A-Z a-z].{3,}" value="{{$Objetos['TIP_OBJETO']}}" required maxlength="30">
+                                        </div>
+
+                                        <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                        <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                        </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </tbody>
+    </table>
 
   @stop
 
@@ -127,16 +164,16 @@
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
   <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
   <script>
-    $('#objeto').DataTable({
+    $('#rol').DataTable({
       responsive: true,
       autWidth: false,
 
       "language": {
-              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
+              "lengthMenu": "Mostrar  MENU  Registros Por Página",
               "zeroRecords": "Nada encontrado - disculpas",
-              "info": "Pagina _PAGE_ de _PAGES_",
+              "info": "Pagina PAGE de PAGES",
               "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+              "infoFiltered": "(Filtrado de MAX registros totales)",
 
               'search' : 'Buscar:',
               'paginate' : {

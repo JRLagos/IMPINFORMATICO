@@ -3,7 +3,7 @@
 @section('title', 'Vacaciones')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,9 +15,56 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+
+    @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'VACACIONES';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
+
+
+
+
+
+
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Vacaciones</b></h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"><b>Agregar
+        @php
+          $permisoAgregarHoraExtra = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"  @if (!$permisoAgregarHoraExtra) disabled @endif><b>Agregar
                 Vacaciones</b></button>
     </div>
 @stop
@@ -105,8 +152,11 @@
                         <td>{{ $Vacaciones['VACACIONES_USA'] }}</td>
                         <td>{{ $Vacaciones['VACACIONES_DIS'] }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
-                                data-target="#UptVacaciones-{{ $Vacaciones['COD_VACACIONES'] }}">
+                              @php
+                              $permisoEditarHoraExtra = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                              @endphp
+                            <button value="Editar" title="Editar" class="btn @if ($permisoEditarHoraExtra) btn-warning  @else btn-secondary disabled @endif" type="button" data-toggle="modal"
+                                data-target="#UptVacaciones-{{ $Vacaciones['COD_VACACIONES'] }}" @if (!$permisoEditarHoraExtra) disabled @endif>
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
                         </td>
@@ -194,7 +244,7 @@
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-        !-- botones -->
+        <!-- botones -->
         <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>

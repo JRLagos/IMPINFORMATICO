@@ -3,6 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <h1>IMPERIO IMFORMATICO</h1>
 @stop
 
