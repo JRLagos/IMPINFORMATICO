@@ -1,9 +1,8 @@
 @extends('adminlte::page')
 
-@section('title', 'Departamentos')
+@section('title', 'Usuarios')
 
 @section('content_header')
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -15,14 +14,11 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1>Departamentos</h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addDepartamento"
-            type="button"><b>Agregar Departamento</b></button>
+        <h1><b>Usuarios</b></h1>
     </div>
 @stop
+
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
@@ -34,166 +30,56 @@
 @endsection
 
 @section('content')
-    <!-- Modal para agregar un nuevo Departamento -->
-    <div class="modal fade bd-example-modal-sm" id="addDepartamento" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Departamento</h3>
-                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
-
-                </div>
-                <div class="modal-body">
-                    <h4>Ingresar Departamento</h4>
-
-                    <form action="{{ route('Post-Departamento.store') }}" method="post" class="was-validated">
-                        @csrf
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Nombre Departamento</label>
-                            <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="NOM_DEPARTAMENTO"
-                                required>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
-                    </form>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-
-    @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ session('success') }}
-        </div>
-    @endif
-
-
+   
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
-              <thead class="bg-dark">
+        <table id="usuario" class="table table-striped table-bordered table-condensed table-hover">
+            <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">Nombre Usuario</th>
+                    <th style="text-align: center;">Rol</th>
+                    <th style="text-align: center;">Ultima Conexion</th>
+                    <th style="text-align: center;">Primer Ingreso</th>
+                    <th style="text-align: center;">Fecha Vencimiento</th>
+                    <th style="text-align: center;">Preguntas</th>
+                    <th style="text-align: center;">E-mail</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ResulDepartamento as $Departamento)
+                @foreach ($ResulUsuario as $Usuario)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{$Departamento['NOM_DEPARTAMENTO']}}</th>
+                        <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
+                        <td style="text-align: center;">{{ $Usuario['PRE_CONTESTADAS'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
                         <td style="text-align: center;">
-                              <button value="Editar" title="Editar" class="btn btn-warning" type="button"
-                                  data-toggle="modal" data-target="#Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}">
-                                  <i class='fas fa-edit' style='font-size:20px;'></i>
-                              </button>
-                              <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
-                                  data-toggle="modal" data-target="#EliminarDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}">
-                                  <i class='fas fa-trash-alt' style='font-size:20px;'></i>
-                              </button>
-                          </td>
+                            <button value="Editar" title="Editar" class="btn btn-warning" type="button"
+                                data-toggle="modal" data-target="#UptHoraExtra-{{ $Usuario['COD_USUARIO'] }}">
+                                <i class='fas fa-edit' style='font-size:20px;'></i>
+                            </button>
+                        </td>
                     </tr>
-<!-- Modal Actualizar -->
-<div>
-                    <div class="modal fade bd-example-modal-sm"
-                        id="Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Editar Departamento</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h4>Ingresar nuevos datos</h4>
-                                    <form action="{{ route('Put-Departamento.update') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
-                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO"
-                                            value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre</label>
-                                            <input type="text" class="form-control alphanumeric-input"
-                                                id="NOM_DEPARTAMENTO" name="NOM_DEPARTAMENTO" pattern="[A-Z a-z].{3,}"
-                                                value="{{ $Departamento['NOM_DEPARTAMENTO'] }}" required maxlength="30">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-</div>
-<!-- Modal Eliminar -->
-<div>
-                        <div class="modal fade bd-example-modal-sm" 
-                        id="EliminarDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Eliminar Departamento</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h4>Departamento a Eliminar</h4>
-                                    <form action="{{ route('Del-Departamento.desactivar') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
-                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO" value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Departamento</label>
-                                            <label for="dni" class="form-control" >{{ $Departamento['NOM_DEPARTAMENTO'] }}</label>
-                                        </div>
-
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-</div>
                 @endforeach
             </tbody>
         </table>
-        <br>
-        <div class="container d-md-flex justify-content-md-end">
-        <a class=" btn btn-danger btn-xl" href="{{ route('DepartamentoEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
-        </a>
-    </div>
-    <br>
+</div>
     @stop
 
     @section('footer')
-        <div class="float-left">
-            <strong>Copyright &copy; 2023 <a href="#">IMPERIO IMFORMATICO</a>.</strong> Todos los derechos
-            reservados.
-        </div>
         <div class="float-right d-none d-sm-block">
-            <b>Versión</b> 3.1.0
+            <b>Version</b> 3.1.0
         </div>
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
     @stop
 
-
     @section('js')
-
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -207,7 +93,6 @@
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-
         <style>
             .btn-group>.btn {
                 font-size: 12px;
@@ -242,23 +127,24 @@
                 margin-top: 10px;
             }
         </style>
+
         <script>
             $(document).ready(function() {
-                var table = $('#departamento').DataTable({
-                    responsive: true,
-                    autWidth: false,
-                    language: {
-                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
-                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página _PAGE_ de _PAGES_",
-                        infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de _MAX_ registros totales)",
-                        search: "Buscar:",
-                        paginate: {
-                            next: "Siguiente",
-                            previous: "Anterior"
-                        }
-                    },
+            var table = $('#planilla').DataTable({
+                responsive: true,
+                autWidth: false,
+                language: {
+                    lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                    zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                    info: "Página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    search: "Buscar:",
+                    paginate: {
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                },
 
                     dom: '<"top"Bl>frt<"bottom"ip><"clear">',
                     buttons: [{
@@ -267,12 +153,13 @@
                             text: 'Opciones',
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'IMPINFORMATICO | Departamento',
+                                    title: 'IMPINFORMATICO | Horas Extra',
+                                    orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
-                                        var titulo = "Departamentos ";
+                                        var titulo = "Reporte de Horas Extra";
                                         var descripcion =
-                                            "Departamentos del pais";
+                                            "Descripción del reporte: Empleados con sus horas extras realizadas";
 
                                         doc['header'] = function(currentPage, pageCount) {
                                             return {
@@ -314,19 +201,19 @@
                                     text: 'Imprimir',
                                     action: function(e, dt, node, config) {
                                         // Ocultar la columna número 12
-                                        table.column(4).visible(false);
+                                        table.column(5).visible(false);
                                         // Imprimir
                                         $.fn.dataTable.ext.buttons.print.action(e, dt, node,
                                             config);
                                         // Restablecer la visibilidad de la columna después de imprimir
-                                        table.column(4).visible(true);
+                                        table.column(5).visible(true);
                                     }
                                 },
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Departamentos',
-                                    messageTop: 'Departamentos del pais',
+                                    title: 'Horas Extra IMPINFORMATICO',
+                                    messageTop: 'Reporte con el detalle de horas extras de los empleados',
                                     customize: function(xlsx) {
                                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                                         $('row:first c', sheet).attr('s', '7');
@@ -362,9 +249,25 @@
         </script>
 
         <script>
-            setTimeout(function() {
-                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
-            }, 5000); // 5000 ms = 5 segundos
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({});
+            });
         </script>
 
+        <script>
+            function cleanInputValue(inputElement) {
+                var inputValue = inputElement.value;
+                var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
+                if (cleanValue !== inputValue) {
+                    inputElement.value = cleanValue;
+                }
+            }
+
+            var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+            alphanumericInputs.forEach(function(input) {
+                input.addEventListener("input", function() {
+                    cleanInputValue(this);
+                });
+            });
+        </script>
     @stop
