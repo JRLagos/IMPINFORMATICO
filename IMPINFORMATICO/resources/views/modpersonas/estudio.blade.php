@@ -3,7 +3,7 @@
 @section('title', 'Estudio')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -207,11 +207,11 @@
                     responsive: true,
                     autWidth: false,
                     language: {
-                        lengthMenu: "Mostrar MENU Registros Por Página",
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
                         zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página PAGE de PAGES",
+                        info: "Página _PAGE_ de _PAGES_",
                         infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de MAX registros totales)",
+                        infoFiltered: "(Filtrado de _MAX_ registros totales)",
                         search: "Buscar:",
                         paginate: {
                             next: "Siguiente",
