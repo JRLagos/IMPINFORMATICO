@@ -3,7 +3,7 @@
 @section('title', 'Municipio')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -294,7 +294,8 @@
                                             };
                                         };
                                         doc.contentMargins = [10, 10, 10,
-                                        10]; // Ajusta el margen de la tabla aquí
+                                            10
+                                        ]; // Ajusta el margen de la tabla aquí
                                         doc.content.unshift({
                                             text: descripcion,
                                             alignment: 'left',
@@ -310,7 +311,7 @@
                                         table.column(3).visible(false);
                                         // Imprimir
                                         $.fn.dataTable.ext.buttons.print.action(e, dt, node,
-                                        config);
+                                            config);
                                         // Restablecer la visibilidad de la columna después de imprimir
                                         table.column(3).visible(true);
                                     }

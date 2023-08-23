@@ -3,7 +3,7 @@
 @section('title', 'Direcciones')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -197,12 +197,12 @@
                     responsive: true,
                     autWidth: false,
                     language: {
-                        lengthMenu: "Mostrar MENU Registros Por Página",
-                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página PAGE de PAGES",
-                        infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de MAX registros totales)",
-                        search: "Buscar:",
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                          info: "Página _PAGE_ de _PAGES_",
+                          infoEmpty: "No hay registros disponibles",
+                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                          search: "Buscar:",
                         paginate: {
                             next: "Siguiente",
                             previous: "Anterior"
@@ -216,7 +216,7 @@
                             text: 'Opciones',
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'IMPINFORMATICO | Direcciones,
+                                    title: 'IMPINFORMATICO | Direcciones',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
@@ -316,5 +316,4 @@
             }, 5000); // 5000 ms = 5 segundos
         </script>
 
-        </script>
     @stop
