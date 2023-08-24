@@ -22,6 +22,12 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "PLANILLAS"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PLANILLAS';
@@ -174,7 +180,7 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
 @stop
 

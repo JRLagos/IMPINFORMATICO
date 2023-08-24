@@ -21,6 +21,12 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "PLANILLAS"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'HORAS_EXTRA';
@@ -88,13 +94,13 @@
                   <div class="modal-body">
                       <h4><b>Ingresar Hora Extra</b></h4>
 
-                      <form action="{{ route('Post-HoraExtra.store') }}" method="post">
+                      <form action="{{ route('Post-HoraExtra.store') }}" method="post" class="was-validated">
                           @csrf
 
                           <div class="mb-3 mt-3">
                               <label for="dni" class="form-label">Empleado</label>
-                              <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO">
-                                  <option disabled selected> Seleccionar Empleado </option>
+                              <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO" required>
+                                  <option value="" disabled selected> Seleccionar Empleado </option>
                                   @foreach ($ResulEmpleado as $Empleado)
                                       <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}
                                       </option>
@@ -123,7 +129,7 @@
 
                   </div>
                   <div class="modal-footer">
-                      <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b>
                       <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                   </div>
                   </form>
@@ -131,6 +137,13 @@
           </div>
       </div>
       </div>
+
+      @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif
 
 
       <!-- /.card-header -->
@@ -244,7 +257,7 @@
           <div class="float-right d-none d-sm-block">
               <b>Version</b> 3.1.0
           </div>
-          <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+          <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
       @stop
 
       @section('js')
@@ -438,4 +451,10 @@
                   });
               });
           </script>
+
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
       @stop

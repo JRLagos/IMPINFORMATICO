@@ -7,13 +7,17 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class EmpleadoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
         $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
         $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
@@ -47,9 +51,15 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
         $Empleado = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Empleado);
+        $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Empleado,[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
 
         return redirect(route('Empleado.index'))->with('success', 'Datos ingresados con éxito.');
     }
@@ -75,6 +85,8 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request)
     {
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
         $upd_empleado = Http::put('http://localhost:3000/UPD_EMPLEADO/EMPLEADO/'.$request->input("COD_EMPLEADO"),[
             "COD_EMPLEADO" => $request->input('COD_EMPLEADO'),
             "COD_SUCURSAL" => $request->input("COD_SUCURSAL"),
@@ -84,6 +96,10 @@ class EmpleadoController extends Controller
             "FEC_INGRESO" => $request->input("FEC_INGRESO"),
             "NUM_SEG_SOCIAL" => $request->input("NUM_SEG_SOCIAL"),
             "SAL_BAS_EMPLEADO" => $request->input("SAL_BAS_EMPLEADO"),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
         ]);
         
         return redirect(route('Empleado.index'))->with('success', 'La actualización se ha realizado con éxito.');

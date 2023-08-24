@@ -7,17 +7,28 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class PlanillaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-
-        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA');
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $response2 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
       
         // Convierte los datos JSON a un array asociativo
@@ -42,7 +53,11 @@ class PlanillaController extends Controller
     {
         $Planilla = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $Planilla);
+        $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $Planilla,[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
 
         return redirect(route('Planilla.index'));
     }

@@ -22,6 +22,13 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+    
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'EMPLEADOS';
@@ -39,6 +46,7 @@
     $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
     $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
     $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    
     @endphp
 
 
@@ -51,15 +59,14 @@
           }
         return false; // El usuario no tiene el permiso
         }
-    @endphp
+    @endphp 
 
-
+  <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
   <h1>Registro de Empleados</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   @php
        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
   @endphp
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button" @if (!$permisoInsertar) disabled @endif> Agregar Empleado</button>
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button" @if (!$permisoInsertar) disabled @endif><b>Agregar Empleado</b></button>
 </div>
   @stop
 
@@ -438,9 +445,10 @@
                         @php
                         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                         @endphp
-                            <a class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
+                        <button value="Editar" title="Editar" class="btn @if ($permisoEditar) btn-warning  @else btn-secondary disabled @endif" type="button"
+                                  data-toggle="modal" data-target="#UpdEmpleado-{{ $Empleado['COD_EMPLEADO'] }}" @if (!$permisoEditar) disabled @endif>
+                                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                              </button>
                         </td>
                     </tr>
                     <!-- Modal for editing goes here -->
@@ -578,7 +586,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
     @stop
 

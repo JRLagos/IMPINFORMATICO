@@ -22,6 +22,12 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'VACACIONES';
@@ -135,22 +141,22 @@
         <table id="vacaciones" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-dark">
                 <tr>
-                    <th>#</th>
-                    <TH>Nombre Completo</TH>
-                    <th>Vacaciones Acumuladas</th>
-                    <th>Vacaciones Usadas</th>
-                    <th>Vacaciones Disponible</th>
-                    <th>Accion</th>
+                    <th style="text-align: center;">#</th>
+                    <TH style="text-align: center;">Nombre Completo</TH>
+                    <th style="text-align: center;">Vacaciones Acumuladas</th>
+                    <th style="text-align: center;">Vacaciones Usadas</th>
+                    <th style="text-align: center;">Vacaciones Disponible</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($ResulVacaciones as $Vacaciones)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $Vacaciones['NOMBRE_COMPLETO'] }}</td>
-                        <td>{{ $Vacaciones['VACACIONES_ACU'] }}</td>
-                        <td>{{ $Vacaciones['VACACIONES_USA'] }}</td>
-                        <td>{{ $Vacaciones['VACACIONES_DIS'] }}</td>
+                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{ $Vacaciones['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ $Vacaciones['VACACIONES_ACU'] }}</td>
+                        <td style="text-align: center;">{{ $Vacaciones['VACACIONES_USA'] }}</td>
+                        <td style="text-align: center;">{{ $Vacaciones['VACACIONES_DIS'] }}</td>
                         <td style="text-align: center;">
                               @php
                               $permisoEditarHoraExtra = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
@@ -232,7 +238,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
     @stop
 

@@ -8,14 +8,22 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class DeptoEmpresaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/2');
+         // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+        $response = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/2',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
@@ -38,9 +46,15 @@ class DeptoEmpresaController extends Controller
     public function store(Request $request)
     {
         {
+            // Obtenter el token generado y guardado en la sesión
+            $sessionToken = $request->session()->get('generated_token');
             $DeptoEmpresa = $request->all();
     
-            $res = Http::post("http://localhost:3000/INS_DEPTO_EMPRESA/DEPARTAMENTOS_EMPRESA", $DeptoEmpresa);
+            $res = Http::post("http://localhost:3000/INS_DEPTO_EMPRESA/DEPARTAMENTOS_EMPRESA", $DeptoEmpresa,[
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $sessionToken,
+                ],
+            ]);
     
             return redirect(route('DeptoEmpresa.index'))->with('success', 'Datos ingresados con éxito.');
         }
@@ -67,10 +81,16 @@ class DeptoEmpresaController extends Controller
      */
     public function update(Request $request)
     {
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
         $upd_municipio = Http::put('http://localhost:3000/UPD_DEPTO_EMPRESA/DEPARTAMENTO EMPRESA/'.$request->input("COD_DEPTO_EMPRESA"),[
             "COD_DEPTO_EMPRESA" => $request->input('COD_DEPTO_EMPRESA'),
             "NOM_DEPTO_EMPRESA" => $request->input("NOM_DEPTO_EMPRESA"),
             "DES_DEPTO_EMPRESA" => $request->input("DES_DEPTO_EMPRESA"),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
         ]);
         
         return redirect(route('DeptoEmpresa.index'))->with('success', 'La actualización se ha realizado con éxito.');
