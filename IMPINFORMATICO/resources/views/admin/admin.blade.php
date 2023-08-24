@@ -4,6 +4,8 @@
 
 @section('content_header')
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
+
+
 @php
     $usuario = session('credenciales');
     $usuarioRol = session('nombreRol');
@@ -59,9 +61,6 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-user-check"></i></span>
   <div class="info-box-content ">
     <span class="info-box-text"><h5><b>Usuarios</b></h5   ></span>
-    @foreach ($ResulTotalUsuario as $TotalUsuario)
-    <span class="info-box-number">Total: {{ $TotalUsuario['TOTAL_USUARIOS'] }}</span>
-    @endforeach
   </div>
 </div>
 
@@ -69,9 +68,6 @@
   <span class="info-box-icon bg-warning"><i class="fa fa-user-check"></i></span>
   <div class="info-box-content ">
     <span class="info-box-text"><h5><b>Empleados</b></h5   ></span>
-    @foreach ($ResulTotalEmpleado as $TotalEmpleado)
-    <span class="info-box-number">Total: {{ $TotalEmpleado['TOTAL_EMPLEADOS'] }}</span>
-    @endforeach
   </div>
 </div>
 
@@ -80,9 +76,6 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-store-alt"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Sucursales</b></h5   ></span>
-    @foreach ($ResulTotalSucursal as $TotalSucursal)
-    <span class="info-box-number">Total: {{ $TotalSucursal['TOTAL_SUCURSALES'] }}</span>
-    @endforeach
   </div>
 </div>
 
@@ -95,9 +88,6 @@
   <span class="info-box-icon bg-warning"><i class="fa fa-clipboard-list"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Empleado por Contratos</b></h5   ></span>
-    @foreach ($ResulContrato as $Contrato)
-    <span class="info-box-number">{{ $Contrato['TIP_CONTRATO'] }} : {{ $Contrato['CANTIDAD_GENERO_EMPLEADOS'] }}</span>
-    @endforeach
   </div>
 </div>
 
@@ -105,9 +95,6 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-code-branch"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Empleado por Departamento</b></h5   ></span>
-    @foreach ($ResulUsuario as $Usuario)
-    <span class="info-box-number">{{ $Usuario['NOM_DEPTO_EMPRESA'] }} : {{ $Usuario['TOTAL_EMPLEADOS_DEPTOE'] }}</span>
-    @endforeach
   </div>
 </div>
 
@@ -116,9 +103,6 @@
   <span class="info-box-icon bg-warning"><i class="fa fa-user-friends"></i></span>
   <div class="info-box-content ">
     <span class="info-box-text"><h5><b>Empleado por Genero</b></h5   ></span>
-    @foreach ($ResulGenero as $Genero)
-    <span class="info-box-number">{{ $Genero['SEX_PERSONA'] }} : {{ $Genero['CANTIDAD_GENERO_EMPLEADOS'] }}</span>
-    @endforeach
   </div>
 </div>
 </div>
@@ -127,9 +111,6 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-store-alt"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Empleado por Sucursal</b></h5   ></span>
-    @foreach ($ResulSucursal as $sucursal)
-    <span class="info-box-number">{{ $sucursal['NOM_SUCURSAL'] }} : {{ $sucursal['TOTAL_EMPLEADOS_SUCURSAL'] }}</span>
-    @endforeach
   </div>
 </div>
 </div>
