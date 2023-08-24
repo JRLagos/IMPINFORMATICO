@@ -133,7 +133,13 @@
     </div>
     </div>
 
-
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif
+    
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
@@ -361,5 +367,11 @@
             $('.js-example-basic-single').select2({});
         });
     </script>
+
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
 
 @stop
