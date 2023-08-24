@@ -19,12 +19,12 @@ class PersonaController extends Controller
     {
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-
-        $response1 = Http::withHeaders([
-            'Authorization' => $sessionToken,
-        ])->get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
+        $response1 = Http::get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-
 
         $response2 = Http::withHeaders([
             'Authorization' => $sessionToken,
@@ -68,12 +68,13 @@ class PersonaController extends Controller
             {
                 // Obtenter el token generado y guardado en la sesión
                 $sessionToken = $request->session()->get('generated_token');
-
                 $Persona = $request->all();
-                
-                $res = Http::withHeaders([
-                    'Authorization' => $sessionToken,
-                ])->post('http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO');
+        
+                $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Persona,[
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $sessionToken,
+                    ],
+                ]);
         
                 return redirect(route('Persona.index'))->with('success', 'Datos ingresados con éxito.');
             }
