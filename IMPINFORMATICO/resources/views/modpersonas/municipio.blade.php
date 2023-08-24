@@ -61,7 +61,11 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Municipios</b></h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"><b>Agregar
+        @php
+            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"><b>Agregar
                 Municipio</b></button>
     </div>
 @stop
@@ -156,7 +160,7 @@
 
                         <td style="text-align: center;">
                         @php
-                          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                          $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                         @endphp
                             <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal"
                                 data-target="#UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}">
