@@ -95,3 +95,4 @@ class EstadisticaController extends Controller
         //
     }
 }
+
