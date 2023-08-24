@@ -64,6 +64,7 @@
   @endphp
   <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"> Agregar Permiso</button>
 </div>
+
   @stop
 
 
@@ -83,11 +84,11 @@
 
 
                     <div class="modal-header">
-                    <h3>Objetos</h3>
+                    <h3>Permisos</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Objeto</h4>
+                        <h4>Ingresar Permiso</h4>
 
                     <form action="{{route('Post-Permisos.store')}}" method="post" class="was-validated">
                     @csrf
@@ -202,18 +203,18 @@
                             <label for="dni" class="form-label">Rol</label>
                             <select class="form-control js-example-basic-single"  name="COD_ROL" id="COD_ROL">
                             <option value="{{$Permisos['COD_ROL']}}" style="display: none;">{{ $Permisos['NOM_ROL'] }}</option>
-                            <option disabled >¡No se puede seleccionar otro Objeto!</option>
+                            <option disabled >¡No se puede seleccionar otro Rol!</option>
                             </select>
                             </div>
                             <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label"></label>
+                            <label for="dni" class="form-label">Objeto</label>
                             <select class="form-control js-example-basic-single"  name="COD_OBJETO" id="COD_OBJETO">
                             <option value="{{$Permisos['COD_OBJETO']}}" style="display: none;">{{ $Permisos['NOM_OBJETO'] }}</option>
                             <option disabled >¡No se puede seleccionar otro Objeto!</option>
                             </select>
                             </div>
                             <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Insertar</label>
+                            <label for="dni" class="form-label">Permiso Insertar</label>
                             <input type="number" class="form-control" min="1" max="1"
                                 name="PER_INSERTAR" value="{{ $Permisos['PER_INSERTAR'] }}"
                                 required>
@@ -221,7 +222,7 @@
                                 </div>
 
                             <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Eliminar</label>
+                            <label for="dni" class="form-label">Permiso Eliminar</label>
                             <input type="number" class="form-control" min="0" max="1"
                                 name="PER_ELIMINAR" value="{{ $Permisos['PER_ELIMINAR'] }}"
                                 required>
@@ -229,7 +230,7 @@
                                 </div>
                                 
                             <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Actualizar</label>
+                            <label for="dni" class="form-label">Permiso Actualizar</label>
                             <input type="number" class="form-control" min="1" max="1"
                                 name="PER_ACTUALIZAR" value="{{ $Permisos['PER_ACTUALIZAR'] }}"
                                 required>
@@ -237,18 +238,15 @@
                                 </div>
                            
                                 <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Consultar
-
-                            </label>
+                            <label for="dni" class="form-label">Permiso Consultar</label>
                             <input type="text" class="form-control"required minlength="1" maxlength="1"
                                 name="PER_CONSULTAR" value="{{ $Permisos['PER_CONSULTAR'] }}"
                                 required>
                                 <span class="validity"></span>
-                                </div>
-                                      <div class="modal-footer">
-                                        <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                        <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
-                                      </div>
+                                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                  </div>
           </td>
         </tr>
       @endforeach
