@@ -472,6 +472,11 @@ return [
             'icon' => 'fas fa-fw fa-swatchbook gns text-yellow',
             'url'  => '\\',
         ],
+        [
+            'text' => 'CERRAR SESIÓN', 
+            'icon' => 'fas fa-fw fa-sign-out-alt gns text-red', 
+            'url'  => 'logout', 
+        ],
     ],
     
 

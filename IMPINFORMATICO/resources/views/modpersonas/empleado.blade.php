@@ -22,6 +22,13 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+    
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'EMPLEADOS';
@@ -39,6 +46,7 @@
     $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
     $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
     $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    
     @endphp
 
 
@@ -51,7 +59,7 @@
           }
         return false; // El usuario no tiene el permiso
         }
-    @endphp
+    @endphp 
 
 
   <h1>Registro de Empleados</h1>
@@ -59,7 +67,7 @@
   @php
        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
   @endphp
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button" @if (!$permisoInsertar) disabled @endif> Agregar Empleado</button>
+  <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"> Agregar Empleado</button>
 </div>
   @stop
 

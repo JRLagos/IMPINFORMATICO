@@ -21,6 +21,12 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "PLANILLAS"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'HORAS_EXTRA';

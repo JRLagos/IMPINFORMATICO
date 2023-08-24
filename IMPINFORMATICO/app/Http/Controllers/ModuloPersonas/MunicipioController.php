@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class MunicipioController extends Controller
 {
     /**
@@ -14,6 +16,8 @@ class MunicipioController extends Controller
      */
     public function index()
     {
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
         $response1 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/0');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
         $response2 = Http::get('http://localhost:3000/SHOW_DEPARTAMENTO/GETALL_DEPARTAMENTO/0');
@@ -39,9 +43,15 @@ class MunicipioController extends Controller
      */
     public function store(Request $request)
     {
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
         $Municipio = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_MUNICIPIO/MUNICIPIO", $Municipio);
+        $res = Http::post("http://localhost:3000/INS_MUNICIPIO/MUNICIPIO", $Municipio,[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
 
         return redirect(route('Municipio.index'))->with('success', 'Datos ingresados con éxito.');
     }
