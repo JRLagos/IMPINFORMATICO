@@ -663,7 +663,7 @@ class AuthController extends Controller
     
         if ($response ->successful()) {
             // Inserción exitosa, redireccionar o mostrar mensaje de éxito
-            return view('modseguridad.login');
+            return view('modseguridad.Login');
         } elseif($response->failed()) {
             // Inserción fallida, redireccionar o mostrar mensaje de error
             return view('modseguridad.registro');
@@ -744,7 +744,7 @@ class AuthController extends Controller
 
         if ($responsePre->status() === 200 && $responseUp->status() === 200) {
             // Ambas solicitudes exitosas, redirigir a la vista deseada
-            return view('modseguridad.login');
+            return view('modseguridad.Login');
         }
     
         // Si alguna de las solicitudes falló, mostrar mensaje o redirigir a vista de fallo
@@ -852,7 +852,7 @@ class AuthController extends Controller
 
                             Session::flash('success', 'El correo se ha enviado exitosamente.');
 
-                            return view('modseguridad.login');
+                            return view('modseguridad.Login');
                         } else {
                             return view('modseguridad.error');
                         }
@@ -878,7 +878,7 @@ class AuthController extends Controller
 
 
                             $request->session()->flash('success', 'El correo se ha enviado exitosamente.');
-                            return view('modseguridad.login');
+                            return view('modseguridad.Login');
                         } else {
                             return view('modseguridad.error');
                         }
