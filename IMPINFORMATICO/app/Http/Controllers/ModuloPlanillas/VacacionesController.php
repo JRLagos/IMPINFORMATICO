@@ -51,6 +51,7 @@ class VacacionesController extends Controller
      */
     public function store(Request $request)
     {
+        $sessionToken = $request->session()->get('generated_token');
         $Vacaciones = $request->all();
 
         $res = Http::post("http://localhost:3000/INS_VACACIONES/VACACIONES", $Vacaciones,[
@@ -59,7 +60,7 @@ class VacacionesController extends Controller
             ],
         ]);
 
-        return redirect(route('Vacaciones.index'));
+        return redirect(route('Vacaciones.index'))->with('success', 'Datos Ingresado Con Exitos');
     }
 
     /**
@@ -83,6 +84,7 @@ class VacacionesController extends Controller
      */
     public function update(Request $request)
     {
+        $sessionToken = $request->session()->get('generated_token');
         $upt_Vacaciones = Http::put('http://localhost:3000/UPT_VACACIONES/VACACIONES/'.$request->input("COD_VACACIONES"),[
             "COD_VACACIONES" => $request->input('COD_VACACIONES'),
             "COD_EMPLEADO" => $request->input("COD_EMPLEADO"),
@@ -94,7 +96,7 @@ class VacacionesController extends Controller
             ],
         ]);
         
-        return redirect(route('Vacaciones.index'));
+        return redirect(route('Vacaciones.index'))->with('success', 'Datos Actualizados Con Exitos');
     }
 
     /**
