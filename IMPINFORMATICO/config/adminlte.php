@@ -334,7 +334,7 @@ return [
             ],
         ],
         [
-            'text' => 'Informacion',
+            'text' => 'INFORMACION',
             'icon' => 'fas fa-fw fa-folder-plus gns text-yellow',
             'submenu' => [
                 [
@@ -466,11 +466,6 @@ return [
                     'url'  => 'Parametros',
                 ],  
             ],
-        ],
-        [
-            'text' => 'BITACORA',
-            'icon' => 'fas fa-fw fa-swatchbook gns text-yellow',
-            'url'  => '\\',
         ],
     ],
     

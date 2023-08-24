@@ -44,7 +44,7 @@ class HoraExtraController extends Controller
 
         $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $HoraExtra);
 
-        return redirect(route('HoraExtra.index'));
+        return redirect(route('HoraExtra.index'))->with('success', 'Datos Ingresado Con Exitos');
     }
 
     /**
