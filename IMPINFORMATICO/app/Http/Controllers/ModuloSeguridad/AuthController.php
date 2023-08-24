@@ -16,6 +16,16 @@ class AuthController extends Controller
     //
     public function ShowLogin(){return view('modseguridad.Login');}
     //
+    public function Logout(){
+
+        //Variables de sesión olvidando sus valores 
+        session()->forget('credenciales');
+        session()->forget('nombreRol');
+        session()->forget('permisos');
+        session()->forget('objetos');
+    
+        return view('modseguridad.Login');}
+    //
     public function ShowMenuRecuperar(){return view('modseguridad.recuperar');}
     //
     public function ShowPreguntas(){return view('modseguridad.preguntas');}
@@ -34,7 +44,7 @@ class AuthController extends Controller
     $usuario = $request->input('usuario');
     $contrasena = $request->input('contrasena');
 
-    $urlToken = 'http://localhost:3000/auths/token'; // Cambiar la URL a la ruta de generación de token
+    $urlToken = 'http://localhost:3000/auths/auth'; // Cambiar la URL a la ruta de generación de token
     $urlParametros = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
     $url_CT = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
     $responseParametros = Http::get($urlParametros);
@@ -46,9 +56,9 @@ class AuthController extends Controller
 
     if ($responseToken->status() === 200) {
         $token = $responseToken->json()['token'];
+        $request->session()->put('generated_token', $token);
 
     }
-
 
     // Verificar si la respuesta tiene un código de estado 200 (OK)
     if ($responseParametros->status() === 200) {
@@ -63,24 +73,37 @@ class AuthController extends Controller
             }
         }
 
-        
-
         // Realizar la validación de inicio de sesión
         $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $responseUsuarios = Http::get($urlUsuarios);
-
-        
 
         if ($responseUsuarios->status() === 200) {
             $jsonContentUsuarios = $responseUsuarios->json();
             $credencialesCorrectas = false;
 
-           
+            // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
+           foreach ($jsonContentUsuarios as $user) {
+                 if ($user['NOM_USUARIO'] === $usuario) {
+                    if ($user['IND_USUARIO'] === 'DISABLED') {
+                // El usuario está "DISABLED", mostrar un mensaje de error y redirigir al login
+                Session::flash('error', 'Tu cuenta está bloqueada. Contacta al administrador.');
+                return view('modseguridad.Login');
+            } else if ($user['IND_USUARIO'] === 'NUEVO') {
+                // El usuario es "NUEVO", redirigir a la vista de preguntas de seguridad
+                // Credenciales válidas, restablecer el contador de intentos fallidos
+                $request->session()->forget('intentos_fallidos');
+                $credencialesCorrectas = true;
+                $request->session()->put('usuario', $usuario);
+                $request->session()->put('credenciales', $user);
+                return view('modseguridad.preguntas_usuario');
+            } 
+        } 
+    }
+
+          
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
             foreach ($jsonContentUsuarios as $user) {
 
-
-                
                 // Verificar si el usuario tiene una contraseña temporal activa
                 $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
                 $response_CT_usuario = Http::get($url_CT_usuario);
@@ -90,6 +113,7 @@ class AuthController extends Controller
                 foreach ($jsonContentCT_usuario as $contrasenaTemporal) {
                 if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
                  strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
+
                 // El usuario tiene una contraseña temporal activa, redirigir a la página
                 $request->session()->forget('intentos_fallidos');
                 $credencialesCorrectas = true;
@@ -142,8 +166,6 @@ class AuthController extends Controller
                 // Almacenar los objetos en la sesión
                 $request->session()->put('objetos', $objetos);
             }
-
-
 
                 return view('admin.admin');  // O la página que desees permitir acceso
         }
@@ -530,10 +552,10 @@ class AuthController extends Controller
             'correo' => 'required|email|max:100',
             'contrasenia' => 'required|min:5|max:12',
             'usuario' => 'required|alpha_dash|max:20',
-            'dni' => 'required|max:20',
-            'rtn' => 'max:20',
+            'dni' => 'required|max:13',
+            'rtn' => 'max:14',
             'tipo_telefono' => 'required',
-            'numero_telefono' => 'max:15',
+            'numero_telefono' => 'max:8',
             'sexo' => 'required',
             'edad' => 'required|integer|min:1|max:120',
             'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
@@ -586,7 +608,7 @@ class AuthController extends Controller
         $response = Http::post($url, [
             "NOM_ROL" => null,
     "DES_ROL" => null,
-    "COD_ROL" => 1,
+    "COD_ROL" => 2,
     "NOM_USUARIO" => $usuario,
     "CONTRASENA" => $contraseniaCifrada,
     "IND_USUARIO" => 'NUEVO',

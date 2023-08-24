@@ -7,16 +7,28 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class HoraExtraController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response1 = Http::get('http://localhost:3000/SHOW_HORA_EXTRA/GETALL_HORA_EXTRA');
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+        $response1 = Http::get('http://localhost:3000/SHOW_HORA_EXTRA/GETALL_HORA_EXTRA',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $response2 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
@@ -42,7 +54,11 @@ class HoraExtraController extends Controller
     {
         $HoraExtra = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $HoraExtra);
+        $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $HoraExtra,[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
 
         return redirect(route('HoraExtra.index'))->with('success', 'Datos Ingresado Con Exitos');
     }
@@ -74,6 +90,10 @@ class HoraExtraController extends Controller
             "DES_HOR_EXTRA" => $request->input("DES_HOR_EXTRA"),
             "CANT_HOR_EXTRA" => $request->input("CANT_HOR_EXTRA"),
             "FEC_HOR_EXTRA" => $request->input("FEC_HOR_EXTRA"),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
         ]);
         
         return redirect(route('HoraExtra.index'));

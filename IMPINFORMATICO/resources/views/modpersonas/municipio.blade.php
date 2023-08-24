@@ -14,6 +14,50 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+        @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PARAMETROS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp    
+
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Municipios</b></h1>
@@ -55,8 +99,8 @@
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Departamento</label>
                             <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
-                                id="COD_DEPARTAMENTO">
-                                <option> Seleccionar Departamento </option>
+                                id="COD_DEPARTAMENTO" required>
+                                <option value="" selected disabled> Seleccionar Departamento </option>
                                 @foreach ($ResulDepartamento as $Departamento)
                                     <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
                                         {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
@@ -85,7 +129,7 @@
 
 
     @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show">
+        <div class="alert alert-success alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
@@ -111,7 +155,10 @@
                         <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
 
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
+                        @php
+                          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal"
                                 data-target="#UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
@@ -375,6 +422,7 @@
                 $('.js-example-basic-single').select2({});
             });
         </script>
+
         <script>
             setTimeout(function() {
                 $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos

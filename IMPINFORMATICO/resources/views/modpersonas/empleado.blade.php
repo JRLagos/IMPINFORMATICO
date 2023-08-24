@@ -22,6 +22,13 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+    
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'EMPLEADOS';
@@ -39,6 +46,7 @@
     $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
     $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
     $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    
     @endphp
 
 
@@ -51,7 +59,7 @@
           }
         return false; // El usuario no tiene el permiso
         }
-    @endphp
+    @endphp 
 
   <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
   <h1>Registro de Empleados</h1>
@@ -215,7 +223,7 @@
                             <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">Municipio</label>
                                 <select class="form-control js-example-basic-single" name="COD_MUNICIPIO"
-                                    id="COD_MUNICIPIO">
+                                    id="COD_MUNICIPIO" required>
                                     <option value="" selected disabled> Seleccionar Municipio </option>
                                     @foreach ($ResulMunicipio as $Municipio)
                                         <option value="{{ $Municipio['COD_MUNICIPIO'] }}">{{ $Municipio['NOM_MUNICIPIO'] }}
@@ -256,8 +264,8 @@
                             <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">Sucursal</label>
                                 <select class="form-control js-example-basic-single" name="COD_SUCURSAL"
-                                    id="COD_SUCURSAL">
-                                    <option selected disabled> Seleccionar Sucursal </option>
+                                    id="COD_SUCURSAL" required>
+                                    <option value="" selected disabled> Seleccionar Sucursal </option>
                                     @foreach ($ResulSucursal as $Sucursal)
                                         <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}
                                         </option>
@@ -268,8 +276,8 @@
                             <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">Departamento Empresa</label>
                                 <select class="form-control js-example-basic-single" name="COD_DEPTO_EMPRESA"
-                                    id="COD_DEPTO_EMPRESA">
-                                    <option value="" selected> Seleccionar Departamento Empresa </option>
+                                    id="COD_DEPTO_EMPRESA" required>
+                                    <option value="" selected disabled> Seleccionar Departamento Empresa </option>
                                     @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                                         <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
                                             {{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
@@ -396,7 +404,7 @@
 
 
     @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show">
+        <div class="alert alert-success alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
