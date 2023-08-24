@@ -61,13 +61,12 @@
         }
     @endphp 
 
-
+  <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
   <h1>Registro de Empleados</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
   @php
        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
   @endphp
-  <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"> Agregar Empleado</button>
+  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button" @if (!$permisoInsertar) disabled @endif><b>Agregar Empleado</b></button>
 </div>
   @stop
 
@@ -446,9 +445,10 @@
                         @php
                         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                         @endphp
-                            <a class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" href="">
-                                <i class="fa fa-edit"></i>
-                            </a>
+                        <button value="Editar" title="Editar" class="btn @if ($permisoEditar) btn-warning  @else btn-secondary disabled @endif" type="button"
+                                  data-toggle="modal" data-target="#UpdEmpleado-{{ $Empleado['COD_EMPLEADO'] }}" @if (!$permisoEditar) disabled @endif>
+                                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                              </button>
                         </td>
                     </tr>
                     <!-- Modal for editing goes here -->
@@ -578,6 +578,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     @stop
 
     @section('footer')
@@ -585,7 +586,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
     @stop
 
