@@ -55,8 +55,8 @@
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Departamento</label>
                             <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
-                                id="COD_DEPARTAMENTO">
-                                <option> Seleccionar Departamento </option>
+                                id="COD_DEPARTAMENTO" required>
+                                <option value="" selected disabled> Seleccionar Departamento </option>
                                 @foreach ($ResulDepartamento as $Departamento)
                                     <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
                                         {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
@@ -85,7 +85,7 @@
 
 
     @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show">
+        <div class="alert alert-success alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
@@ -375,6 +375,7 @@
                 $('.js-example-basic-single').select2({});
             });
         </script>
+
         <script>
             setTimeout(function() {
                 $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos

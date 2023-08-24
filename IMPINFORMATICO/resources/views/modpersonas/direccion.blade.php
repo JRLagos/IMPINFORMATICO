@@ -94,6 +94,7 @@
                                                 id="COD_PERSONA">
                                                 <option value="{{ $Direccion['COD_PERSONA'] }}" style="display: none;">
                                                     {{ $Direccion['NOMBRE_COMPLETO'] }}</option>
+                                                <option disabled>¡No se puede seleccionar otro Empleado!</option>
                                             </select>
                                         </div>
 

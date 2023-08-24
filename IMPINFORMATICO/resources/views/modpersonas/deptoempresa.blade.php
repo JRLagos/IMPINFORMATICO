@@ -16,11 +16,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
-    <h1 style="text-align: center;">Registro Departamento de Empresa</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button">Agregar
-            Departamento</button>
-    </div>
+        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Registro Departamento de Empresa</b></h1>
+        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agregar
+                Departamento</b></button>
+        </div>
 @stop
 
 
