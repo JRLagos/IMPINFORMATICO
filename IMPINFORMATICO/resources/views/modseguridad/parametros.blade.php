@@ -83,11 +83,11 @@
 
 
                     <div class="modal-header">
-                    <h3>Objetos</h3>
+                    <h3>Parametros</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <h4>Ingresar Rol</h4>
+                        <h4>Ingresar Parametro</h4>
 
                     <form action="{{route('Post-Parametros.store')}}" method="post" class="was-validated">
                     @csrf
@@ -185,10 +185,10 @@
                                         <input type="hidden" class="form-control" name="COD_PARAMETRO"  value="{{$Parametros['COD_PARAMETRO']}}">
                                        
                                         <div class="mb-3 mt-3">
-                                     <label for="dni" class="form-label">Nombre Empleado</label>
+                                     <label for="dni" class="form-label">Nombre Usuario</label>
                       <select class="form-control js-example-basic-single"  name="COD_USUARIO" id="COD_USUARIO">
                         <option value="{{$Parametros['COD_USUARIO']}}" style="display: none;">{{ $Parametros['NOM_USUARIO'] }}</option>
-                        <option disabled >¡No se puede seleccionar otro Empleado!</option>
+                        <option disabled >¡No se puede seleccionar otro Usuario!</option>
                       </select>
                     </div>
                                         <div class="mb-3 mt-3">
@@ -216,10 +216,10 @@
                                                   required>
                                           </div>
    
-                                      <div class="modal-footer">
-                                        <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                        <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
-                                      </div>
+                                          <div class="modal-footer">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                          <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                          </div>
                                 </form>
                             </div>
                         </div>
@@ -254,11 +254,11 @@
       autWidth: false,
 
       "language": {
-              "lengthMenu": "Mostrar  MENU  Registros Por Página",
+              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
               "zeroRecords": "Nada encontrado - disculpas",
-              "info": "Pagina PAGE de PAGES",
+              "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de MAX registros totales)",
+              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
 
               'search' : 'Buscar:',
               'paginate' : {

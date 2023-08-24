@@ -58,12 +58,7 @@
         }
     @endphp
 
-
-    
-
-
-
-
+   
     <h1 style="text-align: center;">Registro Departamento de Empresa</h1>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         @php
@@ -72,6 +67,7 @@
         <button class="btn btn-dark @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif  me-md-2" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button">Agregar
             Departamento</button>
     </div>
+
 @stop
 
 

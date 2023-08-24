@@ -60,14 +60,16 @@
 
 
 
-    <h1>Registro de Sucursales</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Registro de Sucursales</b></h1>
     @php
        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
     @endphp
         <button class="btn btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar
             Sucursal</button>
     </div>
+
 @stop
 
 
@@ -115,10 +117,9 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
+                <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
                     <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
                 </div>
-
                 </form>
             </div>
         </div>

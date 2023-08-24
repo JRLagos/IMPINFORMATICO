@@ -81,10 +81,10 @@
             <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">NOMBRE PERSONA</th>
-                    <th style="text-align: center;">CORREO ELECTRONICO</th>
-                    <th style="text-align: center;">DESCRIPCION</th>
-                    <th>ACCION</th>
+                    <th style="text-align: center;">Nombre Persona</th>
+                    <th style="text-align: center;">Correo Electronico</th>
+                    <th style="text-align: center;">Descripción</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>

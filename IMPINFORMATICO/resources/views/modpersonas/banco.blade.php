@@ -389,6 +389,24 @@
                 }
             }
         </script>
+
+        <script>
+            function cleanInputValue(inputElement) {
+                var inputValue = inputElement.value;
+                var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+                if (cleanValue !== inputValue) {
+                    inputElement.value = cleanValue;
+                }
+            }
+
+            var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+            alphanumericInputs.forEach(function(input) {
+                input.addEventListener("input", function() {
+                    cleanInputValue(this);
+                });
+            });
+        </script>
+
         <script>
             $(document).ready(function() {
                 $('.js-example-basic-single').select2({});
