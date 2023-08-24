@@ -60,7 +60,7 @@ class HoraExtraController extends Controller
             ],
         ]);
 
-        return redirect(route('HoraExtra.index'));
+        return redirect(route('HoraExtra.index'))->with('success', 'Datos Ingresado Con Exitos');
     }
 
     /**
