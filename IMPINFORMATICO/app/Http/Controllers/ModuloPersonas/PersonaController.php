@@ -8,21 +8,42 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class PersonaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response1 = Http::get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+
+        $response1 = Http::withHeaders([
+            'Authorization' => $sessionToken,
+        ])->get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
+
+
+        $response2 = Http::withHeaders([
+            'Authorization' => $sessionToken,
+        ])->get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response3 = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/0');
+
+
+        $response3 = Http::withHeaders([
+            'Authorization' => $sessionToken,
+        ])->get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/0');
         $data3 = $response3->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response4 = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/0');
+
+
+        $response4 = Http::withHeaders([
+            'Authorization' => $sessionToken,
+        ])->get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_DEPTO_EMPRESA/0');
         $data4 = $response4->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+
+
         // Convierte los datos JSON a un array asociativo
         $Persona = json_decode($data1, true);
         $Municipio = json_decode($data2, true);
@@ -45,9 +66,14 @@ class PersonaController extends Controller
         public function store(Request $request)
         {
             {
+                // Obtenter el token generado y guardado en la sesión
+                $sessionToken = $request->session()->get('generated_token');
+
                 $Persona = $request->all();
-        
-                $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Persona);
+                
+                $res = Http::withHeaders([
+                    'Authorization' => $sessionToken,
+                ])->post('http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO');
         
                 return redirect(route('Persona.index'))->with('success', 'Datos ingresados con éxito.');
             }
@@ -74,6 +100,8 @@ class PersonaController extends Controller
      */
     public function update(Request $request)
     {
+    // Obtenter el token generado y guardado en la sesión
+    $sessionToken = $request->session()->get('generated_token');
     
         // Obtén el valor del campo concatenado
     $nombreApellido = $request->input('nombre_apellido');
@@ -95,6 +123,10 @@ class PersonaController extends Controller
             "FEC_NAC_PERSONA" => $request->input("FEC_NAC_PERSONA"),
             "LUG_NAC_PERSONA" => $request->input("LUG_NAC_PERSONA"),
             "IND_CIVIL" => $request->input("IND_CIVIL"),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
         ]);
         
         return redirect(route('Persona.index'))->with('success', 'La actualización se ha realizado con éxito.');

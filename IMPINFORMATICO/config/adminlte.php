@@ -334,7 +334,7 @@ return [
             ],
         ],
         [
-            'text' => 'Informacion',
+            'text' => 'INFORMACION',
             'icon' => 'fas fa-fw fa-folder-plus gns text-yellow',
             'submenu' => [
                 [
@@ -468,9 +468,9 @@ return [
             ],
         ],
         [
-            'text' => 'BITACORA',
-            'icon' => 'fas fa-fw fa-swatchbook gns text-yellow',
-            'url'  => '\\',
+            'text' => 'CERRAR SESIÓN', 
+            'icon' => 'fas fa-fw fa-sign-out-alt gns text-red', 
+            'url'  => 'logout', 
         ],
     ],
     

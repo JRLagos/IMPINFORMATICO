@@ -16,15 +16,61 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+@php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PERSONAS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+@endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp   
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Registro de Personas</b></h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"><b>Agregar
+        @php
+          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"><b>Agregar
                 Empleado</b></button>
     </div>
 
-@stop
-@section('css')
+  @stop
+  
+    @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
@@ -177,7 +223,7 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Municipio</label>
-                            <select class="form-control js-example-basic-single" name="COD_MUNICIPIO" id="COD_MUNICIPIO">
+                            <select class="form-control js-example-basic-single" name="COD_MUNICIPIO" id="COD_MUNICIPIO" required>
                                 <option value="" selected disabled> Seleccionar Municipio </option>
                                 @foreach ($ResulMunicipio as $Municipio)
                                     <option value="{{ $Municipio['COD_MUNICIPIO'] }}">{{ $Municipio['NOM_MUNICIPIO'] }}
@@ -217,8 +263,8 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Sucursal</label>
-                            <select class="form-control js-example-basic-single" name="COD_SUCURSAL" id="COD_SUCURSAL">
-                                <option selected disabled> Seleccionar Sucursal </option>
+                            <select class="form-control js-example-basic-single" name="COD_SUCURSAL" id="COD_SUCURSAL" required>
+                                <option value="" selected disabled> Seleccionar Sucursal </option>
                                 @foreach ($ResulSucursal as $Sucursal)
                                     <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}
                                     </option>
@@ -229,8 +275,8 @@
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Departamento Empresa</label>
                             <select class="form-control js-example-basic-single" name="COD_DEPTO_EMPRESA"
-                                id="COD_DEPTO_EMPRESA">
-                                <option value="" selected> Seleccionar Departamento Empresa </option>
+                                id="COD_DEPTO_EMPRESA" required>
+                                <option value="" disabled selected> Seleccionar Departamento Empresa </option>
                                 @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                                     <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
                                         {{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
@@ -356,7 +402,7 @@
 
 
     @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show">
+        <div class="alert alert-success alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
@@ -565,7 +611,7 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
 @stop
 

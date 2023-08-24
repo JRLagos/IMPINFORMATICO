@@ -12,9 +12,57 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+@php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'OBJETOS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
+
+
 <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
           <h1><b>Objetos</b></h1>
-          <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addObjeto"
+          @php
+            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+          @endphp
+          <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addObjeto"
               type="button"><b>Agregar Objeto</b></button>
       </div>
   @stop
@@ -97,7 +145,10 @@
                     <td style="text-align: center;">{{$Objetos['DES_OBJETO']}}</td>
                     <td style="text-align: center;">{{$Objetos['TIP_OBJETO']}}</td>
                     <td style="text-align: center;">
-                        <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal" data-target="#Objeto-edit-{{$Objetos['COD_OBJETO']}}">
+                    @php
+                      $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                    @endphp
+                        <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal" data-target="#Objeto-edit-{{$Objetos['COD_OBJETO']}}">
                             <i class='fas fa-edit' style='font-size:20px;'></i>
                         </button>
                     </td>
@@ -117,7 +168,7 @@
                                         <input type="hidden" class="form-control" name="COD_OBJETO"  value="{{$Objetos['COD_OBJETO']}}">
 
                                         <div class="mb-3 mt-3">
-                                        <label for="dni" class="form-label">Nombre Del Rol</label>
+                                        <label for="dni" class="form-label">Noimbre del Objeto</label>
                                         <input type="text" class="form-control alphanumeric-input" id="NOM_OBJETO" name="NOM_OBJETO" pattern="[A-Z a-z].{3,}" value="{{$Objetos['NOM_OBJETO']}}" required maxlength="30">
                                         </div>
 
@@ -134,7 +185,7 @@
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
                                         <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                        </div>
+                                         </div>
                                 </form>
                             </div>
                         </div>
@@ -151,7 +202,7 @@
   <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.1.0
   </div>
-  <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+  <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
   @stop
 
@@ -169,11 +220,11 @@
       autWidth: false,
 
       "language": {
-              "lengthMenu": "Mostrar  MENU  Registros Por Página",
+              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
               "zeroRecords": "Nada encontrado - disculpas",
-              "info": "Pagina PAGE de PAGES",
+              "info": "Pagina _PAGE_ de _PAGES_",
               "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de MAX registros totales)",
+              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
 
               'search' : 'Buscar:',
               'paginate' : {

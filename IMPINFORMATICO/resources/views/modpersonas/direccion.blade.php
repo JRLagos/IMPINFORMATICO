@@ -14,6 +14,52 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'DIRECCIONES';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
+
+
+
 
     <h1>Direcciones</h1>
 @stop
@@ -58,7 +104,10 @@
                         <td style="text-align: center;">{{ $Direccion['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">{{ $Direccion['DES_DIRECCION'] }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
+                        @php
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal"
                                 data-target="#UpdDireccion-{{ $Direccion['COD_DIRECCION'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
@@ -94,6 +143,7 @@
                                                 id="COD_PERSONA">
                                                 <option value="{{ $Direccion['COD_PERSONA'] }}" style="display: none;">
                                                     {{ $Direccion['NOMBRE_COMPLETO'] }}</option>
+                                                <option disabled>¡No se puede seleccionar otro Empleado!</option>
                                             </select>
                                         </div>
 
@@ -137,7 +187,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
     @stop
 
