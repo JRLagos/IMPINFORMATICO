@@ -3,7 +3,7 @@
 @section('title', 'Departamentos')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -17,9 +17,55 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+    @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'DEPARTAMENTOS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1>Departamentos</h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addDepartamento"
+        @php
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addDepartamento"
             type="button"><b>Agregar Departamento</b></button>
     </div>
 @stop
@@ -78,23 +124,37 @@
     <div class="table-responsive p-0">
         <br>
         <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
-
+              <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">{{$Departamento['NOM_DEPARTAMENTO']}}</th>
+                    <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($ResulDepartamento as $Departamento)
                     <tr>
-                        <th style="text-align: center;">#</th>
-                        <th style="text-align: center;">Nombre</th>
-                        <th style="text-align: center;">Accion</th>
+                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{$Departamento['NOM_DEPARTAMENTO']}}</th>
+                        <td style="text-align: center;">
+                            @php
+                            $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                            @endphp
+                              <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
+                                  data-toggle="modal" data-target="#Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}">
+                                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                              </button>
+                              @php
+                              $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ELIMINAR');
+                              @endphp
+                              <button value="Eliminar" title="Eliminar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif " type="button"
+                                  data-toggle="modal" data-target="#EliminarDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}">
+                                  <i class='fas fa-trash-alt' style='font-size:20px;'></i>
+                              </button>
+                          </td>
                     </tr>
-
-
+<!-- Modal Actualizar -->
+<div>
                     <div class="modal fade bd-example-modal-sm"
                         id="Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}" tabindex="-1">
                         <div class="modal-dialog">
@@ -118,8 +178,6 @@
                                                 id="NOM_DEPARTAMENTO" name="NOM_DEPARTAMENTO" pattern="[A-Z a-z].{3,}"
                                                 value="{{ $Departamento['NOM_DEPARTAMENTO'] }}" required maxlength="30">
                                         </div>
-
-
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
@@ -129,9 +187,50 @@
                                 </div>
                             </div>
                         </div>
+</div>
+<!-- Modal Eliminar -->
+<div>
+                        <div class="modal fade bd-example-modal-sm" 
+                        id="EliminarDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Eliminar Departamento</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Departamento a Eliminar</h4>
+                                    <form action="{{ route('Del-Departamento.desactivar') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+                                        <input type="hidden" class="form-control" name="COD_DEPARTAMENTO" value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Nombre Departamento</label>
+                                            <label for="dni" class="form-control" >{{ $Departamento['NOM_DEPARTAMENTO'] }}</label>
+                                        </div>
+
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+</div>
                 @endforeach
             </tbody>
         </table>
+        <br>
+        <div class="container d-md-flex justify-content-md-end">
+        <a class=" btn btn-danger btn-xl" href="{{ route('DepartamentoEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
+        </a>
+    </div>
+    <br>
     @stop
 
     @section('footer')

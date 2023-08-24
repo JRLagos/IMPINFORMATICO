@@ -3,6 +3,7 @@
 @section('title', 'Bold Report')
 
 @section('content_header')
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -32,7 +33,7 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 @stop
 
 @section('js')

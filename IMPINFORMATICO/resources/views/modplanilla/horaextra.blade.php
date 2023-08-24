@@ -3,6 +3,7 @@
   @section('title', 'Horas Extras')
 
   @section('content_header')
+  <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,10 +15,59 @@
           integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+          @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "PLANILLAS"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'HORAS_EXTRA';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
+
+
+
       <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
           <h1><b>Horas Extras</b></h1>
+          @php
+          $permisoAgregarHoraExtra = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+          @endphp
           <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addHoraExtra"
-              type="button"><b>Agregar Hora Extra</b></button>
+              type="button" @if (!$permisoAgregarHoraExtra) disabled @endif ><b>Agregar Hora Extra</b></button>
       </div>
   @stop
 
@@ -32,6 +82,7 @@
   @endsection
 
   @section('content')
+
       <!-- Modal para agregar un nueva Hora Extra -->
       <div class="modal fade bd-example-modal-sm" id="addHoraExtra" tabindex="-1">
           <div class="modal-dialog">
@@ -43,13 +94,13 @@
                   <div class="modal-body">
                       <h4><b>Ingresar Hora Extra</b></h4>
 
-                      <form action="{{ route('Post-HoraExtra.store') }}" method="post">
+                      <form action="{{ route('Post-HoraExtra.store') }}" method="post" class="was-validated">
                           @csrf
 
                           <div class="mb-3 mt-3">
                               <label for="dni" class="form-label">Empleado</label>
-                              <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO">
-                                  <option disabled selected> Seleccionar Empleado </option>
+                              <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO" required>
+                                  <option value="" disabled selected> Seleccionar Empleado </option>
                                   @foreach ($ResulEmpleado as $Empleado)
                                       <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}
                                       </option>
@@ -78,7 +129,7 @@
 
                   </div>
                   <div class="modal-footer">
-                      <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                      <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b>
                       <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                   </div>
                   </form>
@@ -86,6 +137,13 @@
           </div>
       </div>
       </div>
+
+      @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif
 
 
       <!-- /.card-header -->
@@ -112,8 +170,11 @@
                           <td style="text-align: center;">{{ date('d-m-Y', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}</td>
 
                           <td style="text-align: center;">
-                              <button value="Editar" title="Editar" class="btn btn-warning" type="button"
-                                  data-toggle="modal" data-target="#UptHoraExtra-{{ $HoraExtra['COD_HOR_EXTRA'] }}">
+                              @php
+                              $permisoEditarHoraExtra = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                              @endphp
+                              <button value="Editar" title="Editar" class="btn @if ($permisoEditarHoraExtra) btn-warning  @else btn-secondary disabled @endif" type="button"
+                                  data-toggle="modal" data-target="#UptHoraExtra-{{ $HoraExtra['COD_HOR_EXTRA'] }}" @if (!$permisoEditarHoraExtra) disabled @endif>
                                   <i class='fas fa-edit' style='font-size:20px;'></i>
                               </button>
                           </td>
@@ -196,7 +257,7 @@
           <div class="float-right d-none d-sm-block">
               <b>Version</b> 3.1.0
           </div>
-          <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+          <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
       @stop
 
       @section('js')
@@ -390,4 +451,10 @@
                   });
               });
           </script>
+
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
       @stop

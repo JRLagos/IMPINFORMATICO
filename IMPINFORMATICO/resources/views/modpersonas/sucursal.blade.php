@@ -3,7 +3,7 @@
 @section('title', 'Sucursal')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,14 +14,62 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'SUCURSALES';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
 
 
 
-    <h1>Registro de Sucursales</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar
+
+        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Registro de Sucursales</b></h1>
+    @php
+       $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+    @endphp
+        <button class="btn btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar
             Sucursal</button>
     </div>
+
 @stop
 
 
@@ -69,10 +117,9 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
+                <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
                     <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
                 </div>
-
                 </form>
             </div>
         </div>
@@ -107,7 +154,10 @@
                         <td style="text-align: center;">{{ $Sucursal['NOM_SUCURSAL'] }}</td>
                         <td style="text-align: center;">{{ $Sucursal['DES_SUCURSAL'] }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
+                        @php
+                            $permisoActualizar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoActualizar) btn-secondary disabled @else btn-warning @endif " type="button" data-toggle="modal"
                                 data-target="#UpdSucursal-{{ $Sucursal['COD_SUCURSAL'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
@@ -172,7 +222,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
     @stop
 
@@ -234,11 +284,11 @@
                     responsive: true,
                     autWidth: false,
                     language: {
-                        lengthMenu: "Mostrar MENU Registros Por Página",
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
                         zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página PAGE de PAGES",
+                        info: "Página _PAGE_ de _PAGES_",
                         infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de MAX registros totales)",
+                        infoFiltered: "(Filtrado de _MAX_ registros totales)",
                         search: "Buscar:",
                         paginate: {
                             next: "Siguiente",
@@ -287,7 +337,8 @@
                                             };
                                         };
                                         doc.contentMargins = [10, 10, 10,
-                                        10]; // Ajusta el margen de la tabla aquí
+                                            10
+                                        ]; // Ajusta el margen de la tabla aquí
                                         doc.content.unshift({
                                             text: descripcion,
                                             alignment: 'left',
@@ -303,7 +354,7 @@
                                         table.column(5).visible(false);
                                         // Imprimir
                                         $.fn.dataTable.ext.buttons.print.action(e, dt, node,
-                                        config);
+                                            config);
                                         // Restablecer la visibilidad de la columna después de imprimir
                                         table.column(5).visible(true);
                                     }

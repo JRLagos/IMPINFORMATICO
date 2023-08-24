@@ -1,9 +1,8 @@
 @extends('adminlte::page')
 
-@section('title', 'Municipio')
+@section('title', 'Usuarios')
 
 @section('content_header')
-<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
         @php
     $usuario = session('credenciales');
     $usuarioRol = session('nombreRol');
@@ -29,7 +28,7 @@
 
     // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
-        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PARAMETROS';
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'USUARIOS';
     });
 
     // Filtrar los permisos de seguridad
@@ -56,186 +55,81 @@
           }
         return false; // El usuario no tiene el permiso
         }
-    @endphp    
+    @endphp
+
+
+
 
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Municipios</b></h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"><b>Agregar
-                Municipio</b></button>
+        <h1><b>Usuarios</b></h1>
     </div>
 @stop
+
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
-
+    <!-- botones -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
-
 @section('content')
-
-    <!-- Modal para agregar un nuevo producto -->
-    <div class="modal fade bd-example-modal-sm" id="addMunicipio" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-
-                <div class="modal-header">
-                    <h3>Municipio</h3>
-                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
-
-                </div>
-                <div class="modal-body">
-                    <h4>Ingresar Municipio</h4>
-
-                    <form action="{{ route('Post-Municipio.store') }}" method="post" class="was-validated">
-                        @csrf
-
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Departamento</label>
-                            <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
-                                id="COD_DEPARTAMENTO" required>
-                                <option value="" selected disabled> Seleccionar Departamento </option>
-                                @foreach ($ResulDepartamento as $Departamento)
-                                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
-                                        {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Nombre Municipio</label>
-                            <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}"
-                                name="NOM_MUNICIPIO" required minlength="4" maxlength="20" />
-                            <span class="validity"></span>
-                        </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                    <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
-                </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-    </div>
-
-
-    @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ session('success') }}
-        </div>
-    @endif
-
+   
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="municipio" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="usuario" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Municipio</th>
-                    <th style="text-align: center;">Departamento</th>
+                    <th style="text-align: center;">Nombre Usuario</th>
+                    <th style="text-align: center;">Rol</th>
+                    <th style="text-align: center;">Ultima Conexion</th>
+                    <th style="text-align: center;">Primer Ingreso</th>
+                    <th style="text-align: center;">Fecha Vencimiento</th>
+                    <th style="text-align: center;">Preguntas</th>
+                    <th style="text-align: center;">E-mail</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ResulMunicipio as $Municipio)
+                @foreach ($ResulUsuario as $Usuario)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
-                        <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
-
+                        <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
+                        <td style="text-align: center;">{{ $Usuario['PRE_CONTESTADAS'] }}</td>
+                        <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
                         <td style="text-align: center;">
                         @php
-                          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                         @endphp
-                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal"
-                                data-target="#UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}">
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
+                                data-toggle="modal" data-target="#UptHoraExtra-{{ $Usuario['COD_USUARIO'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
                         </td>
                     </tr>
-                    <!-- Modal for editing goes here -->
-                    <div class="modal fade bd-example-modal-sm" id="UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}"
-                        tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Municipio</b></h4>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-
-                                <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
-                                    <form action="{{ route('Upd-Municipio.update') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
-
-                                        <input type="hidden" class="form-control" name="COD_MUNICIPIO"
-                                            value="{{ $Municipio['COD_MUNICIPIO'] }}">
-
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Municipio</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_MUNICIPIO" value="{{ $Municipio['NOM_MUNICIPIO'] }}" required
-                                                maxlength="30">
-                                        </div>
-
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Departamento</label>
-                                            <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
-                                                id="COD_DEPARTAMENTO">
-                                                <option value="{{ $Municipio['COD_DEPARTAMENTO'] }}"
-                                                    style="display: none;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</option>
-                                                @foreach ($ResulDepartamento as $Departamento)
-                                                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
-                                                        {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </tbody>
         </table>
+</div>
     @stop
 
     @section('footer')
-
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
         <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
-
     @stop
 
-
-
     @section('js')
-
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -283,23 +177,24 @@
                 margin-top: 10px;
             }
         </style>
+
         <script>
             $(document).ready(function() {
-                var table = $('#municipio').DataTable({
-                    responsive: true,
-                    autWidth: false,
-                    language: {
-                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
-                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página _PAGE_ de _PAGES_",
-                        infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de _MAX_ registros totales)",
-                        search: "Buscar:",
-                        paginate: {
-                            next: "Siguiente",
-                            previous: "Anterior"
-                        }
-                    },
+            var table = $('#usuario').DataTable({
+                responsive: true,
+                autWidth: false,
+                language: {
+                    lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                    zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                    info: "Página _PAGE_ de _PAGES_",
+                    infoEmpty: "No hay registros disponibles",
+                    infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                    search: "Buscar:",
+                    paginate: {
+                        next: "Siguiente",
+                        previous: "Anterior"
+                    }
+                },
 
                     dom: '<"top"Bl>frt<"bottom"ip><"clear">',
                     buttons: [{
@@ -308,12 +203,13 @@
                             text: 'Opciones',
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'IMPINFORMATICO | Municipio',
+                                    title: 'IMPINFORMATICO | Horas Extra',
+                                    orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
-                                        var titulo = "Municipios";
+                                        var titulo = "Reporte de Horas Extra";
                                         var descripcion =
-                                            "Municipios para guardar las direcciones de los empleados";
+                                            "Descripción del reporte: Empleados con sus horas extras realizadas";
 
                                         doc['header'] = function(currentPage, pageCount) {
                                             return {
@@ -355,19 +251,19 @@
                                     text: 'Imprimir',
                                     action: function(e, dt, node, config) {
                                         // Ocultar la columna número 12
-                                        table.column(3).visible(false);
+                                        table.column(5).visible(false);
                                         // Imprimir
                                         $.fn.dataTable.ext.buttons.print.action(e, dt, node,
                                             config);
                                         // Restablecer la visibilidad de la columna después de imprimir
-                                        table.column(3).visible(true);
+                                        table.column(5).visible(true);
                                     }
                                 },
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Municpios IMPINFORMATICO',
-                                    messageTop: 'Municpios del pais',
+                                    title: 'Horas Extra IMPINFORMATICO',
+                                    messageTop: 'Reporte con el detalle de horas extras de los empleados',
                                     customize: function(xlsx) {
                                         var sheet = xlsx.xl.worksheets['sheet1.xml'];
                                         $('row:first c', sheet).attr('s', '7');
@@ -401,10 +297,17 @@
                 return now.toLocaleDateString('es-ES', options);
             }
         </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({});
+            });
+        </script>
+
         <script>
             function cleanInputValue(inputElement) {
                 var inputValue = inputElement.value;
-                var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+                var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
                 if (cleanValue !== inputValue) {
                     inputElement.value = cleanValue;
                 }
@@ -417,17 +320,4 @@
                 });
             });
         </script>
-        <script>
-            $(document).ready(function() {
-                $('.js-example-basic-single').select2({});
-            });
-        </script>
-
-        <script>
-            setTimeout(function() {
-                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
-            }, 5000); // 5000 ms = 5 segundos
-        </script>
-
-
     @stop

@@ -3,6 +3,7 @@
 @section('title', 'Dashboard')
 
 @section('content_header')
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <h1>IMPERIO INFORMATICO</h1> <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-light navbar-white">
     <div class="container">

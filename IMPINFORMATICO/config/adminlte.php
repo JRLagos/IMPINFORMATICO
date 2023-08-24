@@ -329,12 +329,12 @@ return [
                 [
                     'text' => 'Usuarios',
                     'icon' => 'fas fa-fw fa-user gns text-info',
-                    'url'  => '\\',
+                    'url'  => 'Usuarios',
                 ], 
             ],
         ],
         [
-            'text' => 'Informacion',
+            'text' => 'INFORMACION',
             'icon' => 'fas fa-fw fa-folder-plus gns text-yellow',
             'submenu' => [
                 [
@@ -442,22 +442,6 @@ return [
             ],
         ],
         [
-            'text' => 'ESTADISTICAS',
-            'icon' => 'fas fa-fw fa-chart-line gns text-yellow',
-            'submenu' => [
-                [
-                    'text' => 'Estadisticas',
-                    'icon' => 'fas fa-fw fa-chart-line gns text-info',
-                    'url'  => 'Estadistica',
-                ], 
-                [
-                    'text' => 'Tipos Estadisticas',
-                    'icon' => 'fas fa-fw fa-chart-bar gns text-info',
-                    'url'  => 'EstaSucursal',
-                ], 
-            ],
-        ],
-        [
             'text' => 'SEGURIDAD',
             'icon' => 'fas fa-fw fa-key gns text-yellow',
             'submenu' => [
@@ -484,9 +468,9 @@ return [
             ],
         ],
         [
-            'text' => 'BITACORA',
-            'icon' => 'fas fa-fw fa-swatchbook gns text-yellow',
-            'url'  => '\\',
+            'text' => 'CERRAR SESIÓN', 
+            'icon' => 'fas fa-fw fa-sign-out-alt gns text-red', 
+            'url'  => 'logout', 
         ],
     ],
     

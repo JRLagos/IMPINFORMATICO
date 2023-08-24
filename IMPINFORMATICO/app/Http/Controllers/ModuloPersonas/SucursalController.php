@@ -7,14 +7,22 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
+
 class SucursalController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $response = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/2');
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+        $response = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL/2',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
@@ -39,7 +47,11 @@ class SucursalController extends Controller
         {
             $Sucursal = $request->all();
     
-            $res = Http::post("http://localhost:3000/INS_SUCURSAL/SUCURSAL", $Sucursal);
+            $res = Http::post("http://localhost:3000/INS_SUCURSAL/SUCURSAL", $Sucursal,[
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $sessionToken,
+                ],
+            ]);
     
             return redirect(route('Sucursal.index'))->with('success', 'Datos ingresados con éxito.');
         }
@@ -70,6 +82,10 @@ class SucursalController extends Controller
             "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
             "NOM_SUCURSAL" => $request->input("NOM_SUCURSAL"),
             "DES_SUCURSAL" => $request->input("DES_SUCURSAL"),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
         ]);
         
         return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');

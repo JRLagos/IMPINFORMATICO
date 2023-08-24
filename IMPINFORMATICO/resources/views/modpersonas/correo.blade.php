@@ -3,7 +3,7 @@
 @section('title', 'Correo')
 
 @section('content_header')
-
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,7 +14,48 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'CORREOS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
 
 
     <h1>Registro de Correos</h1>
@@ -25,6 +66,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+    <!-- botones -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
 
@@ -37,10 +81,10 @@
             <thead class="bg-dark">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">NOMBRE PERSONA</th>
-                    <th style="text-align: center;">CORREO ELECTRONICO</th>
-                    <th style="text-align: center;">DESCRIPCION</th>
-                    <th>ACCION</th>
+                    <th style="text-align: center;">Nombre Persona</th>
+                    <th style="text-align: center;">Correo Electronico</th>
+                    <th style="text-align: center;">Descripción</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +96,10 @@
                         <td style="text-align: center;">{{ $Correo['CORREO_ELECTRONICO'] }}</td>
                         <td style="text-align: center;">{{ $Correo['DES_CORREO'] }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button" data-toggle="modal"
+                        @php
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal"
                                 data-target="#UpdCorreo-{{ $Correo['COD_CORREO'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
@@ -126,7 +173,7 @@
         <div class="float-right d-none d-sm-block">
             <b>Version</b> 3.1.0
         </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO IMFORMATICO</a>.</strong> All rights reserved.
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
     @stop
 
@@ -188,12 +235,12 @@
                     responsive: true,
                     autWidth: false,
                     language: {
-                        lengthMenu: "Mostrar MENU Registros Por Página",
-                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
-                        info: "Página PAGE de PAGES",
-                        infoEmpty: "No hay registros disponibles",
-                        infoFiltered: "(Filtrado de MAX registros totales)",
-                        search: "Buscar:",
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                          zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                          info: "Página _PAGE_ de _PAGES_",
+                          infoEmpty: "No hay registros disponibles",
+                          infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                          search: "Buscar:",
                         paginate: {
                             next: "Siguiente",
                             previous: "Anterior"
