@@ -68,9 +68,6 @@
                 Empleado</b></button>
     </div>
 
-
-  
-  
   @stop
   
     @section('css')
@@ -226,7 +223,7 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Municipio</label>
-                            <select class="form-control js-example-basic-single" name="COD_MUNICIPIO" id="COD_MUNICIPIO">
+                            <select class="form-control js-example-basic-single" name="COD_MUNICIPIO" id="COD_MUNICIPIO" required>
                                 <option value="" selected disabled> Seleccionar Municipio </option>
                                 @foreach ($ResulMunicipio as $Municipio)
                                     <option value="{{ $Municipio['COD_MUNICIPIO'] }}">{{ $Municipio['NOM_MUNICIPIO'] }}
@@ -266,8 +263,8 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Sucursal</label>
-                            <select class="form-control js-example-basic-single" name="COD_SUCURSAL" id="COD_SUCURSAL">
-                                <option selected disabled> Seleccionar Sucursal </option>
+                            <select class="form-control js-example-basic-single" name="COD_SUCURSAL" id="COD_SUCURSAL" required>
+                                <option value="" selected disabled> Seleccionar Sucursal </option>
                                 @foreach ($ResulSucursal as $Sucursal)
                                     <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}
                                     </option>
@@ -278,8 +275,8 @@
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Departamento Empresa</label>
                             <select class="form-control js-example-basic-single" name="COD_DEPTO_EMPRESA"
-                                id="COD_DEPTO_EMPRESA">
-                                <option value="" selected> Seleccionar Departamento Empresa </option>
+                                id="COD_DEPTO_EMPRESA" required>
+                                <option value="" disabled selected> Seleccionar Departamento Empresa </option>
                                 @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                                     <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
                                         {{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
@@ -405,7 +402,7 @@
 
 
     @if (session('success'))
-        <div class="alert alert-warning alert-dismissible fade show">
+        <div class="alert alert-success alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
