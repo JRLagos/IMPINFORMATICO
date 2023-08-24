@@ -22,6 +22,12 @@
     $Permisos = session('permisos');
     $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
     // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
     $objetosFiltrados = array_filter($Objetos, function($objeto) {
         return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PERSONAS';
@@ -39,7 +45,7 @@
     $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
     $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
     $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
-    @endphp
+@endphp
 
 
     @php
@@ -55,18 +61,16 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Registro de Personas</b></h1>
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"><b>Agregar
+        @php
+          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"><b>Agregar
                 Empleado</b></button>
     </div>
 
 
-  <h1>Registro de Personas</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  @php
-       $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-  @endphp
-  <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addPersona" type="button" @if (!$permisoInsertar) disabled @endif> Agregar Persona</button>
-</div>
+  
+  
   @stop
   
     @section('css')

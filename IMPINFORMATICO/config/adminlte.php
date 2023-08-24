@@ -467,6 +467,11 @@ return [
                 ],  
             ],
         ],
+        [
+            'text' => 'CERRAR SESIÓN', 
+            'icon' => 'fas fa-fw fa-sign-out-alt gns text-red', 
+            'url'  => 'logout', 
+        ],
     ],
     
 

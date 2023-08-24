@@ -50,6 +50,9 @@ Route::get('/Dashboard',[EstadisticaController::class,'index'])->name('Esta.edit
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
 Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.entrar');
+//LogOut
+Route::get('logout',[Authcontroller::class,'Logout'])->name('cerrar-sesion');
+
 
 //Preguntas
 Route::get('menurecuperar',[AuthController::class,'ShowMenuRecuperar'])->name('ModuloSeguridad.reMenu');
