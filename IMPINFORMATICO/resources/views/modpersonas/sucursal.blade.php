@@ -61,13 +61,13 @@
 
 
 
-        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Registro de Sucursales</b></h1>
-    @php
-       $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-    @endphp
-        <button class="btn btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar
-            Sucursal</button>
+        @php
+          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addSucursal" type="button"><b>Agregar
+                Sucursal</b></button>
     </div>
 
 @stop

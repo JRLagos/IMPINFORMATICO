@@ -432,3 +432,408 @@
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+
+                        <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['PUE_TRA_EMPLEADO'] }}</td>
+                        <td style="text-align: center;">{{ $Empleado['TIP_CONTRATO'] }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Empleado['FEC_INGRESO'])) }}</td>
+                        <td style="text-align: center;">{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
+                        <td style="text-align: center;">{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}
+                        <td>
+                        @php
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                        <button value="Editar" title="Editar" class="btn @if ($permisoEditar) btn-warning  @else btn-secondary disabled @endif" type="button"
+                                  data-toggle="modal" data-target="#UpdEmpleado-{{ $Empleado['COD_EMPLEADO'] }}" @if (!$permisoEditar) disabled @endif>
+                                  <i class='fas fa-edit' style='font-size:20px;'></i>
+                              </button>
+                        </td>
+                    </tr>
+                    <!-- Modal for editing goes here -->
+                    <div class="modal fade bd-example-modal-sm" id="UpdEmpleado-{{ $Empleado['COD_EMPLEADO'] }}"
+                        tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><b>Editar Empleado</b></h4>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <h4>
+                                        <p>Ingresar nuevos datos</p>
+                                    </h4>
+                                    <hr>
+                                    <form action="{{ route('Upd-Empleado.update') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+
+                                        <input type="hidden" class="form-control" name="COD_EMPLEADO"
+                                            value="{{ $Empleado['COD_EMPLEADO'] }}">
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Empleado</label>
+                                            <select class="form-control js-example-basic-single" name="COD_PERSONA"
+                                                id="COD_PERSONA">
+                                                <option value="{{ $Empleado['COD_PERSONA'] }}" style="display: none;">
+                                                    {{ $Empleado['NOMBRE_COMPLETO'] }}</option>
+                                                <option disabled>¡No se puede seleccionar otro Empleado!</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Sucursal</label>
+                                            <select class="form-control js-example-basic-single" name="COD_SUCURSAL"
+                                                id="COD_SUCURSAL">
+                                                <option value="{{ $Empleado['COD_SUCURSAL'] }}" style="display: none;">
+                                                    {{ $Empleado['NOM_SUCURSAL'] }}</option>
+                                                @foreach ($ResulSucursal as $Sucursal)
+                                                    <option value="{{ $Sucursal['COD_SUCURSAL'] }}">
+                                                        {{ $Sucursal['NOM_SUCURSAL'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Departamento de Empresa</label>
+                                            <select class="form-control js-example-basic-single" name="COD_DEPTO_EMPRESA"
+                                                id="COD_DEPTO_EMPRESA">
+                                                <option value="{{ $Empleado['COD_DEPTO_EMPRESA'] }}"
+                                                    style="display: none;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</option>
+                                                @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
+                                                    <option value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
+                                                        {{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="PUE_TRA_EMPLEADO" class="form-label">Puesto de Trabajo</label>
+                                            <select class="form-control" name="PUE_TRA_EMPLEADO" required>
+                                                <option value="" style="display: none;" disabled>Seleccione una
+                                                    opción</option>
+                                                <option value="Gerente"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente' ? 'selected' : '' }}>
+                                                    Gerente</option>
+                                                <option value="Administrador"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Administrador' ? 'selected' : '' }}>
+                                                    Administrador</option>
+                                                <option value="Jefe de Planta"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_Planta' ? 'selected' : '' }}>
+                                                    Jefe de Planta</option>
+                                            </select>
+                                            <div class="valid-feedback"></div>
+                                        </div>
+
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="TIP_CONTRATO" class="form-label">Tipo de Contrato</label>
+                                            <select class="form-control" name="TIP_CONTRATO" required>
+                                                <option value="" style="display: none;" disabled>Seleccione una
+                                                    opción</option>
+                                                <option value="Temporal"
+                                                    {{ $Empleado['TIP_CONTRATO'] === 'Temporal' ? 'selected' : '' }}>
+                                                    Temporal</option>
+                                                <option value="Permanente"
+                                                    {{ $Empleado['TIP_CONTRATO'] === 'Permanente' ? 'selected' : '' }}>
+                                                    Permanente</option>
+                                            </select>
+                                            <div class="valid-feedback"></div>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Fecha Ingreso</label>
+                                            <input type="date" class="form-control" min="2023-08-15"
+                                                max="<?= date('Y-m-d') ?>" name="FEC_INGRESO"
+                                                value="{{ date('Y-m-d', strtotime($Empleado['FEC_INGRESO'])) }}" required>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Nùmero Seguro Social</label>
+                                            <input type="number" class="form-control" name="NUM_SEG_SOCIAL"
+                                                value="{{ $Empleado['NUM_SEG_SOCIAL'] }}" required>
+                                            <span class="validity"></span>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Salario Base</label>
+                                            <input type="number" class="form-control" name="SAL_BAS_EMPLEADO"
+                                                value="{{ $Empleado['SAL_BAS_EMPLEADO'] }}" required>
+                                            <span class="validity"></span>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    @stop
+
+    @section('footer')
+
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+
+    @stop
+
+
+
+    @section('js')
+
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+        <!-- botones -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+        <style>
+            .btn-group>.btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        </style>
+        <style>
+            div.dt-button-collection {
+                width: 600px;
+            }
+
+            div.dt-button-collection button.dt-button {
+                display: inline-block;
+                width: 32%;
+            }
+
+            div.dt-button-collection button.buttons-colvis {
+                display: inline-block;
+                width: 49%;
+            }
+
+            div.dt-button-collection h3 {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                font-weight: 100;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+                font-size: 1em;
+                padding: 0 1em;
+            }
+
+            div.dt-button-collection h3.not-top-heading {
+                margin-top: 10px;
+            }
+        </style>
+        <script>
+            $(document).ready(function() {
+                var table = $('#empleado').DataTable({
+                    responsive: true,
+                    autWidth: false,
+                    language: {
+                        lengthMenu: "Mostrar _MENU_ Registros Por Página",
+                        zeroRecords: "Nada Encontrado - ¡Disculpas!",
+                        info: "Página _PAGE_ de _PAGES_",
+                        infoEmpty: "No hay registros disponibles",
+                        infoFiltered: "(Filtrado de _MAX_ registros totales)",
+                        search: "Buscar:",
+                        paginate: {
+                            next: "Siguiente",
+                            previous: "Anterior"
+                        }
+                    },
+
+                    dom: '<"top"Bl>frt<"bottom"ip><"clear">',
+                    buttons: [{
+                            extend: 'collection',
+                            className: 'custom-html-collection',
+                            text: 'Opciones',
+                            buttons: [{
+                                    extend: 'pdf',
+                                    title: 'IMPINFORMATICO | Empledaos',
+                                    customize: function(doc) {
+                                        var now = obtenerFechaHora();
+                                        var titulo = "Empleados";
+                                        var descripcion =
+                                            "Empleados con su informacion laboral";
+
+                                        doc['header'] = function(currentPage, pageCount) {
+                                            return {
+                                                text: titulo,
+                                                fontSize: 14,
+                                                alignment: 'center',
+                                                margin: [0, 10]
+                                            };
+                                        };
+
+                                        doc['footer'] = function(currentPage, pageCount) {
+                                            return {
+                                                columns: [{
+                                                        text: 'Imperio Informatico',
+                                                        alignment: 'left',
+                                                        margin: [10, 10]
+                                                    },
+                                                    {
+                                                        text: 'Fecha y Hora: ' + now,
+                                                        alignment: 'right',
+                                                        margin: [10, 10]
+                                                    }
+                                                ],
+                                                margin: [10, 0]
+                                            };
+                                        };
+                                        doc.contentMargins = [10, 10, 10,
+                                            10
+                                        ]; // Ajusta el margen de la tabla aquí
+                                        doc.content.unshift({
+                                            text: descripcion,
+                                            alignment: 'left',
+                                            margin: [10, 0, 10, 10]
+                                        });
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    text: 'Imprimir',
+                                    action: function(e, dt, node, config) {
+                                        // Ocultar la columna número 6
+                                        table.column(6).visible(false);
+                                        // Imprimir
+                                        $.fn.dataTable.ext.buttons.print.action(e, dt, node,
+                                            config);
+                                        // Restablecer la visibilidad de la columna después de imprimir
+                                        table.column(6).visible(true);
+                                    }
+                                },
+                                {
+                                    extend: 'excelHtml5',
+                                    text: 'Excel',
+                                    title: 'Empleados IMPINFORMATICO',
+                                    messageTop: 'Empledoas con sus datos laborales.',
+                                    customize: function(xlsx) {
+                                        var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                                        $('row:first c', sheet).attr('s', '7');
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            extend: 'colvis',
+                            text: 'Columnas visibles' // Botón de columnas visibles
+                        }
+                    ]
+                });
+
+                // Mover los botones de exportación al contenedor adecuado
+                table.buttons().container()
+                    .appendTo($('.col-sm-6:eq(0)', table.table().container()));
+            });
+
+            function obtenerFechaHora() {
+                var now = new Date();
+                var options = {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric',
+                    hour12: false
+                };
+                return now.toLocaleDateString('es-ES', options);
+            }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({});
+            });
+        </script>
+
+
+
+        <script>
+            function validateDNI(input) {
+                const value = input.value;
+                const maxLength = 13;
+
+                if (value.length > maxLength) {
+                    input.value = value.slice(0, maxLength);
+                }
+
+                if (value.length === maxLength) {
+                    input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                } else {
+                    input.setCustomValidity("El DNI debe tener 13 dígitos.");
+                }
+            }
+        </script>
+
+
+        <script>
+            function validateRTN(input) {
+                const value = input.value;
+                const maxLength = 14;
+
+                if (value.length > maxLength) {
+                    input.value = value.slice(0, maxLength);
+                }
+
+                if (value.length === maxLength) {
+                    input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                } else {
+                    input.setCustomValidity("El RTN debe tener 14 dígitos.");
+                }
+            }
+        </script>
+
+        <script>
+            function validateNUMERO(input) {
+                const value = input.value;
+                const maxLength = 8;
+
+                if (value.length > maxLength) {
+                    input.value = value.slice(0, maxLength);
+                }
+            }
+        </script>
+
+        <script>
+            function cleanInputValue(inputElement) {
+                var inputValue = inputElement.value;
+                var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+                if (cleanValue !== inputValue) {
+                    inputElement.value = cleanValue;
+                }
+            }
+
+            var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+            alphanumericInputs.forEach(function(input) {
+                input.addEventListener("input", function() {
+                    cleanInputValue(this);
+                });
+            });
+        </script>
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
+
+    @stop
