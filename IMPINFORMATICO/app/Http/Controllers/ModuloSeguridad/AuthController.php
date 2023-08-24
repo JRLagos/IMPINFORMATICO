@@ -44,6 +44,7 @@ class AuthController extends Controller
     $usuario = $request->input('usuario');
     $contrasena = $request->input('contrasena');
 
+
     $urlToken = 'http://localhost:3000/auths/auth'; // Cambiar la URL a la ruta de generación de token
     $urlParametros = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
     $url_CT = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
@@ -72,7 +73,9 @@ class AuthController extends Controller
                 break;
             }
         }
+        
 
+        
         // Realizar la validación de inicio de sesión
         $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $responseUsuarios = Http::get($urlUsuarios);
@@ -100,10 +103,11 @@ class AuthController extends Controller
         } 
     }
 
-          
+    
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
             foreach ($jsonContentUsuarios as $user) {
 
+              
                 // Verificar si el usuario tiene una contraseña temporal activa
                 $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
                 $response_CT_usuario = Http::get($url_CT_usuario);
@@ -114,11 +118,13 @@ class AuthController extends Controller
                 if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
                  strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
 
+
                 // El usuario tiene una contraseña temporal activa, redirigir a la página
                 $request->session()->forget('intentos_fallidos');
                 $credencialesCorrectas = true;
                 $request->session()->put('usuario', $usuario);
                 $request->session()->put('credenciales', $user);
+
 
                 // Obtener el nombre del rol del usuario
                 $urlRoles = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES';
