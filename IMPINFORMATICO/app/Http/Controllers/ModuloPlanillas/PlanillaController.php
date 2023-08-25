@@ -51,6 +51,7 @@ class PlanillaController extends Controller
      */
     public function store(Request $request)
     {
+        $sessionToken = $request->session()->get('generated_token');
         $Planilla = $request->all();
 
         $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $Planilla,[
@@ -59,7 +60,7 @@ class PlanillaController extends Controller
             ],
         ]);
 
-        return redirect(route('Planilla.index'));
+        return redirect(route('Planilla.index'))->with('success', 'Datos Ingresado Con Exitos');
     }
 
 

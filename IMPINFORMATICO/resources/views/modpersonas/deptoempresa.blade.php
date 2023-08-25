@@ -59,15 +59,14 @@
     @endphp
 
    
-    <h1 style="text-align: center;">Registro Departamento de Empresa</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Registro Departamento de Empresa</b></h1>
         @php
-        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+          $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button class="btn btn-dark @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif  me-md-2" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button">Agregar
-            Departamento</button>
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agregar
+                Departamento</b></button>
     </div>
-
 @stop
 
 
