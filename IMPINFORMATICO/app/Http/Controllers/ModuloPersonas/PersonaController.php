@@ -20,6 +20,7 @@ class PersonaController extends Controller
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
 
+
         $response1 = Http::withHeaders([
             'Authorization' => $sessionToken,
         ])->get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
