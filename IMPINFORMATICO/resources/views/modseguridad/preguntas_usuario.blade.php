@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/preguntas_usuario.css') }}">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <title>Configuración de Preguntas Secretas</title>
-</head>
-<body>
-
   <style>
     /* Estilos para el cuerpo de la página */
     html, body {
@@ -76,9 +74,8 @@
       background-color: #0056b3;
     }
   </style>
-
-
-
+</head>
+<body>
   <div class="container">
     <h2>Configuración de Preguntas Secretas</h2>
     <form action="{{ route('ModuloSeguridad.preguntasSeg') }}" method="get" class="needs-validation" novalidate>
@@ -87,7 +84,7 @@
       <select id="pregunta1" name="pregunta" class="form-control" required>
         <option value="1">Pregunta 1: ¿CUÁL ES EL NOMBRE DE TU MASCOTA?</option>
         <option value="2">Pregunta 2: ¿CUÁL ES TU COLOR FAVORITO?</option>
-        <option value="3">Pregunta 2: ¿CUÁL ES EL NOMBRE DE TU MEJOR AMIGO DE LA INFANCIA?</option>
+        <option value="3">Pregunta 3: ¿CUÁL ES EL NOMBRE DE TU MEJOR AMIGO DE LA INFANCIA?</option>
         <!-- Agregar más opciones según sea necesario -->
       </select>
       
@@ -98,38 +95,70 @@
       </div>
       
       <label for="nueva_contrasenia">Nueva Contraseña</label>
-      <input type="password" id="nueva_contrasenia" name="nueva_contrasenia" class="form-control" maxlength="255" required>
+      <div class="input-group">
+        <input type="password" id="nueva_contrasenia" name="nueva_contrasenia" class="form-control" minlength="5" maxlength="12" required>
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+            <i class="fa fa-eye-slash" aria-hidden="true"></i>
+            Ver
+          </button>
+        </div>
+      </div>
       <div class="invalid-feedback">
-        Por favor, ingresa una contraseña válida.
+        Por favor, ingresa una contraseña válida (5-12 caracteres).
+      </div>
+      <div class="valid-feedback">
+        Contraseña válida.
       </div>
 
-      <button type="submit" class="btn btn-primary">Guardar y Continuar</button>
+      <!-- Agrega margen inferior al botón "Guardar y Continuar" -->
+      <button type="submit" class="btn btn-primary mt-3">Guardar y Continuar</button>
     </form>
   </div>
   
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
   <script>
-    // Agrega aquí el script para las validaciones de Bootstrap
-    (function() {
-      'use strict';
+  document.addEventListener("DOMContentLoaded", function() {
+    const respuestaInput = document.getElementById("respuesta2");
+    const nuevaContraseniaInput = document.getElementById("nueva_contrasenia");
+    const togglePasswordBtn = document.getElementById("togglePassword");
 
-      window.addEventListener('load', function() {
-        // Valida los formularios de Bootstrap
-        var forms = document.getElementsByClassName('needs-validation');
+    respuestaInput.addEventListener("input", function() {
+      // Permite letras, números y solo un espacio entre palabras
+      const sanitizedValue = this.value.replace(/[^a-zA-Z0-9 ]+/g, "");
+      const singleSpaceValue = sanitizedValue.replace(/ +/g, " ");
+      this.value = singleSpaceValue;
+    });
 
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
-    })();
-  </script>
+    nuevaContraseniaInput.addEventListener("input", function() {
+      // Permite letras, números y caracteres especiales !@#$
+      const sanitizedValue = this.value.replace(/[^!@#\$a-zA-Z0-9]+/g, "");
+      this.value = sanitizedValue;
+    });
+
+    togglePasswordBtn.addEventListener('click', function () {
+      const type = nuevaContraseniaInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      nuevaContraseniaInput.setAttribute('type', type);
+
+      // Cambiar el texto del botón
+      togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash" aria-hidden="true"></i> Ver' : '<i class="fa fa-eye" aria-hidden="true"></i> Ocultar';
+    });
+  });
+</script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+

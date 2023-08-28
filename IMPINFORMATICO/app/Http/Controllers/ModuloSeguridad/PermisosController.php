@@ -70,8 +70,10 @@ class PermisosController extends Controller
      */
     public function update(Request $request)
     {
+
+        
         $upt_persmisos = Http::put('http://localhost:3000/UPT_PERMISOS/SEGURIDAD_PERMISOS/'.$request->input("COD_ROL"),[
-            "COD_PARAMETRO" => $request->input('COD_PARAMETRO'),
+            "COD_PARAMETRO" => $request->input('COD_OBJETO'),
             "PER_INSERTAR" => $request->input('PER_INSERTAR'),
             "PER_ELIMINAR" => $request->input('PER_ELIMINAR'),
             "PER_ACTUALIZAR" => $request->input('PER_ACTUALIZAR'),
