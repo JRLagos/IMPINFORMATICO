@@ -46,6 +46,7 @@
     $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
     $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
 
+  
 @endphp
 
 

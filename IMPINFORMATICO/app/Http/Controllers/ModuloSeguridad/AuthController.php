@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -44,6 +45,7 @@ class AuthController extends Controller
     $usuario = $request->input('usuario');
     $contrasena = $request->input('contrasena');
 
+
     $urlToken = 'http://localhost:3000/auths/auth'; // Cambiar la URL a la ruta de generación de token
     $urlParametros = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
     $url_CT = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
@@ -53,6 +55,8 @@ class AuthController extends Controller
         'usuario' => $usuario,
         'contraseña' => $contrasena
     ]);
+
+    
 
     if ($responseToken->status() === 200) {
         $token = $responseToken->json()['token'];
@@ -72,11 +76,14 @@ class AuthController extends Controller
                 break;
             }
         }
+        
 
+        
         // Realizar la validación de inicio de sesión
         $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $responseUsuarios = Http::get($urlUsuarios);
 
+        
         if ($responseUsuarios->status() === 200) {
             $jsonContentUsuarios = $responseUsuarios->json();
             $credencialesCorrectas = false;
@@ -100,10 +107,11 @@ class AuthController extends Controller
         } 
     }
 
-          
+    
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
             foreach ($jsonContentUsuarios as $user) {
 
+              
                 // Verificar si el usuario tiene una contraseña temporal activa
                 $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
                 $response_CT_usuario = Http::get($url_CT_usuario);
@@ -114,11 +122,13 @@ class AuthController extends Controller
                 if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
                  strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
 
+
                 // El usuario tiene una contraseña temporal activa, redirigir a la página
                 $request->session()->forget('intentos_fallidos');
                 $credencialesCorrectas = true;
                 $request->session()->put('usuario', $usuario);
                 $request->session()->put('credenciales', $user);
+
 
                 // Obtener el nombre del rol del usuario
                 $urlRoles = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES';
@@ -167,7 +177,7 @@ class AuthController extends Controller
                 $request->session()->put('objetos', $objetos);
             }
 
-                return view('admin.admin');  // O la página que desees permitir acceso
+            return redirect()->route('Esta.edit');  // O la página que desees permitir acceso
         }
     }
 }
@@ -574,11 +584,12 @@ class AuthController extends Controller
         return view('modseguridad.registro');
     }
 
+    
         $nombre = $request->input('nombre');
         $apellido = $request->input('apellido');
         $correo = $request->input('correo');
         $contrasenia = $request->input('contrasenia');
-        $usuario = strtoupper($request->input('usuario'));
+        $newUser = strtoupper($request->input('usuario'));
         $dni = $request->input('dni');
         $rtn = $request->input('rtn');
         $tipoTelefono = $request->input('tipo_telefono');
@@ -590,15 +601,29 @@ class AuthController extends Controller
         $estadoCivil = $request->input('estado_civil');
         $peso = $request->input('peso');
         $estatura = $request->input('estatura');
-    
 
         //
         if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
             // El formato del correo electrónico no es válido, puedes mostrar un mensaje de error o redireccionar
+        
             return view('modseguridad.registro');
         }
 
         $contraseniaCifrada = Hash::make($contrasenia);
+
+        // Después de la validación de contraseña
+        $uppercase = preg_match('@[A-Z]@', $contrasenia);
+        $number    = preg_match('@[0-9]@', $contrasenia);
+        $specialChar = preg_match('/[!@#$%^&*()\[\]{};:,<.>\-_+=]/', $contrasenia);
+
+        $isStrongPassword = $uppercase && $number && $specialChar;
+
+        if (!$isStrongPassword) {
+        // Contraseña no cumple con los criterios de robustez
+        return view('modseguridad.registro', ['contraseniaError' => true]);
+        }
+    
+    // Resto de tu código para guardar el usuario y redireccionar
 
 
         // Aquí puedes realizar la validación y procesamiento de los datos ingresados
@@ -609,7 +634,7 @@ class AuthController extends Controller
             "NOM_ROL" => null,
     "DES_ROL" => null,
     "COD_ROL" => 2,
-    "NOM_USUARIO" => $usuario,
+    "NOM_USUARIO" => $newUser,
     "CONTRASENA" => $contraseniaCifrada,
     "IND_USUARIO" => 'NUEVO',
     "PRE_CONTESTADAS" => 0,
@@ -657,7 +682,7 @@ class AuthController extends Controller
     
         if ($response ->successful()) {
             // Inserción exitosa, redireccionar o mostrar mensaje de éxito
-            return view('modseguridad.login');
+            return view('modseguridad.Login');
         } elseif($response->failed()) {
             // Inserción fallida, redireccionar o mostrar mensaje de error
             return view('modseguridad.registro');
@@ -673,6 +698,23 @@ class AuthController extends Controller
         $pregunta = $request->input('pregunta');
         $respuesta= $request->input('respuesta');
         $contrasenaNueva= $request->input('nueva_contrasenia');
+
+        // Validar contraseña según tus requisitos
+    $minLength = 5;
+    $maxLength = 12;
+    if (
+        strlen($contrasenaNueva) < $minLength ||
+        strlen($contrasenaNueva) > $maxLength ||
+        !preg_match('/[A-Z]/', $contrasenaNueva) ||   // Al menos una mayúscula
+        !preg_match('/[!@#$]/', $contrasenaNueva) ||  // Al menos un caracter especial
+        !preg_match('/[0-9]/', $contrasenaNueva)      // Al menos un número
+    ) {
+        // Mostrar mensaje de error o realizar alguna acción
+        return view('modseguridad.preguntas_usuario');
+    }
+
+
+
         $contrasenaNuevaHashed = Hash::make($contrasenaNueva);
 
         $urlPre = 'http://localhost:3000/INS_USUARIO/SEGURIDAD_PREGUNTAS_USUARIO';
@@ -738,7 +780,7 @@ class AuthController extends Controller
 
         if ($responsePre->status() === 200 && $responseUp->status() === 200) {
             // Ambas solicitudes exitosas, redirigir a la vista deseada
-            return view('modseguridad.login');
+            return view('modseguridad.Login');
         }
     
         // Si alguna de las solicitudes falló, mostrar mensaje o redirigir a vista de fallo
@@ -846,7 +888,7 @@ class AuthController extends Controller
 
                             Session::flash('success', 'El correo se ha enviado exitosamente.');
 
-                            return view('modseguridad.login');
+                            return view('modseguridad.Login');
                         } else {
                             return view('modseguridad.error');
                         }
@@ -872,7 +914,7 @@ class AuthController extends Controller
 
 
                             $request->session()->flash('success', 'El correo se ha enviado exitosamente.');
-                            return view('modseguridad.login');
+                            return view('modseguridad.Login');
                         } else {
                             return view('modseguridad.error');
                         }
@@ -894,5 +936,53 @@ class AuthController extends Controller
 
     }
 
+    public function UpdUsuario(Request $request) {
+        
+        // Recuperar los valores del formulario
+        $COD_ROL = $request->input('COD_USUARIO');
+        $NOM_USUARIO = $request->input('nombre');
+        $CONTRASENA = Hash::make($request->input('contrasena')); // Hashear la contraseña
+        $ESTADO = $request->input('estado');
+        $PRE_CONTESTADAS = 0;
+        $COR_ELECTRONICO = $request->input('email');
+
+
+        // Validar los campos del formulario
+        $validator = Validator::make($request->all(), [
+            'contrasena' => ['required', 'string', 'min:5', 'max:12'],
+            'COD_USUARIO' => ['required', 'integer'], // Asegúrate de ajustar el nombre del campo en el formulario
+            // ... otras reglas de validación para otros campos ...
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 400);
+        }
+
+    
+        // Realizar el request HTTP
+        $urlUpUsu = 'http://localhost:3000/USUARIOS';
+    
+        $responseUpdateUsu = Http::put($urlUpUsu, [
+            "COD_ROL" => $COD_ROL,
+            "NOM_USUARIO" => $NOM_USUARIO,
+            "CONTRASENA" => $CONTRASENA,
+            "ESTADO" => $ESTADO,
+            "PRE_CONTESTADAS" => $PRE_CONTESTADAS,
+            "COR_ELECTRONICO" => $COR_ELECTRONICO,
+        ]);
+    
+        // Procesar la respuesta según tus necesidades
+        // Procesar la respuesta según tus necesidades
+       // Procesar la respuesta según tus necesidades
+       if ($responseUpdateUsu->successful()) {
+       // El request se realizó correctamente
+       return redirect(route('Usuarios.index'))->with('success', 'Actualización exitosa');
+    } else {
+    // El request falló
+    return redirect(route('Usuarios.index'))->with('error', 'Error al actualizar');
+}
+
+
+    }
 
 }

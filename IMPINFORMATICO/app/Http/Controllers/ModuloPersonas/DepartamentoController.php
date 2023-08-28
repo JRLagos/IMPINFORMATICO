@@ -33,7 +33,7 @@ class DepartamentoController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function indexEliminados()
+    public function indexEliminados(Request $request)
     {
          // Obtenter el token generado y guardado en la sesión
          $sessionToken = $request->session()->get('generated_token');

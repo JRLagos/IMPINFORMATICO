@@ -187,83 +187,93 @@
                 </tr>
 
                 <div class="modal fade bd-example-modal-sm" id="Permiso-edit-{{$Permisos['COD_ROL']}}" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Editar Permiso</h5>
-                                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h4>Ingresar Nuevos Datos</h4>
-                                <form action="{{route('Upt-Permisos.update')}}" method="post" class="was-validated">
-                                    @csrf
-                                        <input type="hidden" class="form-control" name="COD_ROL"  value="{{$Roles['COD_ROL']}}">
-                                        
-                            <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Rol</label>
-                            <select class="form-control js-example-basic-single"  name="COD_ROL" id="COD_ROL">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Permiso</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4>Ingresar Nuevos Datos</h4>
+                <form action="{{route('Upt-Permisos.update')}}" method="post" class="was-validated">
+                    @csrf
+                    <input type="hidden" class="form-control" name="COD_ROL"  value="{{$Roles['COD_ROL']}}">
+                    
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Rol</label>
+                        <select class="form-control js-example-basic-single"  name="COD_ROL" id="COD_ROL">
                             <option value="{{$Permisos['COD_ROL']}}" style="display: none;">{{ $Permisos['NOM_ROL'] }}</option>
-                            <option disabled >¡No se puede seleccionar otro Rol!</option>
-                            </select>
-                            </div>
-                            <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Objeto</label>
-                            <select class="form-control js-example-basic-single"  name="COD_OBJETO" id="COD_OBJETO">
+                            <option disabled>¡No se puede seleccionar otro Rol!</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Objeto</label>
+                        <select class="form-control js-example-basic-single"  name="COD_OBJETO" id="COD_OBJETO">
                             <option value="{{$Permisos['COD_OBJETO']}}" style="display: none;">{{ $Permisos['NOM_OBJETO'] }}</option>
-                            <option disabled >¡No se puede seleccionar otro Objeto!</option>
-                            </select>
-                            </div>
-                            <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Insertar</label>
-                            <input type="number" class="form-control" min="1" max="1"
-                                name="PER_INSERTAR" value="{{ $Permisos['PER_INSERTAR'] }}"
-                                required>
-                                <span class="validity"></span>
-                                </div>
+                            <option disabled>¡No se puede seleccionar otro Objeto!</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Permiso Insertar</label>
+                        <input type="number" class="form-control" min="0" max="1"
+                            name="PER_INSERTAR" value="{{ $Permisos['PER_INSERTAR'] }}"
+                            required>
+                        <span class="validity"></span>
+                    </div>
 
-                            <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Eliminar</label>
-                            <input type="number" class="form-control" min="0" max="1"
-                                name="PER_ELIMINAR" value="{{ $Permisos['PER_ELIMINAR'] }}"
-                                required>
-                                <span class="validity"></span>
-                                </div>
-                                
-                            <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Actualizar</label>
-                            <input type="number" class="form-control" min="1" max="1"
-                                name="PER_ACTUALIZAR" value="{{ $Permisos['PER_ACTUALIZAR'] }}"
-                                required>
-                                <span class="validity"></span>
-                                </div>
-                           
-                                <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Consultar</label>
-                            <input type="text" class="form-control"required minlength="1" maxlength="1"
-                                name="PER_CONSULTAR" value="{{ $Permisos['PER_CONSULTAR'] }}"
-                                required>
-                                <span class="validity"></span>
-                                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
-                  <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                  </div>
-          </td>
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Permiso Eliminar</label>
+                        <input type="number" class="form-control" min="0" max="1"
+                            name="PER_ELIMINAR" value="{{ $Permisos['PER_ELIMINAR'] }}"
+                            required>
+                        <span class="validity"></span>
+                    </div>
+                    
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Permiso Actualizar</label>
+                        <input type="number" class="form-control" min="0" max="1"
+                            name="PER_ACTUALIZAR" value="{{ $Permisos['PER_ACTUALIZAR'] }}"
+                            required>
+                        <span class="validity"></span>
+                    </div>
+                
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Permiso Consultar</label>
+                        <input type="text" class="form-control"required min="0" max="1" minlength="1" maxlength="1"
+                            name="PER_CONSULTAR" value="{{ $Permisos['PER_CONSULTAR'] }}"
+                            required>
+                        <span class="validity"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                    <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
-  @stop
+      </form>
 
-  @section('footer')
+      
 
-  <div class="float-right d-none d-sm-block">
-    <b>Version</b> 3.1.0
-  </div>
-  <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
 
-  @stop
+  @endforeach
+
+  </tbody>
+</table>
+
+    @stop
+
+    @section('footer')
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    @stop
+
+  
 
 
 
