@@ -61,6 +61,11 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-user-check"></i></span>
   <div class="info-box-content ">
     <span class="info-box-text"><h5><b>Usuarios</b></h5   ></span>
+    @foreach($ResulTotalUsuario as $Usuario)
+    <tr>
+      <h5><b>Total:</b> {{ $Usuario['TOTAL_USUARIOS'] }}</h5>
+    </tr>
+    @endforeach
   </div>
 </div>
 
@@ -68,6 +73,11 @@
   <span class="info-box-icon bg-warning"><i class="fa fa-user-check"></i></span>
   <div class="info-box-content ">
     <span class="info-box-text"><h5><b>Empleados</b></h5   ></span>
+    @foreach($ResulTotalEmpleado as $Empleados)
+    <tr>
+      <h5><b>Total:</b> {{ $Empleados['TOTAL_EMPLEADOS'] }}</h5>
+    </tr>
+    @endforeach
   </div>
 </div>
 
@@ -76,6 +86,11 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-store-alt"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Sucursales</b></h5   ></span>
+    @foreach($ResulTotalSucursal as $Sucursal)
+    <tr>
+      <h5><b>Total:</b> {{ $Sucursal['TOTAL_SUCURSALES'] }}</h5>
+    </tr>
+    @endforeach
   </div>
 </div>
 
@@ -88,6 +103,11 @@
   <span class="info-box-icon bg-warning"><i class="fa fa-clipboard-list"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Empleado por Contratos</b></h5   ></span>
+    @foreach($ResulContrato as $Contrato)
+    <tr>
+      <h5><b>{{ $Contrato['TIP_CONTRATO'] }}:</b> {{ $Contrato['CANTIDAD_GENERO_EMPLEADOS'] }}</h5>
+    </tr>
+    @endforeach
   </div>
 </div>
 
@@ -95,6 +115,11 @@
   <span class="info-box-icon bg-cyan"><i class="fa fa-code-branch"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Empleado por Departamento</b></h5   ></span>
+    @foreach($ResulUsuario as $Usuario_Departamento)
+    <tr>
+      <h5><b>{{ $Usuario_Departamento['NOM_DEPTO_EMPRESA'] }}:</b> {{ $Usuario_Departamento['TOTAL_EMPLEADOS_DEPTOE'] }}</h5>
+    </tr>
+    @endforeach
   </div>
 </div>
 
@@ -103,14 +128,25 @@
   <span class="info-box-icon bg-warning"><i class="fa fa-user-friends"></i></span>
   <div class="info-box-content ">
     <span class="info-box-text"><h5><b>Empleado por Genero</b></h5   ></span>
+    @foreach($ResulGenero as $Genero)
+    <tr>
+      <h5><b>{{ $Genero['SEX_PERSONA'] }}:</b> {{ $Genero['CANTIDAD_GENERO_EMPLEADOS'] }}</h5>
+    </tr>
+    @endforeach
   </div>
 </div>
 </div>
+<br>
 <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
 <div class="info-box">
   <span class="info-box-icon bg-cyan"><i class="fa fa-store-alt"></i></span>
   <div class="info-box-content">
     <span class="info-box-text"><h5><b>Empleado por Sucursal</b></h5   ></span>
+    @foreach($ResulSucursal as $Sucursal)
+    <tr>
+      <h5><b>{{ $Sucursal['NOM_SUCURSAL'] }}:</b> {{ $Sucursal['TOTAL_EMPLEADOS_SUCURSAL'] }}</h5>
+    </tr>
+    @endforeach   
   </div>
 </div>
 </div>

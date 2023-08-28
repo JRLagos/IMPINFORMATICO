@@ -83,6 +83,7 @@ class AuthController extends Controller
         $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $responseUsuarios = Http::get($urlUsuarios);
 
+        
         if ($responseUsuarios->status() === 200) {
             $jsonContentUsuarios = $responseUsuarios->json();
             $credencialesCorrectas = false;
@@ -176,7 +177,7 @@ class AuthController extends Controller
                 $request->session()->put('objetos', $objetos);
             }
 
-                return view('admin.admin');  // O la página que desees permitir acceso
+            return redirect()->route('Esta.edit');  // O la página que desees permitir acceso
         }
     }
 }
