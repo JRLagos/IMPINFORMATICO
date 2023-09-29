@@ -37,14 +37,12 @@ class AuthController extends Controller
     //
     public function ShowCorreoContrasena(){return view('modseguridad.correo');}
 
-
     public function SendLogin(Request $request){
     // Obtener el valor actual del contador de intentos fallidos de la sesión
     $intentosFallidos = $request->session()->get('intentos_fallidos', 0);
 
     $usuario = $request->input('usuario');
     $contrasena = $request->input('contrasena');
-
 
     $urlToken = 'http://localhost:3000/auths/auth'; // Cambiar la URL a la ruta de generación de token
     $urlParametros = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
@@ -55,8 +53,6 @@ class AuthController extends Controller
         'usuario' => $usuario,
         'contraseña' => $contrasena
     ]);
-
-    
 
     if ($responseToken->status() === 200) {
         $token = $responseToken->json()['token'];
@@ -77,7 +73,6 @@ class AuthController extends Controller
             }
         }
         
-
         
         // Realizar la validación de inicio de sesión
         $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
@@ -111,78 +106,77 @@ class AuthController extends Controller
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
             foreach ($jsonContentUsuarios as $user) {
 
-              
                 // Verificar si el usuario tiene una contraseña temporal activa
                 $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
                 $response_CT_usuario = Http::get($url_CT_usuario);
 
                 if ($response_CT_usuario->status() === 200) {
-                $jsonContentCT_usuario = $response_CT_usuario->json();
-                foreach ($jsonContentCT_usuario as $contrasenaTemporal) {
-                if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
-                 strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
+                    $jsonContentCT_usuario = $response_CT_usuario->json();
+                
+                    foreach ($jsonContentCT_usuario as $contrasenaTemporal) {
+                        if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
+                            strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
+                
+                            // El usuario tiene una contraseña temporal activa, redirigir a la página
+                            $request->session()->forget('intentos_fallidos');
+                            $credencialesCorrectas = true;
+                            $request->session()->put('usuario', $usuario);
+                            $request->session()->put('credenciales', $user);
+                
+                            // Obtener el nombre del rol del usuario
+                            $urlRoles = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES';
+                            $responseRoles = Http::get($urlRoles);
+                
+                            if ($responseRoles->status() === 200) {
+                                $roles = $responseRoles->json();
+                                $nombreRol = null;
+                
+                                foreach ($roles as $rol) {
+                                    if ($rol['COD_ROL'] === $user['COD_ROL']) {
+                                        $nombreRol = $rol['NOM_ROL'];
+                                        break;
+                                    }
+                                }
+                
+                                if ($nombreRol) {
+                                    $request->session()->put('nombreRol', $nombreRol);
+                                }
+                            }
+                
+                            // Obtener los permisos del usuario con el mismo código de rol
+                            $urlPermisos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PERMISOS';
+                            $responsePermisos = Http::get($urlPermisos);
+                
+                            if ($responsePermisos->status() === 200) {
+                                $permisos = $responsePermisos->json();
+                
+                                // Filtrar los permisos por el mismo código de rol del usuario
+                                $codigoRolUsuario = $user['COD_ROL'];
+                                $permisosFiltrados = array_filter($permisos, function ($permiso) use ($codigoRolUsuario) {
+                                    return $permiso['COD_ROL'] === $codigoRolUsuario;
+                                });
+                
+                                // Almacenar los permisos filtrados en la sesión
+                                $request->session()->put('permisos', $permisosFiltrados);
+                            }
+                
+                            // Obtener los registros de seguridad_objetos
+                            $urlObjetos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_OBJETOS';
+                            $responseObjetos = Http::get($urlObjetos);
+                
+                            if ($responseObjetos->status() === 200) {
+                                $objetos = $responseObjetos->json();
+                
+                                // Almacenar los objetos en la sesión
+                                $request->session()->put('objetos', $objetos);
+                            }
+                
+                            return redirect()->route('Esta.edit'); // O la página que desees permitir acceso
 
-
-                // El usuario tiene una contraseña temporal activa, redirigir a la página
-                $request->session()->forget('intentos_fallidos');
-                $credencialesCorrectas = true;
-                $request->session()->put('usuario', $usuario);
-                $request->session()->put('credenciales', $user);
-
-
-                // Obtener el nombre del rol del usuario
-                $urlRoles = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES';
-                $responseRoles = Http::get($urlRoles);
-
-                if ($responseRoles->status() === 200) {
-                $roles = $responseRoles->json();
-                $nombreRol = null;
-
-                foreach ($roles as $rol) {
-                if ($rol['COD_ROL'] === $user['COD_ROL']) {
-                $nombreRol = $rol['NOM_ROL'];
-                break;
+                        }
+                    }
                 }
-               }
-
-                if ($nombreRol) {
-                $request->session()->put('nombreRol', $nombreRol);
-                }
-            }
-                // Obtener los permisos del usuario con el mismo código de rol
-                $urlPermisos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PERMISOS';
-                $responsePermisos = Http::get($urlPermisos);
-
-                if ($responsePermisos->status() === 200) {
-                $permisos = $responsePermisos->json();
-
-                // Filtrar los permisos por el mismo código de rol del usuario
-                $codigoRolUsuario = $user['COD_ROL'];
-                $permisosFiltrados = array_filter($permisos, function ($permiso) use ($codigoRolUsuario) {
-                         return $permiso['COD_ROL'] === $codigoRolUsuario;
-                });
-
-                // Almacenar los permisos filtrados en la sesión
-                $request->session()->put('permisos', $permisosFiltrados);
-                }
-
-                // Obtener los registros de seguridad_objetos
-                $urlObjetos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_OBJETOS';
-                $responseObjetos = Http::get($urlObjetos);
-
-                if ($responseObjetos->status() === 200) {
-                $objetos = $responseObjetos->json();
-
-                // Almacenar los objetos en la sesión
-                $request->session()->put('objetos', $objetos);
-            }
-
-            return redirect()->route('Esta.edit');  // O la página que desees permitir acceso
-        }
-    }
-}
-
- 
+                
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) === false) {
                     // Usuario encontrado, aumentar contador de intentos fallidos
                     $intentosFallidos = $request->session()->get('intentos_fallidos', 0);
@@ -192,7 +186,6 @@ class AuthController extends Controller
                     break;
                     
                 }
-
 
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) && $user['IND_USUARIO'] === 'ENABLED') {
                     // Credenciales válidas, restablecer el contador de intentos fallidos
@@ -205,20 +198,20 @@ class AuthController extends Controller
                 $responseRoles = Http::get($urlRoles);
 
                 if ($responseRoles->status() === 200) {
-                $roles = $responseRoles->json();
-                $nombreRol = null;
-
-                foreach ($roles as $rol) {
-                if ($rol['COD_ROL'] === $user['COD_ROL']) {
-                $nombreRol = $rol['NOM_ROL'];
-                break;
+                    $roles = $responseRoles->json();
+                    $nombreRol = null;
+                
+                    foreach ($roles as $rol) {
+                        if ($rol['COD_ROL'] === $user['COD_ROL']) {
+                            $nombreRol = $rol['NOM_ROL'];
+                            break;
+                        }
+                    }
+                
+                    if ($nombreRol) {
+                        $request->session()->put('nombreRol', $nombreRol);
+                    }
                 }
-               }
-
-                if ($nombreRol) {
-                $request->session()->put('nombreRol', $nombreRol);
-                }
-            }
                 // Obtener los permisos del usuario con el mismo código de rol
                 $urlPermisos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PERMISOS';
                 $responsePermisos = Http::get($urlPermisos);
