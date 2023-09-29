@@ -239,7 +239,7 @@ class AuthController extends Controller
                 // Almacenar los objetos en la sesión
                 $request->session()->put('objetos', $objetos);
             }
-                    return view('admin.admin');
+                return redirect()->route('Esta.edit');  // O la página que desees permitir acceso
                 }
 
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) && $user['IND_USUARIO'] === 'NUEVO') {
