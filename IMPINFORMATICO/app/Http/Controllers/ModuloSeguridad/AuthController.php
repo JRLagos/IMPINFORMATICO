@@ -106,6 +106,7 @@ class AuthController extends Controller
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
             foreach ($jsonContentUsuarios as $user) {
 
+                if($jsonContentUsuarios === $usuario){dd("el usuario es el correcto");}
                 // Verificar si el usuario tiene una contraseña temporal activa
                 $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
                 $response_CT_usuario = Http::get($url_CT_usuario);
@@ -115,7 +116,7 @@ class AuthController extends Controller
                 
                     foreach ($jsonContentCT_usuario as $contrasenaTemporal) {
                         if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
-                            strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
+                            strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time() && $user['NOM_USUARIO'] === $usuario) {
                 
                             // El usuario tiene una contraseña temporal activa, redirigir a la página
                             $request->session()->forget('intentos_fallidos');
@@ -170,13 +171,15 @@ class AuthController extends Controller
                                 // Almacenar los objetos en la sesión
                                 $request->session()->put('objetos', $objetos);
                             }
-                
                             return redirect()->route('Esta.edit'); // O la página que desees permitir acceso
 
                         }
                     }
                 }
                 
+                if($user['NOM_USUARIO'] === $usuario){
+        
+                    
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) === false) {
                     // Usuario encontrado, aumentar contador de intentos fallidos
                     $intentosFallidos = $request->session()->get('intentos_fallidos', 0);
@@ -184,9 +187,8 @@ class AuthController extends Controller
                     $request->session()->put('intentos_fallidos', $intentosFallidos);
                     Session::flash('error', 'Credenciales inválidas. Inténtalo de nuevo.');
                     break;
-                    
                 }
-
+                }
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) && $user['IND_USUARIO'] === 'ENABLED') {
                     // Credenciales válidas, restablecer el contador de intentos fallidos
                     $request->session()->forget('intentos_fallidos');
@@ -874,9 +876,24 @@ class AuthController extends Controller
 
                         if ($responseUp->status() === 200) {
                             
-                            Mail::raw("Tu contraseña temporal es: $contraseniaTemporal", function ($message) use ($correoDestinatario) {
+                            Mail::raw("Hola, Hemos recibido una solicitud de restablecimiento de contraseña en tu cuenta. Sin embargo, no hemos podido identificar tu identidad correctamente.
+                            No te preocupes, aquí tienes tu contraseña temporal: $contraseniaTemporal
+
+                            Por favor, sigue estos pasos para restablecer tu contraseña:
+                            1. Accede a tu cuenta.
+                            2. Ve a la sección de 'Restablecer Contraseña'.
+                            3. Ingresa la contraseña temporal proporcionada.
+                            4. Establece una nueva contraseña segura.
+                            5. Guarda los cambios.
+
+                            Si no solicitaste un restablecimiento de contraseña, te recomendamos que cambies tu contraseña de inmediato.
+
+                            Gracias,
+                            [Tu Nombre o Nombre de la Aplicación]", function ($message) use ($correoDestinatario) {
                                 $message->to($correoDestinatario)
-                                    ->subject('Contraseña Temporal');});
+                                 ->subject('Restablecimiento de Contraseña');
+                            });
+
 
 
                             Session::flash('success', 'El correo se ha enviado exitosamente.');

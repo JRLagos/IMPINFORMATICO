@@ -58,7 +58,7 @@
         @endif
         </div>
         <div class="form-group">
-            <label for="usuario">Nombre de Usuario:</label>
+            <label for="usuario">Usuario:</label>
             <input type="text" name="usuario" id="usuario" class="form-control is-invalid" required placeholder="Tu Nombre de Usuario" maxlength="20">
             <div class="invalid-feedback">
                 Este campo es requerido.

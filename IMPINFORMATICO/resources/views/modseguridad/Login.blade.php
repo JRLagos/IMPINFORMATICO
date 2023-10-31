@@ -36,12 +36,12 @@
   @endif
 
   <div class="login-logo">
-    <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO® </a>
+    <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO </a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Inicia sesión para comenzar tu sesión</p>
+      <p class="login-box-msg">Inicio de Sesión</p>
       <div id="errorMessage" class="alert alert-danger" style="display: none;">
         Por favor, completa todos los campos.
       </div>
@@ -68,6 +68,9 @@
             </button>
           </div>
         </div>
+        <p class="mb-1">
+        <a href="{{route('ModuloSeguridad.reMenu')}}">¿Olvidaste tu contraseña?</a>
+      </p>
         <div class="row">
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
@@ -75,11 +78,8 @@
           <!-- /.col -->
         </div>
       </form>
-      <p class="mb-1">
-        <a href="{{route('ModuloSeguridad.reMenu')}}">¿Olvidaste tu contraseña?</a>
-      </p>
       <p class="mb-0">
-        <a href="{{route('ModuloSeguridad.Registro')}}" class="text-center">Registrarme como nuevo usuario</a>
+        <a href="{{route('ModuloSeguridad.Registro')}}" class="text-center">Nuevo usuario</a>
       </p>
     </div>
   </div>

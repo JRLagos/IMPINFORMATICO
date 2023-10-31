@@ -81,7 +81,7 @@
     <form action="{{ route('ModuloSeguridad.preguntasSeg') }}" method="get" class="needs-validation" novalidate>
       @csrf
       <label for="pregunta1">Pregunta</label>
-      <select id="pregunta1" name="pregunta" class="form-control" required>
+      <select id="pregunta1" name="pregunta" class="custom-select" required>
         <option value="1">Pregunta 1: ¿CUÁL ES EL NOMBRE DE TU MASCOTA?</option>
         <option value="2">Pregunta 2: ¿CUÁL ES TU COLOR FAVORITO?</option>
         <option value="3">Pregunta 3: ¿CUÁL ES EL NOMBRE DE TU MEJOR AMIGO DE LA INFANCIA?</option>
@@ -89,10 +89,7 @@
       </select>
       
       <label for="respuesta2">Respuesta</label>
-      <input type="text" id="respuesta2" name="respuesta" class="form-control" maxlength="255" required>
-      <div class="invalid-feedback">
-        Por favor, ingresa una respuesta válida.
-      </div>
+      <input type="text" id="respuesta2" name="respuesta" class="form-control" maxlength="16" required>
       
       <label for="nueva_contrasenia">Nueva Contraseña</label>
       <div class="input-group">
@@ -104,12 +101,9 @@
           </button>
         </div>
       </div>
-      <div class="invalid-feedback">
-        Por favor, ingresa una contraseña válida (5-12 caracteres).
-      </div>
-      <div class="valid-feedback">
-        Contraseña válida.
-      </div>
+
+      <!-- Mensaje de formato de contraseña -->
+      <p class="password-instructions"><b>La contraseña debe contener al menos 5 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número.</b></p>
 
       <!-- Agrega margen inferior al botón "Guardar y Continuar" -->
       <button type="submit" class="btn btn-primary mt-3">Guardar y Continuar</button>
@@ -119,46 +113,37 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  
   <script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const respuestaInput = document.getElementById("respuesta2");
-    const nuevaContraseniaInput = document.getElementById("nueva_contrasenia");
-    const togglePasswordBtn = document.getElementById("togglePassword");
-
-    respuestaInput.addEventListener("input", function() {
-      // Permite letras, números y solo un espacio entre palabras
-      const sanitizedValue = this.value.replace(/[^a-zA-Z0-9 ]+/g, "");
-      const singleSpaceValue = sanitizedValue.replace(/ +/g, " ");
-      this.value = singleSpaceValue;
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector("form");
+      const respuestaInput = document.getElementById("respuesta2");
+      const nuevaContraseniaInput = document.getElementById("nueva_contrasenia");
+      const togglePasswordBtn = document.getElementById("togglePassword");
+  
+      respuestaInput.addEventListener("input", function() {
+        const value = this.value.trim();
+        this.value = value.toUpperCase(); // Convertir la respuesta a mayúsculas
+      });
+  
+      nuevaContraseniaInput.addEventListener("input", function() {
+        const value = this.value.trim();
+        this.value = value;
+      });
+  
+      togglePasswordBtn.addEventListener('click', function () {
+        const type = nuevaContraseniaInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        nuevaContraseniaInput.setAttribute('type', type);
+        togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash" aria-hidden="true"></i> Ver' : '<i class="fa fa-eye" aria-hidden="true"></i> Ocultar';
+      });
+  
+      form.addEventListener("submit", function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add("was-validated");
+      });
     });
-
-    nuevaContraseniaInput.addEventListener("input", function() {
-      // Permite letras, números y caracteres especiales !@#$
-      const sanitizedValue = this.value.replace(/[^!@#\$a-zA-Z0-9]+/g, "");
-      this.value = sanitizedValue;
-    });
-
-    togglePasswordBtn.addEventListener('click', function () {
-      const type = nuevaContraseniaInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      nuevaContraseniaInput.setAttribute('type', type);
-
-      // Cambiar el texto del botón
-      togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash" aria-hidden="true"></i> Ver' : '<i class="fa fa-eye" aria-hidden="true"></i> Ocultar';
-    });
-  });
-</script>
+  </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
