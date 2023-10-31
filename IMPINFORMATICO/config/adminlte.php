@@ -441,6 +441,11 @@ return [
                     'icon' => 'fa fa-download gns text-info',
                     'url'  => 'backup',
                 ],
+                [
+                    'text' => 'Bitacora',
+                    'icon' => 'fas fa-clipboard-list gns text-info',
+                    'url'  => 'bitacora',
+                ],
             ],
         ],
         [
