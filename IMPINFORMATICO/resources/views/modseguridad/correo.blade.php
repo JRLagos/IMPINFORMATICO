@@ -3,6 +3,11 @@
 <head>
     <title>Enviar Contraseña por Correo</title>
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/correo.css') }}">
+    <style>
+        .input-uppercase {
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -29,7 +34,7 @@
         <form action="{{ route('ModuloSeguridad.emailEnviarCon') }}" method="get">
             @csrf
             <label for="usuario" class="label-left">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" required>
+            <input type="text" id="usuario" name="usuario" required class="input-uppercase" maxlength="20" minlength="3">
             <button type="submit" class="btn-enviar">Enviar Contraseña por Correo</button>
         </form>
     </div>

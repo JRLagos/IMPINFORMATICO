@@ -413,35 +413,6 @@ return [
             ],
         ],
         [
-            'text' => 'REPORTES',
-            'icon' => 'fas fa-fw fa-clipboard-list gns text-yellow',
-            'submenu' => [
-                [
-                    'text' => 'Reporte de Horas Extra y Vacaciones',
-                    'icon' => 'fas fa-fw fa-clipboard-list gns text-info',
-                    'url'  => 'Reportes',
-                ], 
-                [
-                    'text' => 'Reporte General de Empleados',
-                    'icon' => 'fas fa-fw fa-list gns text-info',
-                    'url'  => 'TiposReportes',
-                ], 
-                
-                [
-                    'text' => 'Reporte de Empleados',
-                    'icon' => 'fa fa-fw fa-th-list gns text-info',
-                    'url'  => 'ReportesGuardados',
-                ], 
-                [
-                    'text' => 'Reporte de Planilla',
-                    'icon' => 'fa fa-fw fa-th-list gns text-info',
-                    'url'  => 'ReportesGenerados',
-                ], 
-
-                
-            ],
-        ],
-        [
             'text' => 'SEGURIDAD',
             'icon' => 'fas fa-fw fa-key gns text-yellow',
             'submenu' => [
@@ -461,10 +432,20 @@ return [
                     'url'  => 'Objetos',
                 ], 
                 [
-                    'text' => 'Parametros',
+                    'text' => 'Parámetros',
                     'icon' => 'fab fa-fw fa-pied-piper gns text-info',
                     'url'  => 'Parametros',
                 ],  
+                [
+                    'text' => 'Respaldo',
+                    'icon' => 'fa fa-download gns text-info',
+                    'url'  => 'backup',
+                ],
+                [
+                    'text' => 'Bitacora',
+                    'icon' => 'fas fa-clipboard-list gns text-info',
+                    'url'  => 'bitacora',
+                ],
             ],
         ],
         [

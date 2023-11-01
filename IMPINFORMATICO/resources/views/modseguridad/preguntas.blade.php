@@ -106,7 +106,7 @@
             <div class="mb-3">
                 <label for="respuesta" class="font-weight-bold">Respuesta:</label>
                 <div class="input-group">
-                    <input type="text" name="respuesta" id="respuesta" class="form-control" required placeholder="Ingrese su respuesta">
+                    <input type="text" name="respuesta" id="respuesta" class="form-control" required placeholder="Ingrese su respuesta"  maxlength="16">
                     <div class="invalid-feedback">
                         Por favor, ingrese su respuesta.
                     </div>
