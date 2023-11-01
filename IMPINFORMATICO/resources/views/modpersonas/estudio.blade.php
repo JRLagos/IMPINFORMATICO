@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Estudio')
+@section('title', 'Estudios')
 
 @section('content_header')
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
@@ -58,11 +58,9 @@
         }
     @endphp
 
-
-
-
-
-    <h1>Registro de Estudios</h1>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Estudios</b></h1>
+    </div>
 
 @stop
 
@@ -84,12 +82,12 @@
     <div class="table-responsive p-0">
         <br>
         <table id="Estudio" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Nombre Persona</th>
-                    <th style="text-align: center;">Nivel De Estudio</th>
-                    <th style="text-align: center;">Centro De Estudio</th>
+                    <th style="text-align: center;">Empleado</th>
+                    <th style="text-align: center;">Nivel Estudio</th>
+                    <th style="text-align: center;">Centro Estudio</th>
                     <th>Accion</th>
                 </tr>
             </thead>
@@ -124,10 +122,6 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upd-Estudio.update') }}" method="post" class="was-validated">
                                         @csrf
 
@@ -135,7 +129,7 @@
                                             value="{{ $Estudio['COD_ESTUDIO'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Estudios</label>
+                                            <label for="dni" class="form-label">Empleado</label>
                                             <select class="form-control js-example-basic-single" name="COD_PERSONA"
                                                 id="COD_PERSONA">
                                                 <option value="{{ $Estudio['COD_PERSONA'] }}" style="display: none;">
@@ -176,7 +170,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -186,14 +180,15 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     @stop
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 

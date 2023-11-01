@@ -57,11 +57,7 @@
         }
     @endphp
 
-
-
-
-
-    <h1>Direcciones</h1>
+    <h1><b>Direcciones</b></h1>
 @stop
 
 
@@ -87,7 +83,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="direccion" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre Completo</th>
@@ -126,10 +122,6 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upd-Direcciones.update') }}" method="post"
                                         class="was-validated">
                                         @csrf
@@ -162,15 +154,15 @@
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_DIRECCION" value="{{ $Direccion['DES_DIRECCION'] }}" required
-                                                maxlength="255">
+                                            <input type="text" class="form-control alphanumeric-input" pattern=".{10,}"
+                                                name="DES_DIRECCION" value="{{ $Direccion['DES_DIRECCION'] }}" placeholder="Escriba aquí."required
+                                                minlength="10" maxlength="255">
                                         </div>
 
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -180,14 +172,15 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     @stop
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 

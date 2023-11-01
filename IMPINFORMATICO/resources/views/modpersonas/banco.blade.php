@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Banco')
+@section('title', 'Bancos')
 
 @section('content_header')
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
@@ -63,7 +63,7 @@
 
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Registro de Bancos</b></h1>
+        <h1><b>Bancos</b></h1>
     </div>
 
 @stop
@@ -92,13 +92,13 @@
     <div class="table-responsive p-0">
         <br>
         <table id="Banco" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Nombre Empleado</th>
-                    <th style="text-align: center;">Nombre Banco</th>
+                    <th style="text-align: center;">Empleado</th>
+                    <th style="text-align: center;">Banco</th>
                     <th style="text-align: center;">Descripción</th>
-                    <th style="text-align: center;">Número de Cuenta</th>
+                    <th style="text-align: center;">Número Cuenta</th>
                     <th>Accion</th>
                 </tr>
             </thead>
@@ -133,10 +133,6 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upd-Banco.update') }}" method="post" class="was-validated">
                                         @csrf
 
@@ -144,7 +140,7 @@
                                             value="{{ $Banco['COD_BANCO'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Empleado</label>
+                                            <label for="dni" class="form-label">Empleado</label>
                                             <select class="form-control js-example-basic-single" name="COD_EMPLEADO"
                                                 id="COD_EMPLEADO">
                                                 <option value="{{ $Banco['COD_EMPLEADO'] }}" style="display: none;">
@@ -154,7 +150,7 @@
                                         </div>
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Banco</label>
+                                            <label for="dni" class="form-label">Banco</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
                                                 name="NOM_BANCO" value="{{ $Banco['NOM_BANCO'] }}" required
                                                 maxlength="255">
@@ -168,7 +164,7 @@
                                         </div>
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Numero de Cuenta</label>
+                                            <label for="dni" class="form-label">Numero Cuenta</label>
                                             <input type="number" class="form-control" name="NUM_CTA_BANCO"
                                                 value="{{ $Banco['NUM_CTA_BANCO'] }}" required
                                                 oninput="validateCUENTA(this)">
@@ -180,7 +176,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -190,14 +186,15 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     @stop
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 

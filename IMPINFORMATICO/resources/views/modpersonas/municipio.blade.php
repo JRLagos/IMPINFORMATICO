@@ -65,8 +65,8 @@
             $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
 
-        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button"><b>Agregar
-                Municipio</b></button>
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button">
+            <b>Agregar</b></button>
     </div>
 @stop
 
@@ -89,12 +89,11 @@
 
 
                 <div class="modal-header">
-                    <h3>Municipio</h3>
+                <h3><b>Nuevo Municipio</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
 
                 </div>
                 <div class="modal-body">
-                    <h4>Ingresar Municipio</h4>
 
                     <form action="{{ route('Post-Municipio.store') }}" method="post" class="was-validated">
                         @csrf
@@ -115,14 +114,14 @@
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Nombre Municipio</label>
                             <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}"
-                                name="NOM_MUNICIPIO" required minlength="4" maxlength="20" />
+                                name="NOM_MUNICIPIO"  placeholder="Escriba aquí." required minlength="4" maxlength="20" />
                             <span class="validity"></span>
                         </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                    <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                 </div>
                 </form>
 
@@ -143,7 +142,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="municipio" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Municipio</th>
@@ -174,31 +173,18 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Municipio</b></h4>
+                                <h3 class="modal-title"><b>Editar Municipio</b></h3>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
 
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upd-Municipio.update') }}" method="post"
                                         class="was-validated">
                                         @csrf
 
                                         <input type="hidden" class="form-control" name="COD_MUNICIPIO"
                                             value="{{ $Municipio['COD_MUNICIPIO'] }}">
-
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Municipio</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_MUNICIPIO" value="{{ $Municipio['NOM_MUNICIPIO'] }}" required
-                                                maxlength="30">
-                                        </div>
-
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Departamento</label>
@@ -212,10 +198,18 @@
                                                 @endforeach
                                             </select>
                                         </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Nombre Municipio</label>
+                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
+                                                name="NOM_MUNICIPIO" value="{{ $Municipio['NOM_MUNICIPIO'] }}" placeholder="Escriba aquí." required
+                                                maxlength="30">
+                                        </div>
+
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -229,10 +223,10 @@
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 
