@@ -131,6 +131,15 @@
                 }, false);
             });
         })();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const contraseniaInput = document.getElementById("contrasenia");
+
+            contraseniaInput.addEventListener("input", function() {
+                const sanitizedValue = this.value.replace(/[^!@#$]/g, "");
+                this.value = sanitizedValue;
+            });
+        });
     </script>
 </body>
 </html>

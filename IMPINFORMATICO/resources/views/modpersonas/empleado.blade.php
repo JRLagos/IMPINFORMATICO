@@ -189,10 +189,10 @@
                             </div>
 
                             <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Correo Electronico</label>
-                                <input type="email" id="email"
-                                    pattern=".+@gmail\.com]-.+@hotmail\.com-.+@outlook\.com" size="30"
-                                    class="form-control alphanumeric-input" name="CORREO_ELECTRONICO" required>
+                            <label for="dni" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="email"
+                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" size="30"
+                                class="form-control" name="CORREO_ELECTRONICO" required>
                             </div>
 
                             <div class="mb-3 mt-3">

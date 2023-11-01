@@ -38,11 +38,13 @@
             return isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] && isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'));
         });
 
-        $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
-        $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
-        $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
-        $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
-    @endphp
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+
+  
+@endphp
 
 
     @php

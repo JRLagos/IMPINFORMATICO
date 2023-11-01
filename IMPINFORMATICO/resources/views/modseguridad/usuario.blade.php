@@ -62,6 +62,17 @@
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Usuarios</b></h1>
     </div>
+    @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 @stop
 
 
@@ -74,53 +85,162 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
+
 @section('content')
 
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
         <table id="usuario" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
-                <tr>
-                    <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Nombre Usuario</th>
-                    <th style="text-align: center;">Rol</th>
-                    <th style="text-align: center;">Ultima Conexion</th>
-                    <th style="text-align: center;">Primer Ingreso</th>
-                    <th style="text-align: center;">Fecha Vencimiento</th>
-                    <th style="text-align: center;">Preguntas</th>
-                    <th style="text-align: center;">E-mail</th>
-                    <th style="text-align: center;">Accion</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($ResulUsuario as $Usuario)
-                    <tr>
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
-                        <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
-                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
-                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
-                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
-                        <td style="text-align: center;">{{ $Usuario['PRE_CONTESTADAS'] }}</td>
-                        <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
-                        <td style="text-align: center;">
-                            @php
-                                $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                            @endphp
-                            <button value="Editar" title="Editar"
-                                class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif"
-                                type="button" data-toggle="modal"
-                                data-target="#UptHoraExtra-{{ $Usuario['COD_USUARIO'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <thead class="bg-dark">
+        <tr>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">Nombre Usuario</th>
+            <th style="text-align: center;">Rol</th>
+            <th style="text-align: center;">Ultima Conexion</th>
+            <th style="text-align: center;">Primer Ingreso</th>
+            <th style="text-align: center;">Fecha Vencimiento</th>
+            <th style="text-align: center;">Estado del Usuario</th>
+            <th style="text-align: center;">E-mail</th>
+            <th style="text-align: center;">Contraseña del Usuario</th>
+            <th style="text-align: center;">Accion</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($ResulUsuario as $Usuario)
+            <tr>
+                <td style="text-align: center;">{{ $loop->iteration }}</td>
+                <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
+                <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
+                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
+                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
+                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
+                <td style="text-align: center;">{{ $Usuario['IND_USUARIO'] }}</td>
+                <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
+                <td style="text-align: center;">{{ $Usuario['CONTRASENA'] }}</td>
+                <td style="text-align: center;">
+                    @php
+                    $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                    @endphp
+                    <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
+        data-toggle="modal" data-target="#EditarUsuarioModal-{{ $Usuario['NOM_USUARIO'] }}">
+        <i class='fas fa-edit' style='font-size:20px;'></i>
+        
+    </button>
+                </td>
+            </tr>
+            <!-- Modal for editing goes here -->
+            <!-- Modal for editing goes here -->
+<div class="modal fade bd-example-modal-sm" id="EditarUsuarioModal-{{ $Usuario['NOM_USUARIO'] }}" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><b>Editar Usuario</b></h4>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4>
+                    <p>Ingresar Nuevos Datos</p>
+                </h4>
+                <hr>
+    <form action="{{ route('ModuloSeguridad.UpdUsu') }}" method="get" class="was-validated">
+    @csrf
+
+    <!-- Campos de edición -->
+    <input type="hidden" class="form-control" name="COD_USUARIO" value="{{ $Usuario['COD_USUARIO'] }}">
+
+    <div class="mb-3 mt-3">
+        <label for="nombre" class="form-label">Nombre Usuario</label>
+        <input type="text" class="form-control" name="nombre" value="{{ $Usuario['NOM_USUARIO'] }}" required>
     </div>
-@stop
+
+    <div class="mb-3 mt-3">
+        <label for="rol" class="form-label">Rol</label>
+        <input type="text" class="form-control" name="rol" value="{{ $Usuario['NOM_ROL'] }}" required>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="ultimaConexion" class="form-label">Última Conexión</label>
+        <input type="text" class="form-control" name="ultimaConexion" value="{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}" required>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="primerIngreso" class="form-label">Primer Ingreso</label>
+        <input type="text" class="form-control" name="primerIngreso" value="{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}" required>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="vencimiento" class="form-label">Fecha Vencimiento</label>
+        <input type="text" class="form-control" name="vencimiento" value="{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}" required>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="estado" class="form-label">Estado del Usuario</label>
+        <input type="text" class="form-control" name="estado" value="{{ $Usuario['IND_USUARIO'] }}" required>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="email" class="form-label">E-mail</label>
+        <input type="email" class="form-control" name="email" value="{{ $Usuario['EMAIL'] }}" required>
+    </div>
+
+    <div class="mb-3 mt-3">
+        <label for="contrasena" class="form-label">Contraseña del Usuario</label>
+        <input type="password" class="form-control" name="contrasena" minlength="5" value="{{ $Usuario['EMAIL'] }}" maxlength="12" required>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+        <button class="btn btn-primary" type="submit"><b>ACTUALIZAR</b></button>
+    </div>
+</form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+        @endforeach
+
+
+    </tbody>
+</table>
+
+</div>
+    @stop
+
+    @section('footer')
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    @stop
+
+    @section('js')
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+        <!-- botones -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+        <style>
+            .btn-group>.btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        </style>
+        <style>
+            div.dt-button-collection {
+                width: 600px;
+            }
 
 @section('footer')
     <div class="float-right d-none d-sm-block">

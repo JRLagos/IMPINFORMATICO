@@ -67,7 +67,6 @@
             data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button">Agregar
             Departamento</button>
     </div>
-
 @stop
 
 

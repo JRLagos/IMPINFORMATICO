@@ -6,15 +6,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Enlazar el CSS proporcionado en la etiqueta <link> -->
     <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/registro.css') }}">
+    <style>
+        .is-valid {
+            border-color: #28a745; /* Cambia el color del borde a verde */
+        }
+    </style>
 </head>
 <body>
+<!-- Mensaje de credenciales inválidas -->
 <div class="contenedor">
     <h1>Crear Cuenta</h1>
     <form id="registroForm" action="{{ route('ModuloSeguridad.enviar') }}" method="post">
         @csrf <!-- Token CSRF de Laravel para protección contra ataques Cross-Site Request Forgery -->
         <div class="form-group">
             <label for="nombre">Nombre:</label>
-            <input type="text" name="nombre" id="nombre" class="form-control is-invalid" placeholder="Tu Nombre" maxlength="20" required>
+            <input type="text" name="nombre" id="nombre" class="form-control is-invalid" placeholder="Tu Nombre" maxlength="20" required pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+">
             <div class="invalid-feedback">
                 Este campo es requerido.
             </div>
@@ -28,17 +34,28 @@
         </div>
         <div class="form-group">
             <label for="correo">Correo Electrónico:</label>
-            <input type="email" name="correo" id="correo" class="form-control is-invalid" required placeholder="Tu Correo Electrónico" maxlength="20">
+            <input type="email" name="correo" id="correo" class="form-control is-invalid" required placeholder="Tu Correo Electrónico" maxlength="30">
             <div class="invalid-feedback">
                 Este campo es requerido.
             </div>
         </div>
         <div class="form-group">
             <label for="contrasenia">Contraseña:</label>
-            <input type="password" name="contrasenia" id="contrasenia" class="form-control is-invalid" required placeholder="Tu Contraseña" maxlength="20">
-            <div class="invalid-feedback">
-                Este campo es requerido.
-            </div>
+        <div class="input-group">
+            <input type="password" name="contrasenia" id="contrasenia" class="form-control is-invalid" required placeholder="Tu Contraseña" minlength="5" maxlength="12">
+        <div class="input-group-append">
+            <button type="button" id="verContraseniaBtn" class="btn btn-outline-secondary">Ver</button>
+        </div>
+        </div>
+        @if(isset($contraseniaError))
+        <div class="invalid-feedback">
+            La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
+        </div>
+        @else
+        <div class="invalid-feedback">
+        Este campo es requerido.
+        </div>
+        @endif
         </div>
         <div class="form-group">
             <label for="usuario">Nombre de Usuario:</label>
@@ -56,41 +73,47 @@
         </div>
         <div class="form-group">
             <label for="rtn">RTN:</label>
-            <input type="text" name="rtn" id="rtn" class="form-control" placeholder="Tu RTN" maxlength="14">
+            <input type="text" name="rtn" id="rtn" class="form-control is-invalid" placeholder="Tu RTN" maxlength="14">
+            <div class="invalid-feedback">
+                Este campo es requerido.
+            </div>
         </div>
         <div class="form-group">
             <label for="tipo_telefono">Tipo de Teléfono:</label>
-            <select name="tipo_telefono" id="tipo_telefono" class="form-control">
+            <select name="tipo_telefono" id="tipo_telefono" class="form-control is-invalid">
                 <option value="FIJO">FIJO</option>
                 <option value="CELULAR">CELULAR</option>
             </select>
         </div>
         <div class="form-group">
             <label for="numero_telefono">Número de Teléfono:</label>
-            <input type="text" name="numero_telefono" id="numero_telefono" class="form-control" placeholder="Tu Número de Teléfono" maxlength="8">
+            <input type="text" name="numero_telefono" id="numero_telefono" class="form-control is-invalid" placeholder="Tu Número de Teléfono" maxlength="8" pattern="[0-9]+">
+            <div class="invalid-feedback">
+                Ingresa solo dígitos en este campo.
+            </div>
         </div>
         <div class="form-group">
             <label for="sexo">Sexo:</label>
-            <select name="sexo" id="sexo" class="form-control">
+            <select name="sexo" id="sexo" class="form-control is-invalid">
                 <option value="MASCULINO">MASCULINO</option>
                 <option value="FEMENINO">FEMENINO</option>
             </select>
         </div>
         <div class="form-group">
-           <label for="edad">Edad:</label>
-           <input type="number" name="edad" id="edad" class="form-control" placeholder="Tu Edad" min="0" max="99">
+            <label for="edad">Edad:</label>
+            <input type="number" name="edad" id="edad" class="form-control is-invalid" placeholder="Tu Edad" min="0" max="99">
         </div>
         <div class="form-group">
             <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
-            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" placeholder="Tu Fecha de Nacimiento">
+            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control is-invalid" placeholder="Tu Fecha de Nacimiento">
         </div>
         <div class="form-group">
             <label for="lugar_nacimiento">Lugar de Nacimiento:</label>
-            <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" class="form-control" placeholder="Tu Lugar de Nacimiento"  maxlength="20">
+            <input type="text" name="lugar_nacimiento" id="lugar_nacimiento" class="form-control is-invalid" placeholder="Tu Lugar de Nacimiento"  maxlength="20" max="{{ date('Y-m-d') }}">
         </div>
         <div class="form-group">
             <label for="estado_civil">Estado Civil:</label>
-            <select name="estado_civil" id="estado_civil" class="form-control">
+            <select name="estado_civil" id="estado_civil" class="form-control is-invalid">
                 <option value="SOLTERO">SOLTERO</option>
                 <option value="CASADO">CASADO</option>
                 <option value="UNION LIBRE">UNION LIBRE</option>
@@ -100,14 +123,14 @@
         </div>
         <div class="form-group">
             <label for="peso">Peso:</label>
-            <input type="number" step="0.01" name="peso" id="peso" class="form-control" placeholder="Tu Peso" min="0" max="999">
+            <input type="number" step="0.01" name="peso" id="peso" class="form-control is-invalid" placeholder="Tu Peso" min="0" max="999" maxlength="3">
         </div>
         <div class="form-group">
             <label for="estatura">Estatura:</label>
-            <input type="number" step="0.01" name="estatura" id="estatura" class="form-control" placeholder="Tu Estatura" min="0" max="999">
+            <input type="number" step="0.01" name="estatura" id="estatura" class="form-control is-invalid" placeholder="Tu Estatura" min="0" max="999">
         </div>
         <br>
-        <button type="submit" id="submitButton" class="btn btn-primary" disabled>Guardar</button>
+        <button type="submit" id="submitButton" class="btn btn-primary is-invalid" disabled>Guardar</button>
     </form>
 </div>
 
@@ -115,5 +138,149 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- ... tu código HTML ... -->
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("registroForm");
+    const submitButton = document.getElementById("submitButton");
+    const nombreInput = document.getElementById("nombre");
+    const apellidoInput = document.getElementById("apellido");
+    const correoInput = document.getElementById("correo");
+    const usuarioInput = document.getElementById("usuario");
+    const dniInput = document.getElementById("dni");
+    const rtnInput = document.getElementById("rtn");
+    const telefonoInput = document.getElementById("numero_telefono");
+    const edadInput = document.getElementById("edad");
+    const fechaNacimientoInput = document.getElementById("fecha_nacimiento");
+    const lugarNacimientoInput = document.getElementById("lugar_nacimiento");
+    const pesoInput = document.getElementById("peso");
+    const estaturaInput = document.getElementById("estatura");
+    const contraseniaInput = document.getElementById("contrasenia");
+    const verContraseniaBtn = document.getElementById("verContraseniaBtn");
+
+    verContraseniaBtn.addEventListener("click", function () {
+        if (contraseniaInput.type === "password") {
+            contraseniaInput.type = "text";
+            verContraseniaBtn.textContent = "Ocultar";
+        } else {
+            contraseniaInput.type = "password";
+            verContraseniaBtn.textContent = "Ver";
+        }
+    });
+
+    form.addEventListener("input", function () {
+        let isValid = true;
+        form.querySelectorAll(".form-control").forEach(function (input) {
+            if (!input.checkValidity() || input.value.trim() === "") {
+                isValid = false;
+                input.classList.add("is-invalid");
+                input.classList.remove("is-valid");
+            } else {
+                input.classList.remove("is-invalid");
+                input.classList.add("is-valid");
+            }
+        });
+
+        if (isValid) {
+            submitButton.removeAttribute("disabled");
+            submitButton.classList.remove("btn-primary");
+            submitButton.classList.add("btn-success");
+        } else {
+            submitButton.setAttribute("disabled", "disabled");
+            submitButton.classList.remove("btn-success");
+            submitButton.classList.add("btn-primary");
+        }
+    });
+
+    nombreInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g, "");
+        this.value = this.value.replace(/[0-9]/g, "");
+        this.value = this.value.replace(/\s{2,}/g, " ");
+    });
+
+    apellidoInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g, "");
+        this.value = this.value.replace(/[0-9]/g, "");
+        this.value = this.value.replace(/\s{2,}/g, " ");
+    });
+
+    correoInput.addEventListener("input", function () {
+    this.value = this.value.replace(/[^a-zA-Z0-9@._]/g, "");
+    this.value = this.value.replace(/\s/g, "");
+});
+
+    usuarioInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-Z0-9]/g, "");
+        this.value = this.value.replace(/\s/g, "");
+    });
+
+    dniInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    rtnInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    telefonoInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    edadInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    fechaNacimientoInput.addEventListener("input", function () {
+        const selectedDate = new Date(this.value);
+        const currentDate = new Date();
+
+        currentDate.setHours(0, 0, 0, 0);
+
+        if (selectedDate > currentDate) {
+            this.value = currentDate.toISOString().split("T")[0];
+        }
+    });
+
+    lugarNacimientoInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]/g, "");
+        this.value = this.value.replace(/\s{2,}/g, " ");
+    });
+
+    pesoInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9]/g, "");
+    });
+
+    estaturaInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^0-9.]/g, "");
+        this.value = this.value.replace(/^\./, "");
+        this.value = this.value.replace(/\.{2,}/g, ".");
+        this.value = this.value.replace(/^0{2,}/g, "0");
+        this.value = this.value.replace(/^0+(\d)/, "$1");
+    });
+
+    contraseniaInput.addEventListener("input", function () {
+        this.value = this.value.replace(/[^a-zA-Z0-9!@#\$]/g, "");
+        this.value = this.value.replace(/\s/g, "");
+    });
+
+    fechaNacimientoInput.addEventListener("input", function () {
+    const selectedDate = new Date(this.value);
+    const currentDate = new Date();
+
+    currentDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate > currentDate) {
+        this.value = currentDate.toISOString().split("T")[0];
+    }
+ 
+});
+});
+</script>
+
+
+
 </body>
 </html>
+

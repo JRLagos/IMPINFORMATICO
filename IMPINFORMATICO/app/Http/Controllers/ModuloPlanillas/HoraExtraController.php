@@ -52,6 +52,7 @@ class HoraExtraController extends Controller
      */
     public function store(Request $request)
     {
+        $sessionToken = $request->session()->get('generated_token');
         $HoraExtra = $request->all();
 
         $res = Http::post("http://localhost:3000/INS_HORA_EXTRA/HORA_EXTRA", $HoraExtra,[
@@ -84,6 +85,7 @@ class HoraExtraController extends Controller
      */
     public function update(Request $request)
     {
+        $sessionToken = $request->session()->get('generated_token');
         $upt_HoraExtra = Http::put('http://localhost:3000/UPT_HORA_EXTRA/HORA_EXTRA/'.$request->input("COD_HOR_EXTRA"),[
             "COD_HOR_EXTRA" => $request->input('COD_HOR_EXTRA'),
             "COD_EMPLEADO" => $request->input("COD_EMPLEADO"),
@@ -96,7 +98,7 @@ class HoraExtraController extends Controller
             ],
         ]);
         
-        return redirect(route('HoraExtra.index'));
+        return redirect(route('HoraExtra.index'))->with('success', 'Datos Actualizados Con Exitos');
 
     }
 

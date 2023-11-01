@@ -64,6 +64,7 @@ Route::get('nuevacontrasena',[AuthController::class,'SendRecuperar'])->name('Mod
 Route::get('preguntasSeg',[AuthController::class,'SendPreguntasSecretas'])->name('ModuloSeguridad.preguntasSeg');
 Route::get('correoCon',[AuthController::class,'ShowCorreoContrasena'])->name('ModuloSeguridad.ConCorreo');
 Route::get('emailCon',[AuthController::class,'SendCorreoContra'])->name('ModuloSeguridad.emailEnviarCon');
+Route::get('ActualizarUs',[AuthController::class,'UpdUsuario'])->name('ModuloSeguridad.UpdUsu');
 
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
