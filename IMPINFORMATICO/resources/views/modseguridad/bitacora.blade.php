@@ -42,6 +42,7 @@
                     <th style="text-align: center;">Acción</th>
                     <th style="text-align: center;">Tabla</th>
                     <th style="text-align: center;">Campo</th>
+                    <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Nuevo Valor</th>
                     <th style="text-align: center;">Valor Original</th>
                     <th style="text-align: center;">Fecha Modificado</th>
@@ -54,13 +55,14 @@
                         <td style="text-align: center;">{{ $Bitacora['NOMBRE_USUARIO'] }}</td>
                         <td style="text-align: center;">{{ $Bitacora['ACCION'] }}</td>
                         <td style="text-align: center;">{{ $Bitacora['TABLA'] }}</td>
+                        <td style="text-align: center;">{{ $Bitacora['CODIGO'] }}</td>
                         <td style="text-align: center;">{{ $Bitacora['CAMPO'] }}</td>
                         <td style="text-align: center;">{{ $Bitacora['VAL_NUEVO'] }}</td>
                         <td style="text-align: center;">{{ $Bitacora['VAL_ORIGINAL'] }}</td>
                         <td style="text-align: center;">
-                            {{ date('d-m-Y', strtotime($Bitacora['FEC_MODIFICACION'])) }}
+                            {{ date('d-m-Y H:i', strtotime($Bitacora['FEC_MODIFICACION'])) }}
                         </td>
-                    </tr>
+                    </tr>
                 @endforeach
             </tbody>
         </table>
