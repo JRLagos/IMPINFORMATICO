@@ -61,12 +61,12 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1>Departamentos</h1>
+    <h1><b>Departamentos</b></h1>
         @php
         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addDepartamento"
-            type="button"><b>Agregar Departamento</b></button>
+        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addDepartamento"
+            type="button"><b>Agregar</b></button>
     </div>
 @stop
 
@@ -85,19 +85,18 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Departamento</h3>
+                    <h3><b>Nuevo Departamento</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
 
                 </div>
                 <div class="modal-body">
-                    <h4>Ingresar Departamento</h4>
 
                     <form action="{{ route('Post-Departamento.store') }}" method="post" class="was-validated">
                         @csrf
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Nombre Departamento</label>
-                            <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="NOM_DEPARTAMENTO"
+                            <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" placeholder="Escriba aquí." name="NOM_DEPARTAMENTO"
                                 required>
                         </div>
                 </div>
@@ -124,7 +123,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="departamento" class="table table-striped table-bordered table-condensed table-hover">
-              <thead class="bg-dark">
+              <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>
@@ -144,13 +143,6 @@
                                   data-toggle="modal" data-target="#Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}">
                                   <i class='fas fa-edit' style='font-size:20px;'></i>
                               </button>
-                              @php
-                              $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ELIMINAR');
-                              @endphp
-                              <button value="Eliminar" title="Eliminar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif " type="button"
-                                  data-toggle="modal" data-target="#EliminarDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}">
-                                  <i class='fas fa-trash-alt' style='font-size:20px;'></i>
-                              </button>
                           </td>
                     </tr>
 <!-- Modal Actualizar -->
@@ -160,12 +152,11 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Editar Departamento</h5>
+                                    <h3 class="modal-title"><b>Editar Departamento</b></h3>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h4>Ingresar nuevos datos</h4>
                                     <form action="{{ route('Put-Departamento.update') }}" method="post"
                                         class="was-validated">
                                         @csrf
@@ -173,15 +164,15 @@
                                             value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre</label>
+                                            <label for="dni" class="form-label">Nombre Departamento</label>
                                             <input type="text" class="form-control alphanumeric-input"
                                                 id="NOM_DEPARTAMENTO" name="NOM_DEPARTAMENTO" pattern="[A-Z a-z].{3,}"
-                                                value="{{ $Departamento['NOM_DEPARTAMENTO'] }}" required maxlength="30">
+                                                value="{{ $Departamento['NOM_DEPARTAMENTO'] }}" placeholder="Escriba aquí." required maxlength="30">
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -225,22 +216,16 @@
                 @endforeach
             </tbody>
         </table>
-        <br>
-        <div class="container d-md-flex justify-content-md-end">
-        <a class=" btn btn-danger btn-xl" href="{{ route('DepartamentoEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
-        </a>
     </div>
-    <br>
     @stop
 
     @section('footer')
-        <div class="float-left">
-            <strong>Copyright &copy; 2023 <a href="#">IMPERIO IMFORMATICO</a>.</strong> Todos los derechos
-            reservados.
-        </div>
-        <div class="float-right d-none d-sm-block">
-            <b>Versión</b> 3.1.0
-        </div>
+
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+
     @stop
 
 
@@ -452,6 +437,23 @@
                 return now.toLocaleDateString('es-ES', options);
             }
         </script>
+
+        <script>
+        function cleanInputValue(inputElement) {
+            var inputValue = inputElement.value;
+            var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+            if (cleanValue !== inputValue) {
+                inputElement.value = cleanValue;
+            }
+        }
+
+        var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+        alphanumericInputs.forEach(function(input) {
+            input.addEventListener("input", function() {
+                cleanInputValue(this);
+            });
+        });
+    </script>
 
         <script>
             setTimeout(function() {

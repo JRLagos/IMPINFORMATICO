@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Correo')
+@section('title', 'Correos')
 
 @section('content_header')
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
@@ -56,7 +56,9 @@
     @endphp
 
 
-    <h1>Registro de Correos</h1>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Correos</b></h1>
+    </div>
 @stop
 
 
@@ -76,10 +78,10 @@
     <div class="table-responsive p-0">
         <br>
         <table id="Correo" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Nombre Persona</th>
+                    <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Correo Electronico</th>
                     <th style="text-align: center;">Descripción</th>
                     <th style="text-align: center;">Accion</th>
@@ -114,12 +116,7 @@
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upd-Correo.update') }}" method="post" class="was-validated">
                                         @csrf
 
@@ -155,7 +152,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -165,14 +162,15 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
     @stop
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 
