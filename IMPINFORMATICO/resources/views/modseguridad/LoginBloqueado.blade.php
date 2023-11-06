@@ -3,95 +3,162 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>IMPINFORMATICO| Iniciar sesión</title>
+  <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/preguntas_usuario.css') }}">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <title>Configuración de Preguntas Secretas</title>
+  <style>
+    /* Estilos para el cuerpo de la página */
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/plugins/fontawesome-free/css/all.min.css') }}">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
+    body {
+      font-family: "Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"; 
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Estilos para el contenedor principal */
+    .container {
+      max-width: 400px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Estilos para el encabezado */
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+  </style>
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-  <div class="login-logo">
-    <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO® </a>
-  </div>
-        <div class="alert alert-danger" role="alert">
-            <strong>Error en el inicio de sesión. Usuario Bloqueado</strong>
-        </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Inicia sesión para comenzar tu sesión</p>
-      <form action="{{ route('ModuloSeguridad.entrar') }}" method="post">
-        @csrf
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usuario" name="usuario" maxlength="20">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-user"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" id="contrasena" maxlength="12">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
+<body>
+  <div class="container">
+    <h2>Cambio de contraseña</h2>
+    <form action="{{ route('ModuloSeguridad.contra') }}" method="get" class="needs-validation" novalidate>
+      @csrf
+      <div class="form-group">
+        <label for="nueva_contrasenia">Nueva Contraseña</label>
+        <div class="input-group">
+        <input type="password" id="nueva_contrasenia" name="nueva_contrasenia" class="form-control" minlength="5" maxlength="12" required pattern="^[a-zA-Z0-9@#$%]+$">
+
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="togglePassword">
               <i class="fa fa-eye-slash" aria-hidden="true"></i>
             </button>
           </div>
         </div>
-        <div class="row">
-          <div class="col-12">
-            <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
-          </div>
-          <!-- /.col -->
+        <div class="invalid-feedback">
+          La contraseña debe contener al menos 5 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (!@#$%).
         </div>
-        
-      </form>
-      <p class="mb-1">
-        <a href="{{route('ModuloSeguridad.Preguntas')}}">¿Olvidaste tu contraseña?</a>
-      </p>
-      <p class="mb-0">
-        <a href="{{route('ModuloSeguridad.Registro')}}" class="text-center">Registrarme como nuevo usuario</a>
-      </p>
-    </div>
+      </div>
+
+      <!-- Mensaje de formato de contraseña -->
+      <p class="password-instructions"><b>La contraseña debe contener al menos 5 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula, un número y un carácter especial (!@#$%).</b></p>
+
+      <!-- Agrega margen inferior al botón "Guardar y Continuar" -->
+      <button type="submit" class="btn btn-primary mt-3">Guardar y Continuar</button>
+    </form>
   </div>
-</div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const togglePassword = document.querySelector('#togglePassword');
-    const passwordInput = document.querySelector('#contrasena');
-    const usuarioInput = document.querySelector('input[name="usuario"]');
-    const contrasenaInput = document.querySelector('input[name="contrasena"]');
+document.addEventListener("DOMContentLoaded", function() {
+    const nuevaContraseniaInput = document.getElementById("nueva_contrasenia");
 
-    togglePassword.addEventListener('click', function () {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-      passwordInput.setAttribute('type', type);
-
-      // Cambiar el icono del botón
-      togglePassword.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash" aria-hidden="true"></i>' : '<i class="fa fa-eye" aria-hidden="true"></i>';
+    nuevaContraseniaInput.addEventListener("input", function() {
+      validarContrasenia(this);
     });
 
-    usuarioInput.addEventListener("input", function() {
-      this.value = this.value.toUpperCase(); // Convertir a mayúsculas
-      this.value = this.value.replace(/\s/g, ""); // Eliminar espacios en blanco
-    });
+    function validarContrasenia(input) {
+      const contrasenia = input.value;
 
-    contrasenaInput.addEventListener("input", function() {
-      this.value = this.value.replace(/\s/g, ""); // Eliminar espacios en blanco
-    });
+      // Expresión regular para validar la contraseña
+      const contraseniaRegex = /^[a-zA-Z0-9@#$%]+$/;
+
+      if (contraseniaRegex.test(contrasenia)) {
+        input.setCustomValidity("");
+      } else {
+        input.setCustomValidity("La contraseña debe contener solo letras mayúsculas, minúsculas, números y los caracteres especiales '@', '#', o '$'.");
+      }
+    }
   });
-</script>
+
+    document.addEventListener("DOMContentLoaded", function() {
+    const nuevaContraseniaInput = document.getElementById("nueva_contrasenia");
+
+    nuevaContraseniaInput.addEventListener("input", function() {
+      validarContrasenia(this);
+    });
+
+    nuevaContraseniaInput.addEventListener("keydown", function(event) {
+      if (event.key === " ") {
+        event.preventDefault(); // Evita la entrada de espacios en blanco
+      }
+    });
+
+    function validarContrasenia(input) {
+      const contrasenia = input.value;
+
+      // Expresión regular para validar la contraseña
+      const contraseniaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%]*$/;
+
+      if (contraseniaRegex.test(contrasenia)) {
+        input.setCustomValidity("");
+      } else {
+        input.setCustomValidity("La contraseña debe contener al menos una mayúscula, una letra minúscula, un número y un carácter especial (!@#$%).");
+      }
+    }
+  });
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.querySelector("form");
+      const nuevaContraseniaInput = document.getElementById("nueva_contrasenia");
+      const togglePasswordBtn = document.getElementById("togglePassword");
+  
+      nuevaContraseniaInput.addEventListener("input", function() {
+        validarContrasenia(this);
+      });
+  
+      togglePasswordBtn.addEventListener('click', function () {
+        const type = nuevaContraseniaInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        nuevaContraseniaInput.setAttribute('type', type);
+        togglePasswordBtn.innerHTML = type === 'password' ? '<i class="fa fa-eye-slash" aria-hidden="true"></i>' : '<i class="fa fa-eye" aria-hidden="true"></i>';
+      });
+  
+      form.addEventListener("submit", function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add("was-validated");
+      });
+  
+      function validarContrasenia(input) {
+        const contrasenia = input.value;
+  
+        // Expresión regular para validar la contraseña
+        const contraseniaRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%])[A-Za-z\d!@#$%]*$/;
+  
+        if (contraseniaRegex.test(contrasenia)) {
+          input.setCustomValidity("");
+        } else {
+          input.setCustomValidity("La contraseña debe contener al menos una mayúscula, una letra minúscula, un número y un carácter especial (!@#$%).");
+        }
+      }
+    });
+  </script>
 </body>
 </html>
