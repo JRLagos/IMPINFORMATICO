@@ -59,20 +59,15 @@
         }
     @endphp
 
-
-
-
-
-
-
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Vacaciones</b></h1>
+    <h1><b>Vacaciones</b></h1>
         @php
-          $permisoAgregarHoraExtra = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addVacaciones" type="button"  @if (!$permisoAgregarHoraExtra) disabled @endif><b>Agregar
-                Vacaciones</b></button>
+        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addVacaciones"
+            type="button"><b>Agregar</b></button>
     </div>
+
 @stop
 
 
@@ -92,32 +87,27 @@
     <div class="modal fade bd-example-modal-sm" id="addVacaciones" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-
-
                 <div class="modal-header">
-                    <h3>Vacaciones</h3>
+                <h3><b>Nueva Vacación</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h4>Ingresar las Vacaciones del Empleado</h4>
-
                     <form action="{{ route('Post-Vacaciones.store') }}" method="post" class="was-validated">
                         @csrf
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Empleado</label>
-                            <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO">
-                                <option disabled selected> Seleccionar Empleado </option>
+                            <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO" required>
+                                <option value="" selected disabled> Seleccionar Empleado </option>
                                 @foreach ($ResulEmpleado as $Empleado)
-                                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}
-                                    </option>
+                                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Vacaciones Usadas</label>
-                            <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA"
+                            <input type="number" class="form-control" min="0" max="20" name="VACACIONES_USA" placeholder="Digite aquí."
                                 required>
                             <span class="validity"></span>
                         </div>
@@ -145,13 +135,13 @@
     <div class="table-responsive p-0">
         <br>
         <table id="vacaciones" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <TH style="text-align: center;">Nombre Completo</TH>
-                    <th style="text-align: center;">Vacaciones Acumuladas</th>
-                    <th style="text-align: center;">Vacaciones Usadas</th>
-                    <th style="text-align: center;">Vacaciones Disponible</th>
+                    <TH style="text-align: center;">Nombre</TH>
+                    <th style="text-align: center;">Acumuladas</th>
+                    <th style="text-align: center;">Usadas</th>
+                    <th style="text-align: center;">Disponible</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
@@ -185,10 +175,6 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar Nuevos Datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upt-Vacaciones.update') }}" method="post"
                                         class="was-validated">
                                         @csrf
@@ -212,7 +198,7 @@
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Vacaciones Acumuladas</label>
                                             <input type="number" class="form-control" min="0" max="20"
-                                                name="VACACIONES_ACU" value="{{ $Vacaciones['VACACIONES_ACU'] }}"
+                                                name="VACACIONES_ACU" value="{{ $Vacaciones['VACACIONES_ACU'] }}" placeholder="Digite aquí."
                                                 required>
                                             <span class="validity"></span>
                                         </div>
@@ -220,14 +206,14 @@
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Vacaciones Usadas</label>
                                             <input type="number" class="form-control" min="0" max="20"
-                                                name="VACACIONES_USA" value="{{ $Vacaciones['VACACIONES_USA'] }}"
+                                                name="VACACIONES_USA" value="{{ $Vacaciones['VACACIONES_USA'] }}" placeholder="Digite aquí."
                                                 required>
                                             <span class="validity"></span>
                                         </div>
 
                                         <div class="modal-footer">
-                                            <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                            <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -241,10 +227,10 @@
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 

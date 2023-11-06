@@ -47,16 +47,18 @@
       </div>
       <form action="{{ route('ModuloSeguridad.entrar') }}" method="post" class="needs-validation" novalidate onsubmit="return validateForm()">
         @csrf
+        <small class="form-text text-muted">Mínimo 3 caracteres y máximo 20 caracteres.</small>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usuario" name="usuario" id="usuario" maxlength="20" required>
+          <input type="text" class="form-control" placeholder="Usuario" name="usuario" id="usuario" maxlength="20" minlength="3" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
             </div>
           </div>
         </div>
+        <small class="form-text text-muted">Mínimo 3 caracteres y máximo 12 caracteres.</small>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" id="contrasena" maxlength="12" required>
+          <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" id="contrasena" maxlength="12" minlength="3" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>

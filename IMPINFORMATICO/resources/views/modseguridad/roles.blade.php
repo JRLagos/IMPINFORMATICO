@@ -56,18 +56,15 @@
         }
     @endphp
 
-
-
-
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Roles</b></h1>
-        @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
-        <button
-            class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg"
-            data-bs-toggle="modal" data-bs-target="#addRol" type="button"><b>Agregar Rol</b></button>
+            @php
+            $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+            @endphp
+            <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addRol"
+                type="button"><b>Agregar</b></button>
     </div>
+
 @stop
 
 
@@ -88,33 +85,31 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Roles</h3>
+                <h3><b>Nuevo Rol</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h4>Ingresar Rol</h4>
-
                     <form action="{{ route('Post-Roles.store') }}" method="post" class="was-validated">
                         @csrf
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Nombre Rol</label>
-                            <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}"
-                                name="NOM_ROL" required minlength="4" maxlength="30" />
+                            <input type="text" class="form-control alphanumeric-input" pattern="{3,}"
+                                name="NOM_ROL" required minlength="4" maxlength="30" placeholder="Escriba aquí en mayuscula." required>
                             <span class="validity"></span>
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Descripcion Rol</label>
-                            <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}"
-                                name="DES_ROL" required minlength="4" maxlength="100" />
+                            <label for="dni" class="form-label">Descripcion</label>
+                            <input type="text" class="form-control" pattern="{3,}"
+                                name="DES_ROL" required minlength="4" maxlength="100" placeholder="Escriba aquí." oninput="limitarCaracteresEspecialesYEspacios(this)" required> 
                             <span class="validity"></span>
                         </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
-                    <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                    <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                 </div>
                 </form>
 
@@ -127,7 +122,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="rol" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
 
                 <tr>
                     <th style="text-align: center;">#</th>
@@ -158,34 +153,33 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Editar Departamento</h5>
+                                <h3 class="modal-title"><b>Editar Rol</b></h3>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <h4>Ingresar Nuevos Datos</h4>
                                     <form action="{{ route('Upt-Roles.update') }}" method="post" class="was-validated">
                                         @csrf
                                         <input type="hidden" class="form-control" name="COD_ROL"
                                             value="{{ $Roles['COD_ROL'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Del Rol</label>
-                                            <input type="text" class="form-control alphanumeric-input" id="NOM_ROL"
-                                                name="NOM_ROL" pattern="[A-Z a-z].{3,}" value="{{ $Roles['NOM_ROL'] }}"
+                                            <label for="dni" class="form-label">Nombre Rol</label>
+                                            <input type="text" class="form-control alphanumeric-input" pattern="{3,}" id="NOM_ROL"
+                                                name="NOM_ROL" value="{{ $Roles['NOM_ROL'] }}"
                                                 required maxlength="30">
                                         </div>
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripcion Del Rol</label>
-                                            <input type="text" class="form-control alphanumeric-input" id="DES_ROL"
-                                                name="DES_ROL" pattern="[A-Z a-z].{3,}" value="{{ $Roles['DES_ROL'] }}"
+                                            <label for="dni" class="form-label">Descripcion</label>
+                                            <input type="text" class="form-control" id="DES_ROL"
+                                                name="DES_ROL" pattern="{3,}" value="{{ $Roles['DES_ROL'] }}" oninput="limitarCaracteresEspecialesYEspacios(this)"
                                                 required maxlength="30">
                                         </div>
 
                                         <div class="modal-footer">
                                             <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                            <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
+                                            <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -200,10 +194,10 @@
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 
@@ -428,7 +422,7 @@
         <script>
             function cleanInputValue(inputElement) {
                 var inputValue = inputElement.value;
-                var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+                var cleanValue = inputValue.replace(/[^A-Z]/g, "");
                 if (cleanValue !== inputValue) {
                     inputElement.value = cleanValue;
                 }
@@ -441,5 +435,21 @@
                 });
             });
         </script>
+
+<script>
+        function limitarCaracteresEspecialesYEspacios(input) {
+            // Expresión regular que permite solo letras (mayúsculas y minúsculas), números, espacios y ciertos caracteres especiales
+            var pattern = /^[a-zA-Z0-9\s.,!?()]+$/;
+
+            // Reemplazar múltiples espacios por uno solo
+            input.value = input.value.replace(/\s{2,}/g, ' ');
+
+            // Eliminar caracteres no deseados
+            if (!pattern.test(input.value)) {
+                input.value = input.value.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚüÜñÑ\s.,!?()]+/g, '');
+            }
+        }
+    </script>
+
 
     @stop

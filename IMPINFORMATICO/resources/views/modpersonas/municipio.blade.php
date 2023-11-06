@@ -101,12 +101,10 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Departamento</label>
-                            <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
-                                id="COD_DEPARTAMENTO" required>
+                            <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO" required>
                                 <option value="" selected disabled> Seleccionar Departamento </option>
                                 @foreach ($ResulDepartamento as $Departamento)
-                                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
-                                        {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
+                                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">{{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
                                 @endforeach
                             </select>
                         </div>

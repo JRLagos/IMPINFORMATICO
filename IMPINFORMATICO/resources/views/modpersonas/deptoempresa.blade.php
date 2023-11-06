@@ -57,16 +57,15 @@
     @endphp
 
 
-    <h1 style="text-align: center;">Registro Departamento de Empresa</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Departamentos Empresa</b></h1>
         @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button
-            class="btn btn-dark @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif  me-md-2"
-            data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button">Agregar
-            Departamento</button>
+        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa"
+            type="button"><b>Agregar</b></button>
     </div>
+        
 @stop
 
 
@@ -89,32 +88,28 @@
 
 
                 <div class="modal-header">
-                    <h3>Departamentos de Empresa</h3>
+                    <h3><b>Nuevo Departamento</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h4>Ingresar nuevo registro</h4>
-
                     <form action="{{ route('Post-DeptoEmpresa.store') }}" method="post" class="was-validated">
                         @csrf
 
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Nombre</label>
-                            <input type="text" class="form-control alphanumeric-input" name="NOM_DEPTO_EMPRESA" required
-                                minlength="4" maxlength="50">
+                            <label for="dni" class="form-label">Nombre Departamento</label>
+                            <input type="text" class="form-control alphanumeric-input" name="NOM_DEPTO_EMPRESA" placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Descripción</label>
-                            <input type="text" class="form-control alphanumeric-input" name="DES_DEPTO_EMPRESA" required
-                                minlength="4" maxlength="50">
+                            <input type="text" class="form-control alphanumeric-input" name="DES_DEPTO_EMPRESA" placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                    <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                 </div>
 
                 </form>
@@ -135,7 +130,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="DeptoEmpresa" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>
@@ -144,8 +139,6 @@
                 </tr>
             </thead>
             <tbody>
-
-
                 @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -169,16 +162,12 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Departamento Empresa</b></h4>
+                                    <h4 class="modal-title"><b>Editar Departamento</b></h4>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
 
                                 <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
                                     <form action="{{ route('Upd-DeptoEmpresa.update') }}" method="post"
                                         class="was-validated">
                                         @csrf
@@ -188,16 +177,16 @@
 
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre</label>
+                                            <label for="dni" class="form-label">Nombre Departamento</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}"
+                                                name="NOM_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}" placeholder="Escriba aquí."
                                                 required maxlength="50">
                                         </div>
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Descripción</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}"
+                                                name="DES_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}" placeholder="Escriba aquí."
                                                 required maxlength="50">
                                         </div>
 
@@ -205,7 +194,7 @@
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                         </div>
                                     </form>
                                 </div>
@@ -220,10 +209,10 @@
 
     @section('footer')
 
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
     @stop
 
