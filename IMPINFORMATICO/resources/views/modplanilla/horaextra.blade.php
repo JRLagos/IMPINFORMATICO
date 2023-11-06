@@ -61,14 +61,13 @@
 
 
 
-      <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-          <h1><b>Horas Extras</b></h1>
-          @php
-          $permisoAgregarHoraExtra = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-          @endphp
-          <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addHoraExtra"
-              type="button" @if (!$permisoAgregarHoraExtra) disabled @endif ><b>Agregar Hora Extra</b></button>
-      </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Horas Extras</b></h1>
+            @php
+            $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+            @endphp
+        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"><b>Agregar</b></button>
+    </div>
   @stop
 
 
@@ -88,12 +87,10 @@
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
-                      <h3>Hora Extra</h3>
+                      <h3><b>Nueva Hora Extra</b></h3>
                       <button class="btn btn-close " data-bs-dismiss="modal"></button>
                   </div>
                   <div class="modal-body">
-                      <h4><b>Ingresar Hora Extra</b></h4>
-
                       <form action="{{ route('Post-HoraExtra.store') }}" method="post" class="was-validated">
                           @csrf
 
@@ -109,20 +106,20 @@
                           </div>
 
                           <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Descripcion Hora Extra</label>
-                              <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="DES_HOR_EXTRA"
+                              <label for="dni" class="form-label">Descripcion</label>
+                              <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="DES_HOR_EXTRA" placeholder="Escriba aquí."
                                   required maxlength="255">
                           </div>
 
                           <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Cantidad Hora Extra</label>
-                              <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA"
+                              <label for="dni" class="form-label">Cantidad</label>
+                              <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" placeholder="Digite aquí."
                                   required>
                               <span class="validity"></span>
                           </div>
 
                           <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Fecha Hora Extra</label>
+                              <label for="dni" class="form-label">Fecha</label>
                               <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d') ?>"
                                   name="FEC_HOR_EXTRA" required>
                           </div>
@@ -150,10 +147,10 @@
       <div class="table-responsive p-0">
           <br>
           <table id="horaextra" class="table table-striped table-bordered table-condensed table-hover">
-              <thead class="bg-dark">
+              <thead class="bg-cyan active">
                   <tr>
                       <th style="text-align: center;">#</th>
-                      <th style="text-align: center;">Nombre Completo</th>
+                      <th style="text-align: center;">Nombre</th>
                       <th style="text-align: center;">Descripcion</th>
                       <th style="text-align: center;">Cantidad</th>
                       <th style="text-align: center;">Fecha</th>
@@ -191,10 +188,6 @@
                                   </div>
 
                                   <div class="modal-body">
-                                      <h4>
-                                          <p>Ingresar Nuevos Datos</p>
-                                      </h4>
-                                      <hr>
                                       <form action="{{ route('Upt-HoraExtra.update') }}" method="post"
                                           class="was-validated">
                                           @csrf
@@ -216,22 +209,22 @@
                                           </div>
 
                                           <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Descripcion Hora Extra</label>
+                                              <label for="dni" class="form-label">Descripcion</label>
                                               <input type="text" class="form-control alphanumeric-input"
-                                                  pattern=".{3,}" name="DES_HOR_EXTRA"
+                                                  pattern=".{3,}" name="DES_HOR_EXTRA"  placeholder="Escriba aquí."
                                                   value="{{ $HoraExtra['DES_HOR_EXTRA'] }}" required maxlength="255">
                                           </div>
 
                                           <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Cantidad Hora Extra</label>
+                                              <label for="dni" class="form-label">Cantidad</label>
                                               <input type="number" class="form-control" min="1" max="5"
-                                                  name="CANT_HOR_EXTRA" value="{{ $HoraExtra['CANT_HOR_EXTRA'] }}"
+                                                  name="CANT_HOR_EXTRA" value="{{ $HoraExtra['CANT_HOR_EXTRA'] }}" placeholder="Digite aquí."
                                                   required>
                                               <span class="validity"></span>
                                           </div>
 
                                           <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Fecha Hora Extra</label>
+                                              <label for="dni" class="form-label">Fecha</label>
                                               <input type="date" class="form-control" min="2023-08-01"
                                                   max="<?= date('Y-m-d') ?>" name="FEC_HOR_EXTRA"
                                                   value="{{ date('Y-m-d', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}"
@@ -239,10 +232,9 @@
                                           </div>
 
                                           <div class="modal-footer">
-                                              <button class="btn btn-danger "
-                                                  data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                              <button class="btn btn-primary" data-bs="modal"><b>ACTUALIZAR</b></button>
-                                          </div>
+                                            <button type="button" class="btn btn-danger"data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                        </div>
                                       </form>
                                   </div>
                               </div>
@@ -254,11 +246,13 @@
       @stop
 
       @section('footer')
-          <div class="float-right d-none d-sm-block">
-              <b>Version</b> 3.1.0
-          </div>
-          <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
-      @stop
+
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+
+    @stop
 
       @section('js')
           <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>

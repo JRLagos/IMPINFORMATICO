@@ -325,12 +325,7 @@ return [
                     'text' => 'Empleados',
                     'icon' => 'fas fa-fw fa-user-tie gns text-info',
                     'url'  => 'Empleado',
-                ], 
-                [
-                    'text' => 'Usuarios',
-                    'icon' => 'fas fa-fw fa-user gns text-info',
-                    'url'  => 'Usuarios',
-                ], 
+                ],  
             ],
         ],
         [
@@ -416,6 +411,11 @@ return [
             'text' => 'SEGURIDAD',
             'icon' => 'fas fa-fw fa-key gns text-yellow',
             'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    'icon' => 'fas fa-fw fa-user gns text-info',
+                    'url'  => 'Usuarios',
+                ],
                 [
                     'text' => 'Roles',
                     'icon' => 'fas fa-fw fa-scroll gns text-info',
