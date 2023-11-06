@@ -41,8 +41,8 @@
                     <th style="text-align: center;">Usuario</th>
                     <th style="text-align: center;">Acción</th>
                     <th style="text-align: center;">Tabla</th>
+                    <th style="text-align: center;">ID</th>
                     <th style="text-align: center;">Campo</th>
-                    <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Nuevo Valor</th>
                     <th style="text-align: center;">Valor Original</th>
                     <th style="text-align: center;">Fecha Modificado</th>
