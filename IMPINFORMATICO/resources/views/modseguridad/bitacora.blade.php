@@ -35,7 +35,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="bitacora" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Usuario</th>

@@ -59,18 +59,15 @@
         }
     @endphp
 
-
-
-        
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Planillas</b></h1>
+    <h1><b>Planillas</b></h1>
         @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button class="btn btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addPlanilla" type="button"  @if (!$permisoInsertar) disabled @endif>
-            <b>Generar Planilla</b>
-        </button>
+        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addPlanilla"
+            type="button"><b>Generar</b></button>
     </div>
+
 @stop
 
 
@@ -94,29 +91,26 @@
 
 
                 <div class="modal-header">
-                    <h3>Planilla</h3>
+                    <h3><b>Generar Planilla</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h4>Generar Planilla del Empleado</h4>
-
                     <form action="{{ route('Post-Planilla.Store') }}" method="post" class="was-validated">
                         @csrf
 
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Empleado</label>
-                            <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO">
-                                <option disabled selected> Seleccionar Empleado </option>
+                            <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO" required>
+                            <option value="" selected disabled> Seleccionar Empleado </option>
                                 @foreach ($ResulEmpleado as $Empleado)
-                                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}
-                                    </option>
+                                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }} </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Fecha Generar Planilla</label>
+                            <label for="dni" class="form-label">Fecha</label>
                             <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d') ?>"
                                 name="FEC_REA_PLANILLA" required>
                         </div>
@@ -144,19 +138,18 @@
     <div class="table-responsive p-0">
         <br>
         <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th>#</th>
-                    <TH>NOMBRE COMPLETO</TH>
-                    <th>SALARIO BASE</th>
+                    <TH>NOMBRE</TH>
+                    <th>SALARIO</th>
                     <th>FECHA</th>
-                    <th>SALARIO BRUTO</th>
                     <th>HORAS EXTRAS</th>
                     <th>VACACIONES</th>
                     <th>CATORCEAVO</th>
                     <th>AGUINALDO</th>
                     <th>IHSS</th>
-                    <th>SALARIO NETO</th>
+                    <th>SAL. NETO</th>
                 </tr>
             </thead>
             <tbody>
@@ -166,7 +159,6 @@
                         <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
                         <td>{{ number_format($Planilla['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
                         <td>{{ date('d-m-Y', strtotime($Planilla['FEC_REA_PLANILLA'])) }}</td>
-                        <td>{{ number_format($Planilla['SALARIO_BRUTO'], 2, '.', ',') }}</td>
                         <td>{{ $Planilla['HORAS_EXTRAS'] }}</td>
                         <td>{{ number_format($Planilla['VACACIONES'], 2, '.', ',') }}</td>
                         <td>{{ $Planilla['CATORCEAVO'] }}</td>
@@ -177,18 +169,18 @@
                 @endforeach
             </tbody>
         </table>
-    </div>
 
 @stop
 
-@section('footer')
+    @section('footer')
 
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
-@stop
+    @stop
+
 
 
 

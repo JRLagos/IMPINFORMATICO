@@ -55,13 +55,15 @@
         }
     @endphp
 
-
-
-
-
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Usuarios</b></h1>
+    <h1><b>Usuarios</b></h1>
+        @php
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#"
+            type="button"><b>Nuevo Usuario</b></button>
     </div>
+
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -92,17 +94,16 @@
     <div class="table-responsive p-0">
         <br>
         <table id="usuario" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
+    <thead class="bg-cyan active">
         <tr>
             <th style="text-align: center;">#</th>
-            <th style="text-align: center;">Nombre Usuario</th>
+            <th style="text-align: center;">Usuario</th>
             <th style="text-align: center;">Rol</th>
+            <th style="text-align: center;">Estado</th>
+            <th style="text-align: center;">Correo</th>
+            <th style="text-align: center;">Fecha Vencimiento</th>
             <th style="text-align: center;">Ultima Conexion</th>
             <th style="text-align: center;">Primer Ingreso</th>
-            <th style="text-align: center;">Fecha Vencimiento</th>
-            <th style="text-align: center;">Estado del Usuario</th>
-            <th style="text-align: center;">E-mail</th>
-            <th style="text-align: center;">Contraseña del Usuario</th>
             <th style="text-align: center;">Accion</th>
         </tr>
     </thead>
@@ -112,12 +113,11 @@
                 <td style="text-align: center;">{{ $loop->iteration }}</td>
                 <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
                 <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
                 <td style="text-align: center;">{{ $Usuario['IND_USUARIO'] }}</td>
                 <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
-                <td style="text-align: center;">{{ $Usuario['CONTRASENA'] }}</td>
+                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
+                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
+                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
                 <td style="text-align: center;">
                     @php
                     $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
@@ -211,10 +211,12 @@
     @stop
 
     @section('footer')
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.1.0
-        </div>
-        <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+
+    <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+
     @stop
 
     @section('js')
@@ -241,29 +243,6 @@
             div.dt-button-collection {
                 width: 600px;
             }
-
-@section('footer')
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
-@stop
-
-@section('js')
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-    <!-- botones -->
-    <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-    <style>
         .btn-group>.btn {
             font-size: 12px;
             padding: 6px 12px;
