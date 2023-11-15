@@ -37,14 +37,12 @@ class AuthController extends Controller
     //
     public function ShowCorreoContrasena(){return view('modseguridad.correo');}
 
-
     public function SendLogin(Request $request){
     // Obtener el valor actual del contador de intentos fallidos de la sesión
     $intentosFallidos = $request->session()->get('intentos_fallidos', 0);
 
     $usuario = $request->input('usuario');
     $contrasena = $request->input('contrasena');
-
 
     $urlToken = 'http://localhost:3000/auths/auth'; // Cambiar la URL a la ruta de generación de token
     $urlParametros = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
@@ -55,8 +53,6 @@ class AuthController extends Controller
         'usuario' => $usuario,
         'contraseña' => $contrasena
     ]);
-
-    
 
     if ($responseToken->status() === 200) {
         $token = $responseToken->json()['token'];
@@ -77,12 +73,12 @@ class AuthController extends Controller
             }
         }
         
-
         
         // Realizar la validación de inicio de sesión
         $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $responseUsuarios = Http::get($urlUsuarios);
 
+        
         if ($responseUsuarios->status() === 200) {
             $jsonContentUsuarios = $responseUsuarios->json();
             $credencialesCorrectas = false;
@@ -110,78 +106,80 @@ class AuthController extends Controller
             // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
             foreach ($jsonContentUsuarios as $user) {
 
-              
+                if($jsonContentUsuarios === $usuario){dd("el usuario es el correcto");}
                 // Verificar si el usuario tiene una contraseña temporal activa
                 $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
                 $response_CT_usuario = Http::get($url_CT_usuario);
 
                 if ($response_CT_usuario->status() === 200) {
-                $jsonContentCT_usuario = $response_CT_usuario->json();
-                foreach ($jsonContentCT_usuario as $contrasenaTemporal) {
-                if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
-                 strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time()) {
+                    $jsonContentCT_usuario = $response_CT_usuario->json();
+                
+                    foreach ($jsonContentCT_usuario as $contrasenaTemporal) {
+                        if ($contrasenaTemporal['CONTRASENA'] === $contrasena &&
+                            strtotime($contrasenaTemporal['FEC_EXPIRACION']) > time() && $user['NOM_USUARIO'] === $usuario) {
+                
+                            // El usuario tiene una contraseña temporal activa, redirigir a la página
+                            $request->session()->forget('intentos_fallidos');
+                            $credencialesCorrectas = true;
+                            $request->session()->put('usuario', $usuario);
+                            $request->session()->put('credenciales', $user);
+                
+                            // Obtener el nombre del rol del usuario
+                            $urlRoles = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES';
+                            $responseRoles = Http::get($urlRoles);
+                
+                            if ($responseRoles->status() === 200) {
+                                $roles = $responseRoles->json();
+                                $nombreRol = null;
+                
+                                foreach ($roles as $rol) {
+                                    if ($rol['COD_ROL'] === $user['COD_ROL']) {
+                                        $nombreRol = $rol['NOM_ROL'];
+                                        break;
+                                    }
+                                }
+                
+                                if ($nombreRol) {
+                                    $request->session()->put('nombreRol', $nombreRol);
+                                }
+                            }
+                
+                            // Obtener los permisos del usuario con el mismo código de rol
+                            $urlPermisos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PERMISOS';
+                            $responsePermisos = Http::get($urlPermisos);
+                
+                            if ($responsePermisos->status() === 200) {
+                                $permisos = $responsePermisos->json();
+                
+                                // Filtrar los permisos por el mismo código de rol del usuario
+                                $codigoRolUsuario = $user['COD_ROL'];
+                                $permisosFiltrados = array_filter($permisos, function ($permiso) use ($codigoRolUsuario) {
+                                    return $permiso['COD_ROL'] === $codigoRolUsuario;
+                                });
+                
+                                // Almacenar los permisos filtrados en la sesión
+                                $request->session()->put('permisos', $permisosFiltrados);
+                            }
+                
+                            // Obtener los registros de seguridad_objetos
+                            $urlObjetos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_OBJETOS';
+                            $responseObjetos = Http::get($urlObjetos);
+                
+                            if ($responseObjetos->status() === 200) {
+                                $objetos = $responseObjetos->json();
+                
+                                // Almacenar los objetos en la sesión
+                                $request->session()->put('objetos', $objetos);
+                            }
+                            return view('modseguridad.LoginBloqueado'); // O la página que desees permitir acceso
 
-
-                // El usuario tiene una contraseña temporal activa, redirigir a la página
-                $request->session()->forget('intentos_fallidos');
-                $credencialesCorrectas = true;
-                $request->session()->put('usuario', $usuario);
-                $request->session()->put('credenciales', $user);
-
-
-                // Obtener el nombre del rol del usuario
-                $urlRoles = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES';
-                $responseRoles = Http::get($urlRoles);
-
-                if ($responseRoles->status() === 200) {
-                $roles = $responseRoles->json();
-                $nombreRol = null;
-
-                foreach ($roles as $rol) {
-                if ($rol['COD_ROL'] === $user['COD_ROL']) {
-                $nombreRol = $rol['NOM_ROL'];
-                break;
+                        }
+                    }
                 }
-               }
-
-                if ($nombreRol) {
-                $request->session()->put('nombreRol', $nombreRol);
-                }
-            }
-                // Obtener los permisos del usuario con el mismo código de rol
-                $urlPermisos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PERMISOS';
-                $responsePermisos = Http::get($urlPermisos);
-
-                if ($responsePermisos->status() === 200) {
-                $permisos = $responsePermisos->json();
-
-                // Filtrar los permisos por el mismo código de rol del usuario
-                $codigoRolUsuario = $user['COD_ROL'];
-                $permisosFiltrados = array_filter($permisos, function ($permiso) use ($codigoRolUsuario) {
-                         return $permiso['COD_ROL'] === $codigoRolUsuario;
-                });
-
-                // Almacenar los permisos filtrados en la sesión
-                $request->session()->put('permisos', $permisosFiltrados);
-                }
-
-                // Obtener los registros de seguridad_objetos
-                $urlObjetos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_OBJETOS';
-                $responseObjetos = Http::get($urlObjetos);
-
-                if ($responseObjetos->status() === 200) {
-                $objetos = $responseObjetos->json();
-
-                // Almacenar los objetos en la sesión
-                $request->session()->put('objetos', $objetos);
-            }
-
-                return view('admin.admin');  // O la página que desees permitir acceso
-        }
-    }
-}
-
- 
+                
+                if($user['NOM_USUARIO'] === $usuario){
+        
+                    
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) === false) {
                     // Usuario encontrado, aumentar contador de intentos fallidos
                     $intentosFallidos = $request->session()->get('intentos_fallidos', 0);
@@ -189,10 +187,8 @@ class AuthController extends Controller
                     $request->session()->put('intentos_fallidos', $intentosFallidos);
                     Session::flash('error', 'Credenciales inválidas. Inténtalo de nuevo.');
                     break;
-                    
                 }
-
-
+                }
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) && $user['IND_USUARIO'] === 'ENABLED') {
                     // Credenciales válidas, restablecer el contador de intentos fallidos
                     $request->session()->forget('intentos_fallidos');
@@ -204,20 +200,20 @@ class AuthController extends Controller
                 $responseRoles = Http::get($urlRoles);
 
                 if ($responseRoles->status() === 200) {
-                $roles = $responseRoles->json();
-                $nombreRol = null;
-
-                foreach ($roles as $rol) {
-                if ($rol['COD_ROL'] === $user['COD_ROL']) {
-                $nombreRol = $rol['NOM_ROL'];
-                break;
+                    $roles = $responseRoles->json();
+                    $nombreRol = null;
+                
+                    foreach ($roles as $rol) {
+                        if ($rol['COD_ROL'] === $user['COD_ROL']) {
+                            $nombreRol = $rol['NOM_ROL'];
+                            break;
+                        }
+                    }
+                
+                    if ($nombreRol) {
+                        $request->session()->put('nombreRol', $nombreRol);
+                    }
                 }
-               }
-
-                if ($nombreRol) {
-                $request->session()->put('nombreRol', $nombreRol);
-                }
-            }
                 // Obtener los permisos del usuario con el mismo código de rol
                 $urlPermisos = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PERMISOS';
                 $responsePermisos = Http::get($urlPermisos);
@@ -245,7 +241,7 @@ class AuthController extends Controller
                 // Almacenar los objetos en la sesión
                 $request->session()->put('objetos', $objetos);
             }
-                    return view('admin.admin');
+                return redirect()->route('Esta.edit');  // O la página que desees permitir acceso
                 }
 
                 if ($user['NOM_USUARIO'] === $usuario && Hash::check($contrasena, $user['CONTRASENA']) && $user['IND_USUARIO'] === 'NUEVO') {
@@ -594,12 +590,17 @@ class AuthController extends Controller
         $tipoTelefono = $request->input('tipo_telefono');
         $numeroTelefono = $request->input('numero_telefono');
         $sexo = $request->input('sexo');
-        $edad = $request->input('edad');
         $fechaNacimiento = $request->input('fecha_nacimiento');
         $lugarNacimiento = $request->input('lugar_nacimiento');
         $estadoCivil = $request->input('estado_civil');
         $peso = $request->input('peso');
         $estatura = $request->input('estatura');
+
+        $hoy = new DateTime(); // Obtiene la fecha actual
+        $fechaNacimiento = new DateTime($fechaNacimiento); // Convierte la fecha de nacimiento a objeto DateTime
+
+        // Calcula la diferencia de años entre la fecha actual y la fecha de nacimiento
+        $edad = $hoy->diff($fechaNacimiento)->y;
 
         //
         if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -697,6 +698,7 @@ class AuthController extends Controller
         $pregunta = $request->input('pregunta');
         $respuesta= $request->input('respuesta');
         $contrasenaNueva= $request->input('nueva_contrasenia');
+        $contrasenaNueva= "Ca0#";
 
         // Validar contraseña según tus requisitos
     $minLength = 5;
@@ -770,7 +772,7 @@ class AuthController extends Controller
         $responseUp = Http::put($urlUp,[
             "COD_ROL" => $credenciales['COD_USUARIO'],
             "NOM_USUARIO" => $credenciales['NOM_USUARIO'],
-            "CONTRASENA" => $contrasenaNuevaHashed,
+            "CONTRASENA" => $credenciales['CONTRASENA'],
             "ESTADO"=>"ENABLED",
             "PRE_CONTESTADAS" => $credenciales['PRE_CONTESTADAS'],
             "COR_ELECTRONICO" => $credenciales['EMAIL']
@@ -880,15 +882,31 @@ class AuthController extends Controller
 
                         if ($responseUp->status() === 200) {
                             
-                            Mail::raw("Tu contraseña temporal es: $contraseniaTemporal", function ($message) use ($correoDestinatario) {
+                            Mail::raw("Hola, Hemos recibido una solicitud de restablecimiento de contraseña en tu cuenta. Sin embargo, no hemos podido identificar tu identidad correctamente.
+                            No te preocupes, aquí tienes tu contraseña temporal: $contraseniaTemporal
+
+                            Por favor, sigue estos pasos para restablecer tu contraseña:
+                            1. Accede a tu cuenta.
+                            2. Ve a la sección de 'Restablecer Contraseña'.
+                            3. Ingresa la contraseña temporal proporcionada.
+                            4. Establece una nueva contraseña segura.
+                            5. Guarda los cambios.
+
+                            Si no solicitaste un restablecimiento de contraseña, te recomendamos que cambies tu contraseña de inmediato.
+
+                            Gracias,
+                            [Tu Nombre o Nombre de la Aplicación]", function ($message) use ($correoDestinatario) {
                                 $message->to($correoDestinatario)
-                                    ->subject('Contraseña Temporal');});
+                                 ->subject('Restablecimiento de Contraseña');
+                            });
+
 
 
                             Session::flash('success', 'El correo se ha enviado exitosamente.');
 
-                            return view('modseguridad.Login');
+                            return view('modseguridad.Login')->with('sentSuccessfully', true);
                         } else {
+                            
                             return view('modseguridad.error');
                         }
                     }
@@ -897,7 +915,7 @@ class AuthController extends Controller
                         // Actualizar la contraseña temporal expirada utilizando la URL de PUT
                         $correoDestinatario = $usuario['EMAIL'];
                         $contraseniaTemporal = Str::random(10);
-                        $fechaVencimiento = date('Y-m-d H:i:s', strtotime('+1 day'));
+                        $fechaVencimiento = date('Y-m-d H:i:s', strtotime('+3 hours', $fechaActual));
             
                         $responseUpdateCT = Http::put($urlUpCT, [
                             "COD_USUARIO" => $usuario['COD_USUARIO'],
@@ -907,14 +925,28 @@ class AuthController extends Controller
             
                         if ($responseUpdateCT->status() === 200) {
 
-                            Mail::raw("Tu contraseña temporal es: $contraseniaTemporal", function ($message) use ($correoDestinatario) {
+                            Mail::raw("Hola, Hemos recibido una solicitud de restablecimiento de contraseña en tu cuenta. Sin embargo, no hemos podido identificar tu identidad correctamente.
+                            No te preocupes, aquí tienes tu contraseña temporal: $contraseniaTemporal
+
+                            Por favor, sigue estos pasos para restablecer tu contraseña:
+                            1. Accede a tu cuenta.
+                            2. Ve a la sección de 'Restablecer Contraseña'.
+                            3. Ingresa la contraseña temporal proporcionada.
+                            4. Establece una nueva contraseña segura.
+                            5. Guarda los cambios.
+
+                            Si no solicitaste un restablecimiento de contraseña, te recomendamos que cambies tu contraseña de inmediato.
+
+                            Gracias,
+                            [Tu Nombre o Nombre de la Aplicación]: $contraseniaTemporal", function ($message) use ($correoDestinatario) {
                                 $message->to($correoDestinatario)
                                     ->subject('Contraseña Temporal');});
 
 
                             $request->session()->flash('success', 'El correo se ha enviado exitosamente.');
-                            return view('modseguridad.Login');
+                            return view('modseguridad.Login')->with('sentSuccessfully', true);
                         } else {
+                            
                             return view('modseguridad.error');
                         }
                     } elseif ($contrasenaTemporalActiva) {
@@ -980,6 +1012,80 @@ class AuthController extends Controller
     // El request falló
     return redirect(route('Usuarios.index'))->with('error', 'Error al actualizar');
 }
+
+
+    }
+
+    public function SendContra(Request $request){
+      
+        $credenciales = $request->session()->get('credenciales');
+
+        $contrasenaNueva= $request->input('nueva_contrasenia');
+
+        $urlHis = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_HISTORIAL_CONTRASENAS';
+        $responseHis= Http::get($urlHis);
+
+        if ($responseHis->status() === 200) {
+            $historialContrasenas = $responseHis->json(); // Supongo que la respuesta es en formato JSON, ajusta según corresponda
+        
+            $contrasenaNueva = $request->input('nueva_contrasenia');
+            $usuarioActual = $credenciales['NOM_USUARIO'];
+        
+            // Hash de la nueva contraseña
+            $contrasenaNuevaHashed = Hash::make($contrasenaNueva);
+
+            
+            // Iterar a través de los registros de historial de contraseñas
+            foreach ($historialContrasenas as $historial) {
+                $usuarioHistorial = $historial['NOM_USUARIO'];
+                $contrasenaHistorialHashed = $historial['CONTRASENA'];
+        
+                // Verificar si el usuario es el mismo y la contraseña coincide
+                if ($usuarioHistorial === $usuarioActual && Hash::check($contrasenaNueva, $contrasenaHistorialHashed)) {
+                    // Si se encuentra una coincidencia, redirigir al usuario a la vista deseada
+                    return view('modseguridad.LoginBloqueado');
+                }
+            }
+        }
+
+        // Validar contraseña según tus requisitos
+    $minLength = 5;
+    $maxLength = 12;
+    if (
+        strlen($contrasenaNueva) < $minLength ||
+        strlen($contrasenaNueva) > $maxLength ||
+        !preg_match('/[A-Z]/', $contrasenaNueva) ||   // Al menos una mayúscula
+        !preg_match('/[!@#$]/', $contrasenaNueva) ||  // Al menos un caracter especial
+        !preg_match('/[0-9]/', $contrasenaNueva)      // Al menos un número
+    ) {
+        // Mostrar mensaje de error o realizar alguna acción
+        return view('modseguridad.LoginBloqueado');
+    }
+
+
+
+        $contrasenaNuevaHashed = Hash::make($contrasenaNueva);
+
+        
+
+        $urlUp = 'http://localhost:3000/USUARIOS';
+        $responseUp = Http::put($urlUp,[
+            "COD_ROL" => $credenciales['COD_USUARIO'],
+            "NOM_USUARIO" => $credenciales['NOM_USUARIO'],
+            "CONTRASENA" => $contrasenaNuevaHashed,
+            "ESTADO"=>"ENABLED",
+            "PRE_CONTESTADAS" => $credenciales['PRE_CONTESTADAS'],
+            "COR_ELECTRONICO" => $credenciales['EMAIL']
+        ]);
+
+
+        if ($responseUp->status() === 200) {
+            // Ambas solicitudes exitosas, redirigir a la vista deseada
+            return view('modseguridad.Login');
+        }
+    
+        // Si alguna de las solicitudes falló, mostrar mensaje o redirigir a vista de fallo
+        return view('modseguridad.LoginBloqueado');
 
 
     }

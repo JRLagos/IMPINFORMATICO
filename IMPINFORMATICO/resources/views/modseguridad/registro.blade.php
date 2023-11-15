@@ -41,24 +41,18 @@
         </div>
         <div class="form-group">
             <label for="contrasenia">Contraseña:</label>
-        <div class="input-group">
-            <input type="password" name="contrasenia" id="contrasenia" class="form-control is-invalid" required placeholder="Tu Contraseña" minlength="5" maxlength="12">
-        <div class="input-group-append">
-            <button type="button" id="verContraseniaBtn" class="btn btn-outline-secondary">Ver</button>
-        </div>
-        </div>
-        @if(isset($contraseniaError))
-        <div class="invalid-feedback">
-            La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
-        </div>
-        @else
-        <div class="invalid-feedback">
-        Este campo es requerido.
-        </div>
-        @endif
+            <div class="input-group">
+                <input type="password" name="contrasenia" id="contrasenia" class="form-control is-invalid" required placeholder="Tu Contraseña" minlength="5" maxlength="12">
+                <div class="input-group-append">
+                    <button type="button" id="verContraseniaBtn" class="btn btn-outline-secondary">Ver</button>
+                </div>
+            </div>
+            <span id="passwordRequirements" class="text-danger d-none">
+                La contraseña debe contener al menos una mayúscula, un número y un carácter especial.
+            </span>
         </div>
         <div class="form-group">
-            <label for="usuario">Nombre de Usuario:</label>
+            <label for="usuario">Usuario:</label>
             <input type="text" name="usuario" id="usuario" class="form-control is-invalid" required placeholder="Tu Nombre de Usuario" maxlength="20">
             <div class="invalid-feedback">
                 Este campo es requerido.
@@ -103,7 +97,7 @@
             <label for="edad">Edad:</label>
             <input type="number" name="edad" id="edad" class="form-control is-invalid" placeholder="Tu Edad" min="0" max="99">
         </div>
-        <div class="form-group">
+        <div class ="form-group">
             <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
             <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control is-invalid" placeholder="Tu Fecha de Nacimiento">
         </div>
@@ -169,6 +163,130 @@ document.addEventListener("DOMContentLoaded", function () {
             verContraseniaBtn.textContent = "Ver";
         }
     });
+
+    contraseniaInput.addEventListener("input", function () {
+        // Obtener el valor del campo de contraseña
+        const password = this.value;
+
+        // Expresiones regulares para verificar mayúsculas, minúsculas, números y caracteres especiales
+        const upperCaseRegex = /[A-Z]/;
+        const lowerCaseRegex = /[a-z]/;
+        const numberRegex = /[0-9]/;
+        const specialCharRegex = /[!@#\$]/;
+
+        // Verificar si el campo de contraseña cumple con los requisitos
+        const hasUpperCase = upperCaseRegex.test(password);
+        const hasLowerCase = lowerCaseRegex.test(password);
+        const hasNumber = numberRegex.test(password);
+        const hasSpecialChar = specialCharRegex.test(password);
+
+        let message = "La contraseña debe contener: ";
+
+        if (!hasUpperCase) {
+            message += "al menos una mayúscula, ";
+        }
+        if (!hasLowerCase) {
+            message += "al menos una minúscula, ";
+        }
+        if (!hasNumber) {
+            message += "al menos un número, ";
+        }
+        if (!hasSpecialChar) {
+            message += "al menos un carácter especial, ";
+        }
+
+        if (!hasUpperCase || !hasLowerCase || !hasNumber || !hasSpecialChar) {
+            message = message.slice(0, -2); // Elimina la última coma y espacio
+            passwordRequirements.textContent = message;
+            passwordRequirements.classList.remove("d-none");
+        } else {
+            passwordRequirements.classList.add("d-none");
+        }
+
+        // Verificar si el formulario es válido
+        const isValid = form.checkValidity();
+        submitButton.disabled = !isValid;
+    });
+
+    contraseniaInput.addEventListener("input", function () {
+        // Obtener el valor del campo de contraseña
+        const password = this.value;
+
+        // Expresiones regulares para verificar mayúsculas, números y caracteres especiales
+        const upperCaseRegex = /[A-Z]/;
+        const numberRegex = /[0-9]/;
+        const specialCharRegex = /[!@#\$]/;
+
+        // Verificar si el campo de contraseña cumple con los requisitos
+        const hasUpperCase = upperCaseRegex.test(password);
+        const hasNumber = numberRegex.test(password);
+        const hasSpecialChar = specialCharRegex.test(password);
+
+        // Mostrar el mensaje de requisitos
+        passwordRequirements.classList.toggle("d-none", hasUpperCase && hasNumber && hasSpecialChar);
+
+        // Verificar si el formulario es válido
+        const isValid = form.checkValidity();
+        submitButton.disabled = !isValid;
+    });
+
+    contraseniaInput.addEventListener("input", function () {
+    // Obtener el valor del campo de contraseña
+    const password = this.value;
+
+    // Expresiones regulares para verificar mayúsculas, números y caracteres especiales
+    const upperCaseRegex = /[A-Z]/;
+    const numberRegex = /[0-9]/;
+    const specialCharRegex = /[!@#\$]/;
+
+    // Verificar si el campo de contraseña cumple con los requisitos
+    let isValid = true;
+    let missingChars = [];
+
+    if (!upperCaseRegex.test(password)) {
+        isValid = false;
+        missingChars.push("mayúscula");
+    }
+    if (!numberRegex.test(password)) {
+        isValid = false;
+        missingChars.push("número");
+    }
+    if (!specialCharRegex.test(password)) {
+        isValid = false;
+        missingChars.push("carácter especial");
+    }
+
+    // Mostrar un mensaje al usuario con lo que falta por agregar a la contraseña
+    if (!isValid) {
+        this.setCustomValidity("La contraseña debe contener al menos una " + missingChars.join(", ") + ".");
+        this.classList.add("is-invalid");
+    } else {
+        this.setCustomValidity("");
+        this.classList.remove("is-invalid");
+    }
+});
+
+    fechaNacimientoInput.addEventListener("input", function () {
+    const selectedDate = new Date(this.value);
+    const currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0);
+
+    // Calcula la diferencia de años entre la fecha seleccionada y la fecha actual
+    const ageDifference = currentDate.getFullYear() - selectedDate.getFullYear();
+
+    // Imprime el valor de ageDifference en la consola
+    
+
+    // Comprueba si la fecha seleccionada hace que el usuario tenga menos de 18 años
+    if (ageDifference < 18) {
+        this.setCustomValidity("Debes ser mayor de 18 años.");
+        this.classList.add("is-invalid");
+    } else {
+        this.setCustomValidity("");
+        this.classList.remove("is-invalid");
+    }
+});
+
 
     form.addEventListener("input", function () {
         let isValid = true;

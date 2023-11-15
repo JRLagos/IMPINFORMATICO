@@ -36,27 +36,29 @@
   @endif
 
   <div class="login-logo">
-    <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO® </a>
+    <a href="../../index2.html"><b>IMPERIO </b>INFORMATICO </a>
   </div>
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
-      <p class="login-box-msg">Inicia sesión para comenzar tu sesión</p>
+      <p class="login-box-msg">Inicio de Sesión</p>
       <div id="errorMessage" class="alert alert-danger" style="display: none;">
         Por favor, completa todos los campos.
       </div>
       <form action="{{ route('ModuloSeguridad.entrar') }}" method="post" class="needs-validation" novalidate onsubmit="return validateForm()">
         @csrf
+        <small class="form-text text-muted">Mínimo 3 caracteres y máximo 20 caracteres.</small>
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Usuario" name="usuario" id="usuario" maxlength="20" required>
+          <input type="text" class="form-control" placeholder="Usuario" name="usuario" id="usuario" maxlength="20" minlength="3" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
             </div>
           </div>
         </div>
+        <small class="form-text text-muted">Mínimo 3 caracteres y máximo 12 caracteres.</small>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" id="contrasena" maxlength="12" required>
+          <input type="password" class="form-control" placeholder="Contraseña" name="contrasena" id="contrasena" maxlength="12" minlength="3" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -68,6 +70,9 @@
             </button>
           </div>
         </div>
+        <p class="mb-1">
+        <a href="{{route('ModuloSeguridad.reMenu')}}">¿Olvidaste tu contraseña?</a>
+      </p>
         <div class="row">
           <div class="col-12">
             <button type="submit" class="btn btn-primary btn-block">Iniciar sesión</button>
@@ -75,11 +80,8 @@
           <!-- /.col -->
         </div>
       </form>
-      <p class="mb-1">
-        <a href="{{route('ModuloSeguridad.reMenu')}}">¿Olvidaste tu contraseña?</a>
-      </p>
       <p class="mb-0">
-        <a href="{{route('ModuloSeguridad.Registro')}}" class="text-center">Registrarme como nuevo usuario</a>
+        <a href="{{route('ModuloSeguridad.Registro')}}" class="text-center">Nuevo usuario</a>
       </p>
     </div>
   </div>

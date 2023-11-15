@@ -29,7 +29,7 @@ use App\Http\Controllers\ModuloSeguridad\ParametrosController;
 use App\Http\Controllers\ModuloSeguridad\UsuariosController;
 use App\Http\Controllers\ModuloSeguridad\PerfilController;
 use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
-
+use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,6 +67,7 @@ Route::get('preguntasSeg',[AuthController::class,'SendPreguntasSecretas'])->name
 Route::get('correoCon',[AuthController::class,'ShowCorreoContrasena'])->name('ModuloSeguridad.ConCorreo');
 Route::get('emailCon',[AuthController::class,'SendCorreoContra'])->name('ModuloSeguridad.emailEnviarCon');
 Route::get('ActualizarUs',[AuthController::class,'UpdUsuario'])->name('ModuloSeguridad.UpdUsu');
+Route::get('contra',[AuthController::class,'SendContra'])->name('ModuloSeguridad.contra');
 
 //Registro
 Route::get('registro',[AuthController::class,'ShowRegistro'])->name('ModuloSeguridad.Registro');
@@ -186,3 +187,6 @@ Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadis
 //Perfil
 Route::get('Perfil', [PerfilController::class, 'index'])->name('Perfil.index');
 Route::get('ContraPerfil', [ContraPerfilController::class, 'UpdPerfilContra'])->name('ContraPerfil.index');
+
+//Bitacora
+Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
