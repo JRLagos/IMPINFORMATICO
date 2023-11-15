@@ -27,6 +27,9 @@ use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
 use App\Http\Controllers\ModuloSeguridad\ParametrosController;
 use App\Http\Controllers\ModuloSeguridad\UsuariosController;
+use App\Http\Controllers\ModuloSeguridad\PerfilController;
+use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -175,6 +178,11 @@ Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt
 
 // Usuarios
 Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.index');
+Route::post('Post-Usuario',[UsuarioController::class, 'store'])->name('Post-Usuario.store');
+
 
 Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadistica.edit');
 
+//Perfil
+Route::get('Perfil', [PerfilController::class, 'index'])->name('Perfil.index');
+Route::get('ContraPerfil', [ContraPerfilController::class, 'UpdPerfilContra'])->name('ContraPerfil.index');

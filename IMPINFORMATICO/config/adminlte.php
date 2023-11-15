@@ -300,6 +300,14 @@ return [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'text' => 'PERFIL',
+            'icon' => 'fas fa-fw fa-user',
+            'url'  => 'Perfil',
+            'topnav_right' => true,
+        ], 
+      
+        
 
         // Sidebar items:
         [
@@ -319,7 +327,6 @@ return [
                     'text' => 'Personas',
                     'url'  => 'Persona',
                     'icon' => 'fas fa-fw fa-user-circle gns text-info',
-
                 ], 
                 [
                     'text' => 'Empleados',

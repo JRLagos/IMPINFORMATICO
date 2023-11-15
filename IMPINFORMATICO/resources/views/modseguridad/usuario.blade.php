@@ -62,7 +62,7 @@
 
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Usuarios</b></h1>
+      
     </div>
     @if(session('success'))
     <div class="alert alert-success">
@@ -75,6 +75,17 @@
         {{ session('error') }}
     </div>
 @endif
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Usuarios</b></h1>
+        @php
+            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addUsuario" type="button"><b>Agregar
+                Usuario</b></button>
+    </div>
+
+
 @stop
 
 
@@ -90,6 +101,80 @@
 
 @section('content')
    
+       <!-- Modal para agregar un nuevo producto -->
+       <div class="modal fade bd-example-modal-sm" id="addUsuario" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <h3>Municipio</h3>
+                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
+
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('Post-Usuario.store') }}" method="post" class="was-validated">
+                        @csrf
+
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Nombre Usuario</label>
+                            <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}"
+                                name="NOM_USUARIO" required minlength="4" maxlength="20" />
+                            <span class="validity"></span>
+                        </div>
+
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Rol</label>
+                            <select class="form-control js-example-basic-single" name="COD_ROL"
+                                id="COD_ROL" required>
+                                <option value="" selected disabled> Seleccionar Rol</option>
+                                @foreach ($ResulRol as $Rol)
+                                    <option value="{{ $Rol['COD_ROL'] }}">
+                                        {{ $Rol['NOM_ROL'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                         
+                   <div class="mb-3 mt-3">
+                    <label for="dni" class="form-label">Contraseña</label>
+                       <input type="password" class="form-control" name="CONTRASENA" required minlength="8" maxlength="12" />
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Correo Electrónico</label>
+                            <input type="email" id="email"
+                                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" size="30"
+                                class="form-control" name="EMAIL" required>
+                    </div>
+    
+
+
+
+                        <div class="mb-3 mt-3">
+                            <label for="SEX_PERSONA" class="form-label">Estado Usuario</label>
+                            <select class="form-control" name="IND_USUARIO" required>
+                                <option value="" selected disabled>Seleccione una opción</option>
+                                <option value="ENABLED">Activo</option>
+                                <option value="DISABLED">Inactivo</option>
+                            </select>
+                            <div class="valid-feedback"></div>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
+                    <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+
 
     <!-- /.card-header -->
     <div class="table-responsive p-0">
@@ -189,7 +274,7 @@
 
     <div class="mb-3 mt-3">
         <label for="contrasena" class="form-label">Contraseña del Usuario</label>
-        <input type="password" class="form-control" name="contrasena" minlength="5" value="{{ $Usuario['EMAIL'] }}" maxlength="12" required>
+        <input type="password" class="form-control" name="contrasena"  value="{{ $Usuario['CONTRASENA'] }}" required>
     </div>
 
     <div class="modal-footer">
@@ -411,4 +496,11 @@
                 });
             });
         </script>
+
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
+
     @stop

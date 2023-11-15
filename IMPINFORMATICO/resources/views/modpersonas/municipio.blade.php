@@ -105,7 +105,7 @@
                             <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
                                 id="COD_DEPARTAMENTO" required>
                                 <option value="" selected disabled> Seleccionar Departamento </option>
-                                @foreach ($ResulDepartamento as $Departamento)
+                                @foreach ($ResulRol as $Rol)
                                     <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
                                         {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
                                 @endforeach
