@@ -152,11 +152,18 @@ Route::post('Put-Estudio', [EstudioController::class, 'update'])->name('Upd-Estu
 Route::get('Sucursal', [SucursalController::class, 'index'])->name('Sucursal.index');
 Route::post('Post-Sucursal',[SucursalController::class, 'store'])->name('Post-Sucursal.store');
 Route::post('/Upd-Sucursal',[SucursalController::class, 'update'])->name('Upd-Sucursal.update');
+Route::get('/Sucursales-Eliminados', [SucursalController::class, 'indexEliminados'])->name('SucursalEliminado.indexEliminados');
+Route::post('Act-Sucursal', [SucursalController::class, 'activar'])->name('Act-Sucursal.activar');
+Route::post('Del-Sucursal', [SucursalController::class, 'desactivar'])->name('Del-Sucursal.desactivar');
 
 //Departamento de empresa
 Route::get('DeptoEmpresa', [DeptoEmpresaController::class, 'index'])->name('DeptoEmpresa.index');
 Route::post('Post-DeptoEmpresa',[DeptoEmpresaController::class, 'store'])->name('Post-DeptoEmpresa.store');
 Route::post('/Upd-DeptoEmpresa',[DeptoEmpresaController::class, 'update'])->name('Upd-DeptoEmpresa.update');
+Route::get('/DeptoEmpresa-Eliminados', [DeptoEmpresaController::class, 'indexEliminados'])->name('DeptoEmpresaEliminado.indexEliminados');
+Route::post('Act-DeptoEmpresa', [DeptoEmpresaController::class, 'activar'])->name('Act-DeptoEmpresa.activar');
+Route::post('Del-DeptoEmpresa', [DeptoEmpresaController::class, 'desactivar'])->name('Del-DeptoEmpresa.desactivar');
+
 
 // Roles
 Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
