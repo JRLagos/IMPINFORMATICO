@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Departamento Empresa')
+@section('title', 'Sucursales Eliminadas')
 
 @section('content_header')
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
@@ -29,7 +29,7 @@
 
         // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
         $objetosFiltrados = array_filter($Objetos, function ($objeto) {
-            return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'DEPARTAMENTOS_EMPRESA';
+            return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'SUCURSALES';
         });
 
         // Filtrar los permisos de seguridad
@@ -43,37 +43,9 @@
         $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
     @endphp
 
-
-
-
-
-
-
-   
-@php
-function tienePermiso($permisos, $permisoBuscado)
-{
-    foreach ($permisos as $permiso) {
-        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === '1') {
-            return true; // El usuario tiene el permiso
-        }
-    }
-    return false; // El usuario no tiene el permiso
-}
-@endphp
-
 <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-<h1><b>Departamentos Empresa</b></h1>
-@php
-$permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-@endphp
-<button
-class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
-data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agregar</b></button>
+    <h1><b>Sucursales Eliminadas</b></h1>
 </div>
-
-    
-
 @stop
 
 
@@ -89,30 +61,31 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
 
 @section('content')
 
+
     <!-- Modal para agregar un nuevo producto -->
-    <div class="modal fade bd-example-modal-sm" id="addDeptoEmpresa" tabindex="-1">
+    <div class="modal fade bd-example-modal-sm" id="addSucursal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
 
 
                 <div class="modal-header">
-                    <h3><b>Nuevo Departamento</b></h3>
+                    <h3><b>Nueva Sucursal</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('Post-DeptoEmpresa.store') }}" method="post" class="was-validated">
+                    <form action="{{ route('Post-Sucursal.store') }}" method="post" class="was-validated">
                         @csrf
 
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Nombre Departamento</label>
-                            <input type="text" class="form-control alphanumeric-input" name="NOM_DEPTO_EMPRESA"
+                            <label for="dni" class="form-label">Nombre Sucursal</label>
+                            <input type="text" class="form-control alphanumeric-input" name="NOM_SUCURSAL"
                                 placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Descripción</label>
-                            <input type="text" class="form-control alphanumeric-input" name="DES_DEPTO_EMPRESA"
+                            <input type="text" class="form-control alphanumeric-input" name="DES_SUCURSAL"
                                 placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
@@ -121,7 +94,6 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                     <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
                     <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                 </div>
-
                 </form>
             </div>
         </div>
@@ -139,111 +111,64 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="DeptoEmpresa" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="Sucursal" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">Descripción</th>
-                    <th style="text-align: center;">Acción</th>
+                    <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
+
+                @foreach ($ResulSucursalEliminado as $SucursalEliminado)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</td>
-                        <td style="text-align: center;">{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}</td>
+                        <td style="text-align: center;">{{ $SucursalEliminado['NOM_SUCURSAL'] }}</td>
+                        <td style="text-align: center;">{{ $SucursalEliminado['DES_SUCURSAL'] }}</td>
                         <td style="text-align: center;">
 
-                            <button value="Editar" title="Editar" class="btn  btn-warning" type="button"
-                                data-toggle="modal" data-target="#UpdDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                            <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
+                            <button value="Activar" title="Eliminar" class="btn btn-success" type="button"
                                 data-toggle="modal"
-                                data-target="#EliminarDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
-                                <i class='fas fa-trash-alt' style='font-size:20px;'></i>
+                                data-target="#ActivarSucursal-{{ $SucursalEliminado['COD_SUCURSAL'] }}">
+                                <i class='fas fa-check-circle' style='font-size:20px;'></i>
                             </button>
                         </td>
                     </tr>
-                    <!-- Modal for editing goes here -->
                     <div class="modal fade bd-example-modal-sm"
-                        id="UpdDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}" tabindex="-1">
+                        id="ActivarSucursal-{{ $SucursalEliminado['COD_SUCURSAL'] }}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Departamento</b></h4>
+                                    <h5 class="modal-title">Activar Sucursal</h5>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-
                                 <div class="modal-body">
-                                    <form action="{{ route('Upd-DeptoEmpresa.update') }}" method="post"
+                                   
+                                    <form action="{{ route('Act-Sucursal.activar') }}" method="post"
                                         class="was-validated">
                                         @csrf
-
-                                        <input type="hidden" class="form-control" name="COD_DEPTO_EMPRESA"
-                                            value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
-
+                                        <input type="hidden" class="form-control" name="COD_SUCURSAL"
+                                            value="{{ $SucursalEliminado['COD_SUCURSAL'] }}">
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Nombre Departamento</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}"
-                                                placeholder="Escriba aquí." required maxlength="50">
+                                            <label for="dni"
+                                                class="form-control">{{ $SucursalEliminado['NOM_SUCURSAL'] }}</label>
                                         </div>
-
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}"
-                                                placeholder="Escriba aquí." required maxlength="50">
+                                            <label for="dni" class="form-label">Descripción Sucursal</label>
+                                            <label for="dni"
+                                                class="form-control">{{ $SucursalEliminado['DES_SUCURSAL'] }}</label>
                                         </div>
-
-
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTIVAR</b></button>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="modal fade bd-example-modal-sm" id="EliminarDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}"
-                            tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Eliminar Sucursal</h5>
-                                        <button type="button" class="btn-close" data-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h4>Sucursal a Eliminar</h4>
-                                        <form action="{{ route('Del-DeptoEmpresa.desactivar') }}" method="post"
-                                            class="was-validated">
-                                            @csrf
-                                            <input type="hidden" class="form-control" name="COD_DEPTO_EMPRESA"
-                                                value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
-
-                                            <div class="mb-3 mt-3">
-                                                <label for="dni" class="form-label">Nombre Sucursal</label>
-                                                <label for="dni"
-                                                    class="form-control">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</label>
-                                            </div>
-
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    data-dismiss="modal"><b>CERRAR</b></button>
-                                                <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -252,12 +177,11 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
         </table>
         <br>
         <div class="container d-md-flex justify-content-md-end">
-            <a class=" btn btn-danger btn-xl" href="{{ route('DeptoEmpresaEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
+            <a class="btn btn-secondary" href="{{ route('Sucursal.index') }}"><b>Regresar</b>
             </a>
         </div>
         <br>
     @stop
-
 
     @section('footer')
 
@@ -320,9 +244,10 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                 margin-top: 10px;
             }
         </style>
+
         <script>
             $(document).ready(function() {
-                var table = $('#DeptoEmpresa').DataTable({
+                var table = $('#Sucursal').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
@@ -346,7 +271,7 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Registro de Departametos de la Empresa | Imperio Informatico',
+                                    title: 'Registro de Sucursales | Imperio Informatico',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
                                         var col11Index = 11;
@@ -443,9 +368,9 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Registro de Departametos de la Empresa | Imperio Informatico',
+                                    title: 'Registro de Sucursales de Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1]
+                                        columns: [0, 1, 2]
                                     }
 
                                 }
@@ -480,14 +405,9 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
         </script>
 
         <script>
-            $(document).ready(function() {
-                $('.js-example-basic-single').select2({});
-            });
-        </script>
-        <script>
             function cleanInputValue(inputElement) {
                 var inputValue = inputElement.value;
-                var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+                var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
                 if (cleanValue !== inputValue) {
                     inputElement.value = cleanValue;
                 }
@@ -498,6 +418,11 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                 input.addEventListener("input", function() {
                     cleanInputValue(this);
                 });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({});
             });
         </script>
         <script>

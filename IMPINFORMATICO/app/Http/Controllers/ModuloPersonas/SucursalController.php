@@ -31,6 +31,7 @@ class SucursalController extends Controller
         return view('modpersonas.sucursal')->with('ResulSucursal', $Sucursal); 
     }
 
+    
     /**
      * Show the form for creating a new resource.
      */
@@ -48,9 +49,7 @@ class SucursalController extends Controller
             $Sucursal = $request->all();
     
             $res = Http::post("http://localhost:3000/INS_SUCURSAL/SUCURSAL", $Sucursal,[
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $sessionToken,
-                ],
+              
             ]);
     
             return redirect(route('Sucursal.index'))->with('success', 'Datos ingresados con éxito.');
@@ -94,8 +93,49 @@ class SucursalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function desactivar(Request $request)
     {
-        //
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+        $desact_departamento = Http::put('http://localhost:3000/ACT_DESACT_SUCURSAL/ELIMINAR_SUCURSAL/'.$request->input("COD_SUCURSAL"),[
+            "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+        
+        return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');
+    }
+
+    public function activar(Request $request)
+    {
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+        $act_departamento = Http::put('http://localhost:3000/ACT_DESACT_SUCURSAL/ACTIVAR_SUCURSAL/'.$request->input("COD_SUCURSAL"),[
+            "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+        
+        return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');
+    }
+    public function indexEliminados(Request $request)
+    {
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+        $response = Http::get('http://localhost:3000/SHOW_SUCURSAL/GETALL_SUCURSAL2/2',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+    
+        // Convierte los datos JSON a un array asociativo
+        $SucursalEliminado = json_decode($data, true);
+    
+        return view('modpersonas.SucursalesEliminados')->with('ResulSucursalEliminado', $SucursalEliminado);
     }
 }
