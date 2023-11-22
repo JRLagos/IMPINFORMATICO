@@ -63,7 +63,7 @@
     button[type="submit"] {
       width: 100%;
       padding: 10px;
-      background-color: #007bff;
+      background-color: #ffc107; /* Amarillo */
       color: #fff;
       border: none;
       border-radius: 3px;
@@ -71,7 +71,7 @@
     }
 
     button[type="submit"]:hover {
-      background-color: #0056b3;
+      background-color: #ffad00; /* Amarillo más oscuro al pasar el mouse */
     }
   </style>
 </head>
@@ -89,24 +89,12 @@
       </select>
       
       <label for="respuesta2">Respuesta</label>
-      <input type="text" id="respuesta2" name="respuesta" class="form-control" maxlength="16" required>
+      <input type="text" id="respuesta2" name="respuesta" class="form-control" maxlength="16" required pattern="^(\S*\s){0,1}\S*$">
       
-      <label for="nueva_contrasenia">Nueva Contraseña</label>
-      <div class="input-group">
-        <input type="password" id="nueva_contrasenia" name="nueva_contrasenia" class="form-control" minlength="5" maxlength="12" required>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" id="togglePassword">
-            <i class="fa fa-eye-slash" aria-hidden="true"></i>
-            Ver
-          </button>
-        </div>
-      </div>
-
-      <!-- Mensaje de formato de contraseña -->
-      <p class="password-instructions"><b>La contraseña debe contener al menos 5 caracteres, incluyendo al menos una letra mayúscula, una letra minúscula y un número.</b></p>
+    
 
       <!-- Agrega margen inferior al botón "Guardar y Continuar" -->
-      <button type="submit" class="btn btn-primary mt-3">Guardar y Continuar</button>
+      <button type="submit" class="btn btn-warning mt-3">Guardar y Continuar</button>
     </form>
   </div>
   
@@ -121,8 +109,9 @@
       const togglePasswordBtn = document.getElementById("togglePassword");
   
       respuestaInput.addEventListener("input", function() {
+        // Convertir la respuesta a mayúsculas
         const value = this.value.trim();
-        this.value = value.toUpperCase(); // Convertir la respuesta a mayúsculas
+        this.value = value.toUpperCase();
       });
   
       nuevaContraseniaInput.addEventListener("input", function() {
