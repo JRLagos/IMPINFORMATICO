@@ -50,18 +50,31 @@ class PlanillaController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $sessionToken = $request->session()->get('generated_token');
-        $Planilla = $request->all();
+{
+    $sessionToken = $request->session()->get('generated_token');
+    
+    // Obtén la lista de empleados seleccionados desde el formulario
+    $empleadosSeleccionados = $request->input('COD_EMPLEADO');
 
-        $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $Planilla,[
+    // Itera sobre la lista de empleados y genera la planilla para cada uno
+    foreach ($empleadosSeleccionados as $empleadoSeleccionado) {
+        // Crea un array con los datos de la planilla para el empleado actual
+        $planillaData = [
+            'COD_EMPLEADO' => $empleadoSeleccionado,
+            'TIPO_PLANILLA' => $request->input('TIPO_PLANILLA'),
+            // Otros campos de la planilla...
+        ];
+
+        // Realiza la solicitud HTTP para almacenar la planilla
+        $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $planillaData, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $sessionToken,
             ],
         ]);
-
-        return redirect(route('Planilla.index'))->with('success', 'Datos Ingresado Con Exitos');
     }
+
+    return redirect(route('Planilla.index'))->with('success', 'Planillas generadas con éxito');
+}
 
 
     /**

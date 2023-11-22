@@ -30,6 +30,7 @@ use App\Http\Controllers\ModuloSeguridad\UsuariosController;
 use App\Http\Controllers\ModuloSeguridad\PerfilController;
 use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
+use App\Http\Controllers\ModuloPlanillas\DeduccionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -190,3 +191,7 @@ Route::get('ContraPerfil', [ContraPerfilController::class, 'UpdPerfilContra'])->
 
 //Bitacora
 Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
+
+//Deduccion
+Route::get('Deducciones', [DeduccionController::class, 'index'])->name('Deducciones.index');
+

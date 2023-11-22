@@ -412,6 +412,11 @@ return [
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Vacaciones',
                 ], 
+                [
+                    'text' => 'Deduccionees',
+                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
+                    'url'  => 'Deducciones',
+                ],
             ],
         ],
         [
