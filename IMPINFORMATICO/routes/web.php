@@ -28,6 +28,7 @@ use App\Http\Controllers\ModuloSeguridad\PermisosController;
 use App\Http\Controllers\ModuloSeguridad\ParametrosController;
 use App\Http\Controllers\ModuloSeguridad\UsuariosController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
+use App\Http\Controllers\ModuloPlanillas\DeduccionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -180,3 +181,6 @@ Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.ind
 Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadistica.edit');
 //Bitacora
 Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
+
+//Deduccion
+Route::get('Deducciones', [DeduccionController::class, 'index'])->name('Deducciones.index');

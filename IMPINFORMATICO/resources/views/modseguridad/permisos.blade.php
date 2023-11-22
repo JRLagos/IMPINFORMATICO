@@ -58,14 +58,14 @@
 
 
 
-    <h1>Permisos</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Permisos</b></h1>
         @php
             $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
         <button
-            class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2"
-            data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"> Agregar Permiso</button>
+            class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+            data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"><b>Agregar</b></button>
     </div>
 
 @stop
@@ -90,18 +90,16 @@
 
 
                 <div class="modal-header">
-                    <h3>Permisos</h3>
+                    <h3><b>Nuevo Permiso</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <h4>Ingresar Permiso</h4>
-
                     <form action="{{ route('Post-Permisos.store') }}" method="post" class="was-validated">
                         @csrf
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Roles</label>
-                            <select class="form-select js-example-basic-single" name="COD_ROL" id="COD_ROL">
+                            <select class="form-select js-example-basic-single" name="COD_ROL" id="COD_ROL" required>
                                 <option value="" selected disabled>Seleccionar Rol</option>
                                 @foreach ($ResulRoles as $Roles)
                                     <option value="{{ $Roles['COD_ROL'] }}">{{ $Roles['NOM_ROL'] }}</option>
@@ -111,7 +109,7 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Objetos</label>
-                            <select class="form-select js-example-basic-single" name="COD_OBJETO" id="COD_OBJETO">
+                            <select class="form-select js-example-basic-single" name="COD_OBJETO" id="COD_OBJETO" required>
                                 <option value="" selected disabled>Seleccionar Objeto</option>
                                 @foreach ($ResulObjetos as $Objeto)
                                     <option value="{{ $Objeto['COD_OBJETO'] }}">{{ $Objeto['NOM_OBJETO'] }}</option>
@@ -120,7 +118,7 @@
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Instalar</label>
+                            <label for="dni" class="form-label">Permiso Insertar</label>
                             <input type="text" class="form-control" name="PER_INSERTAR" required minlength="1"
                                 maxlength="1" />
                             <span class="validity"></span>
@@ -148,8 +146,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                    <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
+                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                 </div>
                 </form>
 
@@ -163,7 +161,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="permisos" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Rol</th>
@@ -260,17 +258,20 @@
                                                 maxlength="1" name="PER_CONSULTAR"
                                                 value="{{ $Permisos['PER_CONSULTAR'] }}" required>
                                             <span class="validity"></span>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    data-dismiss="modal"><b>CERRAR</b></button>
-                                                <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                            </div>
-                                            </td>
-                                            </tr>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
             </tbody>
         </table>
-    </div>
 
 @stop
 
@@ -279,9 +280,9 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
 
-@stop
+    @stop
 
 
 
