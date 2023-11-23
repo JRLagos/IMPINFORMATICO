@@ -115,6 +115,9 @@ Route::post('Del-Departamento', [DepartamentoController::class, 'desactivar'])->
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
 Route::post('Post-Municipio', [MunicipioController::class, 'store'])->name('Post-Municipio.store');
 Route::post('/Upd-Municipio',[MunicipioController::class, 'update'])->name('Upd-Municipio.update');
+Route::get('/Municipio-Eliminados', [MunicipioController::class, 'indexEliminados'])->name('MunicipiosEliminado.indexEliminados');
+Route::post('Act-Municipio', [MunicipioController::class, 'activar'])->name('Act-Municipio.activar');
+Route::post('Del-Municipio', [MunicipioController::class, 'desactivar'])->name('Del-Municipio.desactivar');
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
