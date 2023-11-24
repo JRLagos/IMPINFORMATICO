@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Municipio')
+@section('title', 'Municipios Eliminados')
 
 @section('content_header')
-<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,56 +14,46 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-        @php
-    $usuario = session('credenciales');
-    $usuarioRol = session('nombreRol');
-    $Permisos = session('permisos');
-    $Objetos = session('objetos');
 
-    // Verificar si alguna de las sesiones está vacía
-    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
-        // Redirigir al usuario al inicio de sesión o a donde corresponda
-        return redirect()->route('Login');
-    }
+    @php
+        $usuario = session('credenciales');
+        $usuarioRol = session('nombreRol');
+        $Permisos = session('permisos');
+        $Objetos = session('objetos');
 
-    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
-    $objetosFiltrados = array_filter($Objetos, function($objeto) {
-        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PARAMETROS';
-    });
+        // Verificar si alguna de las sesiones está vacía
+        if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+            // Redirigir al usuario al inicio de sesión o a donde corresponda
+            return redirect()->route('Login');
+        }
 
-    // Filtrar los permisos de seguridad
-    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
-        return (
-            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
-            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
-        );
-    });
+        // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+        $objetosFiltrados = array_filter($Objetos, function ($objeto) {
+            return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'SUCURSALES';
+        });
 
-    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
-    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
-    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
-    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+        // Filtrar los permisos de seguridad
+        $permisosFiltrados = array_filter($Permisos, function ($permiso) use ($usuario, $objetosFiltrados) {
+            return isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] && isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'));
+        });
+
+        $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+        $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+        $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+        $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
     @endphp
 
-
-   
-
-
-    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Municipios</b></h1>
-       
-
-        <button class="btn btn-success active text-light btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button">
-            <b>Agregar</b></button>
-    </div>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Municipios Eliminados</b></h1>
+</div>
 @stop
+
 
 @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
-
+    <!-- botones -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
@@ -71,173 +61,107 @@
 
 @section('content')
 
+
     <!-- Modal para agregar un nuevo producto -->
-    <div class="modal fade bd-example-modal-sm" id="addMunicipio" tabindex="-1">
+    <div class="modal fade bd-example-modal-sm" id="addSucursal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
 
 
                 <div class="modal-header">
-                <h3><b>Nuevo Municipio</b></h3>
+                    <h3><b>Nueva Sucursal</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
-
                 </div>
                 <div class="modal-body">
-
-                    <form action="{{ route('Post-Municipio.store') }}" method="post" class="was-validated">
+                    <form action="{{ route('Post-Sucursal.store') }}" method="post" class="was-validated">
                         @csrf
 
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Departamento</label>
-                            <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO" id="COD_DEPARTAMENTO" required>
-                                <option value="" selected disabled> Seleccionar Departamento </option>
-                                @foreach ($ResulDepartamento as $Departamento)
-                                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">{{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
-                                @endforeach
-                            </select>
+                            <label for="dni" class="form-label">Nombre Sucursal</label>
+                            <input type="text" class="form-control alphanumeric-input" name="NOM_SUCURSAL"
+                                placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Nombre Municipio</label>
-                            <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}"
-                                name="NOM_MUNICIPIO"  placeholder="Escriba aquí." required minlength="4" maxlength="20" />
-                            <span class="validity"></span>
+                            <label for="dni" class="form-label">Descripción</label>
+                            <input type="text" class="form-control alphanumeric-input" name="DES_SUCURSAL"
+                                placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                 </div>
                 <div class="modal-footer">
-                <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
                     <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
                 </div>
                 </form>
-
             </div>
         </div>
     </div>
     </div>
 
-
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
+        <div class="alert alert-warning alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
     @endif
 
+
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="municipio" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="Sucursal" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Municipio</th>
-                    <th style="text-align: center;">Departamento</th>
+                    <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ResulMunicipio as $Municipio)
+
+                @foreach ($ResulMunicipioEliminado as $MunicipioEliminado)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
-                        <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
-
+                        <td style="text-align: center;">{{ $MunicipioEliminado['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">
-                       
-                            <button value="Editar" title="Editar" class="btn btn-warning " type="button" data-toggle="modal"
-                                data-target="#UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                            <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
+
+                            <button value="Activar" title="Activar" class="btn btn-success" type="button"
                                 data-toggle="modal"
-                                data-target="#EliminarDeptoEmpresa-{{ $Municipio['COD_MUNICIPIO'] }}">
-                                <i class='fas fa-trash-alt' style='font-size:20px;'></i>
+                                data-target="#ActivarMunicipio1-{{ $MunicipioEliminado['COD_MUNICIPIO'] }}">
+                                <i class='fas fa-check-circle' style='font-size:20px;'></i>
                             </button>
                         </td>
                     </tr>
-                    <!-- Modal for editing goes here -->
-                    <div class="modal fade bd-example-modal-sm" id="UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}"
-                        tabindex="-1">
+                    <div class="modal fade bd-example-modal-sm"
+                        id="ActivarMunicipio1-{{ $MunicipioEliminado['COD_MUNICIPIO'] }}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h3 class="modal-title"><b>Editar Municipio</b></h3>
+                                    <h5 class="modal-title">Activar Municipio</h5>
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-
                                 <div class="modal-body">
-                                    <form action="{{ route('Upd-Municipio.update') }}" method="post"
+                                   
+                                    <form action="{{ route('Act-Municipio.activar') }}" method="post"
                                         class="was-validated">
                                         @csrf
-
                                         <input type="hidden" class="form-control" name="COD_MUNICIPIO"
-                                            value="{{ $Municipio['COD_MUNICIPIO'] }}">
+                                            value="{{ $MunicipioEliminado['COD_MUNICIPIO'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Departamento</label>
-                                            <select class="form-control js-example-basic-single" name="COD_DEPARTAMENTO"
-                                                id="COD_DEPARTAMENTO">
-                                                <option value="{{ $Municipio['COD_DEPARTAMENTO'] }}"
-                                                    style="display: none;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</option>
-                                                @foreach ($ResulDepartamento as $Departamento)
-                                                    <option value="{{ $Departamento['COD_DEPARTAMENTO'] }}">
-                                                        {{ $Departamento['NOM_DEPARTAMENTO'] }}</option>
-                                                @endforeach
-                                            </select>
+                                            <label for="dni" class="form-label">Nombre del Municipio</label>
+                                            <label for="dni"
+                                                class="form-control">{{ $MunicipioEliminado['NOM_MUNICIPIO'] }}</label>
                                         </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Municipio</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_MUNICIPIO" value="{{ $Municipio['NOM_MUNICIPIO'] }}" placeholder="Escriba aquí." required
-                                                maxlength="30">
-                                        </div>
-
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-danger"
                                                 data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTIVAR</b></button>
                                         </div>
                                     </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="modal fade bd-example-modal-sm" id="EliminarDeptoEmpresa-{{ $Municipio['COD_MUNICIPIO'] }}"
-                            tabindex="-1">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Eliminar Sucursal</h5>
-                                        <button type="button" class="btn-close" data-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h4>Sucursal a Eliminar</h4>
-                                        <form action="{{ route('Del-Municipio.desactivar') }}" method="post"
-                                            class="was-validated">
-                                            @csrf
-                                            <input type="hidden" class="form-control" name="COD_MUNICIPIO"
-                                                value="{{ $Municipio['COD_MUNICIPIO'] }}">
-
-                                            <div class="mb-3 mt-3">
-                                                <label for="dni" class="form-label">Nombre Sucursal</label>
-                                                <label for="dni"
-                                                    class="form-control">{{ $Municipio['NOM_MUNICIPIO'] }}</label>
-                                            </div>
-
-
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-danger"
-                                                    data-dismiss="modal"><b>CERRAR</b></button>
-                                                <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
-                                            </div>
-                                        </form>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -246,7 +170,7 @@
         </table>
         <br>
         <div class="container d-md-flex justify-content-md-end">
-            <a class=" btn btn-danger btn-xl" href="{{ route('MunicipiosEliminado.indexEliminados') }}"><b>Municipios Eliminados</b>
+            <a class="btn btn-secondary" href="{{ route('Municipio.index') }}"><b>Regresar</b>
             </a>
         </div>
         <br>
@@ -254,10 +178,11 @@
 
     @section('footer')
 
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+            reserved.</b>
 
     @stop
 
@@ -312,9 +237,10 @@
                 margin-top: 10px;
             }
         </style>
+
         <script>
             $(document).ready(function() {
-                var table = $('#municipio').DataTable({
+                var table = $('#Sucursal').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
@@ -338,7 +264,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Registro de Municipios | Imperio Informatico',
+                                    title: 'Registro de Sucursales | Imperio Informatico',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
                                         var col11Index = 11;
@@ -435,9 +361,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Registro de Municipios | Imperio Informatico',
+                                    title: 'Registro de Sucursales de Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1]
+                                        columns: [0, 1, 2]
                                     }
 
                                 }
@@ -470,10 +396,11 @@
                 return now.toLocaleDateString('es-ES', options);
             }
         </script>
+
         <script>
             function cleanInputValue(inputElement) {
                 var inputValue = inputElement.value;
-                var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+                var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
                 if (cleanValue !== inputValue) {
                     inputElement.value = cleanValue;
                 }
@@ -491,12 +418,10 @@
                 $('.js-example-basic-single').select2({});
             });
         </script>
-
         <script>
             setTimeout(function() {
                 $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
             }, 5000); // 5000 ms = 5 segundos
         </script>
-
-
+        </script>
     @stop

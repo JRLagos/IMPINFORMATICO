@@ -86,11 +86,49 @@ class MunicipioController extends Controller
         return redirect(route('Municipio.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function desactivar(Request $request)
     {
-        //
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+        $desact_departamento = Http::put('http://localhost:3000/ACT_DESACT_MUNICIPIO/ELIMINAR_MUNICIPIO/'.$request->input("COD_MUNICIPIO"),[
+            "COD_MUNICIPIO" => $request->input('COD_MUNICIPIO'),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+        
+        return redirect(route('Municipio.index'))->with('success', 'La actualización se ha realizado con éxito.');
+    }
+
+    public function activar(Request $request)
+    {
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+        $act_departamento = Http::put('http://localhost:3000/ACT_DESACT_MUNICIPIO/ACTIVAR_MUNICIPIO/'.$request->input("COD_MUNICIPIO"),[
+            "COD_MUNICIPIO" => $request->input('COD_MUNICIPIO'),
+        ],[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+        
+        return redirect(route('Municipio.index'))->with('success', 'La actualización se ha realizado con éxito.');
+    }
+    public function indexEliminados(Request $request)
+    {
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+        $response = Http::get('http://localhost:3000/SHOW_DEPTO_EMPRESA/GETALL_MUNICIPIO2/0',[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+        $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+    
+        // Convierte los datos JSON a un array asociativo
+        $MunicipioEliminado = json_decode($data, true);
+    
+        return view('modpersonas.municipioseliminados')->with('ResulMunicipioEliminado', $MunicipioEliminado);
     }
 }
