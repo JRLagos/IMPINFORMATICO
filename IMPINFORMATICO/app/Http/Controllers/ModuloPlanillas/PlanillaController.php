@@ -18,7 +18,7 @@ class PlanillaController extends Controller
     {
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/GETALL_PLANILLA',[
+        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/PLANILLA_ORDINARIA',[
             'headers' => [
                 'Authorization' => 'Bearer ' . $sessionToken,
             ],
@@ -39,14 +39,6 @@ class PlanillaController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -56,26 +48,45 @@ class PlanillaController extends Controller
     // Obtén la lista de empleados seleccionados desde el formulario
     $empleadosSeleccionados = $request->input('COD_EMPLEADO');
 
-    // Itera sobre la lista de empleados y genera la planilla para cada uno
-    foreach ($empleadosSeleccionados as $empleadoSeleccionado) {
-        // Crea un array con los datos de la planilla para el empleado actual
-        $planillaData = [
-            'COD_EMPLEADO' => $empleadoSeleccionado,
-            'TIPO_PLANILLA' => $request->input('TIPO_PLANILLA'),
-            // Otros campos de la planilla...
-        ];
+    try {
+        // Itera sobre la lista de empleados y genera la planilla para cada uno
+        foreach ($empleadosSeleccionados as $empleadoSeleccionado) {
+            // Crea un array con los datos de la planilla para el empleado actual
+            $planillaData = [
+                'COD_EMPLEADO' => $empleadoSeleccionado,
+                'TIPO_PLANILLA' => $request->input('TIPO_PLANILLA'),
+                // Otros campos de la planilla...
+            ];
 
-        // Realiza la solicitud HTTP para almacenar la planilla
-        $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $planillaData, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $sessionToken,
-            ],
-        ]);
+            // Realiza la solicitud HTTP para almacenar la planilla
+            $res = Http::post("http://localhost:3000/INS_PLANILLA/PLANILLA", $planillaData, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $sessionToken,
+                ],
+            ]);
+
+            if (!$res->successful()) {
+                $errorResponse = $res->json(); // Ajusta según la estructura de tu respuesta JSON
+                
+                // Log del error
+                \Log::error('Error al generar planilla para el empleado ' . $empleadoSeleccionado . ': ' . $errorResponse['error'] ?? 'Error desconocido en la solicitud HTTP.');
+                
+                // Lanza una excepción específica para manejar errores HTTP
+                throw new \RuntimeException('Error al generar planilla para el empleado ' . $empleadoSeleccionado . ': ' . $errorResponse['error'] ?? 'Error desconocido en la solicitud HTTP.');
+            }
+        }
+
+        // Si llega aquí, todas las solicitudes fueron exitosas
+        return redirect(route('Planilla.index'))->with('success', 'Planillas generadas con éxito');
+    } catch (\RuntimeException $e) {
+        // Manejo de errores específicos de la solicitud HTTP
+        return redirect(route('Planilla.index'))->with('error', $e->getMessage());
+    } catch (\Exception $e) {
+        // Manejo de errores generales
+        \Log::error('Error general al generar planillas: ' . $e->getMessage());
+        return redirect(route('Planilla.index'))->with('error', 'Error general al generar planillas');
     }
-
-    return redirect(route('Planilla.index'))->with('success', 'Planillas generadas con éxito');
 }
-
 
     /**
      * Display the specified resource.
