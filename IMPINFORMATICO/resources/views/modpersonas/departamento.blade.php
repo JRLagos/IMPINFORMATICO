@@ -144,13 +144,15 @@
                                 data-target="#Departamento-edit-{{ $Departamento['COD_DEPARTAMENTO'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
-                             @php
-                              $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ELIMINAR');
-                              @endphp
-                              <button value="Eliminar" title="Eliminar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif " type="button"
-                                  data-toggle="modal" data-target="#EliminarDepartamento-{{$Departamento['COD_DEPARTAMENTO']}}">
-                                  <i class='fas fa-trash-alt' style='font-size:20px;'></i>
-                              </button>
+                            @php
+                                $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ELIMINAR');
+                            @endphp
+                            <button value="Eliminar" title="Eliminar"
+                                class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif "
+                                type="button" data-toggle="modal"
+                                data-target="#EliminarDepartamento-{{ $Departamento['COD_DEPARTAMENTO'] }}">
+                                <i class='fas fa-trash-alt' style='font-size:20px;'></i>
+                            </button>
                         </td>
                     </tr>
                     <!-- Modal Actualizar -->
@@ -231,11 +233,13 @@
         </table>
         <br>
         <div class="container d-md-flex justify-content-md-end">
-        <a class=" btn btn-danger btn-xl" href="{{ route('DepartamentoEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
-        </a>
+            <a class=" btn btn-danger btn-xl"
+                href="{{ route('DepartamentoEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
+            </a>
+        </div>
+        <br>
+        <br>
     </div>
-    <br>
-    <br>
 @stop
 
 @section('footer')
