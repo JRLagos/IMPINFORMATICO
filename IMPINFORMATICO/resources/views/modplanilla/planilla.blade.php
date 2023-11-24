@@ -9,6 +9,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.full.min.js"></script>
+
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
@@ -78,6 +82,8 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css">
 @endsection
 
 
@@ -101,19 +107,25 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Empleado</label>
-                            <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO" required>
-                            <option value="" selected disabled> Seleccionar Empleado </option>
+                            <select class="form-control select" multiple name="COD_EMPLEADO[]" multiple>
+                                <option value="" disabled>Seleccionar Empleado</option>
                                 @foreach ($ResulEmpleado as $Empleado)
-                                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }} </option>
+                                    <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                                 @endforeach
                             </select>
                         </div>
 
                         <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Fecha</label>
-                            <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d') ?>"
-                                name="FEC_REA_PLANILLA" required>
-                        </div>
+                                <label for="dni" class="form-label">Tipo Planilla</label>
+                                <select class="form-control" name="TIPO_PLANILLA" required>
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="QUINCENAL">Quincenal</option>
+                                    <option value="MENSUAL">Mensual</option>
+                                    <option value="AGUINALDO">Aguinaldo</option>
+                                    <option value="CATORCEAVO">Catorceavo</option>
+                                </select>
+                                <div class="valid-feedback"></div>
+                            </div>
 
                 </div>
                 <div class="modal-footer">
@@ -140,31 +152,33 @@
         <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
-                    <th>#</th>
-                    <TH>NOMBRE</TH>
-                    <th>SALARIO</th>
-                    <th>FECHA</th>
-                    <th>HORAS EXTRAS</th>
-                    <th>VACACIONES</th>
-                    <th>CATORCEAVO</th>
-                    <th>AGUINALDO</th>
-                    <th>IHSS</th>
-                    <th>SAL. NETO</th>
+                    <th style="text-align: center;">#</th>
+                    <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">Salario Bruto</th>
+                    <th style="text-align: center;">Horas Extras</th>
+                    <th style="text-align: center;">RAS IHSS</th>
+                    <th style="text-align: center;">RPS IHSS</th>
+                    <th style="text-align: center;">RAP</th>
+                    <th style="text-align: center;">ISR</th>
+                    <th style="text-align: center;">Sal. Neto</th>
+                    <th style="text-align: center;">Desde</th>
+                    <th style="text-align: center;">Hasta</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($ResulPlanilla as $Planilla)
                     <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
-                        <td>{{ number_format($Planilla['SAL_BAS_EMPLEADO'], 2, '.', ',') }}</td>
-                        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_REA_PLANILLA'])) }}</td>
-                        <td>{{ $Planilla['HORAS_EXTRAS'] }}</td>
-                        <td>{{ number_format($Planilla['VACACIONES'], 2, '.', ',') }}</td>
-                        <td>{{ $Planilla['CATORCEAVO'] }}</td>
-                        <td>{{ $Planilla['AGUINALDO'] }}</td>
-                        <td>{{ $Planilla['IHSS'] }}</td>
-                        <td>{{ number_format($Planilla['SALARIO_NETO'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['RAS_IHSS'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['RPS_IHSS'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Planilla['FEC_INICIAL'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Planilla['FEC_PAGO'])) }}</td>
                     </tr>
                 @endforeach
             </tbody>
@@ -394,16 +408,11 @@
             }
         </script>
 
-    <script>
-        $(document).ready(function() {
-            $('.js-example-basic-single').select2({});
-        });
-    </script>
-
-        <script>
-            setTimeout(function() {
-                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
-            }, 5000); // 5000 ms = 5 segundos
-        </script>
+<script>
+    $(document).ready(function () {
+        // Configura Select2
+        $('.choices-multiple').select2();
+    });
+</script>
 
 @stop
