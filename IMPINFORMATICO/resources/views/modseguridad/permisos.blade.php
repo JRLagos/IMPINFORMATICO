@@ -152,31 +152,39 @@
 
    <!-- /.card-header -->
  <div class="table-responsive p-0">
- <br>
-  <table id="permisos" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
-    <tr> 
-        <th style="text-align: center;">#</th>
-        <th style="text-align: center;">Rol</th>
-        <th style="text-align: center;">Objeto</th>
-        <th style="text-align: center;">Insertar</th>
-        <th style="text-align: center;">Eliminar</th>
-        <th style="text-align: center;">Actualizar</th>
-        <th style="text-align: center;">Consultar</th>
-        <th style="text-align: center;">Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($ResulPermisos as $Permisos)
-        <tr>
-        <td style="text-align: center;">{{ $loop->iteration }}</td>
-        <td style="text-align: center;">{{ $Permisos['NOM_ROL'] }}</td>
-        <td style="text-align: center;">{{ $Permisos['NOM_OBJETO'] }}</td>
-        <td style="text-align: center;">{{ $Permisos['PER_INSERTAR'] }}</td>
-        <td style="text-align: center;">{{ $Permisos['PER_ELIMINAR'] }}</td>
-        <td style="text-align: center;">{{ $Permisos['PER_ACTUALIZAR'] }}</td>
-        <td style="text-align: center;">{{ $Permisos['PER_CONSULTAR'] }}</td>
-        <td style="text-align: center;">
+    <br>
+    <table id="permisos" class="table table-striped table-bordered table-condensed table-hover">
+        <thead class="bg-dark">
+            <tr>
+                <th style="text-align: center;">#</th>
+                <th style="text-align: center;">Rol</th>
+                <th style="text-align: center;">Objeto</th>
+                <th style="text-align: center;">Insertar</th>
+                <th style="text-align: center;">Eliminar</th>
+                <th style="text-align: center;">Actualizar</th>
+                <th style="text-align: center;">Consultar</th>
+                <th style="text-align: center;">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($ResulPermisos as $Permisos)
+                <tr>
+                    <td style="text-align: center;">{{ $loop->iteration }}</td>
+                    <td style="text-align: center;">{{ $Permisos['NOM_ROL'] }}</td>
+                    <td style="text-align: center;">{{ $Permisos['NOM_OBJETO'] }}</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" disabled @if ($Permisos['PER_INSERTAR'] == '1') checked @endif>
+                    </td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" disabled @if ($Permisos['PER_ELIMINAR'] == '1') checked @endif>
+                    </td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" disabled @if ($Permisos['PER_ACTUALIZAR'] == '1') checked @endif>
+                    </td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" disabled @if ($Permisos['PER_CONSULTAR'] == '1') checked @endif>
+                    </td>
+                    <td style="text-align: center;">
         @php
           $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
         @endphp
@@ -256,9 +264,7 @@
 
       </form>
 
-      
-
-
+    
   @endforeach
 
   </tbody>

@@ -110,6 +110,14 @@
         </tr>
     </thead>
     <tbody>
+         
+    @php
+        // Verificar si el usuario tiene permiso de lectura para este objeto
+        $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+    @endphp
+
+    @if ($permisoLectura)
+
         @foreach ($ResulUsuario as $Usuario)
             <tr>
                 <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -203,14 +211,13 @@
         </div>
     </div>
 </div>
-
         @endforeach
-
+        @endif
 
     </tbody>
 </table>
-
 </div>
+
     @stop
 
     @section('footer')
@@ -219,7 +226,6 @@
         </div>
         <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
     @stop
-
     @section('js')
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
@@ -411,4 +417,5 @@
                 });
             });
         </script>
+        
     @stop

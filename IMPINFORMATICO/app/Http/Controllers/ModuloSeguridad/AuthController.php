@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use DateTime;
+
 
 class AuthController extends Controller
 {
@@ -539,6 +541,10 @@ class AuthController extends Controller
 
     public function SendRegistro(Request $request){
 
+    $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
+    $responseUsuarios = Http::get($urlUsuarios);
+
+
     // Obtener todos los datos del formulario
     $formData = $request->all();
 
@@ -608,6 +614,16 @@ class AuthController extends Controller
         
             return view('modseguridad.registro');
         }
+
+        // Verificar si el nombre de usuario ya está en uso
+    $existingUsers = $responseUsuarios->json();
+
+    foreach ($existingUsers as $existingUser) {
+        if (strtoupper($request->input('usuario')) === strtoupper($existingUser['NOM_USUARIO'])) {
+            // El nombre de usuario ya está en uso, redirigir al formulario de registro con un mensaje de error
+            return view('modseguridad.registro', ['usuarioExistente' => true]);
+        }
+    }
 
         $contraseniaCifrada = Hash::make($contrasenia);
 
