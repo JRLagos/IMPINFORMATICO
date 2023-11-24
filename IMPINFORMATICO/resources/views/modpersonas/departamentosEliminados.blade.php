@@ -94,6 +94,7 @@
         </a>
     </div>
     <br>
+</div>
     @stop
 
     @section('footer')
