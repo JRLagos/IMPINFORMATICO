@@ -55,7 +55,7 @@ Route::get('/Dashboard', function () {
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
 Route::post('login',[AuthController::class,'SendLogin'])->name('ModuloSeguridad.entrar');
 //LogOut
-Route::get('logout',[Authcontroller::class,'Logout'])->name('cerrar-sesion');
+Route::post('logout',[Authcontroller::class,'Logout'])->name('cerrar-sesion');
 
 
 //Preguntas
@@ -124,13 +124,18 @@ Route::post('Del-Municipio', [MunicipioController::class, 'desactivar'])->name('
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
-Route::post('Post-Empleado', [EmpleadoController::class, 'store'])->name('Post-Empleado.store');
+
+// Ruta para manejar datos de los formularios
+Route::post('Post-Empleado', [EmpleadoController::class, 'manejarDatos'])->name('Post-Empleado.store');
+
+
 Route::post('/Upd-Empleado',[EmpleadoController::class, 'update'])->name('Upd-Empleado.update');
 Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarRtn']);
 
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
-Route::post('Post-Persona',[PersonaController::class, 'store'])->name('Post-Persona.store');
+// Ruta para manejar datos de los formularios
+Route::post('Post-Persona', [PersonaController::class, 'manejarDatos'])->name('Post-Persona.store');
 Route::post('/Upd-Persona',[PersonaController::class, 'update'])->name('Upd-Persona.update');
 
 

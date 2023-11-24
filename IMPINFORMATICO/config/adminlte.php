@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => '<b>COMPUTER EMPIRE®</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE.png',
+    'logo_img' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE2.png',
     'logo_img_class' => 'brand-image-xl img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE2.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -109,7 +109,7 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE.png',
+            'path' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE3.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 300,
@@ -464,11 +464,6 @@ return [
                     'url'  => 'bitacora',
                 ],
             ],
-        ],
-        [
-            'text' => 'CERRAR SESIÓN', 
-            'icon' => 'fas fa-fw fa-sign-out-alt gns text-red', 
-            'url'  => 'logout', 
         ],
     ],
     
