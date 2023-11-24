@@ -38,7 +38,7 @@ class EstadisticaController extends Controller
         $TotalUsuario = json_decode($data6, true);
         $TotalEmpleado = json_decode($data7, true);
     
-        return view('admin.admin')->with('ResulContrato', $Contrato)->with('ResulUsuario', $Usuario)->with('ResulGenero', $Genero)->with('ResulSucursal', $Sucursal)->with('ResulTotalSucursal', $TotalSucursal)->with('ResulTotalUsuario', $TotalUsuario)->with('ResulTotalEmpleado', $TotalEmpleado);
+        return view('modreportes.estadistica')->with('ResulContrato', $Contrato)->with('ResulUsuario', $Usuario)->with('ResulGenero', $Genero)->with('ResulSucursal', $Sucursal)->with('ResulTotalSucursal', $TotalSucursal)->with('ResulTotalUsuario', $TotalUsuario)->with('ResulTotalEmpleado', $TotalEmpleado);
     }
 
     /**

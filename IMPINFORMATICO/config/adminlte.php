@@ -340,6 +340,11 @@ return [
             'icon' => 'fas fa-fw fa-folder-plus gns text-yellow',
             'submenu' => [
                 [
+                    'text' => 'Direcciones',
+                    'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
+                    'url'  => 'Direcciones',
+                ],
+                [
                     'text' => 'Bancos',
                     'icon' => 'fas fa-fw fa-kaaba gns text-info',
                     'url'  => 'Banco',
@@ -357,7 +362,7 @@ return [
             ],
         ],
         [
-            'text' => 'DIRECCIONES',
+            'text' => 'GESTION GEOGRAFICA',
             'icon' => 'fas fa-fw fa-map gns text-yellow',
             'submenu' => [
                 [
@@ -369,11 +374,6 @@ return [
                     'text' => 'Municipios',
                     'icon' => 'fas fa-fw fa-map-pin gns text-info',
                     'url'  => 'Municipios',
-                ], 
-                [
-                    'text' => 'Direcciones',
-                    'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
-                    'url'  => 'Direcciones',
                 ], 
             ],
         ],
@@ -412,7 +412,17 @@ return [
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Vacaciones',
                 ], 
+                [
+                    'text' => 'Deducciones',
+                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
+                    'url'  => 'Deducciones',
+                ],
             ],
+        ],
+        [
+            'text' => 'ESTADISTICAS', 
+            'icon' => 'fas fa-chart-bar gns text-yellow', 
+            'url'  => 'Estadisticas', 
         ],
         [
             'text' => 'SEGURIDAD',

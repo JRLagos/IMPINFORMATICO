@@ -30,6 +30,7 @@ use App\Http\Controllers\ModuloSeguridad\UsuariosController;
 use App\Http\Controllers\ModuloSeguridad\PerfilController;
 use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
+use App\Http\Controllers\ModuloPlanillas\DeduccionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -44,11 +45,11 @@ use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 Route::get('/', function () {
     return view('modseguridad.Login');
 })->name('Login');
-/*
+
 Route::get('/Dashboard', function () {
     return view('admin.admin');
-})->name('Dashboard');*/
-Route::get('/Dashboard',[EstadisticaController::class,'index'])->name('Esta.edit');
+})->name('Dashboard');
+/*Route::get('/Dashboard',[EstadisticaController::class,'index'])->name('Esta.edit');*/
 
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
@@ -117,6 +118,9 @@ Route::post('Del-Departamento', [DepartamentoController::class, 'desactivar'])->
 Route::get('Municipios', [MunicipioController::class, 'index'])->name('Municipio.index');
 Route::post('Post-Municipio', [MunicipioController::class, 'store'])->name('Post-Municipio.store');
 Route::post('/Upd-Municipio',[MunicipioController::class, 'update'])->name('Upd-Municipio.update');
+Route::get('/Municipio-Eliminados', [MunicipioController::class, 'indexEliminados'])->name('MunicipiosEliminado.indexEliminados');
+Route::post('Act-Municipio', [MunicipioController::class, 'activar'])->name('Act-Municipio.activar');
+Route::post('Del-Municipio', [MunicipioController::class, 'desactivar'])->name('Del-Municipio.desactivar');
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
@@ -156,11 +160,18 @@ Route::post('Put-Estudio', [EstudioController::class, 'update'])->name('Upd-Estu
 Route::get('Sucursal', [SucursalController::class, 'index'])->name('Sucursal.index');
 Route::post('Post-Sucursal',[SucursalController::class, 'store'])->name('Post-Sucursal.store');
 Route::post('/Upd-Sucursal',[SucursalController::class, 'update'])->name('Upd-Sucursal.update');
+Route::get('/Sucursales-Eliminados', [SucursalController::class, 'indexEliminados'])->name('SucursalEliminado.indexEliminados');
+Route::post('Act-Sucursal', [SucursalController::class, 'activar'])->name('Act-Sucursal.activar');
+Route::post('Del-Sucursal', [SucursalController::class, 'desactivar'])->name('Del-Sucursal.desactivar');
 
 //Departamento de empresa
 Route::get('DeptoEmpresa', [DeptoEmpresaController::class, 'index'])->name('DeptoEmpresa.index');
 Route::post('Post-DeptoEmpresa',[DeptoEmpresaController::class, 'store'])->name('Post-DeptoEmpresa.store');
 Route::post('/Upd-DeptoEmpresa',[DeptoEmpresaController::class, 'update'])->name('Upd-DeptoEmpresa.update');
+Route::get('/DeptoEmpresa-Eliminados', [DeptoEmpresaController::class, 'indexEliminados'])->name('DeptoEmpresaEliminado.indexEliminados');
+Route::post('Act-DeptoEmpresa', [DeptoEmpresaController::class, 'activar'])->name('Act-DeptoEmpresa.activar');
+Route::post('Del-DeptoEmpresa', [DeptoEmpresaController::class, 'desactivar'])->name('Del-DeptoEmpresa.desactivar');
+
 
 // Roles
 Route::get('Roles', [RolesController::class, 'index'])->name('Roles.index');
@@ -195,3 +206,10 @@ Route::get('ContraPerfil', [ContraPerfilController::class, 'UpdPerfilContra'])->
 
 //Bitacora
 Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');
+
+//Deduccion
+Route::get('Deducciones', [DeduccionController::class, 'index'])->name('Deducciones.index');
+
+// ESTADISTICAS
+Route::get('Estadisticas', [EstadisticaController::class, 'index'])->name('Estadisticas.index');
+

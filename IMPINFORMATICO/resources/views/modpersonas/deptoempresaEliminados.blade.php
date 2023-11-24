@@ -1,322 +1,253 @@
-  @extends('adminlte::page')
+@extends('adminlte::page')
 
-  @section('title', 'Horas Extras')
+@section('title', 'Sucursales Eliminadas')
 
-  @section('content_header')
-  <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1">
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+@section('content_header')
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-          integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-          @php
-    $usuario = session('credenciales');
-    $usuarioRol = session('nombreRol');
-    $Permisos = session('permisos');
-    $Objetos = session('objetos');
-
-    // Verificar si alguna de las sesiones está vacía
-    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
-        // Redirigir al usuario al inicio de sesión o a donde corresponda
-        return redirect()->route('Login');
-    }
-
-    // Filtrar los objetos con "NOM_OBJETO" igual a "PLANILLAS"
-    $objetosFiltrados = array_filter($Objetos, function($objeto) {
-        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'HORAS_EXTRA';
-    });
-
-    // Filtrar los permisos de seguridad
-    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
-        return (
-            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
-            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
-        );
-    });
-
-    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
-    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
-    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
-    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
-    @endphp
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+        integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     @php
-        function tienePermiso($permisos, $permisoBuscado) {
-        foreach ($permisos as $permiso) {
-        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
-            return true; // El usuario tiene el permiso
-             }
-          }
-        return false; // El usuario no tiene el permiso
+        $usuario = session('credenciales');
+        $usuarioRol = session('nombreRol');
+        $Permisos = session('permisos');
+        $Objetos = session('objetos');
+
+        // Verificar si alguna de las sesiones está vacía
+        if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+            // Redirigir al usuario al inicio de sesión o a donde corresponda
+            return redirect()->route('Login');
         }
+
+        // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+        $objetosFiltrados = array_filter($Objetos, function ($objeto) {
+            return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'SUCURSALES';
+        });
+
+        // Filtrar los permisos de seguridad
+        $permisosFiltrados = array_filter($Permisos, function ($permiso) use ($usuario, $objetosFiltrados) {
+            return isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] && isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'));
+        });
+
+        $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+        $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+        $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+        $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
     @endphp
 
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Departamentos de la Empresa Eliminados</b></h1>
+</div>
+@stop
 
 
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
+    <!-- botones -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
+@endsection
 
-    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Horas Extras</b></h1>
-            @php
-            $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-            @endphp
-        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"><b>Agregar</b></button>
-    </div>
-  @stop
+
+@section('content')
 
 
-  @section('css')
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
-      <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
-      <!-- botones -->
-      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
-  @endsection
+    <!-- Modal para agregar un nuevo producto -->
+    <div class="modal fade bd-example-modal-sm" id="addSucursal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
 
-  @section('content')
 
-      <!-- Modal para agregar un nueva Hora Extra -->
-      <div class="modal fade bd-example-modal-sm" id="addHoraExtra" tabindex="-1">
-          <div class="modal-dialog">
-              <div class="modal-content">
-                  <div class="modal-header">
-                      <h3><b>Nueva Hora Extra</b></h3>
-                      <button class="btn btn-close " data-bs-dismiss="modal"></button>
-                  </div>
-                  <div class="modal-body">
-                      <form action="{{ route('Post-HoraExtra.store') }}" method="post" class="was-validated">
-                          @csrf
+                <div class="modal-header">
+                    <h3><b>Nueva Sucursal</b></h3>
+                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('Post-Sucursal.store') }}" method="post" class="was-validated">
+                        @csrf
 
-                          <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Empleado</label>
-                              <select class="form-control js-example-basic-single" name="COD_EMPLEADO" id="COD_EMPLEADO" required>
-                                  <option value="" disabled selected> Seleccionar Empleado </option>
-                                  @foreach ($ResulEmpleado as $Empleado)
-                                      <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}
-                                      </option>
-                                  @endforeach
-                              </select>
-                          </div>
 
-                          <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Cantidad</label>
-                              <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" placeholder="Digite aquí."
-                                  required>
-                              <span class="validity"></span>
-                          </div>
-
-                          <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Tipo Planilla</label>
-                                <select class="form-control" name="JORNADA_HOR_EXTRA" required>
-                                    <option value="" selected disabled>Seleccione una opción</option>
-                                    <option value="DIURNA">DIURNA</option>
-                                    <option value="DIURNA_EN_NOCTURNA">DIURNA_EN_NOCTURNA</option>
-                                    <option value="NOCTURNA">NOCTURNA</option>
-                                </select>
-                                <div class="valid-feedback"></div>
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Nombre Sucursal</label>
+                            <input type="text" class="form-control alphanumeric-input" name="NOM_SUCURSAL"
+                                placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
-                          <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Descripcion</label>
-                              <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="DES_HOR_EXTRA" placeholder="Escriba aquí."
-                                  required maxlength="255">
-                          </div>
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Descripción</label>
+                            <input type="text" class="form-control alphanumeric-input" name="DES_SUCURSAL"
+                                placeholder="Escriba aquí." required minlength="4" maxlength="50">
+                        </div>
 
-                          <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Fecha</label>
-                              <input type="date" class="form-control" min="2023-08-01" max="<?= date('Y-m-d') ?>"
-                                  name="FEC_HOR_EXTRA" required>
-                          </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
 
-                  </div>
-                  <div class="modal-footer">
-                      <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b>
-                      <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
-                  </div>
-                  </form>
-              </div>
-          </div>
-      </div>
-      </div>
-
-      @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
+    @if (session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             {{ session('success') }}
         </div>
     @endif
 
 
-      <!-- /.card-header -->
-      <div class="table-responsive p-0">
-          <br>
-          <table id="horaextra" class="table table-striped table-bordered table-condensed table-hover">
-              <thead class="bg-cyan active">
-                  <tr>
-                      <th style="text-align: center;">#</th>
-                      <th style="text-align: center;">Nombre</th>
-                      <th style="text-align: center;">Descripcion</th>
-                      <th style="text-align: center;">Cantidad</th>
-                      <th style="text-align: center;">Fecha</th>
-                      <th style="text-align: center;">Accion</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  @foreach ($ResulHoraExtra as $HoraExtra)
-                      <tr>
-                          <td style="text-align: center;">{{ $loop->iteration }}</td>
-                          <td style="text-align: center;">{{ $HoraExtra['NOMBRE_COMPLETO'] }}</td>
-                          <td style="text-align: center;">{{ $HoraExtra['DES_HOR_EXTRA'] }}</td>
-                          <td style="text-align: center;">{{ $HoraExtra['CANT_HOR_EXTRA'] }}</td>
-                          <td style="text-align: center;">{{ date('d-m-Y', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}</td>
+    <!-- /.card-header -->
+    <div class="table-responsive p-0">
+        <br>
+        <table id="Sucursal" class="table table-striped table-bordered table-condensed table-hover">
+            <thead class="bg-cyan active">
+                <tr>
+                    <th style="text-align: center;">#</th>
+                    <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">Descripción</th>
+                    <th style="text-align: center;">Accion</th>
+                </tr>
+            </thead>
+            <tbody>
 
-                          <td style="text-align: center;">
-                              @php
-                              $permisoEditarHoraExtra = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                              @endphp
-                              <button value="Editar" title="Editar" class="btn @if ($permisoEditarHoraExtra) btn-warning  @else btn-secondary disabled @endif" type="button"
-                                  data-toggle="modal" data-target="#UptHoraExtra-{{ $HoraExtra['COD_HOR_EXTRA'] }}" @if (!$permisoEditarHoraExtra) disabled @endif>
-                                  <i class='fas fa-edit' style='font-size:20px;'></i>
-                              </button>
-                          </td>
-                      </tr>
-                      <!-- Modal for editing goes here -->
-                      <div class="modal fade bd-example-modal-sm" id="UptHoraExtra-{{ $HoraExtra['COD_HOR_EXTRA'] }}"
-                          tabindex="-1">
-                          <div class="modal-dialog">
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <h4 class="modal-title"><b>Editar Hora Extra</b></h4>
-                                      <button type="button" class="btn-close" data-dismiss="modal"
-                                          aria-label="Close"></button>
-                                  </div>
+                @foreach ($ResulDeptoEmpresaEliminado as $DeptoEmpresaEliminado)
+                    <tr>
+                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{ $DeptoEmpresaEliminado['NOM_DEPTO_EMPRESA'] }}</td>
+                        <td style="text-align: center;">{{ $DeptoEmpresaEliminado['DES_DEPTO_EMPRESA'] }}</td>
+                        <td style="text-align: center;">
 
-                                  <div class="modal-body">
-                                      <form action="{{ route('Upt-HoraExtra.update') }}" method="post"
-                                          class="was-validated">
-                                          @csrf
+                            <button value="Activar" title="Eliminar" class="btn btn-success" type="button"
+                                data-toggle="modal"
+                                data-target="#ActivarDeptoEmpresa-{{ $DeptoEmpresaEliminado['COD_DEPTO_EMPRESA'] }}">
+                                <i class='fas fa-check-circle' style='font-size:20px;'></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <div class="modal fade bd-example-modal-sm"
+                        id="ActivarDeptoEmpresa-{{ $DeptoEmpresaEliminado['COD_DEPTO_EMPRESA'] }}" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Activar Departamento de la Empresa</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                   
+                                    <form action="{{ route('Act-DeptoEmpresa.activar') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+                                        <input type="hidden" class="form-control" name="COD_DEPTO_EMPRESA"
+                                            value="{{ $DeptoEmpresaEliminado['COD_DEPTO_EMPRESA'] }}">
 
-                                          <input type="hidden" class="form-control" name="COD_HOR_EXTRA"
-                                              value="{{ $HoraExtra['COD_HOR_EXTRA'] }}">
-
-                                          <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Empleado</label>
-                                              <select class="form-control js-example-basic-single" name="COD_EMPLEADO"
-                                                  id="COD_EMPLEADO">
-                                                  <option value="{{ $HoraExtra['COD_EMPLEADO'] }}"
-                                                      style="display: none;">{{ $HoraExtra['NOMBRE_COMPLETO'] }}</option>
-                                                  @foreach ($ResulEmpleado as $Empleado)
-                                                      <option value="{{ $Empleado['COD_EMPLEADO'] }}">
-                                                          {{ $Empleado['NOMBRE_COMPLETO'] }}</option>
-                                                  @endforeach
-                                              </select>
-                                          </div>
-
-                                          <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Descripcion</label>
-                                              <input type="text" class="form-control alphanumeric-input"
-                                                  pattern=".{3,}" name="DES_HOR_EXTRA"  placeholder="Escriba aquí."
-                                                  value="{{ $HoraExtra['DES_HOR_EXTRA'] }}" required maxlength="255">
-                                          </div>
-
-                                          <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Cantidad</label>
-                                              <input type="number" class="form-control" min="1" max="5"
-                                                  name="CANT_HOR_EXTRA" value="{{ $HoraExtra['CANT_HOR_EXTRA'] }}" placeholder="Digite aquí."
-                                                  required>
-                                              <span class="validity"></span>
-                                          </div>
-
-                                          <div class="mb-3 mt-3">
-                                              <label for="dni" class="form-label">Fecha</label>
-                                              <input type="date" class="form-control" min="2023-08-01"
-                                                  max="<?= date('Y-m-d') ?>" name="FEC_HOR_EXTRA"
-                                                  value="{{ date('Y-m-d', strtotime($HoraExtra['FEC_HOR_EXTRA'])) }}"
-                                                  required>
-                                          </div>
-
-                                          <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Nombre del Departamento</label>
+                                            <label for="dni"
+                                                class="form-control">{{ $DeptoEmpresaEliminado['NOM_DEPTO_EMPRESA'] }}</label>
                                         </div>
-                                      </form>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  @endforeach
-              </tbody>
-          </table>
-      @stop
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Descripción del Departamento</label>
+                                            <label for="dni"
+                                                class="form-control">{{ $DeptoEmpresaEliminado['DES_DEPTO_EMPRESA'] }}</label>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTIVAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                @endforeach
+            </tbody>
+        </table>
+        <br>
+        <div class="container d-md-flex justify-content-md-end">
+            <a class="btn btn-secondary" href="{{ route('DeptoEmpresa.index') }}"><b>Regresar</b>
+            </a>
+        </div>
+        <br>
+    @stop
 
-      @section('footer')
+    @section('footer')
 
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+            reserved.</b>
 
     @stop
 
-      @section('js')
-          <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-          <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-          <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-          <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-          <!-- botones -->
-          <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-          <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-          <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
-          <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
-          <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
-          <style>
-              .btn-group>.btn {
-                  font-size: 12px;
-                  padding: 6px 12px;
-              }
-          </style>
-          <style>
-              div.dt-button-collection {
-                  width: 600px;
-              }
 
-              div.dt-button-collection button.dt-button {
-                  display: inline-block;
-                  width: 32%;
-              }
 
-              div.dt-button-collection button.buttons-colvis {
-                  display: inline-block;
-                  width: 49%;
-              }
+    @section('js')
 
-              div.dt-button-collection h3 {
-                  margin-top: 5px;
-                  margin-bottom: 5px;
-                  font-weight: 100;
-                  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-                  font-size: 1em;
-                  padding: 0 1em;
-              }
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+        <!-- botones -->
+        <script type="text/javascript" src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.colVis.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+        <style>
+            .btn-group>.btn {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+        </style>
+        <style>
+            div.dt-button-collection {
+                width: 600px;
+            }
 
-              div.dt-button-collection h3.not-top-heading {
-                  margin-top: 10px;
-              }
-          </style>
+            div.dt-button-collection button.dt-button {
+                display: inline-block;
+                width: 32%;
+            }
 
-          <script>
-              $(document).ready(function() {
-                  var table = $('#horaextra').DataTable({
+            div.dt-button-collection button.buttons-colvis {
+                display: inline-block;
+                width: 49%;
+            }
+
+            div.dt-button-collection h3 {
+                margin-top: 5px;
+                margin-bottom: 5px;
+                font-weight: 100;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+                font-size: 1em;
+                padding: 0 1em;
+            }
+
+            div.dt-button-collection h3.not-top-heading {
+                margin-top: 10px;
+            }
+        </style>
+
+        <script>
+            $(document).ready(function() {
+                var table = $('#Sucursal').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
@@ -340,7 +271,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Horas Extras | Imperio Informatico',
+                                    title: 'Registro de Sucursales | Imperio Informatico',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
                                         var col11Index = 11;
@@ -393,7 +324,7 @@
                                     text: 'Imprimir',
                                     customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(5),td:eq(5)')
+                                        $(win.document.body).find('table').find('th:eq(3),td:eq(3)')
                                             .remove();
 
                                         // Obtener la fecha
@@ -437,9 +368,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Horas Extras | Imperio Informatico',
+                                    title: 'Registro de Sucursales de Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4]
+                                        columns: [0, 1, 2]
                                     }
 
                                 }
@@ -472,32 +403,32 @@
                 return now.toLocaleDateString('es-ES', options);
             }
         </script>
-          <script>
-              $(document).ready(function() {
-                  $('.js-example-basic-single').select2({});
-              });
-          </script>
 
-          <script>
-              function cleanInputValue(inputElement) {
-                  var inputValue = inputElement.value;
-                  var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
-                  if (cleanValue !== inputValue) {
-                      inputElement.value = cleanValue;
-                  }
-              }
+        <script>
+            function cleanInputValue(inputElement) {
+                var inputValue = inputElement.value;
+                var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
+                if (cleanValue !== inputValue) {
+                    inputElement.value = cleanValue;
+                }
+            }
 
-              var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
-              alphanumericInputs.forEach(function(input) {
-                  input.addEventListener("input", function() {
-                      cleanInputValue(this);
-                  });
-              });
-          </script>
-
+            var alphanumericInputs = document.querySelectorAll(".alphanumeric-input");
+            alphanumericInputs.forEach(function(input) {
+                input.addEventListener("input", function() {
+                    cleanInputValue(this);
+                });
+            });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({});
+            });
+        </script>
         <script>
             setTimeout(function() {
                 $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
             }, 5000); // 5000 ms = 5 segundos
         </script>
-      @stop
+        </script>
+    @stop

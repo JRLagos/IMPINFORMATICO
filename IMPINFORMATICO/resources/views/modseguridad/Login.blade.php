@@ -112,7 +112,7 @@
     });
 
     contrasenaInput.addEventListener("input", function() {
-      this.value = this.value.replace(/\s/g, ""); // Eliminar espacios en blanco
+      this.value = this.value.replace(/\s/g, ""); // Eliminar espacios en blanco'
     });
   });
 
