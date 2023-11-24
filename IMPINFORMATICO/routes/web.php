@@ -27,6 +27,7 @@ use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
 use App\Http\Controllers\ModuloSeguridad\ParametrosController;
 use App\Http\Controllers\ModuloSeguridad\UsuariosController;
+use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -178,4 +179,5 @@ Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt
 Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.index');
 
 Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadistica.edit');
-
+//Bitacora
+Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.index');

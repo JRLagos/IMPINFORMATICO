@@ -194,7 +194,7 @@ return [
     'classes_content' => '',
     'classes_sidebar' => 'sidebar-dark-cyan elevation-4',
     'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
+    'classes_topnav' => 'navbar-light navbar-light',
     'classes_topnav_nav' => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
@@ -325,12 +325,7 @@ return [
                     'text' => 'Empleados',
                     'icon' => 'fas fa-fw fa-user-tie gns text-info',
                     'url'  => 'Empleado',
-                ], 
-                [
-                    'text' => 'Usuarios',
-                    'icon' => 'fas fa-fw fa-user gns text-info',
-                    'url'  => 'Usuarios',
-                ], 
+                ],  
             ],
         ],
         [
@@ -413,38 +408,14 @@ return [
             ],
         ],
         [
-            'text' => 'REPORTES',
-            'icon' => 'fas fa-fw fa-clipboard-list gns text-yellow',
-            'submenu' => [
-                [
-                    'text' => 'Reporte de Horas Extra y Vacaciones',
-                    'icon' => 'fas fa-fw fa-clipboard-list gns text-info',
-                    'url'  => 'Reportes',
-                ], 
-                [
-                    'text' => 'Reporte General de Empleados',
-                    'icon' => 'fas fa-fw fa-list gns text-info',
-                    'url'  => 'TiposReportes',
-                ], 
-                
-                [
-                    'text' => 'Reporte de Empleados',
-                    'icon' => 'fa fa-fw fa-th-list gns text-info',
-                    'url'  => 'ReportesGuardados',
-                ], 
-                [
-                    'text' => 'Reporte de Planilla',
-                    'icon' => 'fa fa-fw fa-th-list gns text-info',
-                    'url'  => 'ReportesGenerados',
-                ], 
-
-                
-            ],
-        ],
-        [
             'text' => 'SEGURIDAD',
             'icon' => 'fas fa-fw fa-key gns text-yellow',
             'submenu' => [
+                [
+                    'text' => 'Usuarios',
+                    'icon' => 'fas fa-fw fa-user gns text-info',
+                    'url'  => 'Usuarios',
+                ],
                 [
                     'text' => 'Roles',
                     'icon' => 'fas fa-fw fa-scroll gns text-info',
@@ -461,10 +432,20 @@ return [
                     'url'  => 'Objetos',
                 ], 
                 [
-                    'text' => 'Parametros',
+                    'text' => 'Parámetros',
                     'icon' => 'fab fa-fw fa-pied-piper gns text-info',
                     'url'  => 'Parametros',
                 ],  
+                [
+                    'text' => 'Respaldo',
+                    'icon' => 'fa fa-download gns text-info',
+                    'url'  => 'backup',
+                ],
+                [
+                    'text' => 'Bitacora',
+                    'icon' => 'fas fa-clipboard-list gns text-info',
+                    'url'  => 'bitacora',
+                ],
             ],
         ],
         [
