@@ -106,16 +106,27 @@
                           </div>
 
                           <div class="mb-3 mt-3">
-                              <label for="dni" class="form-label">Descripcion</label>
-                              <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="DES_HOR_EXTRA" placeholder="Escriba aquí."
-                                  required maxlength="255">
-                          </div>
-
-                          <div class="mb-3 mt-3">
                               <label for="dni" class="form-label">Cantidad</label>
                               <input type="number" class="form-control" min="1" max="5" name="CANT_HOR_EXTRA" placeholder="Digite aquí."
                                   required>
                               <span class="validity"></span>
+                          </div>
+
+                          <div class="mb-3 mt-3">
+                                <label for="dni" class="form-label">Tipo Planilla</label>
+                                <select class="form-control" name="JORNADA_HOR_EXTRA" required>
+                                    <option value="" selected disabled>Seleccione una opción</option>
+                                    <option value="DIURNA">DIURNA</option>
+                                    <option value="DIURNA_EN_NOCTURNA">DIURNA_EN_NOCTURNA</option>
+                                    <option value="NOCTURNA">NOCTURNA</option>
+                                </select>
+                                <div class="valid-feedback"></div>
+                        </div>
+
+                          <div class="mb-3 mt-3">
+                              <label for="dni" class="form-label">Descripcion</label>
+                              <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="DES_HOR_EXTRA" placeholder="Escriba aquí."
+                                  required maxlength="255">
                           </div>
 
                           <div class="mb-3 mt-3">
