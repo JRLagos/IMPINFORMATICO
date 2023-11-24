@@ -45,11 +45,11 @@ use App\Http\Controllers\ModuloPlanillas\DeduccionController;
 Route::get('/', function () {
     return view('modseguridad.Login');
 })->name('Login');
-/*
+
 Route::get('/Dashboard', function () {
     return view('admin.admin');
-})->name('Dashboard');*/
-Route::get('/Dashboard',[EstadisticaController::class,'index'])->name('Esta.edit');
+})->name('Dashboard');
+/*Route::get('/Dashboard',[EstadisticaController::class,'index'])->name('Esta.edit');*/
 
 //Login
 Route::get('/login',[AuthController::class,'ShowLogin'])->name('ModuloSeguridad.Login');
@@ -204,4 +204,7 @@ Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.ind
 
 //Deduccion
 Route::get('Deducciones', [DeduccionController::class, 'index'])->name('Deducciones.index');
+
+// ESTADISTICAS
+Route::get('Estadisticas', [EstadisticaController::class, 'index'])->name('Estadisticas.index');
 

@@ -1,120 +1,170 @@
 @extends('adminlte::page')
 
-  @section('title', 'Estadisticas')
+@section('title', 'Estadisticas')
 
-  @section('content_header')
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+@section('content_header')
+<link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
 
 
-  <h1>Estadisticas</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  <button class="btn btn-primary me-md-2" data-bs-toggle="modal" data-bs-target="#addHoraExtra" type="button"> Agregar Estadistica</button>
-</div>
-  @stop
+@php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
 
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
 
-    @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.bootstrap4.min.css">
-    @endsection
-
-
-  @section('content')
-  @can('crear-horaextra')
-  
-  @endcan
-
-
-
-  <!--Tabla Producto -->
-
- <!-- /.card-header -->
- <div class="table-responsive p-0">
- <br>
-  <table id="estadistica" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
-    <tr> 
-        <th>#</th>
-        <TH>Usuario</TH>
-        <TH>Tipo </TH>
-        <TH>Titulo</TH>
-        <TH>Formato</TH>
-        <TH>E-Mail</TH>
-        <TH>Fecha</TH>
-        <TH>Estado</TH>
-        <th>Accion</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach ($ResulEstadistica as $Estadistica)
-        <tr>
-        <td>{{ $loop->iteration }}</td>
-          <td>{{ $Estadistica['NOM_USUARIO'] }}</td>
-          <td>{{ $Estadistica['NOM_TIP_ESTADISTICA'] }}</td>
-          <td>{{ $Estadistica['TIT_ESTADISTICA'] }}</td>
-          <td>{{ $Estadistica['FOR_ESTADISTICA'] }}</td>
-          <td>{{ $Estadistica['EMAIL'] }}</td>
-          <td>{{ $Estadistica['HOR_FEC_ESTADISTICA'] }}</td>
-          <td>{{ $Estadistica['IND_ESTADISTICA'] }}</td>
-          <td>
-            <a class="btn btn-warning" href="">
-              <i class="fa fa-edit"></i>
-            </a>
-          </td>
-            
-        </tr>
-      @endforeach
-    </tbody>
-  </table>
-</div>
-
-  @stop
-
-  @section('footer')
-
-  <div class="float-right d-none d-sm-block">
-    <b>Version</b> 3.1.0
-  </div>
-  <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
-
-  @stop
-
-
-
-  @section('js')
-
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-  <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-  <script>
-    $('#estadistica').DataTable({
-      responsive: true,
-      autWidth: false,
-
-      "language": {
-              "lengthMenu": "Mostrar  _MENU_  Registros Por Página",
-              "zeroRecords": "Nada encontrado - disculpas",
-              "info": "Pagina _PAGE_ de _PAGES_",
-              "infoEmpty": "No records available",
-              "infoFiltered": "(Filtrado de _MAX_ registros totales)",
-
-              'search' : 'Buscar:',
-              'paginate' : {
-                'next': 'Siguiente',
-                'previous' : 'Anterior'
-              }
-
-          }
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PERSONAS';
     });
 
-    </script>
-    @stop
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+@endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp   
+     
+    <h1><b>Datos Estadisticos</b></h1>
+@stop
+
+@section('content')
+    <br>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+
+<div class="info-box">
+  <span class="info-box-icon bg-cyan"><i class="fa fa-user-check"></i></span>
+  <div class="info-box-content ">
+    <span class="info-box-text"><h5><b>Usuarios</b></h5   ></span>
+    @foreach($ResulTotalUsuario as $Usuario)
+    <tr>
+      <h5><b>Total:</b> {{ $Usuario['TOTAL_USUARIOS'] }}</h5>
+    </tr>
+    @endforeach
+  </div>
+</div>
+
+<div class="info-box">
+  <span class="info-box-icon bg-warning"><i class="fa fa-user-check"></i></span>
+  <div class="info-box-content ">
+    <span class="info-box-text"><h5><b>Empleados</b></h5   ></span>
+    @foreach($ResulTotalEmpleado as $Empleados)
+    <tr>
+      <h5><b>Total:</b> {{ $Empleados['TOTAL_EMPLEADOS'] }}</h5>
+    </tr>
+    @endforeach
+  </div>
+</div>
+
+<div class="info-box">
+    
+  <span class="info-box-icon bg-cyan"><i class="fa fa-store-alt"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text"><h5><b>Sucursales</b></h5   ></span>
+    @foreach($ResulTotalSucursal as $Sucursal)
+    <tr>
+      <h5><b>Total:</b> {{ $Sucursal['TOTAL_SUCURSALES'] }}</h5>
+    </tr>
+    @endforeach
+  </div>
+</div>
+
+</div>
+
+<br>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+
+<div class="info-box">
+  <span class="info-box-icon bg-warning"><i class="fa fa-clipboard-list"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text"><h5><b>Empleado por Contratos</b></h5   ></span>
+    @foreach($ResulContrato as $Contrato)
+    <tr>
+      <h5><b>{{ $Contrato['TIP_CONTRATO'] }}:</b> {{ $Contrato['CANTIDAD_GENERO_EMPLEADOS'] }}</h5>
+    </tr>
+    @endforeach
+  </div>
+</div>
+
+<div class="info-box"> 
+  <span class="info-box-icon bg-cyan"><i class="fa fa-code-branch"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text"><h5><b>Empleado por Departamento</b></h5   ></span>
+    @foreach($ResulUsuario as $Usuario_Departamento)
+    <tr>
+      <h5><b>{{ $Usuario_Departamento['NOM_DEPTO_EMPRESA'] }}:</b> {{ $Usuario_Departamento['TOTAL_EMPLEADOS_DEPTOE'] }}</h5>
+    </tr>
+    @endforeach
+  </div>
+</div>
+
+<div class="info-box">
+    
+  <span class="info-box-icon bg-warning"><i class="fa fa-user-friends"></i></span>
+  <div class="info-box-content ">
+    <span class="info-box-text"><h5><b>Empleado por Genero</b></h5   ></span>
+    @foreach($ResulGenero as $Genero)
+    <tr>
+      <h5><b>{{ $Genero['SEX_PERSONA'] }}:</b> {{ $Genero['CANTIDAD_GENERO_EMPLEADOS'] }}</h5>
+    </tr>
+    @endforeach
+  </div>
+</div>
+</div>
+<br>
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+<div class="info-box">
+  <span class="info-box-icon bg-cyan"><i class="fa fa-store-alt"></i></span>
+  <div class="info-box-content">
+    <span class="info-box-text"><h5><b>Empleado por Sucursal</b></h5   ></span>
+    @foreach($ResulSucursal as $Sucursal)
+    <tr>
+      <h5><b>{{ $Sucursal['NOM_SUCURSAL'] }}:</b> {{ $Sucursal['TOTAL_EMPLEADOS_SUCURSAL'] }}</h5>
+    </tr>
+    @endforeach   
+  </div>
+</div>
+</div>
+
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop
+
+@section('footer')
+
+<div class="float-right d-none d-sm-block">
+  <b>Version</b> 3.1.0
+</div>
+<strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+
+@stop

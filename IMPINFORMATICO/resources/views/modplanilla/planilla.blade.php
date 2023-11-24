@@ -107,7 +107,7 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Empleado</label>
-                            <select class="form-control select" multiple name="COD_EMPLEADO[]" multiple>
+                            <select class="form-control" name="COD_EMPLEADO[]" multiple>
                                 <option value="" disabled>Seleccionar Empleado</option>
                                 @foreach ($ResulEmpleado as $Empleado)
                                     <option value="{{ $Empleado['COD_EMPLEADO'] }}">{{ $Empleado['NOMBRE_COMPLETO'] }}</option>
@@ -119,13 +119,13 @@
                                 <label for="dni" class="form-label">Tipo Planilla</label>
                                 <select class="form-control" name="TIPO_PLANILLA" required>
                                     <option value="" selected disabled>Seleccione una opción</option>
-                                    <option value="QUINCENAL">Quincenal</option>
-                                    <option value="MENSUAL">Mensual</option>
-                                    <option value="AGUINALDO">Aguinaldo</option>
-                                    <option value="CATORCEAVO">Catorceavo</option>
+                                    <option value="QUINCENAL">QUINCENAL</option>
+                                    <option value="MENSUAL">MENSUAL</option>
+                                    <option value="AGUINALDO">AGUINALDO</option>
+                                    <option value="CATORCEAVO">CATORCEAVO</option>
                                 </select>
                                 <div class="valid-feedback"></div>
-                            </div>
+                        </div>
 
                 </div>
                 <div class="modal-footer">
@@ -139,12 +139,19 @@
     </div>
     </div>
 
+    @if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ session('error') }}
+    </div>
+@endif
+
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            {{ session('success') }}
-        </div>
-    @endif
+    <div class="alert alert-success alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ session('success') }}
+    </div>
+@endif
     
     <!-- /.card-header -->
     <div class="table-responsive p-0">
@@ -154,10 +161,10 @@
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">Tipo</th>
                     <th style="text-align: center;">Salario Bruto</th>
                     <th style="text-align: center;">Horas Extras</th>
-                    <th style="text-align: center;">RAS IHSS</th>
-                    <th style="text-align: center;">RPS IHSS</th>
+                    <th style="text-align: center;">IHSS</th>
                     <th style="text-align: center;">RAP</th>
                     <th style="text-align: center;">ISR</th>
                     <th style="text-align: center;">Sal. Neto</th>
@@ -170,10 +177,10 @@
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
                         <td style="text-align: center;">{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ $Planilla['TIPO_PLANILLA'] }}</td>
                         <td style="text-align: center;">{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
-                        <td style="text-align: center;">{{ number_format($Planilla['RAS_IHSS'], 2, '.', ',') }}</td>
-                        <td style="text-align: center;">{{ number_format($Planilla['RPS_IHSS'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($Planilla['IHSS'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
@@ -409,10 +416,9 @@
         </script>
 
 <script>
-    $(document).ready(function () {
-        // Configura Select2
-        $('.choices-multiple').select2();
-    });
-</script>
+        $(document).ready(function() {
+            $('.js-example-basic-single').select2({});
+        });
+    </script>
 
 @stop
