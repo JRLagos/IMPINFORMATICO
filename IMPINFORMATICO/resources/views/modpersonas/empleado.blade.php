@@ -439,10 +439,17 @@
                 </tr>
             </thead>
             <tbody>
+
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
+
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-
                         <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
@@ -584,10 +591,11 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>
-
+</div>
     
 @stop
 
@@ -596,7 +604,8 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+     <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+        reserved.
 
 @stop
 
