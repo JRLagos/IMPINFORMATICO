@@ -46,6 +46,18 @@
     $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
     @endphp
 
+    @php
+        function tienePermiso($permisos, $permisoBuscado)
+        {
+            foreach ($permisos as $permiso) {
+                if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === '1') {
+                    return true; // El usuario tiene el permiso
+                }
+            }
+            return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
 
    
 
