@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\ModuloSeguridad;
 
 use Illuminate\Support\Facades\Http;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -16,11 +15,14 @@ class UsuariosController extends Controller
     {
         $response = Http::get('http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+        $response2 = Http::get('http://localhost:3000/SHOW_ROLES');
+        $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo
         $Usuario = json_decode($data, true);
-    
-        return view('modseguridad.usuario')->with('ResulUsuario', $Usuario);
+        $Rol = json_decode($data2, true);
+
+        return view('modseguridad.usuario')->with('ResulUsuario', $Usuario)->with('ResulRol', $Rol);;
     }
 
     /**
@@ -36,7 +38,17 @@ class UsuariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+        $Usuario = $request->all();
+
+        $res = Http::post("http://localhost:3000/INS_USUARIO/USUARIO", $Usuario,[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+
+        return redirect(route('Usuario.index'))->with('success', 'Datos ingresados con éxito.');
     }
 
     /**

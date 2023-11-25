@@ -18,7 +18,7 @@ class EmpleadoController extends Controller
     {
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-        $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/1');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
         $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
@@ -49,21 +49,39 @@ class EmpleadoController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function manejarDatos(Request $request)
     {
-        // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-        $Empleado = $request->all();
+        // Obtener datos del formulario de Datos Personales
+        $datosPersonales = $request->only(['NOM_PERSONA', 'APE_PERSONA', 'DNI_PERSONA', 'TIP_TELEFONO','NUM_TELEFONO', 'SEX_PERSONA'
+        , 'FEC_NAC_PERSONA', 'LUG_NAC_PERSONA', 'IND_CIVIL', 'CORREO_ELECTRONICO', 'DES_CORREO', 'NIV_ESTUDIO', 'NOM_CENTRO_ESTUDIO', 'COD_MUNICIPIO', 'DES_DIRECCION']);
+    
 
-        $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $Empleado,[
+        // Calcular la edad
+       $fechaNacimiento = new \DateTime($datosPersonales['FEC_NAC_PERSONA']);
+       $hoy = new \DateTime();
+       $edad = $hoy->diff($fechaNacimiento)->y;
+       $datosPersonales['EDAD_PERSONA'] = $edad;
+
+        // Obtener datos del formulario de Información Laboral
+        $infoLaboral = $request->only(['COD_SUCURSAL', 'COD_DEPTO_EMPRESA', 'TIP_CONTRATO', 'PUE_TRA_EMPLEADO', 'FEC_INGRESO', 'NUM_SEG_SOCIAL'
+        , 'SAL_BAS_EMPLEADO', 'NOM_BANCO', 'DES_BANCO', 'NUM_CTA_BANCO']);
+    
+        // Combinar ambos conjuntos de datos en un solo array
+        $empleadoData = array_merge($datosPersonales, $infoLaboral);
+    
+        // Realizar la solicitud HTTP con los datos combinados
+        $res = Http::post("http://localhost:3000/INS_EMPLEADO/EMPLEADO_SIN_USUARIO", $empleadoData, [
             'headers' => [
                 'Authorization' => 'Bearer ' . $sessionToken,
             ],
         ]);
-
-        return redirect(route('Empleado.index'))->with('success', 'Datos ingresados con éxito.');
+         
+         return redirect(route('Empleado.index'))->with('success', 'Datos ingresados con éxito.');
+     
     }
-
+    
+    
     /**
      * Display the specified resource.
      */

@@ -44,28 +44,36 @@
     @endphp
 
 
-    @php
-        function tienePermiso($permisos, $permisoBuscado)
-        {
-            foreach ($permisos as $permiso) {
-                if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === '1') {
-                    return true; // El usuario tiene el permiso
-                }
-            }
-            return false; // El usuario no tiene el permiso
+
+
+
+
+
+   
+@php
+function tienePermiso($permisos, $permisoBuscado)
+{
+    foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === '1') {
+            return true; // El usuario tiene el permiso
         }
-    @endphp
+    }
+    return false; // El usuario no tiene el permiso
+}
+@endphp
 
+<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+<h1><b>Departamentos Empresa</b></h1>
+@php
+$permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+@endphp
+<button
+class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agregar</b></button>
+</div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-    <h1><b>Departamentos Empresa</b></h1>
-        @php
-        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
-        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa"
-            type="button"><b>Agregar</b></button>
-    </div>
-        
+    
+
 @stop
 
 
@@ -98,12 +106,14 @@
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Nombre Departamento</label>
-                            <input type="text" class="form-control alphanumeric-input" name="NOM_DEPTO_EMPRESA" placeholder="Escriba aquí." required minlength="4" maxlength="50">
+                            <input type="text" class="form-control alphanumeric-input" name="NOM_DEPTO_EMPRESA"
+                                placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Descripción</label>
-                            <input type="text" class="form-control alphanumeric-input" name="DES_DEPTO_EMPRESA" placeholder="Escriba aquí." required minlength="4" maxlength="50">
+                            <input type="text" class="form-control alphanumeric-input" name="DES_DEPTO_EMPRESA"
+                                placeholder="Escriba aquí." required minlength="4" maxlength="50">
                         </div>
 
                 </div>
@@ -135,7 +145,7 @@
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">Descripción</th>
-                    <th>Accion</th>
+                    <th style="text-align: center;">Acción</th>
                 </tr>
             </thead>
             <tbody>
@@ -153,14 +163,15 @@
                         <td style="text-align: center;">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</td>
                         <td style="text-align: center;">{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}</td>
                         <td style="text-align: center;">
-                            @php
-                                $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                            @endphp
-                            <button value="Editar" title="Editar"
-                                class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif "
-                                type="button" data-toggle="modal"
-                                data-target="#UpdDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
+
+                            <button value="Editar" title="Editar" class="btn  btn-warning" type="button"
+                                data-toggle="modal" data-target="#UpdDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
+                            </button>
+                            <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
+                                data-toggle="modal"
+                                data-target="#EliminarDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
+                                <i class='fas fa-trash-alt' style='font-size:20px;'></i>
                             </button>
                         </td>
                     </tr>
@@ -187,15 +198,15 @@
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Nombre Departamento</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}" placeholder="Escriba aquí."
-                                                required maxlength="50">
+                                                name="NOM_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}"
+                                                placeholder="Escriba aquí." required maxlength="50">
                                         </div>
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Descripción</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}" placeholder="Escriba aquí."
-                                                required maxlength="50">
+                                                name="DES_DEPTO_EMPRESA" value="{{ $DeptoEmpresa['DES_DEPTO_EMPRESA'] }}"
+                                                placeholder="Escriba aquí." required maxlength="50">
                                         </div>
 
 
@@ -209,19 +220,61 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <div class="modal fade bd-example-modal-sm" id="EliminarDeptoEmpresa-{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}"
+                            tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Departamento a Eliminar</h5>
+                                        <button type="button" class="btn-close" data-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       
+                                        <form action="{{ route('Del-DeptoEmpresa.desactivar') }}" method="post"
+                                            class="was-validated">
+                                            @csrf
+                                            <input type="hidden" class="form-control" name="COD_DEPTO_EMPRESA"
+                                                value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
+
+                                            <div class="mb-3 mt-3">
+                                                <label for="dni" class="form-label">Nombre del Departamento</label>
+                                                <label for="dni"
+                                                    class="form-control">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</label>
+                                            </div>
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    data-dismiss="modal"><b>CERRAR</b></button>
+                                                <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 @endforeach
                 @endif
             </tbody>
         </table>
+        <br>
+        <div class="container d-md-flex justify-content-md-end">
+            <a class=" btn btn-danger btn-xl" href="{{ route('DeptoEmpresaEliminado.indexEliminados') }}"><b>Departamentos Eliminados</b>
+            </a>
+        </div>
+        <br>
     @stop
 
 
     @section('footer')
 
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+            reserved.</b>
 
     @stop
 

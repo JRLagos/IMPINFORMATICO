@@ -47,25 +47,14 @@
     @endphp
 
 
-    @php
-        function tienePermiso($permisos, $permisoBuscado) {
-        foreach ($permisos as $permiso) {
-        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
-            return true; // El usuario tiene el permiso
-             }
-          }
-        return false; // El usuario no tiene el permiso
-        }
-    @endphp    
+   
 
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Municipios</b></h1>
-        @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
+       
 
-        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button">
+        <button class="btn btn-success active text-light btn-lg" data-bs-toggle="modal" data-bs-target="#addMunicipio" type="button">
             <b>Agregar</b></button>
     </div>
 @stop
@@ -163,12 +152,15 @@
                         <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
 
                         <td style="text-align: center;">
-                        @php
-                          $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                        @endphp
-                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-toggle="modal"
+                       
+                            <button value="Editar" title="Editar" class="btn btn-warning " type="button" data-toggle="modal"
                                 data-target="#UpdMunicipio-{{ $Municipio['COD_MUNICIPIO'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
+                            </button>
+                            <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
+                                data-toggle="modal"
+                                data-target="#EliminarDeptoEmpresa-{{ $Municipio['COD_MUNICIPIO'] }}">
+                                <i class='fas fa-trash-alt' style='font-size:20px;'></i>
                             </button>
                         </td>
                     </tr>
@@ -221,10 +213,51 @@
                             </div>
                         </div>
                     </div>
+                    <div>
+                        <div class="modal fade bd-example-modal-sm" id="EliminarDeptoEmpresa-{{ $Municipio['COD_MUNICIPIO'] }}"
+                            tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Eliminar Municipio</h5>
+                                        <button type="button" class="btn-close" data-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                       
+                                        <form action="{{ route('Del-Municipio.desactivar') }}" method="post"
+                                            class="was-validated">
+                                            @csrf
+                                            <input type="hidden" class="form-control" name="COD_MUNICIPIO"
+                                                value="{{ $Municipio['COD_MUNICIPIO'] }}">
+
+                                            <div class="mb-3 mt-3">
+                                                <label for="dni" class="form-label">Municipio</label>
+                                                <label for="dni"
+                                                    class="form-control">{{ $Municipio['NOM_MUNICIPIO'] }}</label>
+                                            </div>
+
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger"
+                                                    data-dismiss="modal"><b>CERRAR</b></button>
+                                                <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 @endforeach
                 @endif
             </tbody>
         </table>
+        <br>
+        <div class="container d-md-flex justify-content-md-end">
+            <a class=" btn btn-danger btn-xl" href="{{ route('MunicipiosEliminado.indexEliminados') }}"><b>Municipios Eliminados</b>
+            </a>
+        </div>
+        <br>
     @stop
 
     @section('footer')

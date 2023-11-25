@@ -64,7 +64,7 @@ return [
     */
 
     'logo' => '<b>COMPUTER EMPIRE®</b>',
-    'logo_img' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE.png',
+    'logo_img' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE2.png',
     'logo_img_class' => 'brand-image-xl img-circle elevation-3',
     'logo_img_xl' => null,
     'logo_img_xl_class' => 'brand-image-xs',
@@ -86,7 +86,7 @@ return [
     'auth_logo' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'path' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE2.png',
             'alt' => 'Auth Logo',
             'class' => '',
             'width' => 50,
@@ -109,7 +109,7 @@ return [
     'preloader' => [
         'enabled' => true,
         'img' => [
-            'path' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE.png',
+            'path' => 'vendor/adminlte/dist/img/COMPUTEREMPIRE3.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
             'width' => 300,
@@ -300,6 +300,14 @@ return [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+        [
+            'text' => 'PERFIL',
+            'icon' => 'fas fa-fw fa-user',
+            'url'  => 'Perfil',
+            'topnav_right' => true,
+        ], 
+      
+        
 
         // Sidebar items:
         [
@@ -319,7 +327,6 @@ return [
                     'text' => 'Personas',
                     'url'  => 'Persona',
                     'icon' => 'fas fa-fw fa-user-circle gns text-info',
-
                 ], 
                 [
                     'text' => 'Empleados',
@@ -332,6 +339,11 @@ return [
             'text' => 'INFORMACION',
             'icon' => 'fas fa-fw fa-folder-plus gns text-yellow',
             'submenu' => [
+                [
+                    'text' => 'Direcciones',
+                    'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
+                    'url'  => 'Direcciones',
+                ],
                 [
                     'text' => 'Bancos',
                     'icon' => 'fas fa-fw fa-kaaba gns text-info',
@@ -350,7 +362,7 @@ return [
             ],
         ],
         [
-            'text' => 'DIRECCIONES',
+            'text' => 'GESTION GEOGRAFICA',
             'icon' => 'fas fa-fw fa-map gns text-yellow',
             'submenu' => [
                 [
@@ -362,11 +374,6 @@ return [
                     'text' => 'Municipios',
                     'icon' => 'fas fa-fw fa-map-pin gns text-info',
                     'url'  => 'Municipios',
-                ], 
-                [
-                    'text' => 'Direcciones',
-                    'icon' => 'fas fa-fw fa-map-marked-alt gns text-info',
-                    'url'  => 'Direcciones',
                 ], 
             ],
         ],
@@ -405,7 +412,17 @@ return [
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Vacaciones',
                 ], 
+                [
+                    'text' => 'Deducciones',
+                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
+                    'url'  => 'Deducciones',
+                ],
             ],
+        ],
+        [
+            'text' => 'ESTADISTICAS', 
+            'icon' => 'fas fa-chart-bar gns text-yellow', 
+            'url'  => 'Estadisticas', 
         ],
         [
             'text' => 'SEGURIDAD',
@@ -447,11 +464,6 @@ return [
                     'url'  => 'bitacora',
                 ],
             ],
-        ],
-        [
-            'text' => 'CERRAR SESIÓN', 
-            'icon' => 'fas fa-fw fa-sign-out-alt gns text-red', 
-            'url'  => 'logout', 
         ],
     ],
     

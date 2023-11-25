@@ -58,13 +58,13 @@
 
 
 
-    <h1>Permisos</h1>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Permisos</b></h1>
         @php
             $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2"
-            data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"> Agregar Permiso</button>
+            class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+            data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"><b>Agregar</b></button>
     </div>
 
 @stop
@@ -83,7 +83,70 @@
     <div class="modal fade bd-example-modal-sm" id="addPermiso" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <!-- Contenido del modal de agregar permiso -->
+
+
+                <div class="modal-header">
+                    <h3><b>Nuevo Permiso</b></h3>
+                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('Post-Permisos.store') }}" method="post" class="was-validated">
+                        @csrf
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Roles</label>
+                            <select class="form-select js-example-basic-single" name="COD_ROL" id="COD_ROL" required>
+                                <option value="" selected disabled>Seleccionar Rol</option>
+                                @foreach ($ResulRoles as $Roles)
+                                    <option value="{{ $Roles['COD_ROL'] }}">{{ $Roles['NOM_ROL'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Objetos</label>
+                            <select class="form-select js-example-basic-single" name="COD_OBJETO" id="COD_OBJETO" required>
+                                <option value="" selected disabled>Seleccionar Objeto</option>
+                                @foreach ($ResulObjetos as $Objeto)
+                                    <option value="{{ $Objeto['COD_OBJETO'] }}">{{ $Objeto['NOM_OBJETO'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Permiso Insertar</label>
+                            <input type="text" class="form-control" name="PER_INSERTAR" required minlength="1"
+                                maxlength="1" />
+                            <span class="validity"></span>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Permiso Eliminar</label>
+                            <input type="text" class="form-control" name="PER_ELIMINAR" required maxlength="1" />
+                            <span class="validity"></span>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Permiso Actualizar</label>
+                            <input type="text" class="form-control" name="PER_ACTUALIZAR" required minlength="1"
+                                maxlength="1" />
+                            <span class="validity"></span>
+                        </div>
+
+                        <div class="mb-3 mt-3">
+                            <label for="dni" class="form-label">Permiso Consultar</label>
+                            <input type="text" class="form-control" name="PER_CONSULTAR" required minlength="1"
+                                maxlength="1" />
+                            <span class="validity"></span>
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
+                </div>
+                </form>
+
             </div>
         </div>
     </div>
@@ -92,7 +155,7 @@
     <div class="table-responsive p-0">
         <br>
         <table id="permisos" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Rol</th>
@@ -136,14 +199,78 @@
                     <div class="modal fade bd-example-modal-sm" id="Permiso-edit-{{$Permisos['COD_ROL']}}" tabindex="-1">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <!-- Contenido del modal de editar permiso -->
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Editar Permiso</h5>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h4>Ingresar Nuevos Datos</h4>
+                                    <form action="{{ route('Upt-Permisos.update') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+                                        <input type="hidden" class="form-control" name="COD_ROL"
+                                            value="{{ $Roles['COD_ROL'] }}">
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Rol</label>
+                                            <select class="form-control js-example-basic-single" name="COD_ROL"
+                                                id="COD_ROL">
+                                                <option value="{{ $Permisos['COD_ROL'] }}" style="display: none;">
+                                                    {{ $Permisos['NOM_ROL'] }}</option>
+                                                <option disabled>¡No se puede seleccionar otro Rol!</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Objeto</label>
+                                            <select class="form-control js-example-basic-single" name="COD_OBJETO"
+                                                id="COD_OBJETO">
+                                                <option value="{{ $Permisos['COD_OBJETO'] }}" style="display: none;">
+                                                    {{ $Permisos['NOM_OBJETO'] }}</option>
+                                                <option disabled>¡No se puede seleccionar otro Objeto!</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Permiso Insertar</label>
+                                            <input type="number" class="form-control" min="1" max="1"
+                                                name="PER_INSERTAR" value="{{ $Permisos['PER_INSERTAR'] }}" required>
+                                            <span class="validity"></span>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Permiso Eliminar</label>
+                                            <input type="number" class="form-control" min="0" max="1"
+                                                name="PER_ELIMINAR" value="{{ $Permisos['PER_ELIMINAR'] }}" required>
+                                            <span class="validity"></span>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Permiso Actualizar</label>
+                                            <input type="number" class="form-control" min="1" max="1"
+                                                name="PER_ACTUALIZAR" value="{{ $Permisos['PER_ACTUALIZAR'] }}" required>
+                                            <span class="validity"></span>
+                                        </div>
+
+                                        <div class="mb-3 mt-3">
+                                            <label for="dni" class="form-label">Permiso Consultar</label>
+                                            <input type="text" class="form-control"required minlength="1"
+                                                maxlength="1" name="PER_CONSULTAR"
+                                                value="{{ $Permisos['PER_CONSULTAR'] }}" required>
+                                            <span class="validity"></span>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </tbody>
         </table>
-    </div>
 
 @stop
 
@@ -151,8 +278,9 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
-@stop
+    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights reserved.</b>
+
+    @stop
 
 
 

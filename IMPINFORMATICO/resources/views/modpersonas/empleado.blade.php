@@ -16,6 +16,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+    <style>
+        .nav-link {
+            margin-bottom: 10px; /* O utiliza padding-bottom si prefieres */
+        }
+    </style>
+
     @php
         $usuario = session('credenciales');
         $usuarioRol = session('nombreRol');
@@ -59,11 +65,11 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1>Registro de Empleados</h1>
+    <h1><b>Registro de Empleados</b></h1>
         @php
             $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button class="btn btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"
             @if (!$permisoInsertar) disabled @endif><b>Agregar Empleado</b></button>
     </div>
 @stop
@@ -81,24 +87,41 @@
 @section('content')
 
 
-    <!-- Modal para agregar un nuevo Empleado -->
-    <div class="modal fade bd-example-modal-sm" id="addEmpleado" tabindex="-1">
-        <div class="modal-dialog">
+<!-- Modal para agregar un nuevo Empleado -->
+<div class="modal fade bd-example-modal-sm" id="addEmpleado" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
             <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><b>Agregar empleado</b></h5>
+                    <button class="btn btn-close" data-bs-dismiss="modal"></button>
+                </div>
 
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3>Personas</h3>
-                        <button class="btn btn-close " data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <h4>Ingresar nuevo registro</h4>
+                <div class="modal-body">
+                    <!-- Pestañas -->
+                    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="datosPersonales-tab" data-toggle="tab"
+                                href="#datosPersonales" role="tab" aria-controls="datosPersonales"
+                                aria-selected="true"><b>Datos Personales</b></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="infoLaboral-tab" data-toggle="tab" href="#infoLaboral" role="tab"
+                                aria-controls="infoLaboral" aria-selected="false"><b>Información Laboral</b></a>
+                        </li>
+                    </ul>
 
-                        <form action="{{ route('Post-Persona.store') }}" method="post" class="was-validated">
-                            @csrf
 
-
-                            <div class="mb-3 mt-3">
+    <form id="formularioPrincipal" action="{{ route('Post-Empleado.store') }}" method="post" class="was-validated">
+    @csrf
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content" id="myTabsContent">
+        <!-- Pestaña 1: Datos Personales -->
+        <div class="tab-pane fade show active" id="datosPersonales" role="tabpanel" aria-labelledby="datosPersonales-tab">
+            <!-- Campos del formulario de Datos Personales -->
+            <!-- ... -->
+                            <div class="form-group">
                                 <label for="dni" class="form-label">Nombre</label>
                                 <input type="text" class="form-control alphanumeric-input" name="NOM_PERSONA" required
                                     minlength="3" maxlength="50">
@@ -106,14 +129,14 @@
                                     Por favor, ingresa un nombre válido (al menos 3 caracteres).
                                 </div>
                             </div>
-
+                            
                             <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Apellido</label>
+                               <label for="dni" class="form-label">Apellido</label>
                                 <input type="text" class="form-control alphanumeric-input" name="APE_PERSONA" required
                                     minlength="4" maxlength="50">
                             </div>
 
-                            <div class="mb-3 mt-3">
+                           <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">DNI</label>
                                 <input type="number" class="form-control" name="DNI_PERSONA" required
                                     oninput="validateDNI(this)">
@@ -121,15 +144,7 @@
                                     Por favor, ingresa un DNI válido de 13 digitos.
                                 </div>
                             </div>
-
-                            <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">RTN</label>
-                                <input type="number" class="form-control" name="RTN_PERSONA" required
-                                    oninput="validateRTN(this)">
-                                <div class="invalid-feedback">
-                                    Por favor, ingresa un RTN válido de 14 digitos.
-                                </div>
-                            </div>
+                            
 
                             <div class="mb-3 mt-3">
                                 <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
@@ -140,15 +155,15 @@
                                 </select>
                                 <div class="valid-feedback"></div>
                             </div>
-
+ 
                             <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Número Télefono</label>
+                              <label for="dni" class="form-label">Número Télefono</label>
                                 <input type="number" class="form-control" name="NUM_TELEFONO" required
                                     oninput="validateNUMERO(this)">
                             </div>
 
                             <div class="mb-3 mt-3">
-                                <label for="SEX_PERSONA" class="form-label">Sexo Persona</label>
+                                <label for="SEX_PERSONA" class="form-label">Sexo</label>
                                 <select class="form-control" name="SEX_PERSONA" required>
                                     <option value="" selected disabled>Seleccione una opción</option>
                                     <option value="Masculino">Masculino</option>
@@ -157,20 +172,15 @@
                                 <div class="valid-feedback"></div>
                             </div>
 
+                      
                             <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Edad Persona</label>
-                                <input type="number" id="tentacles" min="18" max="55" class="form-control"
-                                    name="EDAD_PERSONA" required>
-                            </div>
-
-                            <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Fecha Nacimiento Persona</label>
+                                <label for="dni" class="form-label">Fecha Nacimiento</label>
                                 <input type="date" class="form-control" max="<?= date('Y-m-d') ?>"
                                     name="FEC_NAC_PERSONA" required>
                             </div>
 
                             <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Lugar Nacimiento Persona</label>
+                                <label for="dni" class="form-label">Lugar Nacimiento</label>
                                 <input type="text" class="form-control alphanumeric-input" name="LUG_NAC_PERSONA"
                                     required minlength="3" maxlength="50">
                             </div>
@@ -257,23 +267,28 @@
                                     });
                                 });
                             </script>
+        </div>
 
 
-                            <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Sucursal</label>
-                                <select class="form-control js-example-basic-single" name="COD_SUCURSAL"
+        <!-- Pestaña 2: Información Laboral -->
+        <div class="tab-pane fade" id="infoLaboral" role="tabpanel" aria-labelledby="infoLaboral-tab">
+            <!-- Campos del formulario de Información Laboral -->
+            <!-- ... -->
+            <div class="form-group">
+              <label for="nombre">Sucursal:</label>
+              <select class="form-control js-example-basic-single" name="COD_SUCURSAL"
                                     id="COD_SUCURSAL" required>
                                     <option value="" selected disabled> Seleccionar Sucursal </option>
                                     @foreach ($ResulSucursal as $Sucursal)
                                         <option value="{{ $Sucursal['COD_SUCURSAL'] }}">{{ $Sucursal['NOM_SUCURSAL'] }}
                                         </option>
                                     @endforeach
-                                </select>
-                            </div>
+                 </select>
+                </div>   
 
-                            <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Departamento Empresa</label>
-                                <select class="form-control js-example-basic-single" name="COD_DEPTO_EMPRESA"
+                           <div class="form-group">
+                             <label for="nombre">Departamento Empresa</label>
+                               <select class="form-control js-example-basic-single" name="COD_DEPTO_EMPRESA"
                                     id="COD_DEPTO_EMPRESA" required>
                                     <option value="" selected disabled> Seleccionar Departamento Empresa </option>
                                     @foreach ($ResulDeptoEmpresa as $DeptoEmpresa)
@@ -281,7 +296,7 @@
                                             {{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div>   
 
                             <div class="mb-3 mt-3">
                                 <label for="TIP_CONTRATO" class="form-label">Tipo de Contrato</label>
@@ -307,16 +322,10 @@
                                 <div class="valid-feedback"></div>
                             </div>
 
-                            <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Fecha Ingreso</label>
-                                <input type="date" class="form-control" max="<?= date('Y-m-d') ?>" name="FEC_INGRESO"
-                                    required>
-                            </div>
-
-                            <div class="mb-3 mt-3">
-                                <label for="dni" class="form-label">Fecha Egreso</label>
-                                <input type="date" class="form-control" name="FEC_EGRESO" required>
-                            </div>
+                       <div class="form-group">
+                          <label for="nombre">Fecha Ingreso</label>
+                          <input type="date" class="form-control" min="2015-01-01" max="<?= date('Y-m-d') ?>" name="FEC_INGRESO" required>                                  
+                       </div> 
 
 
                             <div class="mb-3 mt-3">
@@ -326,7 +335,7 @@
                                 <div class="invalid-feedback">
                                     Por favor, ingresa un NÚMERO válido de 9 digitos.
                                 </div>
-                            </div>
+                         </div>
 
                             <script>
                                 function validateSEGURO(input) {
@@ -387,18 +396,21 @@
                                     }
                                 }
                             </script>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-danger " data-bs-dismiss="modal">CERRAR</button>
-                        <button class="btn btn-primary" data-bs="modal">ACEPTAR</button>
-                    </div>
-
-                    </form>
+                     </form>
                 </div>
+                    <div class="modal-footer">
+                        <!-- Botones de cerrar y aceptar -->
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">CERRAR</button>
+                        <!-- Botón de ACEPTAR -->
+                        <button class="btn btn-primary" type="submit" form="formularioPrincipal">ACEPTAR</button>
+                      </div>
+                    </div>
+                  </div>                  
+               </div>
             </div>
         </div>
     </div>
-
+</div>
 
 
     @if (session('success'))
@@ -412,10 +424,10 @@
     <div class="table-responsive p-0">
         <br>
         <table id="empleado" class="table table-striped table-bordered table-condensed table-hover">
-            <thead class="bg-dark">
+            <thead class="bg-cyan active">
                 <tr>
                     <th>#</th>
-                    <th style="text-align: center;">Nombre Completo</th>
+                    <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">Sucursal</th>
                     <th style="text-align: center;">Departamento Empresa</th>
                     <th style="text-align: center;">Puesto Trabajo</th>
@@ -438,7 +450,6 @@
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-
                         <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
@@ -470,12 +481,7 @@
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
-
-                                <div class="modal-body">
-                                    <h4>
-                                        <p>Ingresar nuevos datos</p>
-                                    </h4>
-                                    <hr>
+                                <div class="modal-body">                              
                                     <form action="{{ route('Upd-Empleado.update') }}" method="post"
                                         class="was-validated">
                                         @csrf
@@ -486,7 +492,7 @@
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Empleado</label>
                                             <select class="form-control js-example-basic-single" name="COD_PERSONA"
-                                                id="COD_PERSONA">
+                                                id="COD_PERSONA" required>
                                                 <option value="{{ $Empleado['COD_PERSONA'] }}" style="display: none;">
                                                     {{ $Empleado['NOMBRE_COMPLETO'] }}</option>
                                                 <option disabled>¡No se puede seleccionar otro Empleado!</option>
@@ -496,7 +502,7 @@
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Sucursal</label>
                                             <select class="form-control js-example-basic-single" name="COD_SUCURSAL"
-                                                id="COD_SUCURSAL">
+                                                id="COD_SUCURSAL" required>
                                                 <option value="{{ $Empleado['COD_SUCURSAL'] }}" style="display: none;">
                                                     {{ $Empleado['NOM_SUCURSAL'] }}</option>
                                                 @foreach ($ResulSucursal as $Sucursal)
@@ -555,7 +561,7 @@
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Fecha Ingreso</label>
-                                            <input type="date" class="form-control" min="2023-08-15"
+                                            <input type="date" class="form-control" min="2015-01-01"
                                                 max="<?= date('Y-m-d') ?>" name="FEC_INGRESO"
                                                 value="{{ date('Y-m-d', strtotime($Empleado['FEC_INGRESO'])) }}" required>
                                         </div>
@@ -589,6 +595,8 @@
             </tbody>
         </table>
     </div>
+</div>
+    
 @stop
 
 @section('footer')
@@ -596,7 +604,8 @@
     <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-    <strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+     <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+        reserved.
 
 @stop
 
