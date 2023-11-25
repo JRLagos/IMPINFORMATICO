@@ -59,13 +59,18 @@
 
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Permisos</b></h1>
-        @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
-            class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
-            data-bs-toggle="modal" data-bs-target="#addPermiso" type="button"><b>Agregar</b></button>
-    </div>
+    <h1><b>Permisos</b></h1>
+    @php
+        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+    @endphp
+    <button 
+        class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+        data-toggle="modal" data-target="#addPermiso" type="button"
+    >
+        <b>Agregar</b>
+    </button>
+</div>
+
 
 @stop
 
@@ -84,10 +89,9 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-
                 <div class="modal-header">
                     <h3><b>Nuevo Permiso</b></h3>
-                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
+                    <button class="btn btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form action="{{ route('Post-Permisos.store') }}" method="post" class="was-validated">
@@ -142,8 +146,8 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                    <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
+                    <button class="btn btn-danger" data-bs-dismiss="modal"><b>CERRAR</b></button>
+                    <button class="btn btn-primary" type="submit"><b>ACEPTAR</b></button>
                 </div>
                 </form>
 
@@ -189,7 +193,7 @@
                             @php
                                 $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                             @endphp
-                            <button value="Editar" title="Editar" class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif " type="button" data-toggle="modal" data-target="#Permiso-edit-{{$Permisos['COD_ROL']}}">
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button" data-bs-toggle="modal" data-bs-target="#Permiso-edit-{{$Permisos['COD_ROL']}}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
                         </td>
@@ -210,7 +214,7 @@
                                         class="was-validated">
                                         @csrf
                                         <input type="hidden" class="form-control" name="COD_ROL"
-                                            value="{{ $Roles['COD_ROL'] }}">
+                                            value="{{ $Permisos['COD_ROL'] }}">
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Rol</label>
@@ -253,7 +257,7 @@
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Permiso Consultar</label>
-                                            <input type="text" class="form-control"required minlength="1"
+                                            <input type="text" class="form-control" required minlength="1"
                                                 maxlength="1" name="PER_CONSULTAR"
                                                 value="{{ $Permisos['PER_CONSULTAR'] }}" required>
                                             <span class="validity"></span>
@@ -271,6 +275,7 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
 
 @stop
 
@@ -285,6 +290,7 @@
 
 
 @section('js')
+
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
