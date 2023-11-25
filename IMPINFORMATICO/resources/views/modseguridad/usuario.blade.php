@@ -108,7 +108,7 @@
 
 
                 <div class="modal-header">
-                    <h3>Municipio</h3>
+                    <h3>Usuario</h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
 
                 </div>
@@ -149,9 +149,6 @@
                                 class="form-control" name="EMAIL" required>
                     </div>
     
-
-
-
                         <div class="mb-3 mt-3">
                             <label for="SEX_PERSONA" class="form-label">Estado Usuario</label>
                             <select class="form-control" name="IND_USUARIO" required>
@@ -278,7 +275,6 @@
         <button class="btn btn-primary" type="submit"><b>ACTUALIZAR</b></button>
     </div>
 </form>
-
 
             </div>
         </div>

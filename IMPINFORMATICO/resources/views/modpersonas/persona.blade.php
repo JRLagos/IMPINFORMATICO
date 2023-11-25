@@ -137,7 +137,7 @@
 
                            <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">DNI</label>
-                                <input type="number" class="form-control" name="DNI_PERSONA" required
+                                <input type="text" class="form-control" name="DNI_PERSONA" required
                                     oninput="validateDNI(this)">
                                 <div class="invalid-feedback">
                                     Por favor, ingresa un DNI válido de 13 digitos.
@@ -322,7 +322,7 @@
                             </div>
 
                        <div class="form-group">
-                          <label for="nombre">Fecha Ingreso:</label>
+                          <label for="nombre">Fecha Ingreso</label>
                           <input type="date" class="form-control" min="2015-01-01" max="<?= date('Y-m-d') ?>" name="FEC_INGRESO" required>                                  
                        </div> 
 
@@ -465,7 +465,6 @@
                     </tr>
                     
                     <!-- Modal for editing goes here -->
-
                     <div class="modal fade bd-example-modal-sm" id="UpdPersona-{{ $Persona['COD_PERSONA'] }}"
                         tabindex="-1">
                         <div class="modal-dialog">
@@ -500,13 +499,6 @@
                                             <span class="validity"></span>
                                         </div>
 
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">RTN Persona</label>
-                                            <input type="number" class="form-control" name="RTN_PERSONA"
-                                                value="{{ $Persona['RTN_PERSONA'] }}" required>
-                                            <span class="validity"></span>
-                                        </div>
 
                                         <div class="mb-3 mt-3">
                                             <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>

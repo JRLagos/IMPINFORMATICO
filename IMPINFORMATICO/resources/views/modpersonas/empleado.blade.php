@@ -442,7 +442,6 @@
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-
                         <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
@@ -587,7 +586,7 @@
             </tbody>
         </table>
     </div>
-
+</div>
     
 @stop
 
