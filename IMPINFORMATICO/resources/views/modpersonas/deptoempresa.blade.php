@@ -218,12 +218,12 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Eliminar Sucursal</h5>
+                                        <h5 class="modal-title">Departamento a Eliminar</h5>
                                         <button type="button" class="btn-close" data-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h4>Sucursal a Eliminar</h4>
+                                       
                                         <form action="{{ route('Del-DeptoEmpresa.desactivar') }}" method="post"
                                             class="was-validated">
                                             @csrf
@@ -231,7 +231,7 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                                                 value="{{ $DeptoEmpresa['COD_DEPTO_EMPRESA'] }}">
 
                                             <div class="mb-3 mt-3">
-                                                <label for="dni" class="form-label">Nombre Sucursal</label>
+                                                <label for="dni" class="form-label">Nombre del Departamento</label>
                                                 <label for="dni"
                                                     class="form-control">{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</label>
                                             </div>

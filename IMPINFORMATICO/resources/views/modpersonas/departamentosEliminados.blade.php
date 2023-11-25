@@ -59,7 +59,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Activar Departamento</h5>
+                            
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -94,6 +94,7 @@
         </a>
     </div>
     <br>
+</div>
     @stop
 
     @section('footer')
