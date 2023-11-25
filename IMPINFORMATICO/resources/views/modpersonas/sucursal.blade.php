@@ -43,6 +43,18 @@
         $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
     @endphp
 
+    @php
+        function tienePermiso($permisos, $permisoBuscado)
+        {
+            foreach ($permisos as $permiso) {
+                if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === '1') {
+                    return true; // El usuario tiene el permiso
+                }
+            }
+            return false; // El usuario no tiene el permiso
+        }
+    @endphp
+
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Registro de Sucursales</b></h1>
