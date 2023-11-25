@@ -444,7 +444,7 @@
             @php
             // Verificar si el usuario tiene permiso de lectura para este objeto
             $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
-            print_r($permisoLectura);
+            
             @endphp
 
             @if ($permisoLectura)
