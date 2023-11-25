@@ -44,7 +44,18 @@ class DeduccionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      
+        // Obtenter el token generado y guardado en la sesión
+        $sessionToken = $request->session()->get('generated_token');
+        $Deduccion = $request->all();
+
+        $res = Http::post("http://localhost:3000/INSERTAR_DEDUCCION/INSERT", $Deduccion,[
+            'headers' => [
+                'Authorization' => 'Bearer ' . $sessionToken,
+            ],
+        ]);
+
+        return redirect(route('Deducciones.index'))->with('success', 'Datos ingresados con éxito.');
     }
 
     /**
@@ -66,9 +77,16 @@ class DeduccionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        $upd_municipio = Http::put('http://localhost:3000/ACTUALIZAR_DEDUCCION/UPDATE/'.$request->input("COD_DEDUCCION"),[
+            "COD_DEDUCCION" => $request->input('COD_DEDUCCION'),
+            "DEDUCCION" => $request->input("DEDUCCION"),
+            "DES_DEDUCCION" => $request->input("DES_DEDUCCION"),
+            "VALOR_DEDUCCION" => $request->input("VALOR_DEDUCCION"),
+        ]);
+        
+        return redirect(route('Deducciones.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
     /**
