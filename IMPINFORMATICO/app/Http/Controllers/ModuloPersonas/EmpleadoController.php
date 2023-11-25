@@ -18,7 +18,7 @@ class EmpleadoController extends Controller
     {
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-        $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/2');
+        $response1 = Http::get('http://localhost:3000/SHOW_EMPLEADO/GETALL_EMPLEADO/1');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
         $response2 = Http::get('http://localhost:3000/SHOW_MUNICIPIO/GETALL_MUNICIPIO/2');
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta

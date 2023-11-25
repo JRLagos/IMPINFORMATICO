@@ -14,6 +14,11 @@
 </head>
 <body>
 <!-- Mensaje de credenciales inválidas -->
+@if (isset($userExistsError) && $userExistsError)
+    <div class="alert alert-danger">
+        El usuario ya existe. Por favor, elige otro nombre de usuario.
+    </div>
+@endif
 <div class="contenedor">
     <h1>Crear Cuenta</h1>
     <form id="registroForm" action="{{ route('ModuloSeguridad.enviar') }}" method="post">

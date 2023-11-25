@@ -439,10 +439,17 @@
                 </tr>
             </thead>
             <tbody>
+
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
+
                 @foreach ($ResulEmpleado as $Empleado)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-
                         <td style="text-align: center;">{{ $Empleado['NOMBRE_COMPLETO'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_SUCURSAL'] }}</td>
                         <td style="text-align: center;">{{ $Empleado['NOM_DEPTO_EMPRESA'] }}</td>
@@ -584,10 +591,11 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>
-
+</div>
     
 @stop
 
