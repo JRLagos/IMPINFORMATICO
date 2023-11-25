@@ -90,6 +90,12 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
 
                 @foreach ($ResulEstudio as $Estudio)
                     <tr>
@@ -177,6 +183,7 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>

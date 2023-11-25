@@ -130,6 +130,12 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
                 @foreach ($ResulDepartamento as $Departamento)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -229,6 +235,7 @@
                                 </div>
                             </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
         <br>
