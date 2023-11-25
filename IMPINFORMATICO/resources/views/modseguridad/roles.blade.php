@@ -85,7 +85,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <h3><b>Nuevo Rol</b></h3>
+                    <h3><b>Nuevo Rol</b></h3>
                     <button class="btn btn-close " data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -95,7 +95,7 @@
                         <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Nombre Rol</label>
                             <input type="text" class="form-control alphanumeric-input" pattern="{3,}"
-                                name="NOM_ROL" required minlength="4" maxlength="30" placeholder="Escriba aquí en mayuscula." required>
+                                name="NOM_ROL" required minlength="4" maxlength="30" placeholder="Escriba aquí en mayúscula." required>
                             <span class="validity"></span>
                         </div>
 
@@ -105,17 +105,14 @@
                                 name="DES_ROL" required minlength="4" maxlength="100" placeholder="Escriba aquí." oninput="limitarCaracteresEspecialesYEspacios(this)" required> 
                             <span class="validity"></span>
                         </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
                     <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                 </div>
                 </form>
-
             </div>
         </div>
-    </div>
     </div>
 
     <!-- /.card-header -->
@@ -123,22 +120,6 @@
         <br>
         <table id="rol" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
-
-    <tr>
-            <th style="text-align: center;">#</th>
-            <th style="text-align: center;">Nombre</th>
-            <th style="text-align: center;">Descripcion</th>
-            <th style="text-align: center;">Accion</th>
-    </tr>
-        </thead>
-        <tbody>
-        @php
-            // Verificar si el usuario tiene permiso de lectura para este objeto
-            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
-            @endphp
-
-            @if ($permisoLectura)
-            @foreach($ResulRoles as $Roles)
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Nombre</th>
@@ -147,73 +128,72 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($ResulRoles as $Roles)
-                    <tr>
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Roles['NOM_ROL'] }}</td>
-                        <td style="text-align: center;">{{ $Roles['DES_ROL'] }}</td>
-                        <td style="text-align: center;">
-                            @php
-                                $permisoActualizar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                            @endphp
-                            <button value="Editar" title="Editar"
-                                class="btn @if (!$permisoActualizar) btn-secondary disabled @else btn-warning @endif "
-                                type="button" data-toggle="modal" data-target="#Rol-edit-{{ $Roles['COD_ROL'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        </td>
-                    </tr>
+                @php
+                    // Verificar si el usuario tiene permiso de lectura para este objeto
+                    $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+                @endphp
 
-                    <div class="modal fade bd-example-modal-sm" id="Rol-edit-{{ $Roles['COD_ROL'] }}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                <h3 class="modal-title"><b>Editar Rol</b></h3>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('Upt-Roles.update') }}" method="post" class="was-validated">
-                                        @csrf
-                                        <input type="hidden" class="form-control" name="COD_ROL"
-                                            value="{{ $Roles['COD_ROL'] }}">
+                @if ($permisoLectura)
+                    @foreach($ResulRoles as $Roles)
+                        <tr>
+                            <td style="text-align: center;">{{ $loop->iteration }}</td>
+                            <td style="text-align: center;">{{ $Roles['NOM_ROL'] }}</td>
+                            <td style="text-align: center;">{{ $Roles['DES_ROL'] }}</td>
+                            <td style="text-align: center;">
+                                @php
+                                    $permisoActualizar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                                @endphp
+                                <button value="Editar" title="Editar"
+                                    class="btn @if (!$permisoActualizar) btn-secondary disabled @else btn-warning @endif "
+                                    type="button" data-toggle="modal" data-target="#Rol-edit-{{ $Roles['COD_ROL'] }}">
+                                    <i class='fas fa-edit' style='font-size:20px;'></i>
+                                </button>
+                            </td>
+                        </tr>
 
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Rol</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern="{3,}" id="NOM_ROL"
-                                                name="NOM_ROL" value="{{ $Roles['NOM_ROL'] }}"
-                                                required maxlength="30">
-                                        </div>
+                        <div class="modal fade bd-example-modal-sm" id="Rol-edit-{{ $Roles['COD_ROL'] }}" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h3 class="modal-title"><b>Editar Rol</b></h3>
+                                        <button type="button" class="btn-close" data-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('Upt-Roles.update') }}" method="post" class="was-validated">
+                                            @csrf
+                                            <input type="hidden" class="form-control" name="COD_ROL"
+                                                value="{{ $Roles['COD_ROL'] }}">
 
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripcion</label>
-                                            <input type="text" class="form-control" id="DES_ROL"
-                                                name="DES_ROL" pattern="{3,}" value="{{ $Roles['DES_ROL'] }}" oninput="limitarCaracteresEspecialesYEspacios(this)"
-                                                required maxlength="30">
-                                        </div>
+                                            <div class="mb-3 mt-3">
+                                                <label for="dni" class="form-label">Nombre Rol</label>
+                                                <input type="text" class="form-control alphanumeric-input" pattern="{3,}" id="NOM_ROL"
+                                                    name="NOM_ROL" value="{{ $Roles['NOM_ROL'] }}"
+                                                    required maxlength="30">
+                                            </div>
 
-                                        <div class="modal-footer">
-                                            <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
-                                            <button class="btn btn-primary" data-bs="modal"><b>ACEPTAR</b></button>
-                                        </div>
-                                    </form>
+                                            <div class="mb-3 mt-3">
+                                                <label for="dni" class="form-label">Descripcion</label>
+                                                <input type="text" class="form-control" id="DES_ROL"
+                                                    name="DES_ROL" pattern="{3,}" value="{{ $Roles['DES_ROL'] }}" oninput="limitarCaracteresEspecialesYEspacios(this)"
+                                                    required maxlength="30">
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                                                <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-<<<<<<< HEAD
-                </div>
-            @endforeach
-            @endif
-        </tbody>
-    </table>
-=======
-                @endforeach
+                    @endforeach
+                @endif
             </tbody>
         </table>
->>>>>>> 2ccc0774ac2971762e195b57d656d3e7da557c20
-
-    @stop
+    </div>
+@stop
 
     @section('footer')
 
