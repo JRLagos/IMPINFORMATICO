@@ -184,18 +184,6 @@
                                     required minlength="3" maxlength="50">
                             </div>
 
-                            <div class="mb-3 mt-3">
-                                <label for="IND_CIVIL" class="form-label">Estado Civil</label>
-                                <select class="form-control" name="IND_CIVIL" required>
-                                    <option value="" selected disabled>Seleccione una opción</option>
-                                    <option value="Soltero">Soltero</option>
-                                    <option value="Casado">Casado</option>
-                                    <option value="Union Libre">Union Libre</option>
-                                    <option value="Divorciado">Divorciado</option>
-                                    <option value="Viudo">Viudo</option>
-                                </select>
-                                <div class="valid-feedback"></div>
-                            </div>
 
                             <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Correo Electrónico</label>
@@ -492,7 +480,7 @@
                                             value="{{ $Persona['COD_PERSONA'] }}">
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Completo</label>
+                                            <label for="dni" class="form-label">Nombre</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
                                                 name="nombre_apellido" value="{{ $Persona['NOMBRE_COMPLETO'] }}" required
                                                 maxlength="50">
@@ -500,7 +488,7 @@
 
 
                                         <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">DNI Persona</label>
+                                            <label for="dni" class="form-label">DNI</label>
                                             <input type="number" class="form-control" name="DNI_PERSONA"
                                                 value="{{ $Persona['DNI_PERSONA'] }}" required
                                                 oninput="validateDNI(this)">
@@ -566,30 +554,6 @@
                                             <input type="text" class="form-control alphanumeric-input"
                                                 name="LUG_NAC_PERSONA" value="{{ $Persona['LUG_NAC_PERSONA'] }}" required
                                                 minlength="3" maxlength="50">
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="IND_CIVIL" class="form-label">Estado Civil</label>
-                                            <select class="form-control" name="IND_CIVIL" required>
-                                                <option value="" style="display: none;" disabled>Seleccione una
-                                                    opción</option>
-                                                <option value="Soltero"
-                                                    {{ $Persona['IND_CIVIL'] === 'Soltero' ? 'selected' : '' }}>Soltero
-                                                </option>
-                                                <option value="Casado"
-                                                    {{ $Persona['IND_CIVIL'] === 'Casado' ? 'selected' : '' }}>Casado
-                                                </option>
-                                                <option value="Union Libre"
-                                                    {{ $Persona['IND_CIVIL'] === 'Union_Libre ' ? 'selected' : '' }}>Union
-                                                    Libre</option>
-                                                <option value="Divorciado"
-                                                    {{ $Persona['IND_CIVIL'] === 'Divorciado' ? 'selected' : '' }}>
-                                                    Divorciado</option>
-                                                <option value="Viudo"
-                                                    {{ $Persona['IND_CIVIL'] === 'Viudo' ? 'selected' : '' }}>Viudo
-                                                </option>
-                                            </select>
-                                            <div class="valid-feedback"></div>
                                         </div>
 
                                         <div class="modal-footer">
