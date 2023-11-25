@@ -607,6 +607,8 @@ class AuthController extends Controller
 
         // Calcula la diferencia de años entre la fecha actual y la fecha de nacimiento
         $edad = $hoy->diff($fechaNacimiento)->y;
+        $fechaFormateada = $fechaNacimiento->format('Y-m-d');
+        
 
         //
         if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -681,7 +683,7 @@ class AuthController extends Controller
     "NUM_TELEFONO" => $numeroTelefono,
     "SEX_PERSONA" => $sexo,
     "EDAD_PERSONA" => $edad,
-    "FEC_NAC_PERSONA" => $fechaNacimiento,
+    "FEC_NAC_PERSONA" => $fechaFormateada,
     "LUG_NAC_PERSONA" => $lugarNacimiento,
     "IND_CIVIL" => $estadoCivil,
     "PES_PERSONA" => $peso,

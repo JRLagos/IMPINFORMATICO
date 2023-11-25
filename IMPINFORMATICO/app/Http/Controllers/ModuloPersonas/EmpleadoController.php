@@ -105,7 +105,7 @@ class EmpleadoController extends Controller
     {
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-        $upd_empleado = Http::put('http://localhost:3000/UPD_EMPLEADO/EMPLEADO/'.$request->input("COD_EMPLEADO"),[
+        $upd_empleado = Http::put('http://localhost:3000/UPD_EMPLEADO1/EMPLEADO/'.$request->input("COD_EMPLEADO"),[
             "COD_EMPLEADO" => $request->input('COD_EMPLEADO'),
             "COD_SUCURSAL" => $request->input("COD_SUCURSAL"),
             "COD_DEPTO_EMPRESA" => $request->input("COD_DEPTO_EMPRESA"),
@@ -114,6 +114,7 @@ class EmpleadoController extends Controller
             "FEC_INGRESO" => $request->input("FEC_INGRESO"),
             "NUM_SEG_SOCIAL" => $request->input("NUM_SEG_SOCIAL"),
             "SAL_BAS_EMPLEADO" => $request->input("SAL_BAS_EMPLEADO"),
+            "FEC_EGRESO" => $request->input("FEC_EGRESO"),
         ],[
             'headers' => [
                 'Authorization' => 'Bearer ' . $sessionToken,
