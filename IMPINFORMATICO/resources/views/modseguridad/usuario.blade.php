@@ -57,13 +57,7 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
     <h1><b>Usuarios</b></h1>
-        @php
-        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
-        <button class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#"
-            type="button"><b>Nuevo Usuario</b></button>
-    </div>
-
+</div>
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
