@@ -148,7 +148,7 @@
                                 $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ELIMINAR');
                             @endphp
                             <button value="Eliminar" title="Eliminar"
-                                class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif "
+                                class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-danger @endif "
                                 type="button" data-toggle="modal"
                                 data-target="#EliminarDepartamento-{{ $Departamento['COD_DEPARTAMENTO'] }}">
                                 <i class='fas fa-trash-alt' style='font-size:20px;'></i>
@@ -203,7 +203,7 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <h4>Departamento a Eliminar</h4>
+                                            
                                             <form action="{{ route('Del-Departamento.desactivar') }}" method="post"
                                                 class="was-validated">
                                                 @csrf

@@ -140,7 +140,7 @@
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
 
-                            <button value="Eliminar" title="Eliminar" class="btn btn-warning" type="button"
+                            <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
                                 data-toggle="modal" data-target="#EliminarSucursal-{{ $Sucursal['COD_SUCURSAL'] }}">
                                 <i class='fas fa-trash-alt' style='font-size:20px;'></i>
                             </button>
@@ -201,7 +201,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h4>Sucursal a Eliminar</h4>
+                                        
                                         <form action="{{ route('Del-Sucursal.desactivar') }}" method="post"
                                             class="was-validated">
                                             @csrf
