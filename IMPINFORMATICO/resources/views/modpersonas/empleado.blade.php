@@ -185,18 +185,7 @@
                                     required minlength="3" maxlength="50">
                             </div>
 
-                            <div class="mb-3 mt-3">
-                                <label for="IND_CIVIL" class="form-label">Estado Civil</label>
-                                <select class="form-control" name="IND_CIVIL" required>
-                                    <option value="" selected disabled>Seleccione una opción</option>
-                                    <option value="Soltero">Soltero</option>
-                                    <option value="Casado">Casado</option>
-                                    <option value="Union Libre">Union Libre</option>
-                                    <option value="Divorciado">Divorciado</option>
-                                    <option value="Viudo">Viudo</option>
-                                </select>
-                                <div class="valid-feedback"></div>
-                            </div>
+
 
                             <div class="mb-3 mt-3">
                             <label for="dni" class="form-label">Correo Electrónico</label>
@@ -318,6 +307,13 @@
                                     <option value="Jefe de Planta">Jefe de Planta</option>
                                     <option value="Conserje">Conserje</option>
                                     <option value="Guardia">Guardia</option>
+                                    <option value="Jefe de Sucursal">Jefe de Sucursal</option>
+                                    <option value="Contador">Contador</option>
+                                    <option value="Jefe de RRHH">Jefe de RRHH</option>
+                                    <option value="Especialista en Marketing">Especialista en Marketing</option>
+                                    <option value="Gerente de Ventas">Gerente de Ventas</option>
+                                    <option value="Gerente de TI">Gerente de TI</option>
+                                    <option value="Abogado Comporativo">Abogado Corporativo</option>
                                 </select>
                                 <div class="valid-feedback"></div>
                             </div>
@@ -539,6 +535,33 @@
                                                 <option value="Jefe de Planta"
                                                     {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_Planta' ? 'selected' : '' }}>
                                                     Jefe de Planta</option>
+                                                <option value="Conserje"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Conserje' ? 'selected' : '' }}>
+                                                    Conserje</option>    
+                                                <option value="Guardia"
+                                                {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Guardia' ? 'selected' : '' }}>
+                                                Guardia</option>   
+                                                <option value="Jefe de Sucursal"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_Sucursal' ? 'selected' : '' }}>
+                                                    Jefe de Sucursal</option>   
+                                                    <option value="Contador"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Contador' ? 'selected' : '' }}>
+                                                    Contador</option>     
+                                                    <option value="Gerente de RRHH"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente_de_RRHHH' ? 'selected' : '' }}>
+                                                    Gerente de RRHH</option>   
+                                                    <option value="Especialista en Marketing"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Especialista_en_Marketing' ? 'selected' : '' }}>
+                                                    Especialista en Marketing</option>   
+                                                    <option value="Gerente de Ventas"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente_de_Ventas' ? 'selected' : '' }}>
+                                                    Gerente de Ventas</option>     
+                                                    <option value="Gerente de TI"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente_de_TI' ? 'selected' : '' }}>
+                                                    Gerente de TI</option>    
+                                                    <option value="Abogado Corporativo"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Abogado_Corporativo' ? 'selected' : '' }}>
+                                                    Abogado Corporativo</option>         
                                             </select>
                                             <div class="valid-feedback"></div>
                                         </div>
@@ -554,7 +577,7 @@
                                                     Temporal</option>
                                                 <option value="Permanente"
                                                     {{ $Empleado['TIP_CONTRATO'] === 'Permanente' ? 'selected' : '' }}>
-                                                    Permanente</option>
+                                                    Permanente</option>                                                   
                                             </select>
                                             <div class="valid-feedback"></div>
                                         </div>

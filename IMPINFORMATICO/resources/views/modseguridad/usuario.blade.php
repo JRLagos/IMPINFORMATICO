@@ -55,8 +55,9 @@
         }
     @endphp
 
-    
-
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Usuarios</b></h1>
+</div>
     @if(session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
