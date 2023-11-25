@@ -15,7 +15,7 @@ class UsuariosController extends Controller
     {
         $response = Http::get('http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS');
         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
-        $response2 = Http::get('http://localhost:3000/SHOW_ROLES');
+        $response2 = Http::get('http://localhost:3000/SHOW_ROLES/SEGURIDAD_ROLES');
         $data2 = $response2->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
     
         // Convierte los datos JSON a un array asociativo

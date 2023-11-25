@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Sucursales Eliminadas')
+@section('title', 'Departamentos Eliminados')
 
 @section('content_header')
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
