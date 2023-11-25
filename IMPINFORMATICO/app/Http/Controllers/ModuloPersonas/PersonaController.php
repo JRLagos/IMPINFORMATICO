@@ -21,7 +21,7 @@ class PersonaController extends Controller
         $sessionToken = $request->session()->get('generated_token');
         $response1 = Http::withHeaders([
             'Authorization' => $sessionToken,
-        ])->get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/2');
+        ])->get('http://localhost:3000/SHOW_PERSONA/GETALL_PERSONA/1');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
 
         $response2 = Http::withHeaders([
@@ -61,7 +61,7 @@ class PersonaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function manejarDatos(Request $request)
+    public function manejarDatos2(Request $request)
     {
         $sessionToken = $request->session()->get('generated_token');
         // Obtener datos del formulario de Datos Personales

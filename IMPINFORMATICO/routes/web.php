@@ -135,7 +135,7 @@ Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarR
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
 // Ruta para manejar datos de los formularios
-Route::post('Post-Persona', [PersonaController::class, 'manejarDatos'])->name('Post-Persona.store');
+Route::post('Post-Persona', [PersonaController::class, 'manejarDatos2'])->name('Post-Persona.store');
 Route::post('/Upd-Persona',[PersonaController::class, 'update'])->name('Upd-Persona.update');
 
 
