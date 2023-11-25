@@ -138,6 +138,13 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
+
                 @foreach ($ResulMunicipio as $Municipio)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -212,12 +219,12 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Eliminar Sucursal</h5>
+                                        <h5 class="modal-title">Eliminar Municipio</h5>
                                         <button type="button" class="btn-close" data-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <h4>Sucursal a Eliminar</h4>
+                                       
                                         <form action="{{ route('Del-Municipio.desactivar') }}" method="post"
                                             class="was-validated">
                                             @csrf
@@ -225,7 +232,7 @@
                                                 value="{{ $Municipio['COD_MUNICIPIO'] }}">
 
                                             <div class="mb-3 mt-3">
-                                                <label for="dni" class="form-label">Nombre Sucursal</label>
+                                                <label for="dni" class="form-label">Municipio</label>
                                                 <label for="dni"
                                                     class="form-control">{{ $Municipio['NOM_MUNICIPIO'] }}</label>
                                             </div>
@@ -242,6 +249,7 @@
                             </div>
                         </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
         <br>

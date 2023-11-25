@@ -440,6 +440,14 @@
                 </tr>
             </thead>
             <tbody>
+
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
+
                 @foreach ($ResulPersona as $Persona)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -595,6 +603,7 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>
@@ -607,7 +616,8 @@
    <div class="float-right d-none d-sm-block">
         <b>Version</b> 3.1.0
     </div>
-<strong>Copyright &copy; 2023 <a href="">IMPERIO INFORMATICO</a>.</strong> All rights reserved.
+ <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+        reserved.
 
 @stop
 

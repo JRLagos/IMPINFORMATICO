@@ -44,6 +44,12 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
                 @foreach ($ResulDepartamentoEliminado as $DepartamentoEliminado)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -59,7 +65,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title">Activar Departamento</h5>
+                            
                                     <button type="button" class="btn-close" data-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -94,6 +100,7 @@
         </a>
     </div>
     <br>
+</div>
     @stop
 
     @section('footer')
