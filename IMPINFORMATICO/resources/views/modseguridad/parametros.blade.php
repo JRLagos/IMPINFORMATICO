@@ -67,6 +67,7 @@
   @stop
 
 
+
     @section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
@@ -79,6 +80,11 @@
 
   @section('content')
 
+  @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
   <!-- Modal para agregar un nuevo producto -->
   <div class="modal fade bd-example-modal-sm" id="addParametro" tabindex="-1">
     <div class="modal-dialog">

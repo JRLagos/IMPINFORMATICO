@@ -27,11 +27,11 @@
 
     /* Estilos para el contenedor principal */
     .container {
-      max-width: 400px;
-      padding: 20px;
-      background-color: #fff;
-      border-radius: 5px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px; /* Ajusta el máximo ancho del contenedor */
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* Estilos para el encabezado */
