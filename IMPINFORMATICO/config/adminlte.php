@@ -362,7 +362,7 @@ return [
             ],
         ],
         [
-            'text' => 'GESTION GEOGRAFICA',
+            'text' => 'GEOGRAFICA',
             'icon' => 'fas fa-fw fa-map gns text-yellow',
             'submenu' => [
                 [
@@ -416,6 +416,11 @@ return [
                     'text' => 'Deducciones',
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Deducciones',
+                ],
+                [
+                    'text' => 'ISR',
+                    'icon' => 'fa fa-tasks gns text-info',
+                    'url'  => 'isr',
                 ],
             ],
         ],

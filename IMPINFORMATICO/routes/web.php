@@ -214,3 +214,16 @@ Route::post('Upt-Deduccion',[DeduccionController::class, 'update'])->name('Upt-D
 // ESTADISTICAS
 Route::get('Estadisticas', [EstadisticaController::class, 'index'])->name('Estadisticas.index');
 
+//ISR
+use App\Http\Controllers\ModuloPlanillas\IsrController;
+
+// Ruta para mostrar la vista ISR
+Route::get('/isr', [IsrController::class, 'index'])->name('isr.index');
+Route::post('Post-isr',[IsrController::class, 'store'])->name('Post-isr.store');
+Route::post('/Upd-isr',[IsrController::class, 'update'])->name('Upd-isr.update');
+
+
+Route::get('/Sucursales-Eliminados', [SucursalController::class, 'indexEliminados'])->name('SucursalEliminado.indexEliminados');
+Route::post('Act-Sucursal', [SucursalController::class, 'activar'])->name('Act-Sucursal.activar');
+Route::post('Del-Sucursal', [SucursalController::class, 'desactivar'])->name('Del-Sucursal.desactivar');
+
