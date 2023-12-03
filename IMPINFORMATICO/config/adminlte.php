@@ -408,6 +408,11 @@ return [
                     'url'  => 'HoraExtra',
                 ], 
                 [
+                    'text' => 'Vacaciones Empleados',
+                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
+                    'url'  => 'VacacionesEmpleados',
+                ], 
+                [
                     'text' => 'Vacaciones',
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Vacaciones',

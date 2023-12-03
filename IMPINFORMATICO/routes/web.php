@@ -31,6 +31,7 @@ use App\Http\Controllers\ModuloSeguridad\PerfilController;
 use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 use App\Http\Controllers\ModuloPlanillas\DeduccionController;
+use App\Http\Controllers\ModuloPlanillas\VacacionesEmpleadoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -222,6 +223,8 @@ Route::get('/isr', [IsrController::class, 'index'])->name('isr.index');
 Route::post('Post-isr',[IsrController::class, 'store'])->name('Post-isr.store');
 Route::post('/Upd-isr',[IsrController::class, 'update'])->name('Upd-isr.update');
 
+Route::get('VacacionesEmpleados', [VacacionesEmpleadoController::class, 'index'])->name('VacacionesEmpleados.index');
+Route::post('/Upd-VacacionesEmpleados',[VacacionesEmpleadoController::class, 'update'])->name('Upd-VacacionesEmpleados.update');
 
 Route::get('/Sucursales-Eliminados', [SucursalController::class, 'indexEliminados'])->name('SucursalEliminado.indexEliminados');
 Route::post('Act-Sucursal', [SucursalController::class, 'activar'])->name('Act-Sucursal.activar');
