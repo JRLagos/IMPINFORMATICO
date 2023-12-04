@@ -66,12 +66,16 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
     <h1><b>Registro de Empleados</b></h1>
-        @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
-        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addEmpleado" type="button"
-            @if (!$permisoInsertar) disabled @endif><b>Agregar Empleado</b></button>
-    </div>
+
+    <form action="{{ route('InsEmpleado.index') }}" method="GET" style="margin-bottom: 5px;">
+    @csrf 
+    @php
+        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+       @endphp
+    <button type="submit" class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif" style="border-radius: 8px; padding: 10px 15px;"  @if (!$permisoInsertar) disabled @endif><b>Agregar empleado</b></button>                                
+ </form>
+
+
 @stop
 
 @section('css')
@@ -548,8 +552,8 @@
                                                     {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Contador' ? 'selected' : '' }}>
                                                     Contador</option>     
                                                     <option value="Gerente de RRHH"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente_de_RRHHH' ? 'selected' : '' }}>
-                                                    Gerente de RRHH</option>   
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_RRHHH' ? 'selected' : '' }}>
+                                                    Jefe de RRHH</option>   
                                                     <option value="Especialista en Marketing"
                                                     {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Especialista_en_Marketing' ? 'selected' : '' }}>
                                                     Especialista en Marketing</option>   
@@ -584,7 +588,7 @@
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Fecha Ingreso</label>
-                                            <input type="date" class="form-control" min="2015-01-01"
+                                            <input type="date" class="form-control" 
                                                 max="<?= date('Y-m-d') ?>" name="FEC_INGRESO"
                                                 value="{{ date('Y-m-d', strtotime($Empleado['FEC_INGRESO'])) }}" required>
                                         </div>

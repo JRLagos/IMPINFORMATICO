@@ -1,8 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Bitacora')
+@section('title', 'Vacaciones')
 
 @section('content_header')
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,9 +15,8 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Bitacora</b></h1>
-    </div>
+
+
 @stop
 
 
@@ -29,56 +29,111 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 @endsection
 
+
 @section('content')
 
+
+    <!-- Modal para agregar un nuevo producto -->
+
+
+    @if (session('success'))
+        <div class="alert alert-warning alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <h1><b>Vacaciones</b></h1>
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="bitacora" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="Sucursal" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
-                    <th style="text-align: center;">Codigo</th>
-                    <th style="text-align: center;">Fecha Modificado</th>
-                    <th style="text-align: center;">Usuario</th>
+                    <th style="text-align: center;">#</th>
+                    <th style="text-align: center;">Nombre</th>
+                    <th style="text-align: center;">Antigüedad</th>
+                    <th style="text-align: center;">Días Ley</th>
+                    <th style="text-align: center;">Días Usados</th>
+                    <th style="text-align: center;">Dias Disponibles</th>
                     <th style="text-align: center;">Acción</th>
-                    <th style="text-align: center;">Tabla</th>
-                    <th style="text-align: center;">Campo</th>
-                    <th style="text-align: center;">Valor Nuevo</th>
-                    <th style="text-align: center;">Valor Original</th>
-                    <th style="text-align: center;">ID Modificado</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($Resulbitacora as $Bitacora)
+
+                @foreach ($ResulVacacionesEm as $VacacionesEm)
                     <tr>
-                        <td style="text-align: center;">{{ $Bitacora['COD_BITACORA'] }}</td>
+                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_LEY'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
                         <td style="text-align: center;">
-                            {{ date('d-m-Y H:i', strtotime($Bitacora['FEC_MODIFICACION'])) }}
+                            <button value="Editar" title="Editar" class="btn btn-warning " type="button"
+                                data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
+                                <i class='fas fa-edit' style='font-size:20px;'></i>
+                            </button>
                         </td>
-                        <td style="text-align: center;">{{ $Bitacora['NOM_USUARIO'] }}</td>
-                        <td style="text-align: center;">{{ $Bitacora['ACCION'] }}</td>
-                        <td style="text-align: center;">{{ $Bitacora['TABLA'] }}</td>
-                        <td style="text-align: center;">{{ $Bitacora['CAMPO'] }}</td>
-                        <td style="text-align: center;">{{ $Bitacora['VAL_NUEVO'] }}</td>
-                        <td style="text-align: center;">{{ $Bitacora['VAL_ORIGINAL'] }}</td>
-                        <td style="text-align: center;">{{ $Bitacora['CODIGO'] }}</td>
-                        
                     </tr>
+                    <!-- Modal for editing goes here -->
+                    <div class="modal fade bd-example-modal-sm" id="UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}"
+                        tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title"><b>Usar Vacaciones</b></h4>
+                                    <button type="button" class="btn-close" data-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="{{ route('Upd-VacacionesEmpleados.update') }}" method="post"
+                                        class="was-validated">
+                                        @csrf
+
+                                        <input type="hidden" class="form-control" name="COD_VACACIONES"
+                                            value="{{ $VacacionesEm['COD_VACACIONES'] }}">
+
+                                    
+                                            <div class="mb-3 mt-3">
+                                                <label for="dni" class="form-label">Dias Usados de Vacaciones</label>
+                                                <input type="number" class="form-control validate-dias-usados" name="DIAS_USADOS" id="diasUsados" value="{{ $VacacionesEm['DIAS_USADOS'] }}" required
+                                                    maxlength="50" placeholder="Escriba aquí.">
+                                            </div>
+                                            
+                                            
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                data-dismiss="modal"><b>CERRAR</b></button>
+                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
                 @endforeach
             </tbody>
         </table>
-    </div>
-@stop
-
-@section('footer')
-    <div class="float-right d-none d-sm-block">
-        <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
-        reserved.
+    </div>    
     @stop
 
+    @section('footer')
+
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.1.0
+        </div>
+        <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+            reserved.</b>
+
+    @stop
+
+
+
     @section('js')
+
         <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
         <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -129,7 +184,7 @@
 
         <script>
             $(document).ready(function() {
-                var table = $('#bitacora').DataTable({
+                var table = $('#Sucursal').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
@@ -153,8 +208,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Bitacora de Parametros y Usuarios de Imperio Informatico',
-                                    orientation: 'landscape',
+                                    title: 'Registro de Sucursales | Imperio Informatico',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
                                         var col11Index = 11;
@@ -183,7 +237,7 @@
                                                         margin: [10, 10]
                                                     },
                                                     {
-                                                        text: 'Fecha y Hora: ' + now,
+                                                        text: now,
                                                         alignment: 'right',
                                                         margin: [10, 10]
                                                     },
@@ -207,7 +261,7 @@
                                     text: 'Imprimir',
                                     customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(4),td:eq(4)')
+                                        $(win.document.body).find('table').find('th:eq(3),td:eq(3)')
                                             .remove();
 
                                         // Obtener la fecha
@@ -251,9 +305,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Bitacora de Parametros y Usuarios de Imperio Informatico',
+                                    title: 'Registro de Sucursales de Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                        columns: [0, 1, 2]
                                     }
 
                                 }
@@ -288,12 +342,6 @@
         </script>
 
         <script>
-            $(document).ready(function() {
-                $('.js-example-basic-single').select2({});
-            });
-        </script>
-
-        <script>
             function cleanInputValue(inputElement) {
                 var inputValue = inputElement.value;
                 var cleanValue = inputValue.replace(/[^a-z A-Záéíóú]/g, "");
@@ -309,4 +357,33 @@
                 });
             });
         </script>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2({});
+            });
+        </script>
+        <script>
+            setTimeout(function() {
+                $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
+            }, 5000); // 5000 ms = 5 segundos
+        </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var diasUsadosInput = document.getElementById('diasUsados');
+        var diasDisponibles = {{ $VacacionesEm['DIAS_DISPONIBLES'] }}; // Asegúrate de que DIAS_DISPONIBLES esté disponible en tu contexto Blade
+
+        diasUsadosInput.addEventListener('input', function () {
+            var diasUsados = parseInt(diasUsadosInput.value, 10);
+
+            if (isNaN(diasUsados)) {
+                alert('Error: Días Usados debe ser un número válido.');
+                diasUsadosInput.value = ''; // Limpia el campo si no es un número válido
+            } else if (diasUsados > diasDisponibles) {
+                alert('Error: Días Usados no puede ser mayor que Días Disponibles.');
+                diasUsadosInput.value = diasDisponibles; // Establece el valor máximo permitido
+            }
+        });
+    });
+</script>
+
     @stop

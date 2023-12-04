@@ -354,15 +354,10 @@ return [
                     'icon' => 'fas fa-fw fa-mail-bulk gns text-info',
                     'url'  => 'Correo',
                 ], 
-                [
-                    'text' => 'Estudios',
-                    'icon' => 'far fa-fw fa-address-book gns text-info',
-                    'url'  => 'Estudio',
-                ], 
             ],
         ],
         [
-            'text' => 'GESTION GEOGRAFICA',
+            'text' => 'GEOGRAFICA',
             'icon' => 'fas fa-fw fa-map gns text-yellow',
             'submenu' => [
                 [
@@ -423,6 +418,11 @@ return [
                     'url'  => 'HoraExtra',
                 ], 
                 [
+                    'text' => 'Vacaciones Empleados',
+                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
+                    'url'  => 'VacacionesEmpleados',
+                ], 
+                [
                     'text' => 'Vacaciones',
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Vacaciones',
@@ -431,6 +431,11 @@ return [
                     'text' => 'Deducciones',
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Deducciones',
+                ],
+                [
+                    'text' => 'ISR',
+                    'icon' => 'fa fa-tasks gns text-info',
+                    'url'  => 'isr',
                 ],
             ],
         ],

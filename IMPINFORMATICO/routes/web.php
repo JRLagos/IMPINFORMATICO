@@ -24,6 +24,8 @@ use App\Http\Controllers\ModuloPersonas\CorreoController;
 use App\Http\Controllers\ModuloPersonas\SucursalController;
 use App\Http\Controllers\ModuloPersonas\DeptoEmpresaController;
 use App\Http\Controllers\ModuloPersonas\EstudioController;
+use App\Http\Controllers\ModuloPersonas\InsEmpleadoController;
+
 use App\Http\Controllers\ModuloSeguridad\RolesController;
 use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
@@ -33,6 +35,7 @@ use App\Http\Controllers\ModuloSeguridad\PerfilController;
 use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 use App\Http\Controllers\ModuloPlanillas\DeduccionController;
+use App\Http\Controllers\ModuloPlanillas\VacacionesEmpleadoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -132,7 +135,7 @@ Route::post('Del-Municipio', [MunicipioController::class, 'desactivar'])->name('
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
-
+Route::get('InsEmpleado', [EmpleadoController::class, 'insEmpleados'])->name('InsEmpleado.index'); 
 // Ruta para manejar datos de los formularios
 Route::post('Post-Empleado', [EmpleadoController::class, 'manejarDatos'])->name('Post-Empleado.store');
 
@@ -142,9 +145,11 @@ Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarR
 
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
+Route::get('InsPersona', [PersonaController::class, 'insPersonas'])->name('InsPersona.index'); 
 // Ruta para manejar datos de los formularios
 Route::post('Post-Persona', [PersonaController::class, 'manejarDatos2'])->name('Post-Persona.store');
 Route::post('/Upd-Persona',[PersonaController::class, 'update'])->name('Upd-Persona.update');
+
 
 
 // Direcciones
@@ -203,7 +208,7 @@ Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt
 
 // Usuarios
 Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.index');
-Route::post('Post-Usuario',[UsuarioController::class, 'store'])->name('Post-Usuario.store');
+Route::post('Post-Usuario',[UsuariosController::class, 'store'])->name('Post-Usuario.store');
 
 
 Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadistica.edit');
@@ -221,4 +226,19 @@ Route::post('Post-Deduccion', [DeduccionController::class, 'store'])->name('Post
 Route::post('Upt-Deduccion',[DeduccionController::class, 'update'])->name('Upt-Deduccion.update');
 // ESTADISTICAS
 Route::get('Estadisticas', [EstadisticaController::class, 'index'])->name('Estadisticas.index');
+
+//ISR
+use App\Http\Controllers\ModuloPlanillas\IsrController;
+
+// Ruta para mostrar la vista ISR
+Route::get('/isr', [IsrController::class, 'index'])->name('isr.index');
+Route::post('Post-isr',[IsrController::class, 'store'])->name('Post-isr.store');
+Route::post('/Upd-isr',[IsrController::class, 'update'])->name('Upd-isr.update');
+
+Route::get('VacacionesEmpleados', [VacacionesEmpleadoController::class, 'index'])->name('VacacionesEmpleados.index');
+Route::post('/Upd-VacacionesEmpleados',[VacacionesEmpleadoController::class, 'update'])->name('Upd-VacacionesEmpleados.update');
+
+Route::get('/Sucursales-Eliminados', [SucursalController::class, 'indexEliminados'])->name('SucursalEliminado.indexEliminados');
+Route::post('Act-Sucursal', [SucursalController::class, 'activar'])->name('Act-Sucursal.activar');
+Route::post('Del-Sucursal', [SucursalController::class, 'desactivar'])->name('Del-Sucursal.desactivar');
 
