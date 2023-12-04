@@ -22,6 +22,8 @@ use App\Http\Controllers\ModuloPersonas\CorreoController;
 use App\Http\Controllers\ModuloPersonas\SucursalController;
 use App\Http\Controllers\ModuloPersonas\DeptoEmpresaController;
 use App\Http\Controllers\ModuloPersonas\EstudioController;
+use App\Http\Controllers\ModuloPersonas\InsEmpleadoController;
+
 use App\Http\Controllers\ModuloSeguridad\RolesController;
 use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
@@ -31,6 +33,7 @@ use App\Http\Controllers\ModuloSeguridad\PerfilController;
 use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 use App\Http\Controllers\ModuloPlanillas\DeduccionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -124,7 +127,7 @@ Route::post('Del-Municipio', [MunicipioController::class, 'desactivar'])->name('
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
-
+Route::get('InsEmpleado', [EmpleadoController::class, 'insEmpleados'])->name('InsEmpleado.index'); 
 // Ruta para manejar datos de los formularios
 Route::post('Post-Empleado', [EmpleadoController::class, 'manejarDatos'])->name('Post-Empleado.store');
 
@@ -134,9 +137,11 @@ Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarR
 
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
+Route::get('InsPersona', [PersonaController::class, 'insPersonas'])->name('InsPersona.index'); 
 // Ruta para manejar datos de los formularios
 Route::post('Post-Persona', [PersonaController::class, 'manejarDatos2'])->name('Post-Persona.store');
 Route::post('/Upd-Persona',[PersonaController::class, 'update'])->name('Upd-Persona.update');
+
 
 
 // Direcciones
