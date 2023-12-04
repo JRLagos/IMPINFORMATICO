@@ -43,7 +43,7 @@
         </div>
     @endif
 
-
+    <h1><b>Vacaciones</b></h1>
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
