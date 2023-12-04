@@ -203,7 +203,7 @@ Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt
 
 // Usuarios
 Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.index');
-Route::post('Post-Usuario',[UsuarioController::class, 'store'])->name('Post-Usuario.store');
+Route::post('Post-Usuario',[UsuariosController::class, 'store'])->name('Post-Usuario.store');
 
 
 Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadistica.edit');

@@ -86,74 +86,63 @@
 
     <!-- Modal para agregar un nuevo permiso -->
     <div class="modal fade bd-example-modal-sm" id="addPermiso" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h3><b>Nuevo Permiso</b></h3>
-                    <button class="btn btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ route('Post-Permisos.store') }}" method="post" class="was-validated">
-                        @csrf
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Roles</label>
-                            <select class="form-select js-example-basic-single" name="COD_ROL" id="COD_ROL" required>
-                                <option value="" selected disabled>Seleccionar Rol</option>
-                                @foreach ($ResulRoles as $Roles)
-                                    <option value="{{ $Roles['COD_ROL'] }}">{{ $Roles['NOM_ROL'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Objetos</label>
-                            <select class="form-select js-example-basic-single" name="COD_OBJETO" id="COD_OBJETO" required>
-                                <option value="" selected disabled>Seleccionar Objeto</option>
-                                @foreach ($ResulObjetos as $Objeto)
-                                    <option value="{{ $Objeto['COD_OBJETO'] }}">{{ $Objeto['NOM_OBJETO'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Insertar</label>
-                            <input type="text" class="form-control" name="PER_INSERTAR" required minlength="1"
-                                maxlength="1" />
-                            <span class="validity"></span>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Eliminar</label>
-                            <input type="text" class="form-control" name="PER_ELIMINAR" required maxlength="1" />
-                            <span class="validity"></span>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Actualizar</label>
-                            <input type="text" class="form-control" name="PER_ACTUALIZAR" required minlength="1"
-                                maxlength="1" />
-                            <span class="validity"></span>
-                        </div>
-
-                        <div class="mb-3 mt-3">
-                            <label for="dni" class="form-label">Permiso Consultar</label>
-                            <input type="text" class="form-control" name="PER_CONSULTAR" required minlength="1"
-                                maxlength="1" />
-                            <span class="validity"></span>
-                        </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger" data-bs-dismiss="modal"><b>CERRAR</b></button>
-                    <button class="btn btn-primary" type="submit"><b>ACEPTAR</b></button>
-                </div>
-                </form>
-
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><b>Nuevo Permiso</b></h3>
+                <button class="btn btn-close" data-bs-dismiss="modal"></button>
             </div>
+            <div class="modal-body">
+                <form action="{{ route('Post-Permisos.store') }}" method="post" class="was-validated">
+                    @csrf
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Roles</label>
+                        <select class="form-select js-example-basic-single" name="COD_ROL" id="COD_ROL" required>
+                            <option value="" selected disabled>Seleccionar Rol</option>
+                            @foreach ($ResulRoles as $Roles)
+                                <option value="{{ $Roles['COD_ROL'] }}">{{ $Roles['NOM_ROL'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Objetos</label>
+                        <select class="form-select js-example-basic-single" name="COD_OBJETO" id="COD_OBJETO" required>
+                            <option value="" selected disabled>Seleccionar Objeto</option>
+                            @foreach ($ResulObjetos as $Objeto)
+                                <option value="{{ $Objeto['COD_OBJETO'] }}">{{ $Objeto['NOM_OBJETO'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3 mt-3">
+                        <label class="form-label">Permisos</label>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="PER_INSERTAR" value="1">
+                            <label class="form-check-label">Permiso Insertar</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="PER_ELIMINAR" value="1">
+                            <label class="form-check-label">Permiso Eliminar</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="PER_ACTUALIZAR" value="1">
+                            <label class="form-check-label">Permiso Actualizar</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" name="PER_CONSULTAR" value="1">
+                            <label class="form-check-label">Permiso Consultar</label>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-bs-dismiss="modal"><b>CERRAR</b></button>
+                <button class="btn btn-primary" type="submit"><b>ACEPTAR</b></button>
+            </div>
+            </form>
         </div>
     </div>
+</div>
 
     <!-- Tabla de permisos -->
     <div class="table-responsive p-0">
@@ -201,77 +190,68 @@
 
                     <!-- Modal para editar permiso -->
                     <div class="modal fade bd-example-modal-sm" id="Permiso-edit-{{$Permisos['COD_ROL']}}" tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Editar Permiso</h5>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h4>Ingresar Nuevos Datos</h4>
-                                    <form action="{{ route('Upt-Permisos.update') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
-                                        <input type="hidden" class="form-control" name="COD_ROL"
-                                            value="{{ $Permisos['COD_ROL'] }}">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Permiso</h5>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h4>Ingresar Nuevos Datos</h4>
+                <form action="{{ route('Upt-Permisos.update') }}" method="post" class="was-validated">
+                    @csrf
+                    <input type="hidden" class="form-control" name="COD_ROL" value="{{ $Permisos['COD_ROL'] }}">
 
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Rol</label>
-                                            <select class="form-control js-example-basic-single" name="COD_ROL"
-                                                id="COD_ROL">
-                                                <option value="{{ $Permisos['COD_ROL'] }}" style="display: none;">
-                                                    {{ $Permisos['NOM_ROL'] }}</option>
-                                                <option disabled>¡No se puede seleccionar otro Rol!</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Objeto</label>
-                                            <select class="form-control js-example-basic-single" name="COD_OBJETO"
-                                                id="COD_OBJETO">
-                                                <option value="{{ $Permisos['COD_OBJETO'] }}" style="display: none;">
-                                                    {{ $Permisos['NOM_OBJETO'] }}</option>
-                                                <option disabled>¡No se puede seleccionar otro Objeto!</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Permiso Insertar</label>
-                                            <input type="number" class="form-control" min="1" max="1"
-                                                name="PER_INSERTAR" value="{{ $Permisos['PER_INSERTAR'] }}" required>
-                                            <span class="validity"></span>
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Permiso Eliminar</label>
-                                            <input type="number" class="form-control" min="0" max="1"
-                                                name="PER_ELIMINAR" value="{{ $Permisos['PER_ELIMINAR'] }}" required>
-                                            <span class="validity"></span>
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Permiso Actualizar</label>
-                                            <input type="number" class="form-control" min="1" max="1"
-                                                name="PER_ACTUALIZAR" value="{{ $Permisos['PER_ACTUALIZAR'] }}" required>
-                                            <span class="validity"></span>
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Permiso Consultar</label>
-                                            <input type="text" class="form-control" required minlength="1"
-                                                maxlength="1" name="PER_CONSULTAR"
-                                                value="{{ $Permisos['PER_CONSULTAR'] }}" required>
-                                            <span class="validity"></span>
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Rol</label>
+                        <select class="form-control js-example-basic-single" name="COD_ROL" id="COD_ROL">
+                            <option value="{{ $Permisos['COD_ROL'] }}" style="display: none;">{{ $Permisos['NOM_ROL'] }}</option>
+                            <option disabled>¡No se puede seleccionar otro Rol!</option>
+                        </select>
                     </div>
+                    <div class="mb-3 mt-3">
+                        <label for="dni" class="form-label">Objeto</label>
+                        <select class="form-control js-example-basic-single" name="COD_OBJETO" id="COD_OBJETO">
+                            <option value="{{ $Permisos['COD_OBJETO'] }}" style="display: none;">{{ $Permisos['NOM_OBJETO'] }}</option>
+                            <option disabled>¡No se puede seleccionar otro Objeto!</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3 mt-3 form-check">
+                        <input type="hidden" name="PER_INSERTAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_INSERTAR" value="1" @if ($Permisos['PER_INSERTAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Insertar</label>
+                    </div>
+
+                    <div class="mb-3 mt-3 form-check">
+                        <input type="hidden" name="PER_ELIMINAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_ELIMINAR" value="1" @if ($Permisos['PER_ELIMINAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Eliminar</label>
+                    </div>
+
+                    <div class="mb-3 mt-3 form-check">
+                        <input type="hidden" name="PER_ACTUALIZAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_ACTUALIZAR" value="1" @if ($Permisos['PER_ACTUALIZAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Actualizar</label>
+                    </div>
+
+                    <div class="mb-3 mt-3 form-check">
+                        <input type="hidden" name="PER_CONSULTAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_CONSULTAR" value="1" @if ($Permisos['PER_CONSULTAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Consultar</label>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><b>CERRAR</b></button>
+                        <button type="submit" class="btn btn-primary"><b>ACTUALIZAR</b></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
                 @endforeach
             </tbody>
         </table>

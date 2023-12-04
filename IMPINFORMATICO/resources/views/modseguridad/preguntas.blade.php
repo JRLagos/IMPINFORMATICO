@@ -9,12 +9,12 @@
 </head>
 <body class="hold-transition login-page">
 
-    <style>
+<style>
           /* Agrega aquí tus estilos personalizados */
 
         /* Estilos para el contenedor del formulario */
         .contenedor {
-            width: 350px; /* Aumenta el ancho del contenedor */
+            width: 10px; /* Aumenta el ancho del contenedor */
             margin: 0 auto;
             padding: 20px;
             border: 1px solid #ccc;
@@ -73,10 +73,10 @@
         /* Estilos para centrar el contenedor */
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #e9ecef; /* Color de fondo para todo el cuerpo */
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #e9ecef; /* Color de fondo para todo el cuerpo */
         }
     </style>
 
