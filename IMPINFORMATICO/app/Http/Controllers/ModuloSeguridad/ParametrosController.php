@@ -41,9 +41,28 @@ class ParametrosController extends Controller
     {
         $Parametros = $request->all();
 
-        $res = Http::post("http://localhost:3000/INS_PARAMETROS/SEGURIDAD_PARAMETROS", $Parametros);
+        $response1 = Http::get('http://localhost:3000/SHOW_PARAMETROS/SEGURIDAD_PARAMETROS');
+        $response1Json = $response1->json();
 
-        return redirect(route('Parametros.index'));
+    // Acceder al valor de "DES_PARAMETRO" de la variable $Parametros
+    $desParametro = $Parametros['DES_PARAMETRO'];
+
+    // Verificar si el valor de "DES_PARAMETRO" está en la columna correspondiente del JSON
+    $parametroExistente = collect($response1Json)->where('DES_PARAMETRO', $desParametro)->first();
+
+    // Si $parametroExistente tiene un valor, significa que ya existe en la base de datos
+    if ($parametroExistente) {
+        return redirect(route('Parametros.index'))->with('error', 'El valor introducido ya existe en la base de datos.');
+    }
+
+
+    $res = Http::post("http://localhost:3000/INS_PARAMETROS/SEGURIDAD_PARAMETROS", $Parametros);
+
+
+    // Continuar con el flujo normal si no hay coincidencia
+
+    return redirect(route('Parametros.index'))->with('success', 'Parametro almacenado exitosamente.');
+
     }
 
     /**
@@ -66,17 +85,36 @@ class ParametrosController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request)
-    {
-        $upt_parametros = Http::put('http://localhost:3000/UPT_PARAMETROS/SEGURIDAD_PARAMETROS/'.$request->input("COD_PARAMETRO"),[
-            "COD_PARAMETRO" => $request->input('COD_PARAMETRO'),
-            "DES_PARAMETRO" => $request->input('DES_PARAMETRO'),
-            "DES_VALOR" => $request->input('DES_VALOR'),
-            "FEC_CREACION" => $request->input('FEC_CREACION'),
-            "FEC_MODIFICACION" => $request->input('FEC_MODIFICACION'),
-        ]);
-        
-        return redirect(route('Parametros.index'));
+{
+    $updateParametros = [
+        "COD_PARAMETRO" => $request->input('COD_PARAMETRO'),
+        "DES_PARAMETRO" => $request->input('DES_PARAMETRO'),
+        "DES_VALOR" => $request->input('DES_VALOR'),
+        "FEC_CREACION" => $request->input('FEC_CREACION'),
+        "FEC_MODIFICACION" => $request->input('FEC_MODIFICACION'),
+    ];
+
+    // Obtener todos los parámetros existentes
+    $response = Http::get('http://localhost:3000/SHOW_PARAMETROS/SEGURIDAD_PARAMETROS');
+    $existingParametros = $response->json();
+
+    // Verificar si el nuevo valor de DES_PARAMETRO ya existe en la base de datos
+    $newDesParametro = $updateParametros['DES_PARAMETRO'];
+    $existingDesParametros = array_column($existingParametros, 'DES_PARAMETRO');
+
+    if (in_array($newDesParametro, $existingDesParametros)) {
+        // El nuevo valor ya existe, lanzar un error o realizar la acción necesaria
+        return redirect(route('Parametros.index'))->with('error', 'El nuevo valor de DES_PARAMETRO ya existe');
     }
+
+    // Si no hay conflictos, realizar la actualización
+    $uptParametros = Http::put(
+        'http://localhost:3000/UPT_PARAMETROS/SEGURIDAD_PARAMETROS/'.$request->input("COD_PARAMETRO"),
+        $updateParametros
+    );
+
+    return redirect(route('Parametros.index'))->with('success', 'Operación realizada con éxito');
+}
 
     /**
      * Remove the specified resource from storage.

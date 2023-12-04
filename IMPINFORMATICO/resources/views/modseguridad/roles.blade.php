@@ -79,6 +79,12 @@
 
 
 @section('content')
+<!-- Verificar si hay un error de rol existente -->
+@if(session('roleExistsError'))
+        <div class="alert alert-danger">
+            El nombre del rol ya existe. Por favor, elige otro nombre.
+        </div>
+    @endif
 
     <!-- Modal para agregar un nuevo producto -->
     <div class="modal fade bd-example-modal-sm" id="addRol" tabindex="-1">

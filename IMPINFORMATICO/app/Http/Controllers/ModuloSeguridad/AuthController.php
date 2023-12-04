@@ -541,6 +541,31 @@ class AuthController extends Controller
 
     public function SendRegistro(Request $request){
 
+        $nombre = $request->input('nombre');
+        $apellido = $request->input('apellido');
+        $correo = $request->input('correo');
+        $contrasenia = $request->input('contrasenia');
+        $newUser = strtoupper($request->input('usuario'));
+        $dni = $request->input('dni');
+        $rtn = $request->input('rtn');
+        $tipoTelefono = $request->input('tipo_telefono');
+        $numeroTelefono = $request->input('numero_telefono');
+        $sexo = $request->input('sexo');
+        $fechaNacimiento = $request->input('fecha_nacimiento');
+        $lugarNacimiento = $request->input('lugar_nacimiento');
+        $estadoCivil = $request->input('estado_civil');
+        $peso = $request->input('peso');
+        $estatura = $request->input('estatura');
+        $rol = $request->input('rol');
+
+        $hoy = new DateTime(); // Obtiene la fecha actual
+        $fechaNacimiento = new DateTime($fechaNacimiento); // Convierte la fecha de nacimiento a objeto DateTime
+
+        // Calcula la diferencia de años entre la fecha actual y la fecha de nacimiento
+        $edad = $hoy->diff($fechaNacimiento)->y;
+        $fechaFormateada = $fechaNacimiento->format('Y-m-d');
+        
+
     $urlUsuarios = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
     $responseUsuarios = Http::get($urlUsuarios);
 
@@ -563,52 +588,27 @@ class AuthController extends Controller
             'correo' => 'required|email|max:100',
             'contrasenia' => 'required|min:5|max:12',
             'usuario' => 'required|alpha_dash|max:20',
-            'dni' => 'required|max:13',
-            'rtn' => 'max:14',
-            'tipo_telefono' => 'required',
-            'numero_telefono' => 'max:8',
-            'sexo' => 'required',
-            'edad' => 'required|integer|min:1|max:120',
-            'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->format('Y-m-d'),
-            'lugar_nacimiento' => 'required|max:50',
-            'estado_civil' => 'required',
-            'peso' => 'numeric|nullable|min:0|max:999',
-            'estatura' => 'numeric|nullable|min:0|max:999',
+            'fecha_nacimiento' => 'required|date|before_or_equal:' . now()->format('Y-m-d')
         ];
         
 
+        
     // Validar los datos
     $validator = Validator::make($request->all(), $rules);
 
-    if ($validator->fails()) {
-        // Redirigir de nuevo al formulario de registro con mensajes de error
-        return view('modseguridad.registro');
+if ($validator->fails()) {
+    // Obtener los mensajes de error
+    $errors = $validator->errors();
+
+    // Imprimir los mensajes de error para cada campo
+    foreach ($errors->all() as $error) {
+        echo $error . '<br>';
     }
 
+    // Redirigir de nuevo al formulario de registro con mensajes de error
+    return view('modseguridad.registro');
+}
     
-        $nombre = $request->input('nombre');
-        $apellido = $request->input('apellido');
-        $correo = $request->input('correo');
-        $contrasenia = $request->input('contrasenia');
-        $newUser = strtoupper($request->input('usuario'));
-        $dni = $request->input('dni');
-        $rtn = $request->input('rtn');
-        $tipoTelefono = $request->input('tipo_telefono');
-        $numeroTelefono = $request->input('numero_telefono');
-        $sexo = $request->input('sexo');
-        $fechaNacimiento = $request->input('fecha_nacimiento');
-        $lugarNacimiento = $request->input('lugar_nacimiento');
-        $estadoCivil = $request->input('estado_civil');
-        $peso = $request->input('peso');
-        $estatura = $request->input('estatura');
-
-        $hoy = new DateTime(); // Obtiene la fecha actual
-        $fechaNacimiento = new DateTime($fechaNacimiento); // Convierte la fecha de nacimiento a objeto DateTime
-
-        // Calcula la diferencia de años entre la fecha actual y la fecha de nacimiento
-        $edad = $hoy->diff($fechaNacimiento)->y;
-        $fechaFormateada = $fechaNacimiento->format('Y-m-d');
-        
 
         //
         if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -623,7 +623,7 @@ class AuthController extends Controller
     foreach ($existingUsers as $existingUser) {
         if (strtoupper($request->input('usuario')) === strtoupper($existingUser['NOM_USUARIO'])) {
             // El nombre de usuario ya está en uso, redirigir al formulario de registro con un mensaje de error
-            return view('modseguridad.registro', ['usuarioExistente' => true]);
+            return redirect()->route('ModuloSeguridad.Registro')->with('userExistsError', true);
         }
     }
 
@@ -651,7 +651,7 @@ class AuthController extends Controller
         $response = Http::post($url, [
             "NOM_ROL" => null,
     "DES_ROL" => null,
-    "COD_ROL" => 2,
+    "COD_ROL" => $rol,
     "NOM_USUARIO" => $newUser,
     "CONTRASENA" => $contraseniaCifrada,
     "IND_USUARIO" => 'NUEVO',
@@ -677,17 +677,17 @@ class AuthController extends Controller
     "DES_RESPUESTA" => null,
     "NOM_PERSONA" => $nombre,
     "APE_PERSONA" => $apellido,
-    "DNI_PERSONA" => $dni,
-    "RTN_PERSONA" => $rtn,
-    "TIP_TELEFONO" => $tipoTelefono,
+    "DNI_PERSONA" => 1,
+    "RTN_PERSONA" => 1,
+    "TIP_TELEFONO" => 'FIJO',
     "NUM_TELEFONO" => $numeroTelefono,
     "SEX_PERSONA" => $sexo,
     "EDAD_PERSONA" => $edad,
     "FEC_NAC_PERSONA" => $fechaFormateada,
-    "LUG_NAC_PERSONA" => $lugarNacimiento,
-    "IND_CIVIL" => $estadoCivil,
-    "PES_PERSONA" => $peso,
-    "EST_PERSONA" => $estatura,
+    "LUG_NAC_PERSONA" => 'no sé',
+    "IND_CIVIL" => 'SOLTERO',
+    "PES_PERSONA" => 0,
+    "EST_PERSONA" => 0,
     "FOTO_PERSONA" => null,
     "CORREO_ELECTRONICO" => $correo,
     "DES_CORREO" => null,
@@ -716,7 +716,7 @@ class AuthController extends Controller
         $pregunta = $request->input('pregunta');
         $respuesta= $request->input('respuesta');
         $contrasenaNueva= $request->input('nueva_contrasenia');
-        $contrasenaNueva= "Ca0#";
+        $contrasenaNueva= "Ca0#a";
 
         // Validar contraseña según tus requisitos
     $minLength = 5;
@@ -845,37 +845,56 @@ class AuthController extends Controller
 
     public function SendCorreoContra(Request $request){
 
-        $usuarioCorreo = $request->input('usuario');
+        $usuarioCorreo = strtoupper($request->input('usuario'));
         $urlIns = 'http://localhost:3000/INS_USUARIO/SEGURIDAD_CONTRASENAS_TEMPORALES';
         $url = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $urlCT = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
         $urlUpCT = 'http://localhost:3000/SEGURIDAD_CON_TEMP'; // URL para actualizar la contraseña temporal
+        $urlParametro= 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
     
         $response = Http::get($url);
         $responseCT = Http::get($urlCT);
+        $responseP= Http::get($urlParametro);
+
     
-        if ($response->status() === 200 && $responseCT->status() === 200) {
+        if ($response->status() === 200 && $responseCT->status() === 200 && $responseP->status()=== 200) {
             $usuarios = $response->json();
             $contrasenasTemporales = $responseCT->json();
-    
+            $parametros=$responseP->json();
+            $CorreoEmisor;
+            
+            foreach($parametros as $Correo){
+                if($Correo['COD_PARAMETRO']==4)
+                {
+                    $CorreoEmisor=$Correo;
+                }
+            }
+
+
+            
             $usuarioEncontrado = false;
             foreach ($usuarios as $usuario) {
+
                 if ($usuario['NOM_USUARIO'] === $usuarioCorreo) {
                     $usuarioEncontrado = true;
+                    
     
                     $contrasenaTemporalActiva = false;
                     $contrasenaTemporalExpirada = true;
                     $sinContrasenaTemporal=true;
+
     
                     foreach ($contrasenasTemporales as $contrasenaTemporal) {
                         if ($contrasenaTemporal['COD_USUARIO'] === $usuario['COD_USUARIO']) {
                             $fechaVencimiento = strtotime($contrasenaTemporal['FEC_EXPIRACION']);
                             $fechaActual = time();
-    
+
+                            
                             if ($fechaVencimiento > $fechaActual) {
                                 $contrasenaTemporalActiva = true;
                                 $sinContrasenaTemporal = false;
                                 $contrasenaTemporalExpirada = false;
+                                
                                 break;
                             }
                             if($fechaVencimiento < $fechaActual){
@@ -883,12 +902,12 @@ class AuthController extends Controller
                                 $contrasenaTemporalExpirada = true;
                                 $contrasenaTemporalActiva = false;
                                 $sinContrasenaTemporal=false;
+                                
 
                             }
                         }
                     }
 
-                    
                     if ($sinContrasenaTemporal) {
                         // Realizar la solicitud POST para insertar nueva contraseña
                         $correoDestinatario = $usuario['EMAIL'];
@@ -898,22 +917,29 @@ class AuthController extends Controller
                             "COD_USUARIO" => $usuario['COD_USUARIO']
                         ]);
 
+
+                        // Configurar el envío de correos mediante SMTP
+                        config(['mail.mailers.smtp.username' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.mailers.smtp.password' => $CorreoEmisor['DES_VALOR']]);
+                        config(['mail.from.address' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.from.name' => 'IMPERIO INFORMATICO']);
+
                         if ($responseUp->status() === 200) {
                             
-                            Mail::raw("Hola, Hemos recibido una solicitud de restablecimiento de contraseña en tu cuenta. Sin embargo, no hemos podido identificar tu identidad correctamente.
-                            No te preocupes, aquí tienes tu contraseña temporal: $contraseniaTemporal
-
-                            Por favor, sigue estos pasos para restablecer tu contraseña:
-                            1. Accede a tu cuenta.
-                            2. Ve a la sección de 'Restablecer Contraseña'.
-                            3. Ingresa la contraseña temporal proporcionada.
-                            4. Establece una nueva contraseña segura.
-                            5. Guarda los cambios.
-
-                            Si no solicitaste un restablecimiento de contraseña, te recomendamos que cambies tu contraseña de inmediato.
-
-                            Gracias,
-                            [Tu Nombre o Nombre de la Aplicación]", function ($message) use ($correoDestinatario) {
+                            Mail::raw("Hola,
+                            Recibimos una solicitud de restablecimiento de contraseña para tu cuenta. Aquí está tu contraseña temporal: $contraseniaTemporal.
+                            
+                            Sigue estos pasos:
+                            
+                                Accede a tu cuenta.
+                                Ve a 'Restablecer Contraseña'.
+                                Ingresa la contraseña temporal.
+                                Establece una nueva contraseña segura.
+                                Guarda los cambios.
+                            
+                            Si no solicitaste esto, cambia tu contraseña de inmediato.
+                            
+                            Gracias", function ($message) use ($correoDestinatario) {
                                 $message->to($correoDestinatario)
                                  ->subject('Restablecimiento de Contraseña');
                             });
@@ -934,12 +960,21 @@ class AuthController extends Controller
                         $correoDestinatario = $usuario['EMAIL'];
                         $contraseniaTemporal = Str::random(10);
                         $fechaVencimiento = date('Y-m-d H:i:s', strtotime('+3 hours', $fechaActual));
-            
+                        
+
+                        // Configurar el envío de correos mediante SMTP
+                        config(['mail.mailers.smtp.username' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.mailers.smtp.password' => $CorreoEmisor['DES_VALOR']]);
+                        config(['mail.from.address' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.from.name' => 'IMPERIO INFORMATICO']);
+
+
                         $responseUpdateCT = Http::put($urlUpCT, [
                             "COD_USUARIO" => $usuario['COD_USUARIO'],
                             "CONTRASENA" => $contraseniaTemporal,
                             "FEC_EXPIRACION" => $fechaVencimiento,
                         ]);
+
             
                         if ($responseUpdateCT->status() === 200) {
 

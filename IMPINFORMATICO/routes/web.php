@@ -1,3 +1,5 @@
+Web 
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -22,6 +24,8 @@ use App\Http\Controllers\ModuloPersonas\CorreoController;
 use App\Http\Controllers\ModuloPersonas\SucursalController;
 use App\Http\Controllers\ModuloPersonas\DeptoEmpresaController;
 use App\Http\Controllers\ModuloPersonas\EstudioController;
+use App\Http\Controllers\ModuloPersonas\InsEmpleadoController;
+
 use App\Http\Controllers\ModuloSeguridad\RolesController;
 use App\Http\Controllers\ModuloSeguridad\ObjetosController;
 use App\Http\Controllers\ModuloSeguridad\PermisosController;
@@ -87,7 +91,13 @@ Route::post('/Upt-Vacaciones',[VacacionesController::class, 'update'])->name('Up
 
 // Planillas
 Route::get('Planilla', [PlanillaController::class, 'index'])->name('Planilla.index');
+Route::get('Planilla_Aguinaldo', [PlanillaController::class, 'indexAguinaldo'])->name('PlanillaAguinaldo.index');
+Route::get('Planilla_Catorceavo', [PlanillaController::class, 'indexCatorceavo'])->name('PlanillaCatorceavo.index');
+Route::get('Planilla_Vacaciones', [PlanillaController::class, 'indexVacaciones'])->name('PlanillaVacaciones.index');
+Route::get('/Generar-Planilla', [PlanillaController::class, 'showGenerarPlanilla'])->name('generar.planilla');
 Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-Planilla.Store');
+Route::post('/Post-Generar-Planilla' , [PlanillaController::class, 'guardarSelecciones']);
+
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
@@ -125,7 +135,7 @@ Route::post('Del-Municipio', [MunicipioController::class, 'desactivar'])->name('
 
 // Empleado
 Route::get('Empleado', [EmpleadoController::class, 'index'])->name('Empleado.index');
-
+Route::get('InsEmpleado', [EmpleadoController::class, 'insEmpleados'])->name('InsEmpleado.index'); 
 // Ruta para manejar datos de los formularios
 Route::post('Post-Empleado', [EmpleadoController::class, 'manejarDatos'])->name('Post-Empleado.store');
 
@@ -135,9 +145,11 @@ Route::get('/empleados/validar-rtn/{rtn}', [EmpleadoController::class, 'validarR
 
 // Personas
 Route::get('Persona', [PersonaController::class, 'index'])->name('Persona.index');
+Route::get('InsPersona', [PersonaController::class, 'insPersonas'])->name('InsPersona.index'); 
 // Ruta para manejar datos de los formularios
 Route::post('Post-Persona', [PersonaController::class, 'manejarDatos2'])->name('Post-Persona.store');
 Route::post('/Upd-Persona',[PersonaController::class, 'update'])->name('Upd-Persona.update');
+
 
 
 // Direcciones
@@ -196,7 +208,7 @@ Route::post('Upt-Parametros',[ParametrosController::class, 'update'])->name('Upt
 
 // Usuarios
 Route::get('Usuarios', [UsuariosController::class, 'index'])->name('Usuarios.index');
-Route::post('Post-Usuario',[UsuarioController::class, 'store'])->name('Post-Usuario.store');
+Route::post('Post-Usuario',[UsuariosController::class, 'store'])->name('Post-Usuario.store');
 
 
 Route::get('estadistica', [EstadisticaController::class, 'edit'])->name('estadistica.edit');

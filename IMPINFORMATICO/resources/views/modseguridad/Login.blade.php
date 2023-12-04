@@ -15,6 +15,50 @@
   <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
   <!-- Enlazar el CSS de Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background-image: url('https://i.pinimg.com/1200x/c9/1a/c2/c91ac2d714eb865641ad88cc9f62b87f.jpg'); /* Imagen de Unsplash más sencilla */
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.9); /* Fondo más claro para resaltar sobre la imagen */
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .login-logo a {
+      color: #333;
+    }
+
+    .login-card-body {
+      background: rgba(255, 255, 255, 0.7); /* Fondo más claro para resaltar sobre la imagen */
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .btn-primary {
+      background-color: #007bff; /* Color azul que combina con la paleta */
+      border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+      background-color: #0056b3; /* Color azul más oscuro al pasar el ratón */
+      border-color: #0056b3;
+    }
+  </style>
+
+
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -64,6 +108,7 @@
               <span class="fas fa-lock"></span>
             </div>
           </div>
+          
           <div class="input-group-append">
             <button class="btn btn-outline-secondary" type="button" id="togglePassword">
               <i class="fa fa-eye-slash" aria-hidden="true"></i>
