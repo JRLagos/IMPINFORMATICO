@@ -36,11 +36,25 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        $Roles = $request->all();
+        // Obtener todos los roles existentes
+    $rolesExist = Http::get("http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES")->json();
 
-        $res = Http::post("http://localhost:3000/INS_ROL/SEGURIDAD_ROLES", $Roles);
+    // Obtener el nuevo rol a agregar
+    $newRole = $request->all();
 
-        return redirect(route('Roles.index'));
+    // Verificar si el nuevo rol ya existe
+    foreach ($rolesExist as $existingRole) {
+        if (strtoupper($existingRole['NOM_ROL']) === strtoupper($newRole['NOM_ROL'])) {
+            // El rol ya existe, redirigir con un mensaje de error
+            return redirect(route('Roles.index'))->with('roleExistsError', true);
+        }
+    }
+
+    // El rol no existe, proceder con la inserción
+    $res = Http::post("http://localhost:3000/INS_ROL/SEGURIDAD_ROLES", $newRole);
+
+    // Redirigir a la página de roles
+    return redirect(route('Roles.index'));
     }
 
     /**

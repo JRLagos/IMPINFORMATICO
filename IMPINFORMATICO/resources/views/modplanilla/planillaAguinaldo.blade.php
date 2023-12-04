@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Planillas')
+@section('title', 'Planillas Aguinaldo')
 
 @section('content_header')
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
@@ -64,7 +64,7 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-    <h1><b>Planilla Ordinarias</b></h1>
+    <h1><b>Planillas Aguinaldo</b></h1>
         @php
         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
@@ -115,10 +115,7 @@
                     <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
-                    <th style="text-align: center;">Hora Extras</th>
-                    <th style="text-align: center;">IHSS</th>
-                    <th style="text-align: center;">RAP</th>
-                    <th style="text-align: center;">ISR</th>
+                    <th style="text-align: center;">Aguinaldo</th>
                     <th style="text-align: center;">S.Neto</th>
                     <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
@@ -126,26 +123,22 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach ($ResulPlanilla as $Planilla)
-    <tr class="fila-planilla">
-        <td>{{ $loop->iteration }}</td>
-        <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
-        <td>{{ $Planilla['NOMBRE_PLANILLA'] }}</td>
-        <td>{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['IHSS'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_PAGO'])) }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_INICIAL'])) }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_FINAL'])) }}</td>
-    </tr>
-@endforeach
+            @foreach ($ResulPlanillaAguinaldo as $PlanillaAguinaldo)
+                <tr class="fila-planilla">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $PlanillaAguinaldo['NOMBRE_COMPLETO'] }}</td>
+                    <td>{{ $PlanillaAguinaldo['NOMBRE_PLANILLA'] }}</td>
+                    <td>{{ number_format($PlanillaAguinaldo['SAL_BRUTO'], 2, '.', ',') }}</td>
+                    <td>{{ number_format($PlanillaAguinaldo['AGUINALDO'], 2, '.', ',') }}</td>
+                    <td>{{ number_format($PlanillaAguinaldo['SAL_NETO'], 2, '.', ',') }}</td>
+                    <td>{{ date('d-m-Y', strtotime($PlanillaAguinaldo['FEC_PAGO'])) }}</td>
+                    <td>{{ date('d-m-Y', strtotime($PlanillaAguinaldo['FEC_INICIAL'])) }}</td>
+                    <td>{{ date('d-m-Y', strtotime($PlanillaAguinaldo['FEC_FINAL'])) }}</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
-
 
 @stop
 
