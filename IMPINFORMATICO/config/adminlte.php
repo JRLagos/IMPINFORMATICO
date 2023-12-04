@@ -398,10 +398,25 @@ return [
             'icon' => 'fas fa-fw fa-archive gns text-yellow',
             'submenu' => [
                 [
-                    'text' => 'Planilla',
+                    'text' => 'Planilla Ordinaria',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'Planilla',
                 ], 
+                [
+                    'text' => 'Planilla Vacaciones',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => 'Planilla_Vacaciones',
+                ],
+                [
+                    'text' => 'Planilla Aguinaldo',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => 'Planilla_Aguinaldo',
+                ],
+                [
+                    'text' => 'Planilla Catorceavo',
+                    'icon' => 'fas fa-fw fa-archive gns text-info',
+                    'url'  => 'Planilla_Catorceavo',
+                ],
                 [
                     'text' => 'Horas Extras',
                     'icon' => 'fa fa-fw fa-clipboard gns text-info',

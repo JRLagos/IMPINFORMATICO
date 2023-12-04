@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Planillas')
+@section('title', 'Planillas Vacaciones')
 
 @section('content_header')
 <link rel="icon" type="image/x-icon" href="{{ asset('favicon1.ico') }}" />
@@ -64,7 +64,7 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-    <h1><b>Planilla Ordinarias</b></h1>
+    <h1><b>Planillas Vacaciones</b></h1>
         @php
         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
@@ -115,37 +115,30 @@
                     <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
-                    <th style="text-align: center;">Hora Extras</th>
-                    <th style="text-align: center;">IHSS</th>
-                    <th style="text-align: center;">RAP</th>
-                    <th style="text-align: center;">ISR</th>
-                    <th style="text-align: center;">S.Neto</th>
+                    <th style="text-align: center;">Vacaciones</th>
+                    <th style="text-align: center;">Pago</th>
                     <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>
                 </tr>
             </thead>
             <tbody>
-            @foreach ($ResulPlanilla as $Planilla)
-    <tr class="fila-planilla">
-        <td>{{ $loop->iteration }}</td>
-        <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
-        <td>{{ $Planilla['NOMBRE_PLANILLA'] }}</td>
-        <td>{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['IHSS'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_PAGO'])) }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_INICIAL'])) }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_FINAL'])) }}</td>
-    </tr>
-@endforeach
+            @foreach ($ResulPlanillaVacaciones as $PlanillaVacaciones)
+                <tr class="fila-planilla">
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $PlanillaVacaciones['NOMBRE_COMPLETO'] }}</td>
+                    <td>{{ $PlanillaVacaciones['NOMBRE_PLANILLA'] }}</td>
+                    <td>{{ number_format($PlanillaVacaciones['SAL_BRUTO'], 2, '.', ',') }}</td>
+                    <td>{{ number_format($PlanillaVacaciones['Vacaciones'], 2, '.', ',') }}</td>
+                    <td>{{ number_format($PlanillaVacaciones['SAL_NETO'], 2, '.', ',') }}</td>
+                    <td>{{ date('d-m-Y', strtotime($PlanillaVacaciones['FEC_PAGO'])) }}</td>
+                    <td>{{ date('d-m-Y', strtotime($PlanillaVacaciones['FEC_INICIAL'])) }}</td>
+                    <td>{{ date('d-m-Y', strtotime($PlanillaVacaciones['FEC_FINAL'])) }}</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
-
 
 @stop
 
