@@ -845,37 +845,56 @@ if ($validator->fails()) {
 
     public function SendCorreoContra(Request $request){
 
-        $usuarioCorreo = $request->input('usuario');
+        $usuarioCorreo = strtoupper($request->input('usuario'));
         $urlIns = 'http://localhost:3000/INS_USUARIO/SEGURIDAD_CONTRASENAS_TEMPORALES';
         $url = 'http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS';
         $urlCT = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
         $urlUpCT = 'http://localhost:3000/SEGURIDAD_CON_TEMP'; // URL para actualizar la contraseña temporal
+        $urlParametro= 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_PARAMETROS';
     
         $response = Http::get($url);
         $responseCT = Http::get($urlCT);
+        $responseP= Http::get($urlParametro);
+
     
-        if ($response->status() === 200 && $responseCT->status() === 200) {
+        if ($response->status() === 200 && $responseCT->status() === 200 && $responseP->status()=== 200) {
             $usuarios = $response->json();
             $contrasenasTemporales = $responseCT->json();
-    
+            $parametros=$responseP->json();
+            $CorreoEmisor;
+            
+            foreach($parametros as $Correo){
+                if($Correo['COD_PARAMETRO']==4)
+                {
+                    $CorreoEmisor=$Correo;
+                }
+            }
+
+
+            
             $usuarioEncontrado = false;
             foreach ($usuarios as $usuario) {
+
                 if ($usuario['NOM_USUARIO'] === $usuarioCorreo) {
                     $usuarioEncontrado = true;
+                    
     
                     $contrasenaTemporalActiva = false;
                     $contrasenaTemporalExpirada = true;
                     $sinContrasenaTemporal=true;
+
     
                     foreach ($contrasenasTemporales as $contrasenaTemporal) {
                         if ($contrasenaTemporal['COD_USUARIO'] === $usuario['COD_USUARIO']) {
                             $fechaVencimiento = strtotime($contrasenaTemporal['FEC_EXPIRACION']);
                             $fechaActual = time();
-    
+
+                            
                             if ($fechaVencimiento > $fechaActual) {
                                 $contrasenaTemporalActiva = true;
                                 $sinContrasenaTemporal = false;
                                 $contrasenaTemporalExpirada = false;
+                                
                                 break;
                             }
                             if($fechaVencimiento < $fechaActual){
@@ -883,12 +902,12 @@ if ($validator->fails()) {
                                 $contrasenaTemporalExpirada = true;
                                 $contrasenaTemporalActiva = false;
                                 $sinContrasenaTemporal=false;
+                                
 
                             }
                         }
                     }
 
-                    
                     if ($sinContrasenaTemporal) {
                         // Realizar la solicitud POST para insertar nueva contraseña
                         $correoDestinatario = $usuario['EMAIL'];
@@ -898,22 +917,29 @@ if ($validator->fails()) {
                             "COD_USUARIO" => $usuario['COD_USUARIO']
                         ]);
 
+
+                        // Configurar el envío de correos mediante SMTP
+                        config(['mail.mailers.smtp.username' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.mailers.smtp.password' => $CorreoEmisor['DES_VALOR']]);
+                        config(['mail.from.address' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.from.name' => 'Nombre Emisor']);
+
                         if ($responseUp->status() === 200) {
                             
-                            Mail::raw("Hola, Hemos recibido una solicitud de restablecimiento de contraseña en tu cuenta. Sin embargo, no hemos podido identificar tu identidad correctamente.
-                            No te preocupes, aquí tienes tu contraseña temporal: $contraseniaTemporal
-
-                            Por favor, sigue estos pasos para restablecer tu contraseña:
-                            1. Accede a tu cuenta.
-                            2. Ve a la sección de 'Restablecer Contraseña'.
-                            3. Ingresa la contraseña temporal proporcionada.
-                            4. Establece una nueva contraseña segura.
-                            5. Guarda los cambios.
-
-                            Si no solicitaste un restablecimiento de contraseña, te recomendamos que cambies tu contraseña de inmediato.
-
-                            Gracias,
-                            [Tu Nombre o Nombre de la Aplicación]", function ($message) use ($correoDestinatario) {
+                            Mail::raw("Hola,
+                            Recibimos una solicitud de restablecimiento de contraseña para tu cuenta. Aquí está tu contraseña temporal: $contraseniaTemporal.
+                            
+                            Sigue estos pasos:
+                            
+                                Accede a tu cuenta.
+                                Ve a 'Restablecer Contraseña'.
+                                Ingresa la contraseña temporal.
+                                Establece una nueva contraseña segura.
+                                Guarda los cambios.
+                            
+                            Si no solicitaste esto, cambia tu contraseña de inmediato.
+                            
+                            Gracias", function ($message) use ($correoDestinatario) {
                                 $message->to($correoDestinatario)
                                  ->subject('Restablecimiento de Contraseña');
                             });
@@ -934,12 +960,21 @@ if ($validator->fails()) {
                         $correoDestinatario = $usuario['EMAIL'];
                         $contraseniaTemporal = Str::random(10);
                         $fechaVencimiento = date('Y-m-d H:i:s', strtotime('+3 hours', $fechaActual));
-            
+                        
+
+                        // Configurar el envío de correos mediante SMTP
+                        config(['mail.mailers.smtp.username' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.mailers.smtp.password' => $CorreoEmisor['DES_VALOR']]);
+                        config(['mail.from.address' => $CorreoEmisor['DES_PARAMETRO']]);
+                        config(['mail.from.name' => 'Nombre Emisor']);
+
+
                         $responseUpdateCT = Http::put($urlUpCT, [
                             "COD_USUARIO" => $usuario['COD_USUARIO'],
                             "CONTRASENA" => $contraseniaTemporal,
                             "FEC_EXPIRACION" => $fechaVencimiento,
                         ]);
+
             
                         if ($responseUpdateCT->status() === 200) {
 

@@ -103,7 +103,7 @@
                     
                     <div class="mb-3 mt-3">
                     <label for="dni" class="form-label">Descripcion Parametro</label>
-                    <input type="text" class="form-control" pattern="[A-Za-z].{3,}" name="DES_PARAMETRO" required minlength="4" maxlength="50"/>
+                    <input type="text" class="form-control" pattern="[A-Za-z0-9].{3,}" name="DES_PARAMETRO" required minlength="4" maxlength="50"/>
                     <span class="validity"></span>
                     </div>
 
@@ -209,7 +209,7 @@
                     </div>
                                         <div class="mb-3 mt-3">
                                         <label for="dni" class="form-label">Descripcion Parametro</label>
-                                        <input type="text" class="form-control alphanumeric-input" id="DES_PARAMETRO" name="DES_PARAMETRO" pattern="[A-Z a-z].{3,}" value="{{$Parametros['DES_PARAMETRO']}}" required maxlength="50">
+                                        <input type="text" class="form-control alphanumeric-input" id="DES_PARAMETRO" name="DES_PARAMETRO" pattern="[A-Za-z0-9\s].{3,}" value="{{$Parametros['DES_PARAMETRO']}}" required maxlength="50">
                                         </div>
 
                                         <div class="mb-3 mt-3">
@@ -480,7 +480,8 @@
     <script>
   function cleanInputValue(inputElement) {
     var inputValue = inputElement.value;
-    var cleanValue = inputValue.replace(/[^a-z A-Z]/g, "");
+    // Permitir caracteres especiales, números, mayúsculas y minúsculas, pero no espacios
+    var cleanValue = inputValue.replace(/[^a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]/g, "");
     if (cleanValue !== inputValue) {
       inputElement.value = cleanValue;
     }
@@ -493,4 +494,5 @@
     });
   });
 </script>
+
     @stop
