@@ -21,7 +21,7 @@ class PlanillaController extends Controller
     {
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
-        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/INFORMACION_PLANILLA',[
+        $response1 = Http::get('http://localhost:3000/SHOW_PLANILLA/SELECT_PLANILLA_ORDINARIA',[
             'headers' => [
                 'Authorization' => 'Bearer ' . $sessionToken,
             ],

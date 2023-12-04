@@ -354,11 +354,6 @@ return [
                     'icon' => 'fas fa-fw fa-mail-bulk gns text-info',
                     'url'  => 'Correo',
                 ], 
-                [
-                    'text' => 'Estudios',
-                    'icon' => 'far fa-fw fa-address-book gns text-info',
-                    'url'  => 'Estudio',
-                ], 
             ],
         ],
         [
