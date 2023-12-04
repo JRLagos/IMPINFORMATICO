@@ -62,12 +62,13 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
     <h1><b>Registro de Personas</b></h1>
-        @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-        @endphp
-        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addPersona" type="button"
-            @if (!$permisoInsertar) disabled @endif><b>Agregar Persona</b></button>
-    </div>
+    <form action="{{ route('InsPersona.index') }}" method="GET" style="margin-bottom: 5px;">
+    @csrf 
+    @php
+        $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+    @endphp
+    <button type="submit" class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif " style="border-radius: 8px; padding: 10px 15px;"  @if (!$permisoInsertar) disabled @endif><b>Agregar persona</b></button>                                
+</form>
 
 @stop
 
@@ -84,7 +85,6 @@
 
 
 @section('content')
-
 
 <!-- Modal para agregar un nuevo Empleado -->
 <div class="modal fade bd-example-modal-sm" id="addPersona" tabindex="-1">
@@ -174,7 +174,7 @@
                       
                             <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">Fecha Nacimiento</label>
-                                <input type="date" class="form-control" max="<?= date('Y-m-d') ?>"
+                                <input type="date" class="form-control" max="<?= date('Y-m-d')?>"
                                     name="FEC_NAC_PERSONA" required>
                             </div>
 
