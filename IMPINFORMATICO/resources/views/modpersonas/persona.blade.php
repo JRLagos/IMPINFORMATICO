@@ -174,7 +174,7 @@
                       
                             <div class="mb-3 mt-3">
                                 <label for="dni" class="form-label">Fecha Nacimiento</label>
-                                <input type="date" class="form-control" max="<?= date('Y-m-d') ?>"
+                                <input type="date" class="form-control" max="<?= date('Y-m-d')?>"
                                     name="FEC_NAC_PERSONA" required>
                             </div>
 
