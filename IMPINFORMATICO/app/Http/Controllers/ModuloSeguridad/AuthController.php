@@ -922,7 +922,7 @@ if ($validator->fails()) {
                         config(['mail.mailers.smtp.username' => $CorreoEmisor['DES_PARAMETRO']]);
                         config(['mail.mailers.smtp.password' => $CorreoEmisor['DES_VALOR']]);
                         config(['mail.from.address' => $CorreoEmisor['DES_PARAMETRO']]);
-                        config(['mail.from.name' => 'Nombre Emisor']);
+                        config(['mail.from.name' => 'IMPERIO INFORMATICO']);
 
                         if ($responseUp->status() === 200) {
                             
