@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ModuloSeguridad;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UsuariosController extends Controller
 {
@@ -51,6 +52,10 @@ class UsuariosController extends Controller
             return redirect(route('Usuarios.index'))->with('error','Registro repetido');
         }
     }
+
+    $hashedPassword = Hash::make($usuarioData['CONTRASENA']);
+
+    $usuarioData['CONTRASENA'] = $hashedPassword;
 
 
     // Realizar la solicitud HTTP sin incluir el token

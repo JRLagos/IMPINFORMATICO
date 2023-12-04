@@ -116,24 +116,32 @@
                     </div>
 
                     <div class="mb-3 mt-3">
-                        <label class="form-label">Permisos</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_INSERTAR" value="1">
-                            <label class="form-check-label">Permiso Insertar</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_ELIMINAR" value="1">
-                            <label class="form-check-label">Permiso Eliminar</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_ACTUALIZAR" value="1">
-                            <label class="form-check-label">Permiso Actualizar</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_CONSULTAR" value="1">
-                            <label class="form-check-label">Permiso Consultar</label>
-                        </div>
-                    </div>
+    <label class="form-label">Permisos</label>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_INSERTAR" value="1">
+        <label class="form-check-label">Permiso Insertar</label>
+        <!-- Campo oculto para PER_INSERTAR -->
+        <input type="hidden" name="permisoHidden_PER_INSERTAR" id="permisoHidden_PER_INSERTAR" value="0">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ELIMINAR" value="1">
+        <label class="form-check-label">Permiso Eliminar</label>
+        <!-- Campo oculto para PER_ELIMINAR -->
+        <input type="hidden" name="permisoHidden_PER_ELIMINAR" id="permisoHidden_PER_ELIMINAR" value="0">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ACTUALIZAR" value="1">
+        <label class="form-check-label">Permiso Actualizar</label>
+        <!-- Campo oculto para PER_ACTUALIZAR -->
+        <input type="hidden" name="permisoHidden_PER_ACTUALIZAR" id="permisoHidden_PER_ACTUALIZAR" value="0">
+    </div>
+    <div class="form-check">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_CONSULTAR" value="1">
+        <label class="form-check-label">Permiso Consultar</label>
+        <!-- Campo oculto para PER_CONSULTAR -->
+        <input type="hidden" name="permisoHidden_PER_CONSULTAR" id="permisoHidden_PER_CONSULTAR" value="0">
+    </div>
+</div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" data-bs-dismiss="modal"><b>CERRAR</b></button>
@@ -319,7 +327,9 @@
             margin-top: 10px;
         }
     </style>
+
     <script>
+        
         $(document).ready(function() {
             var table = $('#permisos').DataTable({
                 responsive: true,
@@ -502,4 +512,20 @@
             });
         });
     </script>
+
+<script>
+    // Obtener elementos del DOM
+    const permisoCheckboxes = document.querySelectorAll('.permiso-checkbox');
+
+    // Manejar cambios en los checkboxes de permisos
+    permisoCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            // Actualizar el valor del campo oculto asociado a cada checkbox
+            const hiddenInput = document.getElementById(`permisoHidden_${this.name}`);
+            hiddenInput.value = this.checked ? '1' : '0';
+        });
+    });
+</script>
+
+    
 @stop
