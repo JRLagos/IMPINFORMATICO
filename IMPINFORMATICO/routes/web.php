@@ -1,3 +1,5 @@
+Web 
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -86,7 +88,13 @@ Route::post('/Upt-Vacaciones',[VacacionesController::class, 'update'])->name('Up
 
 // Planillas
 Route::get('Planilla', [PlanillaController::class, 'index'])->name('Planilla.index');
+Route::get('Planilla_Aguinaldo', [PlanillaController::class, 'indexAguinaldo'])->name('PlanillaAguinaldo.index');
+Route::get('Planilla_Catorceavo', [PlanillaController::class, 'indexCatorceavo'])->name('PlanillaCatorceavo.index');
+Route::get('Planilla_Vacaciones', [PlanillaController::class, 'indexVacaciones'])->name('PlanillaVacaciones.index');
+Route::get('/Generar-Planilla', [PlanillaController::class, 'showGenerarPlanilla'])->name('generar.planilla');
 Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-Planilla.Store');
+Route::post('/Post-Generar-Planilla' , [PlanillaController::class, 'guardarSelecciones']);
+
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');
