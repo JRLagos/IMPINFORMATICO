@@ -47,7 +47,7 @@
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="Sucursal" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="VacacionesEmpleado" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
@@ -65,7 +65,7 @@
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
                         <td style="text-align: center;">{{ $VacacionesEm['NOMBRE_COMPLETO'] }}</td>
-                        <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }} Años</td>
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_LEY'] }}</td>
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
@@ -184,7 +184,7 @@
 
         <script>
             $(document).ready(function() {
-                var table = $('#Sucursal').DataTable({
+                var table = $('#VacacionesEmpleado').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
@@ -208,7 +208,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Registro de Sucursales | Imperio Informatico',
+                                    title: 'Registro de Vacaciones | Imperio Informatico',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
                                         var col11Index = 11;
@@ -261,7 +261,7 @@
                                     text: 'Imprimir',
                                     customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(3),td:eq(3)')
+                                        $(win.document.body).find('table').find('th:eq(6),td:eq(6)')
                                             .remove();
 
                                         // Obtener la fecha
@@ -305,9 +305,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Registro de Sucursales de Imperio Informatico',
+                                    title: 'Registro de Vacaciones de los Empleados',
                                     exportOptions: {
-                                        columns: [0, 1, 2]
+                                        columns: [0, 1, 2, 3, 4, 5]
                                     }
 
                                 }

@@ -437,7 +437,7 @@
                                 text: 'Imprimir',
                                 customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(4),td:eq(4)')
+                                        $(win.document.body).find('table').find('th:eq(8),td:eq(8)')
                                             .remove();
 
                                         // Obtener la fecha

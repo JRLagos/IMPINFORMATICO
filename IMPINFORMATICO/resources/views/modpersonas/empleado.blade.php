@@ -457,7 +457,7 @@
                         <td style="text-align: center;">{{ $Empleado['TIP_CONTRATO'] }}</td>
                         <td style="text-align: center;">{{ date('d-m-Y', strtotime($Empleado['FEC_INGRESO'])) }}</td>
                         <td style="text-align: center;">{{ $Empleado['NUM_SEG_SOCIAL'] }}</td>
-                        <td style="text-align: center;">{{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}
+                        <td style="text-align: center;">Lps. {{ number_format($Empleado['SAL_BAS_EMPLEADO'], 2, '.', ',') }}
                         <td>
                             @php
                                 $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
@@ -767,7 +767,7 @@
                                 text: 'Imprimir',
                                 customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(4),td:eq(4)')
+                                        $(win.document.body).find('table').find('th:eq(9),td:eq(9)')
                                             .remove();
 
                                         // Obtener la fecha
