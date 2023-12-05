@@ -398,11 +398,6 @@ return [
                     'url'  => 'Planilla',
                 ], 
                 [
-                    'text' => 'Planilla Vacaciones',
-                    'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => 'Planilla_Vacaciones',
-                ],
-                [
                     'text' => 'Planilla Aguinaldo',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
                     'url'  => 'Planilla_Aguinaldo',
@@ -422,20 +417,27 @@ return [
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'VacacionesEmpleados',
                 ], 
+                // Nuevo submenú
                 [
-                    'text' => 'Vacaciones',
-                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
-                    'url'  => 'Vacaciones',
-                ], 
-                [
-                    'text' => 'Deducciones',
-                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
-                    'url'  => 'Deducciones',
-                ],
-                [
-                    'text' => 'ISR',
-                    'icon' => 'fa fa-tasks gns text-info',
-                    'url'  => 'isr',
+                    'text' => 'CONFIGURACION',
+                    'icon' => 'fa fa-cogs gns text-info',
+                    'submenu'  => [
+                        [
+                            'text' => 'Deducciones',
+                            'icon' => 'far fa-fw fa-calendar-plus gns text-info',
+                            'url'  => 'Deducciones',
+                        ],
+                        [
+                            'text' => 'ISR',
+                            'icon' => 'fa fa-tasks gns text-info',
+                            'url'  => 'isr',
+                        ],
+                        [
+                            'text' => 'Ihss',
+                            'icon' => 'fa fa-tasks gns text-info',
+                            'url'  => 'Ihss',
+                        ],
+                    ],
                 ],
             ],
         ],

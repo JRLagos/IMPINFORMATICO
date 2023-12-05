@@ -454,7 +454,7 @@ data-bs-toggle="modal" data-bs-target="#addDeptoEmpresa" type="button"><b>Agrega
                                     text: 'Excel',
                                     title: 'Registro de Departametos de la Empresa | Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1]
+                                        columns: [0, 1, 2]
                                     }
 
                                 }

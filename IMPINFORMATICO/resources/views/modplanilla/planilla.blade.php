@@ -246,7 +246,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Ordinaria | Imperio Informatico',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
@@ -344,9 +344,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Ordinaria | Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                                     }
 
                                 }

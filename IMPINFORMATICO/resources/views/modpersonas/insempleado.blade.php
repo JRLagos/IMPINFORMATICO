@@ -69,14 +69,6 @@
                 </div>
 
                 <div class="col-md-4">
-                                <label for="dni" class="form-label" style="font-weight: normal;">Descripción Correo</label>
-                                <input type="text" class="form-control alphanumeric-input" name="DES_CORREO" required
-                                    minlength="7" maxlength="50">
-                            </div>
-               </div>
-
-            <div class="row mb-3">
-            <div class="col-md-4">
                                 <label for="dni" class="form-label" style="font-weight: normal;">Municipio</label>
                                 <select class="form-control js-example-basic-single" name="COD_MUNICIPIO"
                                     id="COD_MUNICIPIO" required>
@@ -87,8 +79,10 @@
                                     @endforeach
                                 </select>
                             </div>
-        
-                <div class="col-md-4">
+                      </div>
+
+             <div class="row mb-3">
+                <div class="col-md-6">
                     <label for="direccion" class="form-label" style="font-weight: normal;">Dirección</label>
                     <input type="text" class="form-control" name="DES_DIRECCION" id="direccionInput" required minlength="3" maxlength="50">
                     <p id="direccionError" style="color: red; font-size: 14px;"></p>
@@ -128,7 +122,7 @@
                                             {{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}</option>
                                     @endforeach
                                 </select>
-                            </div>          
+                </div>          
             
             <div class="col-md-4">
                 <label for="TIP_CONTRATO" class="form-label" style="font-weight: normal;">Tipo de Contrato</label>
@@ -137,8 +131,8 @@
                     <option value="Temporal">Temporal</option>
                     <option value="Permanente">Permanente</option>
                 </select>
-            </div>
-        </div>
+              </div>
+           </div>
           
          <!-- Segunda Fila -->
          <div class="row">
@@ -153,7 +147,7 @@
                                     <option value="Guardia">Guardia</option>
                                     <option value="Jefe de Sucursal">Jefe de Sucursal</option>
                                     <option value="Contador">Contador</option>
-                                    <option value="Jefe de RRHH">Jefe de RRHH</option>
+                                    <option value="Gerente de RRHH">Gerente de RRHH</option>
                                     <option value="Especialista en Marketing">Especialista en Marketing</option>
                                     <option value="Gerente de Ventas">Gerente de Ventas</option>
                                     <option value="Gerente de TI">Gerente de TI</option>
@@ -251,11 +245,23 @@
         </div>
 
         <!-- Botones del formulario -->
-        <div class="mt-3">
-           <button class="btn btn-primary" type="submit" form="formularioPrincipal">GUARDAR</button>
-        </div>
+        <!-- Botones del formulario -->
+        <div class="mt-3 d-flex justify-content-start">
+    <!-- Botón Guardar -->
+    <button class="btn btn-primary mr-2" type="submit" form="formularioPrincipal" style="margin-bottom: 5px;">GUARDAR</button>
     </form>
+    <!-- Botón Regresar -->
+    <form action="{{ route('Empleado.index') }}" method="GET" style="margin-bottom: 5px;">
+       <button type="submit" class="btn btn-danger mr-2">REGRESAR</button>                                
+    </form>
+</div>
 @stop
 
 @section('footer')
+
+<div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.1.0
+    </div>
+     <strong>Copyright &copy; 2023 <a href="https://www.unah.edu.hn" target="_blank">UNAH</a>.</strong> <b>All rights
+        reserved.
 @stop

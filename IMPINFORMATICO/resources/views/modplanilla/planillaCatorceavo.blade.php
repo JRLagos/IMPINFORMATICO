@@ -135,7 +135,7 @@
                     <td>{{ $PlanillaCatorceavo['NOMBRE_COMPLETO'] }}</td>
                     <td>{{ $PlanillaCatorceavo['NOMBRE_PLANILLA'] }}</td>
                     <td>{{ number_format($PlanillaCatorceavo['SAL_BRUTO'], 2, '.', ',') }}</td>
-                    <td>{{ number_format($PlanillaCatorceavo['Catorceavo'], 2, '.', ',') }}</td>
+                    <td>{{ number_format($PlanillaCatorceavo['CATORCEAVO'], 2, '.', ',') }}</td>
                     <td>{{ number_format($PlanillaCatorceavo['SAL_NETO'], 2, '.', ',') }}</td>
                     <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_PAGO'])) }}</td>
                     <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_INICIAL'])) }}</td>
@@ -239,7 +239,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Catorceavo | Imperio Informatico',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
@@ -337,9 +337,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Catorceavo| Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                                     }
 
                                 }
