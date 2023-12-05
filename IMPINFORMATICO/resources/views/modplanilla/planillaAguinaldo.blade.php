@@ -115,14 +115,20 @@
                     <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
+                    <th style="text-align: center;">Total Sueldos</th>
                     <th style="text-align: center;">Aguinaldo</th>
-                    <th style="text-align: center;">S.Neto</th>
                     <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
             @foreach ($ResulPlanillaAguinaldo as $PlanillaAguinaldo)
                 <tr class="fila-planilla">
                     <td>{{ $loop->iteration }}</td>
@@ -136,6 +142,7 @@
                     <td>{{ date('d-m-Y', strtotime($PlanillaAguinaldo['FEC_FINAL'])) }}</td>
                 </tr>
             @endforeach
+            @endif
             </tbody>
         </table>
     </div>

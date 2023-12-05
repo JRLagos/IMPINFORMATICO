@@ -43,6 +43,34 @@ class PermisosController extends Controller
     public function store(Request $request)
     {
         $Permisos = $request->all();
+        $response1 = Http::get('http://localhost:3000/SHOW_PERMISOS/SEGURIDAD_PERMISOS');
+        $response1Js=$response1->json();
+
+        foreach($response1Js as $registros){
+            if($registros['COD_ROL']==$Permisos['COD_ROL'] && $registros['COD_OBJETO']=$Permisos['COD_OBJETO']){
+
+                return redirect(route('Permisos.index'))->withErrors(['Mensaje'=>'Registro ya existente']);
+            }
+        }
+
+   
+
+        // Verificar y asignar valores para cada permiso
+    // Limpiar el arreglo manteniendo solo los valores con "1"
+    foreach (['PER_INSERTAR', 'PER_ELIMINAR', 'PER_ACTUALIZAR', 'PER_CONSULTAR'] as $permiso) {
+        if (!isset($Permisos[$permiso]) && isset($Permisos['permisoHidden_' . $permiso])) {
+            $Permisos[$permiso] = $Permisos['permisoHidden_' . $permiso];
+        }
+    }
+
+    // Limpiar el arreglo eliminando claves no necesarias
+    unset(
+        $Permisos['permisoHidden_PER_INSERTAR'],
+        $Permisos['permisoHidden_PER_ELIMINAR'],
+        $Permisos['permisoHidden_PER_ACTUALIZAR'],
+        $Permisos['permisoHidden_PER_CONSULTAR']
+    );
+
 
         $res = Http::post("http://localhost:3000/INS_PERMISOS/SEGURIDAD_PERMISOS", $Permisos);
 
