@@ -46,6 +46,16 @@
 
 
 
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Tabla Progresiva ISR 2023</b></h1>
@@ -136,7 +146,12 @@
             <tbody>
 
 
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
 
+            @if ($permisoLectura)
                 @foreach ($ResulIsr as $Isr)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -201,6 +216,7 @@
                         </div>
                     </div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>
@@ -281,7 +297,10 @@
                         <td style="text-align: center;">{{ $Edad['HASTA'] }} Años</td>
                         <td style="text-align: center;"> L.{{ number_format($Edad['GASTOS_MEDICOS'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button"
+                        @php
+                      $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                    @endphp
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
                                 data-toggle="modal" data-target="#Uptedad-{{ $Edad['COD_EDAD'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>

@@ -126,6 +126,12 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
             @foreach ($ResulPlanilla as $Planilla)
     <tr class="fila-planilla">
         <td>{{ $loop->iteration }}</td>
@@ -142,6 +148,7 @@
         <td>{{ date('d-m-Y', strtotime($Planilla['FEC_FINAL'])) }}</td>
     </tr>
 @endforeach
+@endif
             </tbody>
         </table>
     </div>
@@ -239,7 +246,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Ordinaria | Imperio Informatico',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
@@ -337,9 +344,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Ordinaria | Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
                                     }
 
                                 }

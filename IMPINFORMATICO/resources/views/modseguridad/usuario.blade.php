@@ -56,7 +56,7 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-    <h1><b>Usuarios</b></h1>
+    
 </div>
     @if(session('success'))
     <div class="alert alert-success">
@@ -75,7 +75,7 @@
             $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
 
-        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addUsuario" type="button"><b>Agregar
+        <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-success active text-light @endif btn-lg" data-bs-toggle="modal" data-bs-target="#addUsuario" type="button"><b>Nuevo
                 Usuario</b></button>
     </div>
 
@@ -437,7 +437,7 @@
                                 text: 'Imprimir',
                                 customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(4),td:eq(4)')
+                                        $(win.document.body).find('table').find('th:eq(8),td:eq(8)')
                                             .remove();
 
                                         // Obtener la fecha

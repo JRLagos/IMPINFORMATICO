@@ -57,14 +57,15 @@
 
 
 
-<div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-          <h1><b>Objetos</b></h1>
-          @php
-            $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-          @endphp
-          <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark btn-lg" data-bs-toggle="modal" data-bs-target="#addObjeto"
-              type="button"><b>Agregar Objeto</b></button>
-      </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Objetos</b></h1>
+        @php
+            $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button
+            class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+            data-bs-toggle="modal" data-bs-target="#addObjeto" type="button"><b>Agregar</b></button>
+    </div>
   @stop
 
 
@@ -80,11 +81,21 @@
 
   @section('content')
 
+  @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+  
+
   <!-- Modal para agregar un nuevo producto -->
   <div class="modal fade bd-example-modal-sm" id="addObjeto" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
 
                     <div class="modal-header">
                     <h3>Objetos</h3>
@@ -130,7 +141,7 @@
    <div class="table-responsive p-0">
  <br>
   <table id="objeto" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
+    <thead class="bg-cyan active">
 
     <tr>
             <th style="text-align: center;">#</th>
@@ -242,7 +253,7 @@
           font-size: 12px;
           padding: 6px 12px;
       }
-  </style>
+  </>
   <style>
       div.dt-button-collection {
           width: 600px;

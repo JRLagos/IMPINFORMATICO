@@ -1030,10 +1030,9 @@ if ($validator->fails()) {
         $PRE_CONTESTADAS = 0;
         $COR_ELECTRONICO = $request->input('email');
 
-
         // Validar los campos del formulario
         $validator = Validator::make($request->all(), [
-            'contrasena' => ['required', 'string', 'min:5', 'max:12'],
+            'contrasena' => ['required', 'string', 'min:5'],
             'COD_USUARIO' => ['required', 'integer'], // Asegúrate de ajustar el nombre del campo en el formulario
             // ... otras reglas de validación para otros campos ...
         ]);

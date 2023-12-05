@@ -253,7 +253,7 @@
                                     text: 'Excel',
                                     title: 'Bitacora de Parametros y Usuarios de Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                     }
 
                                 }
