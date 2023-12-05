@@ -123,6 +123,12 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
             @foreach ($ResulPlanillaCatorceavo as $PlanillaCatorceavo)
                 <tr class="fila-planilla">
                     <td>{{ $loop->iteration }}</td>
@@ -136,6 +142,7 @@
                     <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_FINAL'])) }}</td>
                 </tr>
             @endforeach
+            @endif
             </tbody>
         </table>
     </div>
