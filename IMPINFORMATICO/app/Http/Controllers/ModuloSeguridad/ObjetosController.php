@@ -37,6 +37,15 @@ class ObjetosController extends Controller
     public function store(Request $request)
     {
         $Roles = $request->all();
+        $response = Http::get('http://localhost:3000/SHOW_OBJETOS/SEGURIDAD_OBJETOS');
+        $responseJs=$response->json();
+
+        foreach($responseJs as $registros){
+            if($registros['NOM_OBJETO']==$Roles['NOM_OBJETO']){
+
+                return redirect(route('Objetos.index'))->withErrors(['Mensaje'=>'Registro ya existente']);
+            }
+        }
 
         $res = Http::post("http://localhost:3000/INS_OBJETO/SEGURIDAD_OBJETOS", $Roles);
 

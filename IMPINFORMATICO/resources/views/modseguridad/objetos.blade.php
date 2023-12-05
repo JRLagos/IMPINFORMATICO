@@ -80,11 +80,21 @@
 
   @section('content')
 
+  @if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+  
+
   <!-- Modal para agregar un nuevo producto -->
   <div class="modal fade bd-example-modal-sm" id="addObjeto" tabindex="-1">
     <div class="modal-dialog">
       <div class="modal-content">
-
 
                     <div class="modal-header">
                     <h3>Objetos</h3>
@@ -242,7 +252,7 @@
           font-size: 12px;
           padding: 6px 12px;
       }
-  </style>
+  </>
   <style>
       div.dt-button-collection {
           width: 600px;
