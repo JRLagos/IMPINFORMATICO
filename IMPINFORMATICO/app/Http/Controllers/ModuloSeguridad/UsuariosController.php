@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UsuariosController extends Controller
 {
@@ -56,6 +57,7 @@ class UsuariosController extends Controller
     $hashedPassword = Hash::make($usuarioData['CONTRASENA']);
 
     $usuarioData['CONTRASENA'] = $hashedPassword;
+    $usuarioNombre=strtoupper(UsuarioData['NOM_USUARIO']);
 
 
     // Realizar la solicitud HTTP sin incluir el token
@@ -63,7 +65,7 @@ class UsuariosController extends Controller
         "NOM_ROL" => null,
 "DES_ROL" => null,
 "COD_ROL" => $usuarioData['COD_ROL'],
-"NOM_USUARIO" => $usuarioData['NOM_USUARIO'],
+"NOM_USUARIO" => $usuarioNombre,
 "CONTRASENA" => $usuarioData['CONTRASENA'],
 "IND_USUARIO" => $usuarioData['IND_USUARIO'],
 "PRE_CONTESTADAS" => 0,
