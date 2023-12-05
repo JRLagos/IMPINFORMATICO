@@ -60,9 +60,8 @@
         <h1><b>Registro de Sucursales</b></h1>
        
         <button
-            class="btn btn btn-warning btn-dark me-md-2"
-            data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar
-            Sucursal</button>
+            class="btn btn-success active text-light btn-lg"
+            data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar</button>
     </div>
 
 @stop
