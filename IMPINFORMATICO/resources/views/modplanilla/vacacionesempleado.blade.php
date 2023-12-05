@@ -62,20 +62,25 @@
             <tbody>
 
                 @foreach ($ResulVacacionesEm as $VacacionesEm)
-                    <tr>
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $VacacionesEm['NOMBRE_COMPLETO'] }}</td>
-                        <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }} Años</td>
-                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_LEY'] }}</td>
-                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
-                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
-                        <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning " type="button"
+                <tr>
+                    <td style="text-align: center;">{{ $loop->iteration }}</td>
+                    <td style="text-align: center;">{{ $VacacionesEm['NOMBRE_COMPLETO'] }}</td>
+                    <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }} Años</td>
+                    <td style="text-align: center;">{{ $VacacionesEm['DIAS_LEY'] }} Días</td>
+                    <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }} Días</td>
+                    <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }} Días</td>
+                    <td style="text-align: center;">
+                        @if($VacacionesEm['DIAS_DISPONIBLES'] > 0)
+                            <button value="Editar" title="Editar" class="btn btn-warning" type="button"
                                 data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
-                        </td>
-                    </tr>
+                        @else
+                            <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
+                            <span style="color: red;">Sin días disponibles</span>
+                        @endif
+                    </td>
+                </tr>
                     <!-- Modal for editing goes here -->
                     <div class="modal fade bd-example-modal-sm" id="UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}"
                         tabindex="-1">
