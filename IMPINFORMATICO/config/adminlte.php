@@ -423,11 +423,6 @@ return [
                     'url'  => 'VacacionesEmpleados',
                 ], 
                 [
-                    'text' => 'Vacaciones',
-                    'icon' => 'far fa-fw fa-calendar-plus gns text-info',
-                    'url'  => 'Vacaciones',
-                ], 
-                [
                     'text' => 'Deducciones',
                     'icon' => 'far fa-fw fa-calendar-plus gns text-info',
                     'url'  => 'Deducciones',
