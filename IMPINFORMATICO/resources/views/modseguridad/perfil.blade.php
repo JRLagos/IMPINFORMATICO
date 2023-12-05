@@ -192,22 +192,24 @@ p {
                                                                         <p class="m-b-10 f-w-600">Email</p>
                                                                         <h6 class="text-muted f-w-400">{{ $usuario['EMAIL'] }}</h6>
                                                                     </div>
-                                                                    <div class="col-sm-6">
-                                                                        <p class="m-b-10 f-w-600">Teléfono</p>
-                                                                        <h6 class="text-muted f-w-400">88586584</h6>
-                                                                    </div>
+                                                            <div class="col-sm-6">
+                                                              <p class="m-b-10 f-w-600">Primer Ingreso</p>
+                                                              <h6 class="text-muted f-w-400">{{ \Carbon\Carbon::parse($usuario['FEC_PRI_INGRESO'])->format('d/m/Y') }}</h6>
+                                                           </div>
+
                                                                 </div>
                                                                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Projects</h6>
                                                                 <div class="row">
                                                                     <div class="col-sm-6">
-                                                                        <p class="m-b-10 f-w-600">Nombre</p>
-                                                                        <h6 class="text-muted f-w-400">En mantenimiento</h6>
+                                                                        <p class="m-b-10 f-w-600">Estado</p>
+                                                                        <h6 class="text-muted f-w-400">{{ $usuario['IND_USUARIO'] }}</h6>
                                                                     </div>
-                                                                    <div class="col-sm-6">
-                                                                        <p class="m-b-10 f-w-600">Contraseña</p>
-                                                                        <h6 class="text-muted f-w-400">En mantenimiento</h6>
-                                                                    </div>
-                                                                </div>
+
+                                                           <div class="col-sm-6">
+                                                              <p class="m-b-10 f-w-600">Ultima conexión</p>
+                                                               <h6 class="text-muted f-w-400">{{ \Carbon\Carbon::now()->format('d/m/Y H:i:s') }}</h6>
+                                                           </div>
+                                                        </div>
 
                                                                 <form action="{{ route('cerrar-sesion') }}" method="POST" style="margin-bottom: 5px;">
                                                                    @csrf 
