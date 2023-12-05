@@ -57,13 +57,15 @@
     @endphp
 
 
-  <h1>Parámetros</h1>
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-  @php
-     $permisoInsertar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
-  @endphp
-  <button class="btn @if (!$permisoInsertar) btn-secondary disabled @else btn-warning @endif btn-dark me-md-2" data-bs-toggle="modal" data-bs-target="#addParametro" type="button"> Agregar Parametro</button>
-</div>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        <h1><b>Parametros</b></h1>
+        @php
+            $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button
+            class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+            data-bs-toggle="modal" data-bs-target="#addParametro" type="button"><b>Agregar</b></button>
+    </div>
   @stop
 
 
@@ -149,7 +151,7 @@
    <div class="table-responsive p-0">
  <br>
   <table id="parametro" class="table table-striped table-bordered table-condensed table-hover">
-    <thead class="bg-dark">
+    <thead class="bg-cyan active">
 
     <tr>
         <th style="text-align: center;">#</th>

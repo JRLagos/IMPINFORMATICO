@@ -129,7 +129,7 @@
                     <td>{{ $PlanillaCatorceavo['NOMBRE_COMPLETO'] }}</td>
                     <td>{{ $PlanillaCatorceavo['NOMBRE_PLANILLA'] }}</td>
                     <td>{{ number_format($PlanillaCatorceavo['SAL_BRUTO'], 2, '.', ',') }}</td>
-                    <td>{{ number_format($PlanillaCatorceavo['Catorceavo'], 2, '.', ',') }}</td>
+                    <td>{{ number_format($PlanillaCatorceavo['CATORCEAVO'], 2, '.', ',') }}</td>
                     <td>{{ number_format($PlanillaCatorceavo['SAL_NETO'], 2, '.', ',') }}</td>
                     <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_PAGO'])) }}</td>
                     <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_INICIAL'])) }}</td>
