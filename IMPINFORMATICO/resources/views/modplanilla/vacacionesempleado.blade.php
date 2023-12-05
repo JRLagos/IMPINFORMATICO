@@ -122,14 +122,15 @@
                         @php
                         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                         @endphp
-                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
-                                data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        @else
-                            <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
-                            <span style="color: red;">Sin días disponibles</span>
-                        @endif
+                         @if($VacacionesEm['DIAS_DISPONIBLES'] > 0)
+                         <button value="Editar" title="Editar" class="btn btn-warning" type="button"
+                             data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
+                             <i class='fas fa-edit' style='font-size:20px;'></i>
+                         </button>
+                     @else
+                         <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
+                         <span style="color: red;">Sin días disponibles</span>
+                     @endif
                     </td>
                 </tr>
                     <!-- Modal for editing goes here -->
