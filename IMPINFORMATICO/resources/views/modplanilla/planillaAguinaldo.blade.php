@@ -115,8 +115,8 @@
                     <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
+                    <th style="text-align: center;">Total Sueldos</th>
                     <th style="text-align: center;">Aguinaldo</th>
-                    <th style="text-align: center;">S.Neto</th>
                     <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>

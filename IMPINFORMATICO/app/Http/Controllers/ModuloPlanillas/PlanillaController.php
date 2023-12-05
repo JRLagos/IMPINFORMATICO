@@ -97,7 +97,6 @@ class PlanillaController extends Controller
     $fecFinal = $request->input('FEC_FINAL');
     $periodo = $request->input('PERIODO');
 
-
     if ($tipoPlanilla == 'ORDINARIA' && ($periodo == 'QUINCENAL' || $periodo == 'MENSUAL')) {
         $diasDiferencia = (new \DateTime($fecFinal))->diff(new \DateTime($fecInicial))->days;
         
@@ -121,6 +120,24 @@ class PlanillaController extends Controller
         if ($fecInicial != "$year-01-01" || $fecFinal != "$year-12-31") {
             // Las fechas no son correctas para la planilla de AGUINALDO
             $errorMessage = 'Las fechas para la planilla de AGUINALDO deben ser el 1 de enero y el 31 de diciembre del presente año.';
+            return redirect()->route('generar.planilla')
+                ->withErrors([$errorMessage])
+                ->withInput();
+        }
+    } elseif ($tipoPlanilla == 'CATORCEAVO') {
+        // Obtener el año actual
+        $currentYear = date('Y');
+    
+        // Calcular la fecha inicial: 1 de junio del año anterior
+        $fechaInicial = ($currentYear - 1) . '-06-01';
+    
+        // Calcular la fecha final: 31 de mayo del año actual
+        $fechaFinal = $currentYear . '-06-30';
+    
+        // Validar que las fechas coincidan con el rango esperado
+        if ($fecInicial != $fechaInicial || $fecFinal != $fechaFinal) {
+            // Las fechas no son correctas para la planilla de CATORCEAVO
+            $errorMessage = 'Las fechas para la planilla de CATORCEAVO deben ser el 1 de junio del año anterior y el 3 de junio del presente año.';
             return redirect()->route('generar.planilla')
                 ->withErrors([$errorMessage])
                 ->withInput();
