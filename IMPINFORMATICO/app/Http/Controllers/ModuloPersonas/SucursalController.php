@@ -81,10 +81,6 @@ class SucursalController extends Controller
             "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
             "NOM_SUCURSAL" => $request->input("NOM_SUCURSAL"),
             "DES_SUCURSAL" => $request->input("DES_SUCURSAL"),
-        ],[
-            'headers' => [
-                'Authorization' => 'Bearer ' . $sessionToken,
-            ],
         ]);
         
         return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');
