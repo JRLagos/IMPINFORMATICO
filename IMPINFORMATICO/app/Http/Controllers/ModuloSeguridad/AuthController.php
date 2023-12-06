@@ -651,7 +651,7 @@ if ($validator->fails()) {
         $response = Http::post($url, [
             "NOM_ROL" => null,
     "DES_ROL" => null,
-    "COD_ROL" => $rol,
+    "COD_ROL" => 2,
     "NOM_USUARIO" => $newUser,
     "CONTRASENA" => $contraseniaCifrada,
     "IND_USUARIO" => 'NUEVO',
