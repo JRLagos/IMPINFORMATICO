@@ -15,6 +15,49 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+        @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PARAMETROS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
 
 
 @stop
@@ -61,24 +104,33 @@
             </thead>
             <tbody>
 
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
                 @foreach ($ResulVacacionesEm as $VacacionesEm)
-                <tr>
-                    <td style="text-align: center;">{{ $loop->iteration }}</td>
-                    <td style="text-align: center;">{{ $VacacionesEm['NOMBRE_COMPLETO'] }}</td>
-                    <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }} Años</td>
-                    <td style="text-align: center;">{{ $VacacionesEm['DIAS_LEY'] }} Días</td>
-                    <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }} Días</td>
-                    <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }} Días</td>
-                    <td style="text-align: center;">
-                        @if($VacacionesEm['DIAS_DISPONIBLES'] > 0)
-                            <button value="Editar" title="Editar" class="btn btn-warning" type="button"
-                                data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        @else
-                            <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
-                            <span style="color: red;">Sin días disponibles</span>
-                        @endif
+                    <tr>
+                        <td style="text-align: center;">{{ $loop->iteration }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['NOMBRE_COMPLETO'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['ANTIGUEDAD'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_LEY'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
+                        <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
+                        <td style="text-align: center;">
+                        @php
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                         @if($VacacionesEm['DIAS_DISPONIBLES'] > 0)
+                         <button value="Editar" title="Editar" class="btn btn-warning" type="button"
+                             data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
+                             <i class='fas fa-edit' style='font-size:20px;'></i>
+                         </button>
+                     @else
+                         <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
+                         <span style="color: red;">Sin días disponibles</span>
+                     @endif
                     </td>
                 </tr>
                     <!-- Modal for editing goes here -->
@@ -120,6 +172,7 @@
 
                     <div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>    

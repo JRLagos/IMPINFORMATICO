@@ -28,10 +28,10 @@
     /* Estilos para el contenedor principal */
     .container {
       max-width: 600px; /* Ajusta el máximo ancho del contenedor */
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     }
 
     /* Estilos para el encabezado */
@@ -55,7 +55,16 @@
       padding: 10px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
-      border-radius: 3px;
+      border-radius: 5px; /* Ajustado para mayor redondez */
+      box-sizing: border-box;
+    }
+
+    /* Estilos específicos para la caja de texto de respuesta */
+    input[type="text"].form-control {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      width: 100%;
       box-sizing: border-box;
     }
 
@@ -66,7 +75,7 @@
       background-color: #ffc107; /* Amarillo */
       color: #fff;
       border: none;
-      border-radius: 3px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -91,12 +100,12 @@
       <label for="respuesta2">Respuesta</label>
       <input type="text" id="respuesta2" name="respuesta" class="form-control" maxlength="16" required pattern="^(\S*\s){0,1}\S*$">
       
-    
-
       <!-- Agrega margen inferior al botón "Guardar y Continuar" -->
       <button type="submit" class="btn btn-warning mt-3">Guardar y Continuar</button>
     </form>
   </div>
+</body>
+</html>
   
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>

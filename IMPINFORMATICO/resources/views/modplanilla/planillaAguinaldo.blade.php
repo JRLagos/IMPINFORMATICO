@@ -108,7 +108,7 @@
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="planillaAguinaldo" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
@@ -123,6 +123,12 @@
                 </tr>
             </thead>
             <tbody>
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
             @foreach ($ResulPlanillaAguinaldo as $PlanillaAguinaldo)
                 <tr class="fila-planilla">
                     <td>{{ $loop->iteration }}</td>
@@ -136,6 +142,7 @@
                     <td>{{ date('d-m-Y', strtotime($PlanillaAguinaldo['FEC_FINAL'])) }}</td>
                 </tr>
             @endforeach
+            @endif
             </tbody>
         </table>
     </div>
@@ -208,7 +215,7 @@
 
     <script>
         $(document).ready(function() {
-            var table = $('#planilla').DataTable({
+            var table = $('#planillaAguinaldo').DataTable({
                 responsive: true,
                     autWidth: false,
                     language: {
@@ -332,7 +339,7 @@
                                     text: 'Excel',
                                     title: 'Planilla Aguinaldo | Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 11
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                     }
 
                                 }

@@ -84,6 +84,16 @@
 
 @section('content')
 
+@if($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <!-- Modal para agregar un nuevo permiso -->
     <div class="modal fade bd-example-modal-sm" id="addPermiso" tabindex="-1">
     <div class="modal-dialog">
@@ -116,24 +126,33 @@
                     </div>
 
                     <div class="mb-3 mt-3">
-                        <label class="form-label">Permisos</label>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_INSERTAR" value="1">
-                            <label class="form-check-label">Permiso Insertar</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_ELIMINAR" value="1">
-                            <label class="form-check-label">Permiso Eliminar</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_ACTUALIZAR" value="1">
-                            <label class="form-check-label">Permiso Actualizar</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" name="PER_CONSULTAR" value="1">
-                            <label class="form-check-label">Permiso Consultar</label>
-                        </div>
-                    </div>
+    <label class="form-label">Permisos</label>
+    
+    <div class="form-check">
+        <input type="hidden" name="permisoHidden_PER_INSERTAR" value="0">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_INSERTAR" value="1">
+        <label class="form-check-label">Permiso Insertar</label>
+    </div>
+    
+    <div class="form-check">
+        <input type="hidden" name="permisoHidden_PER_ELIMINAR" value="0">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ELIMINAR" value="1">
+        <label class="form-check-label">Permiso Eliminar</label>
+    </div>
+    
+    <div class="form-check">
+        <input type="hidden" name="permisoHidden_PER_ACTUALIZAR" value="0">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ACTUALIZAR" value="1">
+        <label class="form-check-label">Permiso Actualizar</label>
+    </div>
+    
+    <div class="form-check">
+        <input type="hidden" name="permisoHidden_PER_CONSULTAR" value="0">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_CONSULTAR" value="1">
+        <label class="form-check-label">Permiso Consultar</label>
+    </div>
+</div>
+
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger" data-bs-dismiss="modal"><b>CERRAR</b></button>
@@ -319,7 +338,9 @@
             margin-top: 10px;
         }
     </style>
+
     <script>
+        
         $(document).ready(function() {
             var table = $('#permisos').DataTable({
                 responsive: true,
@@ -502,4 +523,6 @@
             });
         });
     </script>
+
+    
 @stop
