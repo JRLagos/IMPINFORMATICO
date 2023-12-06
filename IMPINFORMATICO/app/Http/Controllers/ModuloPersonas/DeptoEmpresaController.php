@@ -45,7 +45,13 @@ class DeptoEmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        {
+        
+            $request->validate([
+                'NOM_DEPTO_EMPRESA' => 'required|unique:departamentos_empresa,NOM_DEPTO_EMPRESA|max:255',
+            ], [
+                'NOM_DEPTO_EMPRESA.unique' => 'El departamento ya existe en la base de datos.',
+                'NOM_DEPTO_EMPRESA.required' => 'El nombre del departamento es obligatorio.',
+            ]);
             // Obtenter el token generado y guardado en la sesión
             $sessionToken = $request->session()->get('generated_token');
             $DeptoEmpresa = $request->all();
@@ -57,7 +63,7 @@ class DeptoEmpresaController extends Controller
             ]);
     
             return redirect(route('DeptoEmpresa.index'))->with('success', 'Datos ingresados con éxito.');
-        }
+        
     }
 
     /**

@@ -84,6 +84,15 @@
 @section('content')
 
     <!-- Modal para agregar un nuevo producto -->
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     <div class="modal fade bd-example-modal-sm" id="addMunicipio" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -138,6 +147,7 @@
     @endif
 
     <!-- /.card-header -->
+    
     <div class="table-responsive p-0">
         <br>
         <table id="municipio" class="table table-striped table-bordered table-condensed table-hover">

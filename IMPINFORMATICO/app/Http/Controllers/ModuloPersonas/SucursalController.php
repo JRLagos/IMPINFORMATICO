@@ -45,7 +45,12 @@ class SucursalController extends Controller
      */
     public function store(Request $request)
     {
-        {
+        $request->validate([
+            'NOM_SUCURSAL' => 'required|unique:sucursales,NOM_SUCURSAL|max:50 ',
+        ], [
+            'NOM_SUCURSAL.unique' => 'La sucursal ya existe en la base de datos.',
+            'NOM_SUCURSAL.required' => 'El nombre del departamento es obligatorio.',
+        ]);
             $Sucursal = $request->all();
     
             $res = Http::post("http://localhost:3000/INS_SUCURSAL/SUCURSAL", $Sucursal,[
@@ -53,7 +58,7 @@ class SucursalController extends Controller
             ]);
     
             return redirect(route('Sucursal.index'))->with('success', 'Datos ingresados con éxito.');
-        }
+    
     }
 
     /**
@@ -77,6 +82,7 @@ class SucursalController extends Controller
      */
     public function update(Request $request)
     {
+        
         $upd_sucursal = Http::put('http://localhost:3000/UPD_SUCURSAL/SUCURSAL/'.$request->input("COD_SUCURSAL"),[
             "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
             "NOM_SUCURSAL" => $request->input("NOM_SUCURSAL"),
