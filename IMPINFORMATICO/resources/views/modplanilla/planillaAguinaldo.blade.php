@@ -115,8 +115,8 @@
                     <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
+                    <th style="text-align: center;">Total Sueldos</th>
                     <th style="text-align: center;">Aguinaldo</th>
-                    <th style="text-align: center;">S.Neto</th>
                     <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>
@@ -239,7 +239,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Aguinaldo | Imperio Informatico',
                                     orientation: 'landscape',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
@@ -337,9 +337,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Planilla | Imperio Informatico',
+                                    title: 'Planilla Aguinaldo | Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 11
                                     }
 
                                 }

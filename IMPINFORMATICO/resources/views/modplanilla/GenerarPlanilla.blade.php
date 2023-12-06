@@ -39,7 +39,6 @@
             <select class="form-control" name="TIPO_PLANILLA" style="width: 100%;" required>
                 <option value="" selected disabled>Seleccione una opción</option>
                 <option value="ORDINARIA">ORDINARIA</option>
-                <option value="VACACIONES">VACACIONES</option>
                 <option value="AGUINALDO">AGUINALDO</option>
                 <option value="CATORCEAVO">CATORCEAVO</option>
             </select>

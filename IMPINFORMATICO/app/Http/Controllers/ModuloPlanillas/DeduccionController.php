@@ -31,6 +31,24 @@ class DeduccionController extends Controller
          return view('modplanilla.deduccion')->with('ResulDeduccion', $Deduccion);
     }
 
+    public function indexIhss(Request $request)
+    {
+         // Obtenter el token generado y guardado en la sesión
+         $sessionToken = $request->session()->get('generated_token');
+         $response = Http::get('http://localhost:3000/GET_IHSS/SELECT_IHSS',[
+             'headers' => [
+                 'Authorization' => 'Bearer ' . $sessionToken,
+             ],
+         ]);
+         $data = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+     
+         // Convierte los datos JSON a un array asociativo
+         $Ihss = json_decode($data, true);
+     
+         return view('modplanilla.ihss')->with('ResulIhss', $Ihss);
+    }
+    
+
     /**
      * Show the form for creating a new resource.
      */

@@ -222,6 +222,7 @@ Route::get('bitacora', [BitacoraController::class, 'index'])->name('bitacora.ind
 
 //Deduccion
 Route::get('Deducciones', [DeduccionController::class, 'index'])->name('Deducciones.index');
+Route::get('Ihss', [DeduccionController::class, 'indexIhss'])->name('Ihss.index');
 Route::post('Post-Deduccion', [DeduccionController::class, 'store'])->name('Post-Deduccion.store');
 Route::post('Upt-Deduccion',[DeduccionController::class, 'update'])->name('Upt-Deduccion.update');
 // ESTADISTICAS
