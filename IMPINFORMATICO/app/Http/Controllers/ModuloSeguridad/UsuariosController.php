@@ -57,7 +57,7 @@ class UsuariosController extends Controller
     $hashedPassword = Hash::make($usuarioData['CONTRASENA']);
 
     $usuarioData['CONTRASENA'] = $hashedPassword;
-    $usuarioNombre=strtoupper(UsuarioData['NOM_USUARIO']);
+    $usuarioNombre=strtoupper($usuarioData['NOM_USUARIO']);
 
 
     // Realizar la solicitud HTTP sin incluir el token
