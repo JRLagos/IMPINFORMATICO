@@ -43,6 +43,12 @@ class MunicipioController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'NOM_MUNICIPIO' => 'required|unique:municipios,NOM_MUNICIPIO|max:50 ',
+        ], [
+            'NOM_MUNICIPIO.unique' => 'El municipio ya existe en la base de datos.',
+            'NOM_MUNICIPIO.required' => 'El nombre del departamento es obligatorio.',
+        ]);
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
         $Municipio = $request->all();

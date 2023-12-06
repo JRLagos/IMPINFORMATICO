@@ -55,6 +55,13 @@ class DepartamentoController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'NOM_DEPARTAMENTO' => 'required|unique:departamentos,NOM_DEPARTAMENTO|max:255',
+        ], [
+            'NOM_DEPARTAMENTO.unique' => 'El departamento ya existe en la base de datos.',
+            'NOM_DEPARTAMENTO.required' => 'El nombre del departamento es obligatorio.',
+        ]);
+
          // Obtenter el token generado y guardado en la sesión
          $sessionToken = $request->session()->get('generated_token');
         $Departamento = $request->all();
