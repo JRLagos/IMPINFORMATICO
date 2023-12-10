@@ -90,6 +90,16 @@
 
 @section('content')
 
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <!-- Modal para agregar un nuevo Empleado -->
 <div class="modal fade bd-example-modal-sm" id="addPersona" tabindex="-1">
     <div class="modal-dialog modal-lg" role="document">

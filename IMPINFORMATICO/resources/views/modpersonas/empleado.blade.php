@@ -532,40 +532,40 @@
                                                 <option value="" style="display: none;" disabled>Seleccione una
                                                     opción</option>
                                                 <option value="Gerente"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'GERENTE' ? 'selected' : '' }}>
                                                     Gerente</option>
                                                 <option value="Administrador"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Administrador' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'ADMINISTRADOR' ? 'selected' : '' }}>
                                                     Administrador</option>
-                                                <option value="Jefe de Planta"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_Planta' ? 'selected' : '' }}>
+                                                <option value="JEFE DE PLANTA"
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'JEFE DE PLANTA' ? 'selected' : '' }}>
                                                     Jefe de Planta</option>
                                                 <option value="Conserje"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Conserje' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'CONSERJE' ? 'selected' : '' }}>
                                                     Conserje</option>    
                                                 <option value="Guardia"
-                                                {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Guardia' ? 'selected' : '' }}>
+                                                {{ $Empleado['PUE_TRA_EMPLEADO'] === 'GUARDIA' ? 'selected' : '' }}>
                                                 Guardia</option>   
                                                 <option value="Jefe de Sucursal"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_Sucursal' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'JEFE DE SUCURSAL' ? 'selected' : '' }}>
                                                     Jefe de Sucursal</option>   
                                                     <option value="Contador"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Contador' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'CONTADOR' ? 'selected' : '' }}>
                                                     Contador</option>     
                                                     <option value="Gerente de RRHH"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Jefe_de_RRHHH' ? 'selected' : '' }}>
-                                                    Jefe de RRHH</option>   
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'GERENTE DE RRHH' ? 'selected' : '' }}>
+                                                     Gerente de RRHH</option>   
                                                     <option value="Especialista en Marketing"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Especialista_en_Marketing' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'ESPECIALISTA EN MARKETING' ? 'selected' : '' }}>
                                                     Especialista en Marketing</option>   
                                                     <option value="Gerente de Ventas"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente_de_Ventas' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'GERENTE DE VENTAS' ? 'selected' : '' }}>
                                                     Gerente de Ventas</option>     
                                                     <option value="Gerente de TI"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Gerente_de_TI' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'GERENTE DE TI' ? 'selected' : '' }}>
                                                     Gerente de TI</option>    
                                                     <option value="Abogado Corporativo"
-                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'Abogado_Corporativo' ? 'selected' : '' }}>
+                                                    {{ $Empleado['PUE_TRA_EMPLEADO'] === 'ABOGADO CORPORATIVO' ? 'selected' : '' }}>
                                                     Abogado Corporativo</option>         
                                             </select>
                                             <div class="valid-feedback"></div>
