@@ -556,7 +556,6 @@ class AuthController extends Controller
         $estadoCivil = $request->input('estado_civil');
         $peso = $request->input('peso');
         $estatura = $request->input('estatura');
-        $rol = $request->input('rol');
 
         $hoy = new DateTime(); // Obtiene la fecha actual
         $fechaNacimiento = new DateTime($fechaNacimiento); // Convierte la fecha de nacimiento a objeto DateTime
