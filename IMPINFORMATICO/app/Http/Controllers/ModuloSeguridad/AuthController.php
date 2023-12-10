@@ -108,6 +108,7 @@ class AuthController extends Controller
                 // Iterar por los usuarios para buscar coincidencias de usuario y contraseña
                 foreach ($jsonContentUsuarios as $user) {
     
+            
                     if($jsonContentUsuarios === $usuario){dd("el usuario es el correcto");}
                     // Verificar si el usuario tiene una contraseña temporal activa
                     $url_CT_usuario = 'http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_CONTRASENAS_TEMPORALES';
@@ -270,7 +271,8 @@ class AuthController extends Controller
                         // Bloquear al usuario: Actualizar el estado del usuario a "DISABLED" en la base de datos
                         $urlBloquearUsuario = 'http://localhost:3000/USUARIOS/';
                         $dataBloquearUsuario = [
-                            "COD_ROL" => $user['COD_USUARIO'], // Utilizar el código de rol del usuario
+                            "COD_US"=>$user['COD_USUARIO'],
+                            "COD_ROL" => $user['COD_ROL'], // Utilizar el código de rol del usuario
                             "NOM_USUARIO" => $user['NOM_USUARIO'],
                             "CONTRASENA" => $user['CONTRASENA'], // Utilizar la contraseña del usuario
                             "ESTADO" => "DISABLED",
@@ -340,7 +342,8 @@ class AuthController extends Controller
                 }
 
                 $responseUP = Http::put($urlUP, [
-                    "COD_ROL" => $usuarioEncontrado['COD_USUARIO'],
+                    "COD_US"=>$usuarioEncontrado['COD_USUARIO'],
+                    "COD_ROL" => $usuarioEncontrado['COD_ROL'],
                     "NOM_USUARIO" => $usuarioEncontrado['NOM_USUARIO'],
                     "CONTRASENA" => $usuarioEncontrado['CONTRASENA'],
                     "ESTADO" => "DISABLED",
@@ -787,13 +790,15 @@ if ($validator->fails()) {
 
         $urlUp = 'http://localhost:3000/USUARIOS';
         $responseUp = Http::put($urlUp,[
-            "COD_ROL" => $credenciales['COD_USUARIO'],
+            "COD_US"=>$credenciales['COD_USUARIO'],
+            "COD_ROL" => $credenciales['COD_ROL'],
             "NOM_USUARIO" => $credenciales['NOM_USUARIO'],
             "CONTRASENA" => $credenciales['CONTRASENA'],
             "ESTADO"=>"ENABLED",
             "PRE_CONTESTADAS" => $credenciales['PRE_CONTESTADAS'],
             "COR_ELECTRONICO" => $credenciales['EMAIL']
         ]);
+    
 
 
         if ($responsePre->status() === 200 && $responseUp->status() === 200) {
