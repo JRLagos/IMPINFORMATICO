@@ -473,13 +473,14 @@
                     </tr>
                     <!-- Modal for editing goes here -->
                     <div class="modal fade bd-example-modal-sm" id="UpdEmpleado-{{ $Empleado['COD_EMPLEADO'] }}"
-                        tabindex="-1">
-                        <div class="modal-dialog">
+                    role="dialog" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Empleado</b></h4>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
+                                <h5 class="modal-title" id="updateModalLabel">Actualizar Información</h5>
+                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                   <span aria-hidden="true">&times;</span>
+                               </button>
                                 </div>
                                 <div class="modal-body">                              
                                     <form action="{{ route('Upd-Empleado.update') }}" method="post"
@@ -577,10 +578,10 @@
                                                 <option value="" style="display: none;" disabled>Seleccione una
                                                     opción</option>
                                                 <option value="Temporal"
-                                                    {{ $Empleado['TIP_CONTRATO'] === 'Temporal' ? 'selected' : '' }}>
+                                                    {{ $Empleado['TIP_CONTRATO'] === 'TEMPORAL' ? 'selected' : '' }}>
                                                     Temporal</option>
                                                 <option value="Permanente"
-                                                    {{ $Empleado['TIP_CONTRATO'] === 'Permanente' ? 'selected' : '' }}>
+                                                    {{ $Empleado['TIP_CONTRATO'] === 'PERMANENTE' ? 'selected' : '' }}>
                                                     Permanente</option>                                                   
                                             </select>
                                             <div class="valid-feedback"></div>

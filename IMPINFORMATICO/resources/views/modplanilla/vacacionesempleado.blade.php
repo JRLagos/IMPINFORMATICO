@@ -115,6 +115,7 @@
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
                         <td style="text-align: center;">
+
                             @php
                                 $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
                             @endphp

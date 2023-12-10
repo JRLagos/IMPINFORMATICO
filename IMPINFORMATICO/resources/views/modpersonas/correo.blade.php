@@ -83,7 +83,6 @@
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Empleado</th>
                     <th style="text-align: center;">Correo Electronico</th>
-                    <th style="text-align: center;">Descripción</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
@@ -101,7 +100,6 @@
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
                         <td style="text-align: center;">{{ $Correo['NOMBRE_COMPLETO'] }}</td>
                         <td style="text-align: center;">{{ $Correo['CORREO_ELECTRONICO'] }}</td>
-                        <td style="text-align: center;">{{ $Correo['DES_CORREO'] }}</td>
                         <td style="text-align: center;">
                             @php
                                 $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
@@ -146,14 +144,6 @@
                                                 name="CORREO_ELECTRONICO" value="{{ $Correo['CORREO_ELECTRONICO'] }}"
                                                 required maxlength="255">
                                         </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_CORREO" value="{{ $Correo['DES_CORREO'] }}" required
-                                                maxlength="255">
-                                        </div>
-
 
 
                                         <div class="modal-footer">

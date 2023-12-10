@@ -108,7 +108,7 @@
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="planillaAguinaldo" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
@@ -215,7 +215,7 @@
 
     <script>
         $(document).ready(function() {
-            var table = $('#planilla').DataTable({
+            var table = $('#planillaAguinaldo').DataTable({
                 responsive: true,
                     autWidth: false,
                     language: {
@@ -339,7 +339,7 @@
                                     text: 'Excel',
                                     title: 'Planilla Aguinaldo | Imperio Informatico',
                                     exportOptions: {
-                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 11
+                                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                                     }
 
                                 }

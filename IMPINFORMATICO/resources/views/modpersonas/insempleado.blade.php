@@ -245,17 +245,14 @@
         </div>
 
         <!-- Botones del formulario -->
-        <!-- Botones del formulario -->
         <div class="mt-3 d-flex justify-content-start">
+            <!-- Botón Regresar -->
+    <button class="btn btn-danger mr-2" style="margin-bottom: 5px; type="button" >
+    <a href="{{ route('Empleado.index') }}" class="text-white">REGRESAR</a></button>      
     <!-- Botón Guardar -->
     <button class="btn btn-primary mr-2" type="submit" form="formularioPrincipal" style="margin-bottom: 5px;">GUARDAR</button>
-    </form>
-    <!-- Botón Regresar -->
-    <form action="{{ route('Empleado.index') }}" method="GET" style="margin-bottom: 5px;">
-       <button type="submit" class="btn btn-danger mr-2">REGRESAR</button>                                
-    </form>
-</div>
-@stop
+    </div>
+  @stop
 
 @section('footer')
 
