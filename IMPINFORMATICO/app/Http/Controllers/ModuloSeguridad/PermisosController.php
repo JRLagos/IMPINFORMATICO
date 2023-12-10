@@ -45,10 +45,13 @@ class PermisosController extends Controller
         $Permisos = $request->all();
         $response1 = Http::get('http://localhost:3000/SHOW_PERMISOS/SEGURIDAD_PERMISOS');
         $response1Js=$response1->json();
+        
 
+        
         foreach($response1Js as $registros){
-            if($registros['COD_ROL']==$Permisos['COD_ROL'] && $registros['COD_OBJETO']=$Permisos['COD_OBJETO']){
 
+            if($registros['COD_ROL']==$Permisos['COD_ROL'] && $registros['COD_OBJETO']==$Permisos['COD_OBJETO']){
+            
                 return redirect(route('Permisos.index'))->withErrors(['Mensaje'=>'Registro ya existente']);
             }
         }

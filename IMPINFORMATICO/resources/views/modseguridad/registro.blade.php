@@ -92,15 +92,6 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="rol">Rol:</label>
-                        <select name="rol" id="rol" class="form-control is-invalid">
-                            <option value="3">SUPER_USUARIO</option>
-                            <option value="2">USUARIO_REGULAR</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
                         <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
                         <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control is-invalid" placeholder="Tu Fecha de Nacimiento">
                     </div>

@@ -87,6 +87,12 @@
         {{ session('error') }}
     </div>
 @endif
+
+@if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
   <!-- Modal para agregar un nuevo producto -->
   <div class="modal fade bd-example-modal-sm" id="addParametro" tabindex="-1">
     <div class="modal-dialog">
@@ -216,7 +222,7 @@
 
                                         <div class="mb-3 mt-3">
                                         <label for="dni" class="form-label">Valor Parametro</label>
-                                        <input type="text" class="form-control alphanumeric-input" id="DES_VALOR" name="DES_VALOR" pattern="[A-Z a-z].{3,}" value="{{$Parametros['DES_VALOR']}}" required maxlength="100">
+                                        <input type="text" class="form-control alphanumeric-input" id="DES_VALOR" name="DES_VALOR" pattern="[A-Za-z0-9 ]*" value="{{$Parametros['DES_VALOR']}}" required maxlength="100">
                                         </div>
 
                                           <div class="mb-3 mt-3">
