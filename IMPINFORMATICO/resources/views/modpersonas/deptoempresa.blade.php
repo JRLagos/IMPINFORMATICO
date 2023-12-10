@@ -207,7 +207,7 @@
                                             <div class="mb-3 mt-3">
                                                 <label for="dni" class="form-label">Nombre Departamento</label>
                                                 <input type="text" class="form-control alphanumeric-input"
-                                                    pattern=".{3,}" name="NOM_DEPTO_EMPRESA"
+                                                    pattern=".{2,}" name="NOM_DEPTO_EMPRESA"
                                                     value="{{ $DeptoEmpresa['NOM_DEPTO_EMPRESA'] }}"
                                                     placeholder="Escriba aquí." required maxlength="50">
                                             </div>

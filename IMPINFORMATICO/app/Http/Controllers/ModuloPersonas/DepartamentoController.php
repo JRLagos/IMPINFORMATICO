@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\DB;
 class DepartamentoController extends Controller
 {
     /**
@@ -58,7 +58,7 @@ class DepartamentoController extends Controller
         $request->validate([
             'NOM_DEPARTAMENTO' => 'required|unique:departamentos,NOM_DEPARTAMENTO|max:255',
         ], [
-            'NOM_DEPARTAMENTO.unique' => 'El departamento ya existe en la base de datos.',
+            'NOM_DEPARTAMENTO.unique' => 'El departamento ya existe',
             'NOM_DEPARTAMENTO.required' => 'El nombre del departamento es obligatorio.',
         ]);
 
@@ -106,15 +106,24 @@ class DepartamentoController extends Controller
      */
     public function update(Request $request)
     {
-         // Obtenter el token generado y guardado en la sesión
-         $sessionToken = $request->session()->get('generated_token');
+        $request->validate([
+            'NOM_DEPARTAMENTO' => 'required|string|max:50',
+        ]);
+    
+        // Verificar si ya existe una sucursal con el mismo nombre
+        $existingSucursal = DB::table('DEPARTAMENTOS')
+            ->where('NOM_DEPARTAMENTO', $request->input('NOM_DEPARTAMENTO'))
+            ->where('COD_DEPARTAMENTO', '!=', $request->input('COD_DEPARTAMENTO')) // Excluir la sucursal actual
+            ->first();
+    
+        // Si existe, mostrar mensaje de error y redirigir
+        if ($existingSucursal) {
+            return redirect()->back()->withErrors(['NOM_DEPARTAMENTO' => 'Ya existe un departamento con este nombre.']);
+        }
+
         $upt_departamento = Http::put('http://localhost:3000/UPD_DEPARTAMENTO/DEPARTAMENTO/'.$request->input("COD_DEPARTAMENTO"),[
             "COD_DEPARTAMENTO" => $request->input('COD_DEPARTAMENTO'),
             "NOM_DEPARTAMENTO" => $request->input("NOM_DEPARTAMENTO"),
-        ],[
-            'headers' => [
-                'Authorization' => 'Bearer ' . $sessionToken,
-            ],
         ]);
         
         return redirect(route('Departamento.index'))->with('success', 'La actualización se ha realizado con éxito.');

@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Http\Response;
 
+use Illuminate\Validation\Rule;
+
+use Illuminate\Support\Facades\DB;
+
 class SucursalController extends Controller
 {
     /**
@@ -46,7 +50,7 @@ class SucursalController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'NOM_SUCURSAL' => 'required|unique:sucursales,NOM_SUCURSAL|max:50 ',
+            'NOM_SUCURSAL' => 'required|unique:SUCURSALES,NOM_SUCURSAL|max:50 ',
         ], [
             'NOM_SUCURSAL.unique' => 'La sucursal ya existe en la base de datos.',
             'NOM_SUCURSAL.required' => 'El nombre del departamento es obligatorio.',
@@ -82,14 +86,29 @@ class SucursalController extends Controller
      */
     public function update(Request $request)
     {
-        
-        $upd_sucursal = Http::put('http://localhost:3000/UPD_SUCURSAL/SUCURSAL/'.$request->input("COD_SUCURSAL"),[
+       // Validar la entrada del formulario
+    $request->validate([
+        'NOM_SUCURSAL' => 'required|string|max:50',
+        'DES_SUCURSAL' => 'required|string|max:50',
+    ]);
+
+    // Verificar si ya existe una sucursal con el mismo nombre
+    $existingSucursal = DB::table('SUCURSALES')
+        ->where('NOM_SUCURSAL', $request->input('NOM_SUCURSAL'))
+        ->where('COD_SUCURSAL', '!=', $request->input('COD_SUCURSAL')) // Excluir la sucursal actual
+        ->first();
+
+    // Si existe, mostrar mensaje de error y redirigir
+    if ($existingSucursal) {
+        return redirect()->back()->withErrors(['NOM_SUCURSAL' => 'Ya existe una sucursal con este nombre.']);
+    }
+
+        $upd_sucursal = Http::put('http://localhost:3000/UPD_SUCURSAL/SUCURSAL/'.$request->input("COD_SUCURSAL"), [
             "COD_SUCURSAL" => $request->input('COD_SUCURSAL'),
             "NOM_SUCURSAL" => $request->input("NOM_SUCURSAL"),
             "DES_SUCURSAL" => $request->input("DES_SUCURSAL"),
-
         ]);
-        
+
         return redirect(route('Sucursal.index'))->with('success', 'La actualización se ha realizado con éxito.');
     }
 
