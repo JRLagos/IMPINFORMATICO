@@ -101,7 +101,7 @@ Route::post('/Post-Generar-Planilla' , [PlanillaController::class, 'guardarSelec
 
 // Detalle Planillas
 Route::get('Detalle-Planilla', [DetallePlanillaController::class, 'index'])->name('DetallePlanilla.index');
-Route::get('One-Detalle-Planilla/{ID_PLANILLA}', [DetallePlanillaController::class, 'show'])->name('ShowPlanilla.Show');
+Route::get('/DetallePlanilla/{ID_PLANILLA}', [DetallePlanillaController::class, 'show'])->name('ShowPlanilla.Show');
 Route::post('Post-Detalle-Planilla', [DetallePlanillaController::class, 'store'])->name('PostDetalle.store');
 
 //Reportes
