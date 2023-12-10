@@ -147,8 +147,9 @@
                             <label for="SEX_PERSONA" class="form-label">Estado Usuario</label>
                             <select class="form-control" name="IND_USUARIO" required>
                                 <option value="" selected disabled>Seleccione una opción</option>
-                                <option value="ENABLED">Activo</option>
-                                <option value="DISABLED">Inactivo</option>
+                                <option value="ENABLED">ACTIVO</option>
+                                <option value="DISABLED">INACTIVO</option>
+                                <option value="NUEVO">NUEVO</option>
                             </select>
                             <div class="valid-feedback"></div>
                         </div>
@@ -192,27 +193,34 @@
     @if ($permisoLectura)
 
         @foreach ($ResulUsuario as $Usuario)
-            <tr>
-                <td style="text-align: center;">{{ $loop->iteration }}</td>
-                <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
-                <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
-                <td style="text-align: center;">{{ $Usuario['IND_USUARIO'] }}</td>
-                <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
-                <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
-                <td style="text-align: center;">
-                    @php
-                    $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                    @endphp
-                    <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
-        data-toggle="modal" data-target="#EditarUsuarioModal-{{ $Usuario['NOM_USUARIO'] }}">
-        <i class='fas fa-edit' style='font-size:20px;'></i>
-        
-    </button>
-                </td>
-            </tr>
-            <!-- Modal for editing goes here -->
+        <tr>
+    <td style="text-align: center;">{{ $loop->iteration }}</td>
+    <td style="text-align: center;">{{ $Usuario['NOM_USUARIO'] }}</td>
+    <td style="text-align: center;">{{ $Usuario['NOM_ROL'] }}</td>
+    <td style="text-align: center;">
+        @if ($Usuario['IND_USUARIO'] === 'ENABLED')
+            ACTIVO
+        @elseif ($Usuario['IND_USUARIO'] === 'DISABLED')
+            INACTIVO
+        @else
+            {{ $Usuario['IND_USUARIO'] }}
+        @endif
+    </td>
+    <td style="text-align: center;">{{ $Usuario['EMAIL'] }}</td>
+    <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_VENCIMIENTO'])) }}</td>
+    <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_ULT_CONEXION'])) }}</td>
+    <td style="text-align: center;">{{ date('d-m-Y', strtotime($Usuario['FEC_PRI_INGRESO'])) }}</td>
+    <td style="text-align: center;">
+        @php
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+        @endphp
+        <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
+            data-toggle="modal" data-target="#EditarUsuarioModal-{{ $Usuario['NOM_USUARIO'] }}">
+            <i class='fas fa-edit' style='font-size:20px;'></i>
+        </button>
+    </td>
+</tr>
+
             <!-- Modal for editing goes here -->
 <div class="modal fade bd-example-modal-sm" id="EditarUsuarioModal-{{ $Usuario['NOM_USUARIO'] }}" tabindex="-1">
     <div class="modal-dialog">
@@ -238,9 +246,17 @@
     </div>
 
     <div class="mb-3 mt-3">
-        <label for="rol" class="form-label">Rol</label>
-        <input type="text" class="form-control" name="rol" value="{{ $Usuario['NOM_ROL'] }}" required>
-    </div>
+    <label for="dni" class="form-label">Rol</label>
+    <select class="form-control js-example-basic-single" name="COD_ROL" id="COD_ROL" required>
+        <option value="" disabled>Seleccionar Rol</option>
+        @foreach ($ResulRol as $Rol)
+            <option value="{{ $Rol['COD_ROL'] }}" {{ $Rol['COD_ROL'] == $usuario['COD_ROL'] ? 'selected' : '' }}>
+                {{ $Rol['NOM_ROL'] }}
+            </option>
+        @endforeach
+    </select>
+</div>
+
 
     <div class="mb-3 mt-3">
         <label for="ultimaConexion" class="form-label">Última Conexión</label>
@@ -258,9 +274,15 @@
     </div>
 
     <div class="mb-3 mt-3">
-        <label for="estado" class="form-label">Estado del Usuario</label>
-        <input type="text" class="form-control" name="estado" value="{{ $Usuario['IND_USUARIO'] }}" required>
-    </div>
+    <label for="estado" class="form-label">Estado del Usuario</label>
+    <select class="form-control" name="estado" required>
+        <option value="ENABLED" @if($Usuario['IND_USUARIO'] === 'ENABLED') selected @endif>ACTIVO</option>
+        <option value="DISABLED" @if($Usuario['IND_USUARIO'] === 'DISABLED') selected @endif>INACTIVO</option>
+        <option value="NUEVO" @if($Usuario['IND_USUARIO'] === 'NUEVO') selected @endif>NUEVO</option>
+    </select>
+    <div class="valid-feedback"></div>
+</div>
+
 
     <div class="mb-3 mt-3">
         <label for="email" class="form-label">E-mail</label>
