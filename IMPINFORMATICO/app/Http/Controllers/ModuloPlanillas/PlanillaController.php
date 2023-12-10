@@ -89,13 +89,35 @@ class PlanillaController extends Controller
 {
     // Validar los datos del formulario si es necesario
 
+
+
     // Extract data from the request
     $nombrePlanilla = $request->input('NOMBRE_PLANILLA');
-    $desPlanilla = $request->input('DES_PLANILLA');
     $tipoPlanilla = $request->input('TIPO_PLANILLA');
     $fecInicial = $request->input('FEC_INICIAL');
     $fecFinal = $request->input('FEC_FINAL');
     $periodo = $request->input('PERIODO');
+
+    $urlUltimaPlanilla = 'http://localhost:3000/SHOW_DETALLE_PLANILLA/SELECT_DETALLE_PLANILLA';
+    // Realizar la solicitud HTTP GET
+    $responseUltimaPlanilla = Http::get($urlUltimaPlanilla);
+
+    // Convertir la respuesta JSON en un arreglo asociativo
+    $ultimaPlanilla = $responseUltimaPlanilla->json();
+
+    // Verificar si hay algún registro de planilla
+    if (!empty($ultimaPlanilla)) {
+        // Obtener el último valor de ID_PLANILLA existente
+        $ultimoIDPlanilla = max(array_column($ultimaPlanilla, 'ID_PLANILLA'));
+    } else {
+        // No hay registros de planilla, establecer en 1
+        $ultimoIDPlanilla = null;
+    }
+
+    // Establecer el nuevo ID_PLANILLA
+    $nuevoIDPlanilla = ($ultimoIDPlanilla !== null) ? $ultimoIDPlanilla + 1 : 1;
+
+  
 
     if ($tipoPlanilla == 'ORDINARIA' && ($periodo == 'QUINCENAL' || $periodo == 'MENSUAL')) {
         $diasDiferencia = (new \DateTime($fecFinal))->diff(new \DateTime($fecInicial))->days;
@@ -129,7 +151,7 @@ class PlanillaController extends Controller
         $currentYear = date('Y');
     
         // Calcular la fecha inicial: 1 de junio del año anterior
-        $fechaInicial = ($currentYear - 1) . '-06-01';
+        $fechaInicial = ($currentYear - 1) . '-07-01';
     
         // Calcular la fecha final: 31 de mayo del año actual
         $fechaFinal = $currentYear . '-06-30';
@@ -153,16 +175,14 @@ class PlanillaController extends Controller
     // Loop para enviar cada COD_EMPLEADO a la API
     foreach ($codEmpleadoArray as $codEmpleadoItem) {
         $url = '';
-        
+
         if ($tipoPlanilla == 'ORDINARIA' && ($periodo == 'QUINCENAL' || $periodo == 'MENSUAL')) {
             $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_ORDINARIA';
         } elseif ($tipoPlanilla == 'VACACIONES') {
             $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_VACACIONES';
-        } elseif ($tipoPlanilla == 'AGUINALDO') {
+        } elseif ($tipoPlanilla == 'AGUINALDO' || $tipoPlanilla == 'CATORCEAVO' ) {
             $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_AGUINALDO';
-        } elseif ($tipoPlanilla == 'CATORCEAVO') {
-            $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_CATORCEAVO';
-        } else {
+        }else {
             // Manejar otro tipo de planilla o mostrar un mensaje de error
             // Puedes personalizar esta parte según tus necesidades
             echo "Tipo de planilla no válido";
@@ -170,8 +190,8 @@ class PlanillaController extends Controller
         }
         $response = Http::post($url, [
             "COD_EMPLEADO" => $codEmpleadoItem,
+            "ID_PLANILLA" => $nuevoIDPlanilla,
             "NOMBRE_PLANILLA" => $nombrePlanilla,
-            "DES_PLANILLA" => $desPlanilla,
             "TIPO_PLANILLA" => $tipoPlanilla,
             "FEC_INICIAL" => $fecInicial,
             "FEC_FINAL" => $fecFinal,
@@ -181,15 +201,10 @@ class PlanillaController extends Controller
         // $apiResponse = $response->json();
     }
 
-    if ($tipoPlanilla == 'ORDINARIA') {
+
         return redirect()->route('Planilla.index');
-    } elseif ($tipoPlanilla == 'VACACIONES') {
-        return redirect()->route('PlanillaVacaciones.index');
-    } elseif ($tipoPlanilla == 'AGUINALDO') {
-        return redirect()->route('PlanillaAguinaldo.index');
-    } elseif ($tipoPlanilla == 'CATORCEAVO') {
-        return redirect()->route('PlanillaCatorceavo.index');
-    }
+
+
     // Retornar una respuesta JSON o redirigir según sea necesario
     
 }

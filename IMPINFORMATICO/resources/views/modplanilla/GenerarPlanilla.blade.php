@@ -20,7 +20,7 @@
     <form id="formularioGenerarPlanilla" method="POST" action="{{ route('Post-Planilla.Store') }}"> 
         @csrf
     <div class="container">
-    <div class="row">
+    <div class="row"> 
     <!-- Columna 1: Códigos de Empleados -->
     <div class="col-md-4">
         <div class="mb-3 mt-3">
@@ -40,7 +40,6 @@
                 <option value="" selected disabled>Seleccione una opción</option>
                 <option value="ORDINARIA">ORDINARIA</option>
                 <option value="AGUINALDO">AGUINALDO</option>
-                <option value="CATORCEAVO">CATORCEAVO</option>
             </select>
             <div class="valid-feedback"></div>
         </div>
@@ -52,7 +51,6 @@
             <label for="dni" class="form-label">PERIODO</label>
             <select class="form-control" name="PERIODO" style="width: 100%;" required>
                 <option value="" selected disabled>Seleccione una opción</option>
-                <option value="QUINCENAL">QUINCENAL</option>
                 <option value="MENSUAL">MENSUAL</option>
             </select>
             <div class="valid-feedback"></div>
@@ -70,15 +68,6 @@
                     <span class="validity"></span>
                 </div>
             </div>
-    
-            <div class="col-md-6">
-                <div class="mb-3 mt-3">
-                    <label for="dni" class="form-label">Descripción Planilla</label>
-                    <input type="text" class="form-control alphanumeric-input" pattern="[A-Za-z].{3,}" name="DES_PLANILLA" placeholder="Escriba aquí." required minlength="4" maxlength="20" style="width: 500px;" />
-                    <span class="validity"></span>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-md-6">

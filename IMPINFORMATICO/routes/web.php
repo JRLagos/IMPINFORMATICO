@@ -36,6 +36,7 @@ use App\Http\Controllers\ModuloSeguridad\ContraPerfilController;
 use App\Http\Controllers\ModuloSeguridad\BitacoraController;
 use App\Http\Controllers\ModuloPlanillas\DeduccionController;
 use App\Http\Controllers\ModuloPlanillas\VacacionesEmpleadoController;
+use App\Http\Controllers\ModuloPlanillas\DetallePlanillaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -98,6 +99,10 @@ Route::get('/Generar-Planilla', [PlanillaController::class, 'showGenerarPlanilla
 Route::post('Post-Planilla', [PlanillaController::class, 'store'])->name('Post-Planilla.Store');
 Route::post('/Post-Generar-Planilla' , [PlanillaController::class, 'guardarSelecciones']);
 
+// Detalle Planillas
+Route::get('Detalle-Planilla', [DetallePlanillaController::class, 'index'])->name('DetallePlanilla.index');
+Route::get('/DetallePlanilla/{ID_PLANILLA}', [DetallePlanillaController::class, 'show'])->name('ShowPlanilla.Show');
+Route::post('Post-Detalle-Planilla', [DetallePlanillaController::class, 'store'])->name('PostDetalle.store');
 
 //Reportes
 Route::get('Reportes', [ReportesController::class, 'index'])->name('Reportes.index');

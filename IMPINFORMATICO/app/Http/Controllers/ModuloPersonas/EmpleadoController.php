@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -51,6 +52,16 @@ class EmpleadoController extends Controller
      */
     public function manejarDatos(Request $request)
     {
+        $request->validate([
+            'DNI_PERSONA' => 'required|unique:personas,DNI_PERSONA',
+            'NUM_TELEFONO' => 'required|unique:personas,NUM_TELEFONO',
+        ], [
+            'DNI_PERSONA.unique' => 'El DNI ya está registrado en el sistema.',
+            'DNI_PERSONA.required' => 'El DNI es obligatorio.',
+            'NUM_TELEFONO.unique' => 'El número de teléfono ya está registrado en el sistema.',
+            'NUM_TELEFONO.required' => 'El número de teléfono es obligatorio.',
+        ]);
+
         $sessionToken = $request->session()->get('generated_token');
         // Obtener datos del formulario de Datos Personales
         $datosPersonales = $request->only(['NOM_PERSONA', 'APE_PERSONA', 'DNI_PERSONA', 'TIP_TELEFONO','NUM_TELEFONO', 'SEX_PERSONA'
