@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ModuloPersonas;
 
 use Illuminate\Support\Facades\Http;
 //use Illuminate\Validation\Rule;
+use Carbon\Carbon;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -149,6 +150,11 @@ class PersonaController extends Controller
     // Divide el nombre y el apellido
     list($nombre, $apellido) = explode(' ', $nombreApellido, 2);
 
+        // Convertir la fecha de nacimiento a una instancia de Carbon
+        $fechaNacimiento = Carbon::parse($request->input("FEC_NAC_PERSONA"));
+
+        // Calcular la edad
+        $edad = $fechaNacimiento->age;
 
         $upd_persona = Http::put('http://localhost:3000/UPD_PERSONA/PERSONA/'.$request->input("COD_PERSONA"),[
             "COD_PERSONA" => $request->input('COD_PERSONA'),
@@ -159,7 +165,7 @@ class PersonaController extends Controller
             "TIP_TELEFONO" => $request->input("TIP_TELEFONO"),
             "NUM_TELEFONO" => $request->input("NUM_TELEFONO"),
             "SEX_PERSONA" => $request->input("SEX_PERSONA"),
-            "EDAD_PERSONA" => $request->input("EDAD_PERSONA"),
+            "EDAD_PERSONA" => $edad,
             "FEC_NAC_PERSONA" => $request->input("FEC_NAC_PERSONA"),
             "LUG_NAC_PERSONA" => $request->input("LUG_NAC_PERSONA"),
             "IND_CIVIL" => $request->input("IND_CIVIL"),

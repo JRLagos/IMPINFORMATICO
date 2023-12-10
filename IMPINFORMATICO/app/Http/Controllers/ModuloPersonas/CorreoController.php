@@ -83,7 +83,6 @@ class CorreoController extends Controller
             "COD_CORREO" => $request->input('COD_CORREO'),
             "COD_PERSONA" => $request->input("COD_PERSONA"),
             "CORREO_ELECTRONICO" => $request->input("CORREO_ELECTRONICO"),
-            "DES_CORREO" => $request->input("DES_CORREO"),
         ],[
             'headers' => [
                 'Authorization' => 'Bearer ' . $sessionToken,

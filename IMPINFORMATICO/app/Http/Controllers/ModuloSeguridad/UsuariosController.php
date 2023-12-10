@@ -47,6 +47,7 @@ class UsuariosController extends Controller
         'NOM_USUARIO', 'COD_ROL', 'CONTRASENA', 'EMAIL', 'IND_USUARIO'
     ]);
 
+
     foreach ($CreExist as $existente){
         if($usuarioData['NOM_USUARIO']==$existente['NOM_USUARIO'] || $usuarioData['EMAIL'] == $existente['EMAIL'])
         {

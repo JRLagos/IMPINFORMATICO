@@ -99,23 +99,32 @@ class ParametrosController extends Controller
     $response = Http::get('http://localhost:3000/SHOW_PARAMETROS/SEGURIDAD_PARAMETROS');
     $existingParametros = $response->json();
 
-    // Verificar si el nuevo valor de DES_PARAMETRO ya existe en la base de datos
-    $newDesParametro = $updateParametros['DES_PARAMETRO'];
-    $existingDesParametros = array_column($existingParametros, 'DES_PARAMETRO');
+    // Verificar si el nuevo valor de COD_PARAMETRO ya existe en la base de datos
+    $newCodParametro = $updateParametros['COD_PARAMETRO'];
 
-    if (in_array($newDesParametro, $existingDesParametros)) {
-        // El nuevo valor ya existe, lanzar un error o realizar la acción necesaria
-        return redirect(route('Parametros.index'))->with('error', 'El nuevo valor de DES_PARAMETRO ya existe');
+    // Comprobar si existe un registro con el mismo COD_PARAMETRO
+    $existingParametro = collect($existingParametros)->firstWhere('COD_PARAMETRO', $newCodParametro);
+
+    if ($existingParametro) {
+        // Si existe, permitir la actualización
+        $uptParametros = Http::put(
+            'http://localhost:3000/UPT_PARAMETROS/SEGURIDAD_PARAMETROS/' . $request->input("COD_PARAMETRO"),
+            $updateParametros
+        );
+
+        if ($uptParametros->status() === 200) {
+            // Si el put fue exitoso (código de estado 200 OK), mostrar mensaje de éxito
+            return redirect(route('Parametros.index'))->with('success', 'Operación realizada con éxito');
+        } else {
+            // Si el put no devolvió un código de estado 200, mostrar mensaje de error
+            return redirect(route('Parametros.index'))->with('error', 'No se pudo actualizar el registro. Inténtalo de nuevo.');
+        }
+    } else {
+        // Si no existe, mostrar un mensaje de error
+        return redirect(route('Parametros.index'))->with('error', 'El registro no pudo actualizarse. El COD_PARAMETRO no existe.');
     }
-
-    // Si no hay conflictos, realizar la actualización
-    $uptParametros = Http::put(
-        'http://localhost:3000/UPT_PARAMETROS/SEGURIDAD_PARAMETROS/'.$request->input("COD_PARAMETRO"),
-        $updateParametros
-    );
-
-    return redirect(route('Parametros.index'))->with('success', 'Operación realizada con éxito');
 }
+
 
     /**
      * Remove the specified resource from storage.
