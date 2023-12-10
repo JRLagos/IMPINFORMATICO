@@ -151,7 +151,7 @@ class PlanillaController extends Controller
         $currentYear = date('Y');
     
         // Calcular la fecha inicial: 1 de junio del año anterior
-        $fechaInicial = ($currentYear - 1) . '-06-01';
+        $fechaInicial = ($currentYear - 1) . '-07-01';
     
         // Calcular la fecha final: 31 de mayo del año actual
         $fechaFinal = $currentYear . '-06-30';
@@ -175,16 +175,14 @@ class PlanillaController extends Controller
     // Loop para enviar cada COD_EMPLEADO a la API
     foreach ($codEmpleadoArray as $codEmpleadoItem) {
         $url = '';
-        
+
         if ($tipoPlanilla == 'ORDINARIA' && ($periodo == 'QUINCENAL' || $periodo == 'MENSUAL')) {
             $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_ORDINARIA';
         } elseif ($tipoPlanilla == 'VACACIONES') {
             $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_VACACIONES';
-        } elseif ($tipoPlanilla == 'AGUINALDO') {
+        } elseif ($tipoPlanilla == 'AGUINALDO' || $tipoPlanilla == 'CATORCEAVO' ) {
             $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_AGUINALDO';
-        } elseif ($tipoPlanilla == 'CATORCEAVO') {
-            $url = 'http://localhost:3000/INS_PLANILLA/INS_PLANILLA_CATORCEAVO';
-        } else {
+        }else {
             // Manejar otro tipo de planilla o mostrar un mensaje de error
             // Puedes personalizar esta parte según tus necesidades
             echo "Tipo de planilla no válido";
@@ -203,15 +201,10 @@ class PlanillaController extends Controller
         // $apiResponse = $response->json();
     }
 
-    if ($tipoPlanilla == 'ORDINARIA') {
+
         return redirect()->route('Planilla.index');
-    } elseif ($tipoPlanilla == 'VACACIONES') {
-        return redirect()->route('PlanillaVacaciones.index');
-    } elseif ($tipoPlanilla == 'AGUINALDO') {
-        return redirect()->route('PlanillaAguinaldo.index');
-    } elseif ($tipoPlanilla == 'CATORCEAVO') {
-        return redirect()->route('PlanillaCatorceavo.index');
-    }
+
+
     // Retornar una respuesta JSON o redirigir según sea necesario
     
 }
