@@ -17,6 +17,10 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
+        <!-- Bootstrap CSS -->
+       <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+
     @php
         $usuario = session('credenciales');
         $usuarioRol = session('nombreRol');
@@ -463,14 +467,15 @@
                     
                     <!-- Modal for editing goes here -->
                     <div class="modal fade bd-example-modal-sm" id="UpdPersona-{{ $Persona['COD_PERSONA'] }}"
-                        tabindex="-1">
-                        <div class="modal-dialog">
+                    role="dialog" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Persona</b></h4>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="updateModalLabel">Actualizar Información</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                               </button>
+                              </div>
 
                                 <div class="modal-body">
                                     <form action="{{ route('Upd-Persona.update') }}" method="post"
@@ -480,15 +485,13 @@
                                         <input type="hidden" class="form-control" name="COD_PERSONA"
                                             value="{{ $Persona['COD_PERSONA'] }}">
 
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="nombre_apellido" value="{{ $Persona['NOMBRE_COMPLETO'] }}" required
-                                                maxlength="50">
-                                        </div>
+                                            <div class="mb-3">
+                        <label for="nombreApellido" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreApellido" name="nombre_apellido" pattern=".{3,}" value="{{ $Persona['NOMBRE_COMPLETO'] }}" required maxlength="50">
+                       </div>
 
 
-                                        <div class="mb-3 mt-3">
+                                        <div class="mb-3">
                                             <label for="dni" class="form-label">DNI</label>
                                             <input type="number" class="form-control" name="DNI_PERSONA"
                                                 value="{{ $Persona['DNI_PERSONA'] }}" required
@@ -498,49 +501,27 @@
 
 
                                         <div class="mb-3 mt-3">
-                                            <label for="TIP_TELEFONO" class="form-label">Tipo de Télefono</label>
-                                            <select class="form-control" name="TIP_TELEFONO" required>
-                                                <option value="" style="display: none;" disabled>Seleccione una
-                                                    opción</option>
-                                                <option value="Fijo"
-                                                    {{ $Persona['TIP_TELEFONO'] === 'Fijo' ? 'selected' : '' }}>Fijo
-                                                </option>
-                                                <option value="Celular"
-                                                    {{ $Persona['TIP_TELEFONO'] === 'Celular' ? 'selected' : '' }}>Celular
-                                                </option>
-                                            </select>
-                                            <div class="valid-feedback"></div>
-                                        </div>
-
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Número Télefono</label>
+                                            <label for="dni" class="form-label">Teléfono </label>
                                             <input type="number" class="form-control" name="NUM_TELEFONO"
                                                 value="{{ $Persona['NUM_TELEFONO'] }}" required
                                                 oninput="validateNUMERO(this)">
                                         </div>
 
                                         <div class="mb-3 mt-3">
-                                            <label for="TIP_TELEFONO" class="form-label">SEXO</label>
+                                            <label for="TIP_TELEFONO" class="form-label">Sexo</label>
                                             <select class="form-control" name="SEX_PERSONA" required>
                                                 <option value="" style="display: none;" disabled>Seleccione una
                                                     opción</option>
                                                 <option value="Masculino"
-                                                    {{ $Persona['SEX_PERSONA'] === 'Masculino' ? 'selected' : '' }}>
+                                                    {{ $Persona['SEX_PERSONA'] === 'MASCULINO' ? 'selected' : '' }}>
                                                     Masculino</option>
                                                 <option value="Femenino"
-                                                    {{ $Persona['SEX_PERSONA'] === 'Femenino' ? 'selected' : '' }}>Femenino
+                                                    {{ $Persona['SEX_PERSONA'] === 'FEMENINO' ? 'selected' : '' }}>Femenino
                                                 </option>
                                             </select>
                                             <div class="valid-feedback"></div>
                                         </div>
 
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Edad</label>
-                                            <input type="number" class="form-control" name="EDAD_PERSONA"
-                                                value="{{ $Persona['EDAD_PERSONA'] }}" required>
-                                        </div>
 
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Fecha de Nacimiento</label>

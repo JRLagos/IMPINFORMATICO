@@ -166,8 +166,8 @@
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Municipio</th>
                     <th style="text-align: center;">Departamento</th>
+                    <th style="text-align: center;">Municipio</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
@@ -182,8 +182,9 @@
                 @foreach ($ResulMunicipio as $Municipio)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
+                        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
+
 
                         <td style="text-align: center;">
                        
