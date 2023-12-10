@@ -127,6 +127,12 @@
 
                     <div class="mb-3 mt-3">
     <label class="form-label">Permisos</label>
+
+    <div class="form-check">
+        <input type="hidden" name="permisoHidden_PER_CONSULTAR" value="0">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_CONSULTAR" value="1">
+        <label class="form-check-label">Permiso Consultar</label>
+    </div>
     
     <div class="form-check">
         <input type="hidden" name="permisoHidden_PER_INSERTAR" value="0">
@@ -135,22 +141,17 @@
     </div>
     
     <div class="form-check">
+        <input type="hidden" name="permisoHidden_PER_ACTUALIZAR" value="0">
+        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ACTUALIZAR" value="1">
+        <label class="form-check-label">Permiso Actualizar</label>
+    </div>
+
+    <div class="form-check">
         <input type="hidden" name="permisoHidden_PER_ELIMINAR" value="0">
         <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ELIMINAR" value="1">
         <label class="form-check-label">Permiso Eliminar</label>
     </div>
     
-    <div class="form-check">
-        <input type="hidden" name="permisoHidden_PER_ACTUALIZAR" value="0">
-        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_ACTUALIZAR" value="1">
-        <label class="form-check-label">Permiso Actualizar</label>
-    </div>
-    
-    <div class="form-check">
-        <input type="hidden" name="permisoHidden_PER_CONSULTAR" value="0">
-        <input type="checkbox" class="form-check-input permiso-checkbox" name="PER_CONSULTAR" value="1">
-        <label class="form-check-label">Permiso Consultar</label>
-    </div>
 </div>
 
             </div>
@@ -172,10 +173,10 @@
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Rol</th>
                     <th style="text-align: center;">Objeto</th>
-                    <th style="text-align: center;">Insertar</th>
-                    <th style="text-align: center;">Eliminar</th>
-                    <th style="text-align: center;">Actualizar</th>
                     <th style="text-align: center;">Consultar</th>
+                    <th style="text-align: center;">Insertar</th>
+                    <th style="text-align: center;">Actualizar</th>
+                    <th style="text-align: center;">Eliminar</th>
                     <th style="text-align: center;">Acción</th>
                 </tr>
             </thead>
@@ -186,16 +187,16 @@
                         <td style="text-align: center;">{{ $Permisos['NOM_ROL'] }}</td>
                         <td style="text-align: center;">{{ $Permisos['NOM_OBJETO'] }}</td>
                         <td style="text-align: center;">
-                            <input type="checkbox" disabled @if ($Permisos['PER_INSERTAR'] == '1') checked @endif>
+                            <input type="checkbox" disabled @if ($Permisos['PER_CONSULTAR'] == '1') checked @endif>
                         </td>
                         <td style="text-align: center;">
-                            <input type="checkbox" disabled @if ($Permisos['PER_ELIMINAR'] == '1') checked @endif>
+                            <input type="checkbox" disabled @if ($Permisos['PER_INSERTAR'] == '1') checked @endif>
                         </td>
                         <td style="text-align: center;">
                             <input type="checkbox" disabled @if ($Permisos['PER_ACTUALIZAR'] == '1') checked @endif>
                         </td>
                         <td style="text-align: center;">
-                            <input type="checkbox" disabled @if ($Permisos['PER_CONSULTAR'] == '1') checked @endif>
+                            <input type="checkbox" disabled @if ($Permisos['PER_ELIMINAR'] == '1') checked @endif>
                         </td>
                         <td style="text-align: center;">
                             @php
@@ -237,15 +238,15 @@
                     </div>
 
                     <div class="mb-3 mt-3 form-check">
-                        <input type="hidden" name="PER_INSERTAR" value="0">
-                        <input type="checkbox" class="form-check-input" name="PER_INSERTAR" value="1" @if ($Permisos['PER_INSERTAR'] == 1) checked @endif>
-                        <label class="form-check-label" for="dni">Permiso Insertar</label>
+                        <input type="hidden" name="PER_CONSULTAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_CONSULTAR" value="1" @if ($Permisos['PER_CONSULTAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Consultar</label>
                     </div>
 
                     <div class="mb-3 mt-3 form-check">
-                        <input type="hidden" name="PER_ELIMINAR" value="0">
-                        <input type="checkbox" class="form-check-input" name="PER_ELIMINAR" value="1" @if ($Permisos['PER_ELIMINAR'] == 1) checked @endif>
-                        <label class="form-check-label" for="dni">Permiso Eliminar</label>
+                        <input type="hidden" name="PER_INSERTAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_INSERTAR" value="1" @if ($Permisos['PER_INSERTAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Insertar</label>
                     </div>
 
                     <div class="mb-3 mt-3 form-check">
@@ -255,9 +256,9 @@
                     </div>
 
                     <div class="mb-3 mt-3 form-check">
-                        <input type="hidden" name="PER_CONSULTAR" value="0">
-                        <input type="checkbox" class="form-check-input" name="PER_CONSULTAR" value="1" @if ($Permisos['PER_CONSULTAR'] == 1) checked @endif>
-                        <label class="form-check-label" for="dni">Permiso Consultar</label>
+                        <input type="hidden" name="PER_ELIMINAR" value="0">
+                        <input type="checkbox" class="form-check-input" name="PER_ELIMINAR" value="1" @if ($Permisos['PER_ELIMINAR'] == 1) checked @endif>
+                        <label class="form-check-label" for="dni">Permiso Eliminar</label>
                     </div>
 
                     <div class="modal-footer">

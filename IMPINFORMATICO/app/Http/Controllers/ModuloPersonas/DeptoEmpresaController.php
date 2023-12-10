@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Http\Response;
 
+use Illuminate\Support\Facades\DB;
+
 class DeptoEmpresaController extends Controller
 {
     /**
@@ -45,7 +47,13 @@ class DeptoEmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        {
+        
+            $request->validate([
+                'NOM_DEPTO_EMPRESA' => 'required|unique:DEPARTAMENTOS_EMPRESA,NOM_DEPTO_EMPRESA|max:255',
+            ], [
+                'NOM_DEPTO_EMPRESA.unique' => 'El departamento ya existe.',
+                'NOM_DEPTO_EMPRESA.required' => 'El nombre del departamento es obligatorio.',
+            ]);
             // Obtenter el token generado y guardado en la sesión
             $sessionToken = $request->session()->get('generated_token');
             $DeptoEmpresa = $request->all();
@@ -57,7 +65,7 @@ class DeptoEmpresaController extends Controller
             ]);
     
             return redirect(route('DeptoEmpresa.index'))->with('success', 'Datos ingresados con éxito.');
-        }
+        
     }
 
     /**
@@ -81,16 +89,27 @@ class DeptoEmpresaController extends Controller
      */
     public function update(Request $request)
     {
-         // Obtenter el token generado y guardado en la sesión
-         $sessionToken = $request->session()->get('generated_token');
+            // Validar la entrada del formulario
+    $request->validate([
+        'NOM_DEPTO_EMPRESA' => 'required|string|max:50',
+        'DES_DEPTO_EMPRESA' => 'required|string|max:50',
+    ]);
+
+    // Verificar si ya existe una sucursal con el mismo nombre
+    $existingSucursal = DB::table('DEPARTAMENTOS_EMPRESA')
+        ->where('NOM_DEPTO_EMPRESA', $request->input('NOM_DEPTO_EMPRESA'))
+        ->where('COD_DEPTO_EMPRESA', '!=', $request->input('COD_DEPTO_EMPRESA')) // Excluir la sucursal actual
+        ->first();
+
+    // Si existe, mostrar mensaje de error y redirigir
+    if ($existingSucursal) {
+        return redirect()->back()->withErrors(['NOM_SUCURSAL' => 'Ya existe un Departamento con este nombre.']);
+    }
+
         $upd_municipio = Http::put('http://localhost:3000/UPD_DEPTO_EMPRESA/DEPARTAMENTO EMPRESA/'.$request->input("COD_DEPTO_EMPRESA"),[
             "COD_DEPTO_EMPRESA" => $request->input('COD_DEPTO_EMPRESA'),
             "NOM_DEPTO_EMPRESA" => $request->input("NOM_DEPTO_EMPRESA"),
             "DES_DEPTO_EMPRESA" => $request->input("DES_DEPTO_EMPRESA"),
-        ],[
-            'headers' => [
-                'Authorization' => 'Bearer ' . $sessionToken,
-            ],
         ]);
         
         return redirect(route('DeptoEmpresa.index'))->with('success', 'La actualización se ha realizado con éxito.');

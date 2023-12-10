@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.7.3/dist/js/bootstrap.bundle.min.js"></script>
 
     @php
     $usuario = session('credenciales');
@@ -103,16 +104,31 @@
         {{ session('success') }}
     </div>
 @endif
+
+
+@php
+$sumSBruto = 0;
+$sumHorasExtras = 0;
+$sumIHSS = 0;
+$sumRAP = 0;
+$sumISR = 0;
+$sumSNeto = 0;
+$lastIDPlanilla = null;
+$lastNombrePlanilla = null;
+$lastFecInicial = null;
+$lastFecFinal = null;
+@endphp
     
 
     <!-- /.card-header -->
-    <div class="table-responsive p-0">
-        <br>
-        <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
+    <div class="table-responsive p-0" style="max-height: 600px; overflow-y: auto;">
+    <br>
+    <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Empleado</th>
+                    <th style="text-align: center;">ID</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
                     <th style="text-align: center;">Hora Extras</th>
@@ -120,9 +136,9 @@
                     <th style="text-align: center;">RAP</th>
                     <th style="text-align: center;">ISR</th>
                     <th style="text-align: center;">S.Neto</th>
-                    <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>
+                    <th style="text-align: center;">PAGADA</th>
                 </tr>
             </thead>
             <tbody>
@@ -136,6 +152,7 @@
     <tr class="fila-planilla">
         <td>{{ $loop->iteration }}</td>
         <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
+        <td>{{ $Planilla['ID_PLANILLA'] }}</td>
         <td>{{ $Planilla['NOMBRE_PLANILLA'] }}</td>
         <td>{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
         <td>{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
@@ -143,17 +160,170 @@
         <td>{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
         <td>{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
         <td>{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_PAGO'])) }}</td>
         <td>{{ date('d-m-Y', strtotime($Planilla['FEC_INICIAL'])) }}</td>
         <td>{{ date('d-m-Y', strtotime($Planilla['FEC_FINAL'])) }}</td>
+        <td>
+            @if($Planilla['PAGADO'] == 0)
+                <span style="color: red;">No Pagada</span>
+            @elseif($Planilla['PAGADO'] == 1)
+                <span style="color: green;">Pagada</span>
+            @else
+                {{ $Planilla['PAGADO'] }}
+            @endif
+        </td>
     </tr>
+
+    @php
+    // Obtener el último ID_PLANILLA automáticamente
+    $lastIDPlanilla = $Planilla['ID_PLANILLA'];
+
+    // Sumar los valores de cada columna solo para el último ID_PLANILLA
+    if ($Planilla['ID_PLANILLA'] == $lastIDPlanilla) {
+        $sumSBruto += $Planilla['SAL_BRUTO'];
+        $sumHorasExtras += $Planilla['HORAS_EXTRAS'];
+        $sumIHSS += $Planilla['IHSS'];
+        $sumRAP += $Planilla['RAP'];
+        $sumISR += $Planilla['ISR'];
+        $sumSNeto += $Planilla['SAL_NETO'];
+        $lastNombrePlanilla = $Planilla['NOMBRE_PLANILLA'];
+        $lastTipoPlanilla = $Planilla['TIPO_PLANILLA'];
+        $lastFecFinal = $Planilla['FEC_FINAL'];
+    }
+    @endphp
 @endforeach
 @endif
             </tbody>
         </table>
     </div>
+    
+    <h2 style="text-align: center; margin-top: 20px;"><b>Total a Pagar</b></h2>
+    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+        
+    @if (!empty($lastIDPlanilla))
+    <div style="display: flex; align-items: center; justify-content: center;">
+        <div class="result-container" style="margin: 10px;">
+            <label>Sario Bruto:</label>
+            <input type="text" readonly value="{{ number_format($sumSBruto, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </div>
 
+        <div class="result-container" style="margin: 10px;">
+            <label>Hora Extras:</label>
+            <input type="text" readonly value="{{ number_format($sumHorasExtras, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </div>
 
+        <div class="result-container" style="margin: 10px;">
+            <label>IHSS:</label>
+            <input type="text" readonly value="{{ number_format($sumIHSS, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </div>
+
+        <div class="result-container" style="margin: 10px;">
+            <label>RAP:</label>
+            <input type="text" readonly value="{{ number_format($sumRAP, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </div>
+
+        <div class="result-container" style="margin: 10px;">
+            <label>ISR:</label>
+            <input type="text" readonly value="{{ number_format($sumISR, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </div>
+
+        <div class="result-container" style="margin: 10px;">
+            <label>Salario Neto:</label>
+            <input type="text" readonly value="{{ number_format($sumSNeto, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </div>
+    </div>
+    @endif
+        @php
+        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
+        @endphp
+        <button
+            class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
+            data-bs-toggle="modal" data-bs-target="#pagarPlanilla" type="button"><b>Pagar Planilla</b></button>
+    </div>
+
+    <!-- Modal para agregar un nuevo Departamento -->
+    <div class="modal fade bd-example-modal-sm" id="pagarPlanilla" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3><b>Desea Pagar la Planilla</b></h3>
+                    <button class="btn btn-close " data-bs-dismiss="modal"></button>
+
+                </div>
+                <div class="modal-body">
+
+                    <form action="{{route('PostDetalle.store')}}" method="post" class="was-validated">
+                        @csrf
+
+                        <div class="row justify-content-center">
+
+                            <!-- First Column -->
+                            <div class="col-md-6 mb-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label">Fecha Pago</label>
+                                    <input type="date" class="form-control alphanumeric-input" name="FEC_PAGO" style="width: 175px; text-align: center;" required>
+                                    <span class="validity"></span>
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Concepto</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="CONCEPTO" readonly value="{{$lastNombrePlanilla ?? 'N/A' }}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Total Salario Bruto</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_SALB_BRUTO" readonly value="{{$sumSBruto}}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Total Horas Extras</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_HORAS_EXTRAS" readonly value="{{$sumHorasExtras}}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Total IHSS</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_IHSS" readonly value="{{$sumIHSS}}" style="width: 150px; text-align: center;">
+                                </div>
+                            </div>
+
+                            <!-- Second Column -->
+                            <div class="col-md-6 mb-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Tipo Planilla</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="TIPO_PLANILLA" readonly value="{{$lastTipoPlanilla ?? 'N/A' }}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>ID Planilla</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="ID_PLANILLA" readonly value="{{$lastIDPlanilla}}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Total RAP</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_RAP" readonly value="{{$sumRAP}}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Total ISR</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_ISR" readonly value="{{$sumISR}}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Total Salario Neto</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_SAL_NETO" readonly value="{{ $sumSNeto}}" style="width: 150px; text-align: center;">
+                                </div>
+                            </div>    
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger " data-bs-dismiss="modal"><b>CERRAR</b></button>
+                            <button class="btn btn-primary" type="submit" data-bs-dismiss="modal"><b>ACEPTAR</b></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 @stop
 
     @section('footer')
@@ -168,6 +338,19 @@
 
 </body>
 </html>
+
+<script>
+    // Función para cerrar el modal
+    function cerrarModal() {
+        // Cierra el modal utilizando Bootstrap
+        $('#pagarPlanilla').modal('hide');
+    }
+
+    // Agrega un evento al formulario para cerrar el modal después de enviar
+    document.getElementById('miFormulario').addEventListener('submit', function () {
+        cerrarModal();
+    });
+</script>
 
 
 @section('js')

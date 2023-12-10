@@ -75,9 +75,7 @@
 
 @section('content')
 
-
     <!-- Modal para agregar un nuevo producto -->
-
 
     @if (session('success'))
         <div class="alert alert-warning alert-dismissible fade show">
@@ -103,13 +101,11 @@
                 </tr>
             </thead>
             <tbody>
+                @php
+                    // Verificar si el usuario tiene permiso de lectura para este objeto
+                    $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+                @endphp
 
-            @php
-            // Verificar si el usuario tiene permiso de lectura para este objeto
-            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
-            @endphp
-
-            @if ($permisoLectura)
                 @foreach ($ResulVacacionesEm as $VacacionesEm)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -119,63 +115,63 @@
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
                         <td style="text-align: center;">
-                        @php
-                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
-                        @endphp
-                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
-                                data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
-                        @else
-                            <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
-                            <span style="color: red;">Sin días disponibles</span>
-                        @endif
-                    </td>
-                </tr>
-                    <!-- Modal for editing goes here -->
-                    <div class="modal fade bd-example-modal-sm" id="UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}"
-                        tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><b>Usar Vacaciones</b></h4>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('Upd-VacacionesEmpleados.update') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
 
-                                        <input type="hidden" class="form-control" name="COD_VACACIONES"
-                                            value="{{ $VacacionesEm['COD_VACACIONES'] }}">
-
-                                    
-                                            <div class="mb-3 mt-3">
-                                                <label for="dni" class="form-label">Dias Usados de Vacaciones</label>
-                                                <input type="number" class="form-control validate-dias-usados" name="DIAS_USADOS" id="diasUsados" value="{{ $VacacionesEm['DIAS_USADOS'] }}" required
-                                                    maxlength="50" placeholder="Escriba aquí.">
+                            @php
+                                $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                            @endphp
+                            @if ($permisoLectura)
+                                <button value="Editar" title="Editar"
+                                    class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif"
+                                    type="button" data-toggle="modal"
+                                    data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
+                                    <i class='fas fa-edit' style='font-size:20px;'></i>
+                                </button>
+                                <!-- Modal for editing goes here -->
+                                <div class="modal fade bd-example-modal-sm"
+                                    id="UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title"><b>Usar Vacaciones</b></h4>
+                                                <button type="button" class="btn-close" data-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
-                                            
-                                            
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                            <div class="modal-body">
+                                                <form action="{{ route('Upd-VacacionesEmpleados.update') }}"
+                                                    method="post" class="was-validated">
+                                                    @csrf
+                                                    <input type="hidden" class="form-control" name="COD_VACACIONES"
+                                                        value="{{ $VacacionesEm['COD_VACACIONES'] }}">
+                                                    <div class="mb-3 mt-3">
+                                                        <label for="dni" class="form-label">Dias Usados de
+                                                            Vacaciones</label>
+                                                        <input type="number" class="form-control validate-dias-usados"
+                                                            name="DIAS_USADOS" id="diasUsados"
+                                                            value="{{ $VacacionesEm['DIAS_USADOS'] }}" required
+                                                            maxlength="50" placeholder="Escriba aquí.">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal"><b>CERRAR</b></button>
+                                                        <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
+                            @else
+                                <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
+                                <span style="color: red;">Sin días disponibles</span>
+                            @endif
+                        </td>
+                    </tr>
                 @endforeach
-                @endif
             </tbody>
         </table>
-    </div>    
-    @stop
+    </div>
+@stop
+
 
     @section('footer')
 

@@ -89,13 +89,35 @@ class PlanillaController extends Controller
 {
     // Validar los datos del formulario si es necesario
 
+
+
     // Extract data from the request
     $nombrePlanilla = $request->input('NOMBRE_PLANILLA');
-    $desPlanilla = $request->input('DES_PLANILLA');
     $tipoPlanilla = $request->input('TIPO_PLANILLA');
     $fecInicial = $request->input('FEC_INICIAL');
     $fecFinal = $request->input('FEC_FINAL');
     $periodo = $request->input('PERIODO');
+
+    $urlUltimaPlanilla = 'http://localhost:3000/SHOW_DETALLE_PLANILLA/SELECT_DETALLE_PLANILLA';
+    // Realizar la solicitud HTTP GET
+    $responseUltimaPlanilla = Http::get($urlUltimaPlanilla);
+
+    // Convertir la respuesta JSON en un arreglo asociativo
+    $ultimaPlanilla = $responseUltimaPlanilla->json();
+
+    // Verificar si hay algún registro de planilla
+    if (!empty($ultimaPlanilla)) {
+        // Obtener el último valor de ID_PLANILLA existente
+        $ultimoIDPlanilla = max(array_column($ultimaPlanilla, 'ID_PLANILLA'));
+    } else {
+        // No hay registros de planilla, establecer en 1
+        $ultimoIDPlanilla = null;
+    }
+
+    // Establecer el nuevo ID_PLANILLA
+    $nuevoIDPlanilla = ($ultimoIDPlanilla !== null) ? $ultimoIDPlanilla + 1 : 1;
+
+  
 
     if ($tipoPlanilla == 'ORDINARIA' && ($periodo == 'QUINCENAL' || $periodo == 'MENSUAL')) {
         $diasDiferencia = (new \DateTime($fecFinal))->diff(new \DateTime($fecInicial))->days;
@@ -170,8 +192,8 @@ class PlanillaController extends Controller
         }
         $response = Http::post($url, [
             "COD_EMPLEADO" => $codEmpleadoItem,
+            "ID_PLANILLA" => $nuevoIDPlanilla,
             "NOMBRE_PLANILLA" => $nombrePlanilla,
-            "DES_PLANILLA" => $desPlanilla,
             "TIPO_PLANILLA" => $tipoPlanilla,
             "FEC_INICIAL" => $fecInicial,
             "FEC_FINAL" => $fecFinal,

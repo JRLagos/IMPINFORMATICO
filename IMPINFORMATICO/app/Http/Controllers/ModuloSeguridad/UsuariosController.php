@@ -47,6 +47,7 @@ class UsuariosController extends Controller
         'NOM_USUARIO', 'COD_ROL', 'CONTRASENA', 'EMAIL', 'IND_USUARIO'
     ]);
 
+
     foreach ($CreExist as $existente){
         if($usuarioData['NOM_USUARIO']==$existente['NOM_USUARIO'] || $usuarioData['EMAIL'] == $existente['EMAIL'])
         {
@@ -57,7 +58,7 @@ class UsuariosController extends Controller
     $hashedPassword = Hash::make($usuarioData['CONTRASENA']);
 
     $usuarioData['CONTRASENA'] = $hashedPassword;
-    $usuarioNombre=strtoupper(UsuarioData['NOM_USUARIO']);
+    $usuarioNombre=strtoupper($usuarioData['NOM_USUARIO']);
 
 
     // Realizar la solicitud HTTP sin incluir el token
