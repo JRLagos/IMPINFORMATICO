@@ -40,7 +40,6 @@
                 <option value="" selected disabled>Seleccione una opción</option>
                 <option value="ORDINARIA">ORDINARIA</option>
                 <option value="AGUINALDO">AGUINALDO</option>
-                <option value="CATORCEAVO">CATORCEAVO</option>
             </select>
             <div class="valid-feedback"></div>
         </div>

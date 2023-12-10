@@ -64,7 +64,7 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-    <h1><b>Planillas Catorceavo</b></h1>
+    <h1><b>Planillas Por Detalle</b></h1>
         @php
         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
@@ -110,16 +110,21 @@
         <br>
         <table id="planilla" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
-                <tr>
+            <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Empleado</th>
+                    <th style="text-align: center;">ID</th>
                     <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
-                    <th style="text-align: center;">Catorceavo</th>
+                    <th style="text-align: center;">Suma Salario</th>
+                    <th style="text-align: center;">Hora Extras</th>
+                    <th style="text-align: center;">IHSS</th>
+                    <th style="text-align: center;">RAP</th>
+                    <th style="text-align: center;">ISR</th>
                     <th style="text-align: center;">S.Neto</th>
-                    <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>
+                    <th style="text-align: center;">PAGADA</th>
                 </tr>
             </thead>
             <tbody>
@@ -129,18 +134,31 @@
             @endphp
 
             @if ($permisoLectura)
-            @foreach ($ResulPlanillaCatorceavo as $PlanillaCatorceavo)
-                <tr class="fila-planilla">
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $PlanillaCatorceavo['NOMBRE_COMPLETO'] }}</td>
-                    <td>{{ $PlanillaCatorceavo['NOMBRE_PLANILLA'] }}</td>
-                    <td>{{ number_format($PlanillaCatorceavo['SAL_BRUTO'], 2, '.', ',') }}</td>
-                    <td>{{ number_format($PlanillaCatorceavo['CATORCEAVO'], 2, '.', ',') }}</td>
-                    <td>{{ number_format($PlanillaCatorceavo['SAL_NETO'], 2, '.', ',') }}</td>
-                    <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_PAGO'])) }}</td>
-                    <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_INICIAL'])) }}</td>
-                    <td>{{ date('d-m-Y', strtotime($PlanillaCatorceavo['FEC_FINAL'])) }}</td>
-                </tr>
+            @foreach ($ResulDetallePlanillaUno as $DetallePlanillaUno)
+    <tr class="fila-planilla">
+        <td style="text-align: center;">{{ $loop->iteration }}</td>
+        <td style="text-align: center;">{{ $DetallePlanillaUno['NOMBRE_COMPLETO'] }}</td>
+        <td style="text-align: center;">{{ $DetallePlanillaUno['ID_PLANILLA'] }}</td>
+        <td style="text-align: center;">{{ $DetallePlanillaUno['NOMBRE_PLANILLA'] }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['SAL_BRUTO'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['AGUINALDO'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['HORAS_EXTRAS'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['IHSS'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['RAP'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['ISR'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($DetallePlanillaUno['SAL_NETO'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ date('d-m-Y', strtotime($DetallePlanillaUno['FEC_INICIAL'])) }}</td>
+        <td style="text-align: center;">{{ date('d-m-Y', strtotime($DetallePlanillaUno['FEC_FINAL'])) }}</td>
+        <td style="text-align: center;">
+    @if($DetallePlanillaUno['PAGADO'] == 0)
+        <span style="color: red;">&#10007;</span> <!-- X roja -->
+    @elseif($DetallePlanillaUno['PAGADO'] == 1)
+        <span style="color: green;">&#10003;</span> <!-- Check verde -->
+    @else
+        {{ $DetallePlanillaUno['PAGADO'] }}
+    @endif
+</td>
+    </tr>
             @endforeach
             @endif
             </tbody>
