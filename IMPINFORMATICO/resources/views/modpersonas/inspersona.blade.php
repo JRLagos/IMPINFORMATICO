@@ -12,6 +12,16 @@
 @stop
 
 @section('content')
+@if ($errors->any())
+<div class="alert alert-danger">
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
+
 <form id="formularioPrincipal" action="{{ route('Post-Persona.store') }}" method="post" class="was-validated">
  @csrf
 
@@ -34,8 +44,26 @@
                     <label for="dni" class="form-label" style="font-weight: normal;">DNI</label>
                     <x-adminlte-input type="number" class="form-control" name="DNI_PERSONA" placeholder="Ingrese su DNI de 13 dígitos" required oninput="validateDNI(this)"/>
                     <div class="invalid-feedback">Por favor, ingresa un DNI válido de 13 dígitos.</div>
+                   </div>
                 </div>
-            </div>
+                <script>
+                                function validateDNI(input) {
+                                    const value = input.value;
+                                    const maxLength = 13;
+
+                                    if (value.length > maxLength) {
+                                        input.value = value.slice(0, maxLength);
+                                    }
+
+                                    if (value.length === maxLength) {
+                                        input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                                    } else {
+                                        input.setCustomValidity("El DNI debe tener 13 dígitos.");
+                                    }
+                                }
+                            </script>
+
+            
 
             <!-- Segunda Fila -->
             <div class="row mb-3">
@@ -63,6 +91,23 @@
                     <label for="numeroTelefono" class="form-label" style="font-weight: normal;">Número Teléfono</label>
                     <input type="number" class="form-control" name="NUM_TELEFONO" required oninput="validateNUMERO(this)">
                 </div>
+                <script>
+                                function validateNUMERO(input) {
+                                    const value = input.value;
+                                    const maxLength = 8;
+
+                                    if (value.length > maxLength) {
+                                        input.value = value.slice(0, maxLength);
+                                    }
+
+                                    if (value.length === maxLength) {
+                                        input.setCustomValidity(""); // Limpiar el mensaje de error personalizado
+                                    } else {
+                                        input.setCustomValidity("El NUMERO debe tener 8 dígitos.");
+                                    }
+                                }
+                            </script>
+
                 
                 <div class="col-md-4">
                     <label for="email" class="form-label" style="font-weight: normal;">Correo Electrónico</label>

@@ -65,7 +65,7 @@
     @endphp
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-    <h1><b>Planilla Ordinarias</b></h1>
+    <h1><b>Planillas</b></h1>
         @php
         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
@@ -106,6 +106,7 @@
 @endif
 
 
+
 @php
 $sumSBruto = 0;
 $sumHorasExtras = 0;
@@ -113,6 +114,8 @@ $sumIHSS = 0;
 $sumRAP = 0;
 $sumISR = 0;
 $sumSNeto = 0;
+$sumAgui = 0;
+$sumCator = 0;
 $lastIDPlanilla = null;
 $lastNombrePlanilla = null;
 $lastFecInicial = null;
@@ -128,17 +131,16 @@ $lastFecFinal = null;
                 <tr>
                     <th style="text-align: center;">#</th>
                     <th style="text-align: center;">Empleado</th>
-                    <th style="text-align: center;">ID</th>
-                    <th style="text-align: center;">Nombre</th>
                     <th style="text-align: center;">S.Bruto</th>
                     <th style="text-align: center;">Hora Extras</th>
+                    <th style="text-align: center;">Suma Salarios</th>
                     <th style="text-align: center;">IHSS</th>
                     <th style="text-align: center;">RAP</th>
                     <th style="text-align: center;">ISR</th>
                     <th style="text-align: center;">S.Neto</th>
                     <th style="text-align: center;">Desde</th>
                     <th style="text-align: center;">Hasta</th>
-                    <th style="text-align: center;">PAGADA</th>
+                    <th style="text-align: center;">Pago</th>
                 </tr>
             </thead>
             <tbody>
@@ -150,27 +152,26 @@ $lastFecFinal = null;
             @if ($permisoLectura)
             @foreach ($ResulPlanilla as $Planilla)
     <tr class="fila-planilla">
-        <td>{{ $loop->iteration }}</td>
-        <td>{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
-        <td>{{ $Planilla['ID_PLANILLA'] }}</td>
-        <td>{{ $Planilla['NOMBRE_PLANILLA'] }}</td>
-        <td>{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['IHSS'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
-        <td>{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_INICIAL'])) }}</td>
-        <td>{{ date('d-m-Y', strtotime($Planilla['FEC_FINAL'])) }}</td>
-        <td>
-            @if($Planilla['PAGADO'] == 0)
-                <span style="color: red;">No Pagada</span>
-            @elseif($Planilla['PAGADO'] == 1)
-                <span style="color: green;">Pagada</span>
-            @else
-                {{ $Planilla['PAGADO'] }}
-            @endif
-        </td>
+        <td style="text-align: center;">{{ $loop->iteration }}</td>
+        <td style="text-align: center;">{{ $Planilla['NOMBRE_COMPLETO'] }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['SAL_BRUTO'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['HORAS_EXTRAS'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['AGUINALDO'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['IHSS'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['RAP'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['ISR'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ number_format($Planilla['SAL_NETO'], 2, '.', ',') }}</td>
+        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Planilla['FEC_INICIAL'])) }}</td>
+        <td style="text-align: center;">{{ date('d-m-Y', strtotime($Planilla['FEC_FINAL'])) }}</td>
+        <td style="text-align: center;">
+    @if($Planilla['PAGADO'] == 0)
+        <span style="color: red;">&#10007;</span> <!-- X roja -->
+    @elseif($Planilla['PAGADO'] == 1)
+        <span style="color: green;">&#10003;</span> <!-- Check verde -->
+    @else
+        {{ $Planilla['PAGADO'] }}
+    @endif
+</td>
     </tr>
 
     @php
@@ -185,6 +186,8 @@ $lastFecFinal = null;
         $sumRAP += $Planilla['RAP'];
         $sumISR += $Planilla['ISR'];
         $sumSNeto += $Planilla['SAL_NETO'];
+        $sumAgui += $Planilla['AGUINALDO'];
+        $sumCator += $Planilla['CATORCEAVO'];
         $lastNombrePlanilla = $Planilla['NOMBRE_PLANILLA'];
         $lastTipoPlanilla = $Planilla['TIPO_PLANILLA'];
         $lastFecFinal = $Planilla['FEC_FINAL'];
@@ -197,45 +200,50 @@ $lastFecFinal = null;
     </div>
     
     <h2 style="text-align: center; margin-top: 20px;"><b>Total a Pagar</b></h2>
-    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        
+    <div class="d-flex justify-content-around align-items-center">
     @if (!empty($lastIDPlanilla))
-    <div style="display: flex; align-items: center; justify-content: center;">
-        <div class="result-container" style="margin: 10px;">
-            <label>Sario Bruto:</label>
+        <label style="margin: 10px;">
+            Salario Bruto:
             <input type="text" readonly value="{{ number_format($sumSBruto, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
-        </div>
+        </label>
 
-        <div class="result-container" style="margin: 10px;">
-            <label>Hora Extras:</label>
+        <label style="margin: 10px;">
+            Hora Extras:
             <input type="text" readonly value="{{ number_format($sumHorasExtras, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
-        </div>
+        </label>
 
-        <div class="result-container" style="margin: 10px;">
-            <label>IHSS:</label>
+        <label style="margin: 10px;">
+        Suma Sueldo:
+            <input type="text" readonly value="{{ number_format($sumAgui, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
+        </label>
+
+        <label style="margin: 10px;">
+            IHSS:
             <input type="text" readonly value="{{ number_format($sumIHSS, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
-        </div>
+        </label>
 
-        <div class="result-container" style="margin: 10px;">
-            <label>RAP:</label>
+        <label style="margin: 10px;">
+            RAP:
             <input type="text" readonly value="{{ number_format($sumRAP, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
-        </div>
+        </label>
 
-        <div class="result-container" style="margin: 10px;">
-            <label>ISR:</label>
+        <label style="margin: 10px;">
+            ISR:
             <input type="text" readonly value="{{ number_format($sumISR, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
-        </div>
+        </label>
 
-        <div class="result-container" style="margin: 10px;">
-            <label>Salario Neto:</label>
+        <label style="margin: 10px;">
+            Salario Neto:
             <input type="text" readonly value="{{ number_format($sumSNeto, 2, '.', ',') }}" style="width: 100px; text-align: center;" />
-        </div>
-    </div>
+        </label>
     @endif
+</div>
+
+
         @php
         $permisoEditar = tienePermiso($permisosFiltrados, 'PER_INSERTAR');
         @endphp
-        <button
+        <button style="margin-top: 10px;"
             class="btn  @if (!$permisoEditar) btn-secondary disabled @else btn-success active text-light @endif btn-lg"
             data-bs-toggle="modal" data-bs-target="#pagarPlanilla" type="button"><b>Pagar Planilla</b></button>
     </div>
@@ -255,14 +263,14 @@ $lastFecFinal = null;
                         @csrf
 
                         <div class="row justify-content-center">
-
-                            <!-- First Column -->
-                            <div class="col-md-6 mb-4">
-                                <div class="mb-3 mt-3">
+                        <div class="mb-3 mt-3">
                                     <label for="dni" class="form-label">Fecha Pago</label>
                                     <input type="date" class="form-control alphanumeric-input" name="FEC_PAGO" style="width: 175px; text-align: center;" required>
                                     <span class="validity"></span>
                                 </div>
+
+                            <!-- First Column -->
+                            <div class="col-md-6 mb-4">
 
                                 <div class="mb-3 mt-3">
                                     <label for="dni" class="form-label"><b>Concepto</b></label>
@@ -277,6 +285,11 @@ $lastFecFinal = null;
                                 <div class="mb-3 mt-3">
                                     <label for="dni" class="form-label"><b>Total Horas Extras</b></label>
                                     <input type="text" class="form-control alphanumeric-input" name="MONTO_HORAS_EXTRAS" readonly value="{{$sumHorasExtras}}" style="width: 150px; text-align: center;">
+                                </div>
+
+                                <div class="mb-3 mt-3">
+                                    <label for="dni" class="form-label"><b>Suma Total Sueldo</b></label>
+                                    <input type="text" class="form-control alphanumeric-input" name="MONTO_AGUINALDO" readonly value="{{$sumAgui}}" style="width: 150px; text-align: center;">
                                 </div>
 
                                 <div class="mb-3 mt-3">

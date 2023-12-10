@@ -43,6 +43,7 @@ class DetallePlanillaController extends Controller
      */
     public function store(Request $request)
     {
+        
         // Obtenter el token generado y guardado en la sesión
         $sessionToken = $request->session()->get('generated_token');
         $DetallePlanilla = $request->all();
@@ -61,34 +62,26 @@ class DetallePlanillaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Request $request)
+    public function show(Request $request, $ID_PLANILLA)
 {
     // Obtener el token generado y guardado en la sesión
     $sessionToken = $request->session()->get('generated_token');
 
     // Realizar la solicitud HTTP
-    $response = Http::get('http://localhost:3000/SHOW_DETALLE_PLANILLA/SELECT_PLANILLAS_POR_DETALLE/'.$request->input("ID_PLANILLA"), [
+    $response = Http::get('http://localhost:3000/SHOW_DETALLE_PLANILLA/SELECT_PLANILLAS_POR_DETALLE/' . $ID_PLANILLA, [
         'headers' => [
             'Authorization' => 'Bearer ' . $sessionToken,
         ],
     ]);
 
-    // Obtener el cuerpo de la respuesta
-    $data = $response->getBody()->getContents();
+    $data1 = $response->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
+    // Convierte los datos JSON a un array asociativo
+    $DetallePlanillaUno = json_decode($data1, true);
 
-    // Convertir los datos JSON a un array asociativo
-    $OneDetallePlanilla = json_decode($data, true);
 
-    // Verificar si se obtuvieron datos
-    if (!empty($OneDetallePlanilla['ID_PLANILLA'])) {
-        // Redirigir a la ruta con el parámetro correcto
-        return redirect()->route('ShowPlanilla.Show', ['ID_PLANILLA' => $OneDetallePlanilla['ID_PLANILLA']]);
-    } else {
-        // Tratar el caso en el que no se obtuvieron datos
-        // Puedes redirigir a una página de error o hacer algo más
-        return redirect()->route('Planilla.index');
-    }
+    return view('modplanilla.planillaCatorceavo')->with('ResulDetallePlanillaUno', $DetallePlanillaUno);
 }
+
 
     /**
      * Show the form for editing the specified resource.

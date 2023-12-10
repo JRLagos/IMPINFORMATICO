@@ -15,8 +15,10 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
-        <h1><b>Detalle Planillas</b></h1>
+        <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
+    <h1><b>Detalles Planillas</b></h1>
+        <button class="btn btn-success text-light btn-lg" type="button">
+    <a href="{{ route('generar.planilla') }}" class="text-white"><b>Generar</b></a> </button>
     </div>
 @stop
 
@@ -46,14 +48,11 @@
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Id</th>
                     <th style="text-align: center;">Tipo</th>
                     <th style="text-align: center;">Concepto</th>
                     <th style="text-align: center;">Sal. Bruto</th>
                     <th style="text-align: center;">Horas Extras</th>
-                    <th style="text-align: center;">IHSS</th>
-                    <th style="text-align: center;">RAP</th>
-                    <th style="text-align: center;">ISR</th>
+                    <th style="text-align: center;">Deducciones</th>
                     <th style="text-align: center;">Sal. Neto</th>
                     <th style="text-align: center;">Fecha Pago</th>
                     <th style="text-align: center;">Visualizar</th>
@@ -64,20 +63,17 @@
                 @foreach ($ResulDetallePlanilla as $DetallePlanilla)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $DetallePlanilla['ID_PLANILLA'] }}</td>
                         <td style="text-align: center;">{{ $DetallePlanilla['TIPO_PLANILLA'] }}</td>
                         <td style="text-align: center;">{{ $DetallePlanilla['CONCEPTO'] }}</td>
                         <td style="text-align: center;">{{ number_format($DetallePlanilla['MONTO_SALB_BRUTO'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">{{ number_format($DetallePlanilla['MONTO_HORAS_EXTRAS'], 2, '.', ',') }}</td>
-                        <td style="text-align: center;">{{ number_format($DetallePlanilla['MONTO_IHSS'], 2, '.', ',') }}</td>
-                        <td style="text-align: center;">{{ number_format($DetallePlanilla['MONTO_RAP'], 2, '.', ',') }}</td>
-                        <td style="text-align: center;">{{ number_format($DetallePlanilla['MONTO_ISR'], 2, '.', ',') }}</td>
+                        <td style="text-align: center;">{{ number_format($DetallePlanilla['TOTAL_DEDUCCIONES'], 2, '.', ',') }}</td>
                         <td style="text-align: center;">{{ number_format($DetallePlanilla['MONTO_SAL_NETO'], 2, '.', ',') }}</td>
-                        <td>{{ date('d-m-Y', strtotime($DetallePlanilla['FEC_PAGO'])) }}</td>
+                        <td style="text-align: center;">{{ date('d-m-Y', strtotime($DetallePlanilla['FEC_PAGO'])) }}</td>
                         <td style="text-align: center;">
                         <a href="{{ route('ShowPlanilla.Show', ['ID_PLANILLA' => $DetallePlanilla['ID_PLANILLA']]) }}" class="btn btn-warning">
-    <i class='fas fa-eye' style='font-size:20px;'></i> Visualizar
-</a>
+                            <i class='fas fa-eye' style='font-size:20px;'></i> Visualizar
+                        </a>
                         </td>
                     </tr>
                 @endforeach
