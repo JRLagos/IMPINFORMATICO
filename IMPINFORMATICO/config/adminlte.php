@@ -398,9 +398,9 @@ return [
                     'url'  => 'Planilla',
                 ], 
                 [
-                    'text' => 'Planilla Aguinaldo',
+                    'text' => 'Detalle Planilla',
                     'icon' => 'fas fa-fw fa-archive gns text-info',
-                    'url'  => 'Planilla_Aguinaldo',
+                    'url'  => 'Detalle-Planilla',
                 ],
                 [
                     'text' => 'Planilla Catorceavo',
