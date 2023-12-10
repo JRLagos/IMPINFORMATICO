@@ -41,6 +41,7 @@ class RolesController extends Controller
 
     // Obtener el nuevo rol a agregar
     $newRole = $request->all();
+    
 
     // Verificar si el nuevo rol ya existe
     foreach ($rolesExist as $existingRole) {
@@ -78,6 +79,20 @@ class RolesController extends Controller
      */
     public function update(Request $request)
     {
+        $rolesExist = Http::get("http://localhost:3000/SHOW_USUARIOS/SEGURIDAD_ROLES")->json();
+        // Obtener el nuevo rol a agregar
+        $newRole = $request->all();
+
+        // Verificar si el nuevo rol ya existe
+    foreach ($rolesExist as $existingRole) {
+        if (strtoupper($existingRole['NOM_ROL']) === strtoupper($newRole['NOM_ROL'])) {
+            // El rol ya existe, redirigir con un mensaje de error
+            if($newRole['COD_ROL']==$existingRole['COD_ROL']){break;}
+            
+            return redirect(route('Roles.index'))->with('roleExistsError', true);
+        }
+    }
+
         $upt_HoraExtra = Http::put('http://localhost:3000/UPT_ROLES/SEGURIDAD_ROLES/'.$request->input("COD_ROL"),[
             "COD_ROL" => $request->input('COD_ROL'),
             "NOM_ROL" => $request->input("NOM_ROL"),
