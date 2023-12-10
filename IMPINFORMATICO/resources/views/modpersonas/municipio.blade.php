@@ -84,6 +84,27 @@
 @section('content')
 
     <!-- Modal para agregar un nuevo producto -->
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+@if(session('error'))
+<div class="alert alert-danger" id="error-message">
+    {{ session('error') }}
+</div>
+<script>
+    setTimeout(function(){
+        document.getElementById('error-message').style.display = 'none';
+    }, 15000); // 15 segundos
+</script>
+@endif
+
+
     <div class="modal fade bd-example-modal-sm" id="addMunicipio" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -138,14 +159,15 @@
     @endif
 
     <!-- /.card-header -->
+    
     <div class="table-responsive p-0">
         <br>
         <table id="municipio" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
-                    <th style="text-align: center;">Municipio</th>
                     <th style="text-align: center;">Departamento</th>
+                    <th style="text-align: center;">Municipio</th>
                     <th style="text-align: center;">Accion</th>
                 </tr>
             </thead>
@@ -160,8 +182,9 @@
                 @foreach ($ResulMunicipio as $Municipio)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
                         <td style="text-align: center;">{{ $Municipio['NOM_DEPARTAMENTO'] }}</td>
+                        <td style="text-align: center;">{{ $Municipio['NOM_MUNICIPIO'] }}</td>
+
 
                         <td style="text-align: center;">
                        
@@ -207,7 +230,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        
                                         <div class="mb-3 mt-3">
                                             <label for="dni" class="form-label">Nombre Municipio</label>
                                             <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
@@ -515,7 +538,7 @@
         <script>
             setTimeout(function() {
                 $('.alert').alert('close'); // Cierra automáticamente todas las alertas después de 5 segundos
-            }, 5000); // 5000 ms = 5 segundos
+            }, 15000); // 5000 ms = 5 segundos
         </script>
 
 

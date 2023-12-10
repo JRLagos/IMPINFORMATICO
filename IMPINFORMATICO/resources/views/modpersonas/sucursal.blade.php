@@ -58,10 +58,9 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-between align-items-center">
         <h1><b>Registro de Sucursales</b></h1>
-       
-        <button
-            class="btn btn-success active text-light btn-lg"
-            data-bs-toggle="modal" data-bs-target="#addSucursal" type="button">Agregar</button>
+
+        <button class="btn btn-success active text-light btn-lg" data-bs-toggle="modal" data-bs-target="#addSucursal"
+            type="button">Agregar</button>
     </div>
 
 @stop
@@ -78,7 +77,15 @@
 
 
 @section('content')
-
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <!-- Modal para agregar un nuevo producto -->
     <div class="modal fade bd-example-modal-sm" id="addSucursal" tabindex="-1">
@@ -139,119 +146,124 @@
                 </tr>
             </thead>
             <tbody>
-            @php
-            // Verificar si el usuario tiene permiso de lectura para este objeto
-            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
-            @endphp
+                @php
+                    // Verificar si el usuario tiene permiso de lectura para este objeto
+                    $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+                @endphp
 
-            @if ($permisoLectura)
+                @if ($permisoLectura)
 
-                @foreach ($ResulSucursal as $Sucursal)
-                    <tr>
-                        <td style="text-align: center;">{{ $loop->iteration }}</td>
-                        <td style="text-align: center;">{{ $Sucursal['NOM_SUCURSAL'] }}</td>
-                        <td style="text-align: center;">{{ $Sucursal['DES_SUCURSAL'] }}</td>
-                        <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning " type="button"
-                                data-toggle="modal" data-target="#UpdSucursal-{{ $Sucursal['COD_SUCURSAL'] }}">
-                                <i class='fas fa-edit' style='font-size:20px;'></i>
-                            </button>
+                    @foreach ($ResulSucursal as $Sucursal)
+                        <tr>
+                            <td style="text-align: center;">{{ $loop->iteration }}</td>
+                            <td style="text-align: center;">{{ $Sucursal['NOM_SUCURSAL'] }}</td>
+                            <td style="text-align: center;">{{ $Sucursal['DES_SUCURSAL'] }}</td>
+                            <td style="text-align: center;">
+                                <button value="Editar" title="Editar" class="btn btn-warning " type="button"
+                                    data-toggle="modal" data-target="#UpdSucursal-{{ $Sucursal['COD_SUCURSAL'] }}">
+                                    <i class='fas fa-edit' style='font-size:20px;'></i>
+                                </button>
 
-                            <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
-                                data-toggle="modal" data-target="#EliminarSucursal-{{ $Sucursal['COD_SUCURSAL'] }}">
-                                <i class='fas fa-trash-alt' style='font-size:20px;'></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <!-- Modal for editing goes here -->
-                    <div class="modal fade bd-example-modal-sm" id="UpdSucursal-{{ $Sucursal['COD_SUCURSAL'] }}"
-                        tabindex="-1">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h4 class="modal-title"><b>Editar Sucursal</b></h4>
-                                    <button type="button" class="btn-close" data-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{{ route('Upd-Sucursal.update') }}" method="post"
-                                        class="was-validated">
-                                        @csrf
-
-                                        <input type="hidden" class="form-control" name="COD_SUCURSAL"
-                                            value="{{ $Sucursal['COD_SUCURSAL'] }}">
-
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Nombre Sucursal</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="NOM_SUCURSAL" value="{{ $Sucursal['NOM_SUCURSAL'] }}" required
-                                                maxlength="50" placeholder="Escriba aquí.">
-                                        </div>
-
-                                        <div class="mb-3 mt-3">
-                                            <label for="dni" class="form-label">Descripción</label>
-                                            <input type="text" class="form-control alphanumeric-input" pattern=".{3,}"
-                                                name="DES_SUCURSAL" value="{{ $Sucursal['DES_SUCURSAL'] }}" required
-                                                maxlength="50" placeholder="Escriba aquí.">
-                                        </div>
-
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-danger"
-                                                data-dismiss="modal"><b>CERRAR</b></button>
-                                            <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="modal fade bd-example-modal-sm" id="EliminarSucursal-{{ $Sucursal['COD_SUCURSAL'] }}"
+                                <button value="Eliminar" title="Eliminar" class="btn btn-danger" type="button"
+                                    data-toggle="modal" data-target="#EliminarSucursal-{{ $Sucursal['COD_SUCURSAL'] }}">
+                                    <i class='fas fa-trash-alt' style='font-size:20px;'></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Modal for editing goes here -->
+                       
+                        <div class="modal fade bd-example-modal-sm" id="UpdSucursal-{{ $Sucursal['COD_SUCURSAL'] }}"
                             tabindex="-1">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">Eliminar Sucursal</h5>
+                                        <h4 class="modal-title"><b>Editar Sucursal</b></h4>
                                         <button type="button" class="btn-close" data-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        
-                                        <form action="{{ route('Del-Sucursal.desactivar') }}" method="post"
+                                        <form action="{{ route('Upd-Sucursal.update') }}" method="post"
                                             class="was-validated">
                                             @csrf
+
                                             <input type="hidden" class="form-control" name="COD_SUCURSAL"
                                                 value="{{ $Sucursal['COD_SUCURSAL'] }}">
 
+
                                             <div class="mb-3 mt-3">
                                                 <label for="dni" class="form-label">Nombre Sucursal</label>
-                                                <label for="dni"
-                                                    class="form-control">{{ $Sucursal['NOM_SUCURSAL'] }}</label>
+                                                <input type="text" class="form-control alphanumeric-input"
+                                                    pattern=".{3,}" name="NOM_SUCURSAL"
+                                                    value="{{ $Sucursal['NOM_SUCURSAL'] }}" required maxlength="50"
+                                                    placeholder="Escriba aquí.">
+                                            </div>
+
+                                            <div class="mb-3 mt-3">
+                                                <label for="dni" class="form-label">Descripción</label>
+                                                <input type="text" class="form-control alphanumeric-input"
+                                                    pattern=".{3,}" name="DES_SUCURSAL"
+                                                    value="{{ $Sucursal['DES_SUCURSAL'] }}" required maxlength="50"
+                                                    placeholder="Escriba aquí.">
                                             </div>
 
 
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-danger"
                                                     data-dismiss="modal"><b>CERRAR</b></button>
-                                                <button type="submit" class="btn btn-primary"><b>ELIMINAR</b></button>
+                                                <button type="submit" class="btn btn-primary"><b>ACEPTAR</b></button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                @endforeach
+                        <div>
+                            <div class="modal fade bd-example-modal-sm"
+                                id="EliminarSucursal-{{ $Sucursal['COD_SUCURSAL'] }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Eliminar Sucursal</h5>
+                                            <button type="button" class="btn-close" data-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form action="{{ route('Del-Sucursal.desactivar') }}" method="post"
+                                                class="was-validated">
+                                                @csrf
+                                                <input type="hidden" class="form-control" name="COD_SUCURSAL"
+                                                    value="{{ $Sucursal['COD_SUCURSAL'] }}">
+
+                                                <div class="mb-3 mt-3">
+                                                    <label for="dni" class="form-label">Nombre Sucursal</label>
+                                                    <label for="dni"
+                                                        class="form-control">{{ $Sucursal['NOM_SUCURSAL'] }}</label>
+                                                </div>
+
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger"
+                                                        data-dismiss="modal"><b>CERRAR</b></button>
+                                                    <button type="submit"
+                                                        class="btn btn-primary"><b>ELIMINAR</b></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    @endforeach
                 @endif
             </tbody>
         </table>
         <br>
         <div class="container d-md-flex justify-content-md-end">
-        <a class=" btn btn-danger btn-xl" href="{{ route('SucursalEliminado.indexEliminados') }}"><b>Sucursales Eliminadas</b>
-        </a>
-    </div>
-    <br>
+            <a class=" btn btn-danger btn-xl" href="{{ route('SucursalEliminado.indexEliminados') }}"><b>Sucursales
+                    Eliminadas</b>
+            </a>
+        </div>
+        <br>
     @stop
 
     @section('footer')
