@@ -336,7 +336,7 @@
 
                         buttons: [{
                                 extend: 'pdf',
-                                title: 'Registro de Estudios | Imperio Informatico',
+                                title: 'Registro de Departamentos | Imperio Informatico',
                                 customize: function(doc) {
                                     var now = obtenerFechaHora();
                                     var col11Index = 11;
@@ -389,7 +389,7 @@
                                 text: 'Imprimir',
                                 customize: function(win) {
                                     // Ocultar la columna "Acción" en la impresión
-                                    $(win.document.body).find('table').find('th:eq(4),td:eq(4)')
+                                    $(win.document.body).find('table').find('th:eq(2),td:eq(2)')
                                         .remove();
 
                                     // Obtener la fecha
@@ -433,9 +433,9 @@
                             {
                                 extend: 'excelHtml5',
                                 text: 'Excel',
-                                title: 'Reporte de Empleados Imperio Informatico',
+                                title: 'Departamentos Imperio Informatico',
                                 exportOptions: {
-                                    columns: [0, 1]
+                                    columns: [0, 1, 2]
                                 }
 
                             }

@@ -15,6 +15,49 @@
         integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+        @php
+    $usuario = session('credenciales');
+    $usuarioRol = session('nombreRol');
+    $Permisos = session('permisos');
+    $Objetos = session('objetos');
+
+    // Verificar si alguna de las sesiones está vacía
+    if ($usuario === null || $usuarioRol === null || $Permisos === null || $Objetos === null) {
+        // Redirigir al usuario al inicio de sesión o a donde corresponda
+        return redirect()->route('Login');
+    }
+
+
+    // Filtrar los objetos con "NOM_OBJETO" igual a "VACACIONES"
+    $objetosFiltrados = array_filter($Objetos, function($objeto) {
+        return isset($objeto['NOM_OBJETO']) && $objeto['NOM_OBJETO'] === 'PARAMETROS';
+    });
+
+    // Filtrar los permisos de seguridad
+    $permisosFiltrados = array_filter($Permisos, function($permiso) use ($usuario, $objetosFiltrados) {
+        return (
+            isset($permiso['COD_ROL']) && $permiso['COD_ROL'] === $usuario['COD_ROL'] &&
+            isset($permiso['COD_OBJETO']) && in_array($permiso['COD_OBJETO'], array_column($objetosFiltrados, 'COD_OBJETO'))
+        );
+    });
+
+    $rolJson = json_encode($usuarioRol, JSON_PRETTY_PRINT);
+    $credencialesJson = json_encode($usuario, JSON_PRETTY_PRINT);
+    $credencialesObjetos = json_encode($objetosFiltrados, JSON_PRETTY_PRINT);
+    $permisosJson = json_encode($permisosFiltrados, JSON_PRETTY_PRINT);
+    @endphp
+
+
+    @php
+        function tienePermiso($permisos, $permisoBuscado) {
+        foreach ($permisos as $permiso) {
+        if (isset($permiso[$permisoBuscado]) && $permiso[$permisoBuscado] === "1") {
+            return true; // El usuario tiene el permiso
+             }
+          }
+        return false; // El usuario no tiene el permiso
+        }
+    @endphp
 
 
 @stop
@@ -47,7 +90,7 @@
     <!-- /.card-header -->
     <div class="table-responsive p-0">
         <br>
-        <table id="Sucursal" class="table table-striped table-bordered table-condensed table-hover">
+        <table id="VacacionesEmpleado" class="table table-striped table-bordered table-condensed table-hover">
             <thead class="bg-cyan active">
                 <tr>
                     <th style="text-align: center;">#</th>
@@ -61,6 +104,12 @@
             </thead>
             <tbody>
 
+            @php
+            // Verificar si el usuario tiene permiso de lectura para este objeto
+            $permisoLectura = tienePermiso($permisosFiltrados, 'PER_CONSULTAR');
+            @endphp
+
+            @if ($permisoLectura)
                 @foreach ($ResulVacacionesEm as $VacacionesEm)
                     <tr>
                         <td style="text-align: center;">{{ $loop->iteration }}</td>
@@ -70,12 +119,19 @@
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_USADOS'] }}</td>
                         <td style="text-align: center;">{{ $VacacionesEm['DIAS_DISPONIBLES'] }}</td>
                         <td style="text-align: center;">
-                            <button value="Editar" title="Editar" class="btn btn-warning " type="button"
+                        @php
+                        $permisoEditar = tienePermiso($permisosFiltrados, 'PER_ACTUALIZAR');
+                        @endphp
+                            <button value="Editar" title="Editar" class="btn @if (!$permisoEditar) btn-secondary disabled @else btn-warning @endif" type="button"
                                 data-toggle="modal" data-target="#UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}">
                                 <i class='fas fa-edit' style='font-size:20px;'></i>
                             </button>
-                        </td>
-                    </tr>
+                        @else
+                            <!-- Puedes mostrar un mensaje o simplemente no renderizar el botón -->
+                            <span style="color: red;">Sin días disponibles</span>
+                        @endif
+                    </td>
+                </tr>
                     <!-- Modal for editing goes here -->
                     <div class="modal fade bd-example-modal-sm" id="UpdVacacionesemp-{{ $VacacionesEm['COD_VACACIONES'] }}"
                         tabindex="-1">
@@ -115,6 +171,7 @@
 
                     <div>
                 @endforeach
+                @endif
             </tbody>
         </table>
     </div>    
@@ -184,7 +241,7 @@
 
         <script>
             $(document).ready(function() {
-                var table = $('#Sucursal').DataTable({
+                var table = $('#VacacionesEmpleado').DataTable({
                     responsive: true,
                     autWidth: false,
                     language: {
@@ -208,7 +265,7 @@
 
                             buttons: [{
                                     extend: 'pdf',
-                                    title: 'Registro de Sucursales | Imperio Informatico',
+                                    title: 'Registro de Vacaciones | Imperio Informatico',
                                     customize: function(doc) {
                                         var now = obtenerFechaHora();
                                         var col11Index = 11;
@@ -261,7 +318,7 @@
                                     text: 'Imprimir',
                                     customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(3),td:eq(3)')
+                                        $(win.document.body).find('table').find('th:eq(6),td:eq(6)')
                                             .remove();
 
                                         // Obtener la fecha
@@ -305,9 +362,9 @@
                                 {
                                     extend: 'excelHtml5',
                                     text: 'Excel',
-                                    title: 'Registro de Sucursales de Imperio Informatico',
+                                    title: 'Registro de Vacaciones de los Empleados',
                                     exportOptions: {
-                                        columns: [0, 1, 2]
+                                        columns: [0, 1, 2, 3, 4, 5]
                                     }
 
                                 }

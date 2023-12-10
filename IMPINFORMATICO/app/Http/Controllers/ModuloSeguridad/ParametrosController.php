@@ -14,6 +14,7 @@ class ParametrosController extends Controller
      */
     public function index()
     {
+        
         $response1 = Http::get('http://localhost:3000/SHOW_PARAMETROS/SEGURIDAD_PARAMETROS');
         $data1 = $response1->getBody()->getContents(); // Obtiene el cuerpo de la respuesta
         $response2 = Http::get('http://localhost:3000/SHOW_USUARIOS/GETALL_USUARIOS');

@@ -454,7 +454,7 @@
                         </td>              
                         <td style="text-align: center;">{{ $Persona['NUM_TELEFONO'] }}</td>
                         <td style="text-align: center;">{{ $Persona['SEX_PERSONA'] }}</td>
-                        <td style="text-align: center;">{{ $Persona['EDAD_PERSONA'] }}</td>
+                        <td style="text-align: center;">{{ $Persona['EDAD_PERSONA'] }} Años</td>
                         <td style="text-align: center;">{{ date('d-m-Y', strtotime($Persona['FEC_NAC_PERSONA'])) }}</td>
                         <td style="text-align: center;">{{ $Persona['LUG_NAC_PERSONA'] }}</td>
                         <td style="text-align: center;">
@@ -698,7 +698,7 @@
                                 text: 'Imprimir',
                                 customize: function(win) {
                                         // Ocultar la columna "Acción" en la impresión
-                                        $(win.document.body).find('table').find('th:eq(4),td:eq(4)')
+                                        $(win.document.body).find('table').find('th:eq(8),td:eq(8)')
                                             .remove();
 
                                         // Obtener la fecha
@@ -744,7 +744,7 @@
                                 text: 'Excel',
                                 title: 'Reporte de Personas Imperio Informatico',
                                 exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7]
                                 }
 
                             }
